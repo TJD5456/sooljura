@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Index.jsp</title>
+<title>/index.jsp</title>
 </head>
 <body>
-	<h1>인덱스 . JSP</h1>
+	<h1>메인페이지</h1>
 </body>
 </html>

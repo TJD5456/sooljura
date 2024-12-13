@@ -11,5 +11,7 @@
 <%--<jsp:include page="/WEB-INF/views/common/header.jsp"/>--%>
 <%--<jsp:include page="/WEB-INF/views/common/leftSideBar.jsp"/>--%>
 <%--<jsp:include page="/WEB-INF/views/common/header.jsp"/>--%>
+
+<a href="/admin/adminPage.do">To admin page</a>
 </body>
 </html>

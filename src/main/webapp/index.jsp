@@ -8,5 +8,8 @@
 </head>
 <body>
 	<h1>인덱스 . JSP</h1>
+	<jsp:include page="/WEB-INF/views/common/header.jsp" />
+	<jsp:include page="/WEB-INF/views/common/leftSideBar.jsp" />
+	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 </body>
 </html>

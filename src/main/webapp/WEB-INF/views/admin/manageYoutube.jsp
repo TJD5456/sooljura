@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>manageYoutube.jsp</title>
 </head>
 <body>

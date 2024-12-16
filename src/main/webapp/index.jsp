@@ -9,13 +9,10 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-<hr>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
-<hr>
 
 <h1>메인페이지</h1>
 
-<hr>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body>
 </html>

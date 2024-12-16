@@ -19,4 +19,25 @@ public class AdminController {
     public String adminPage() {
         return "/admin/adminPage";
     }
+
+    @GetMapping("manageProducts.do")
+    public String manageProducts() {
+        return "/admin/manageProducts";
+    }
+
+    @GetMapping("manageYoutube.do")
+    public String manageYoutube() {
+        return "/admin/manageYoutube";
+    }
+
+    @GetMapping("managePosts.do")
+    public String managePosts() {
+        return "/admin/managePosts";
+    }
+
+    @GetMapping("manageLevel.do")
+    public String manageLevel() {
+        return "/admin/manageLevel";
+    }
+
 }

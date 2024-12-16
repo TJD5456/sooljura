@@ -17,6 +17,6 @@ public class AdminController {
 
     @GetMapping("adminPage.do")
     public String adminPage() {
-        return "adminPage";
+        return "/admin/adminPage";
     }
 }

@@ -16,8 +16,8 @@ public class UserMyPageController {
 	@Qualifier("userMyPageService")
 	private UserMyPageService userMyPageService;
 	
-	@GetMapping("userMyPageInfoUpd.do")
+	@GetMapping("userMyPage.do")
     public String userPage() {
-        return "userMyPage/userMyPageInfoUpd";
+        return "userMyPage/userMyPage";
     }
 }

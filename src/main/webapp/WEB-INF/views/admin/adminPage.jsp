@@ -4,11 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>adminPage.jsp</title>
-    <style>
-        .adminContent{
-            justify-content: center;
-        }
-    </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>

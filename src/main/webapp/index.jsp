@@ -4,14 +4,17 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>index.jsp</title>
+    <title>술주라</title>
+    <link rel="icon" href="/resources/icons/logo-circle-woText-16px-favicon.png">
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 
 <h1>메인페이지</h1>
-
+<div class="mainDiv">
+</div>
+<jsp:include page="/WEB-INF/views/common/remoteController.jsp"/>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body>
 </html>

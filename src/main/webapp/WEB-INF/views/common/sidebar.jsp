@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%--왼쪽 사이드바 --%>
 <div class="leftSideBar">
-	<a href="/"> <img id="logoImg" src="/resource-img/icons/logo.png" alt=""> </a>
+	<a href="/"> <img id="logoImg" src="/resources/icons/logo.png" alt=""> </a>
 	<div class="ulList">
 		<span>카테고리</span>
 		<ul>
@@ -25,7 +25,6 @@
 			<li><a href="/">사이트공지사항</a></li>
 			<li><a href="/">자주묻는질문</a></li>
 			<li><a href="/">Q&#38;A</a></li>
-
 		</ul>
 	</div>
 </div>

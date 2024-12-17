@@ -15,7 +15,7 @@
         <span>커뮤니티</span>
         <ul class="ul">
             <li><a href="/notice/freeNotice.kh?">자유게시판</a></li>
-            <li><a href="/">후기 게시판</a></li>
+            <li><a href="/notice/reviewListNotice.kh">후기 게시판</a></li>
             <li><a href="/">질문게시판</a></li>
             <li><a href="/">웹사이트소개</a></li>
         </ul>

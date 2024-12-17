@@ -1,145 +1,180 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>자유 게시판</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      line-height: 1.6;
-    }
-    .container {
-      width: 80%;
-      margin: 0 auto;
-    }
-    h1 {
-      border-bottom: 2px solid #ddd;
-      padding-bottom: 10px;
-    }
-    .post-header {
-      display: flex;
-      justify-content: space-between;
-      border-bottom: 1px solid #ddd;
-      padding: 10px 0;
-      margin-bottom: 20px;
-    }
-    .post-header div {
-      font-size: 14px;
-      color: #666;
-    }
-    .post-title {
-      font-size: 18px;
-      font-weight: bold;
-    }
-    .post-content {
-      margin-bottom: 30px;
-    }
-    .comments-section {
-      margin-top: 30px;
-      border-top: 2px solid #ddd;
-      padding-top: 20px;
-    }
-    .comments-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
-    .comment-box {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .comment-box input {
-      flex: 1;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-    }
-    .comment-box button {
-      padding: 10px 15px;
-      background-color: #f4f4f4;
-      border: 1px solid #ddd;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-    .comment-box button:hover {
-      background-color: #ddd;
-    }
-    .comments-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
-    .single-comment {
-      margin-bottom: 20px;
-      border-top: 1px solid #eee;
-      padding-top: 10px;
-    }
-    .single-comment .comment-meta {
-      font-size: 12px;
-      color: #888;
-      margin-bottom: 5px;
-    }
-    .single-comment .comment-text {
-      font-size: 14px;
-    }
-    .btn-back {
-      display: block;
-      text-align: right;
-      margin-top: 30px;
-    }
-    .btn-back button {
-      padding: 10px 20px;
-      background-color: #f4f4f4;
-      border: 1px solid #ddd;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-    .btn-back button:hover {
-      background-color: #ddd;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>자유게시판 글쓰기</title>
+<style>
+/* 전체 레이아웃 */
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+/* 사이드바 스타일 */
+.leftSideBar {
+	width: 250px;
+	background-color: #f8f5f0;
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	padding: 20px;
+	box-sizing: border-box;
+	overflow-y: auto;
+}
+
+.main-container {
+	margin-left: 250px; /* 사이드바 너비 */
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+.header, .footer {
+	background-color: #fff;
+	text-align: center;
+	padding: 10px 20px;
+	border-bottom: 1px solid #ddd;
+}
+
+.footer {
+	margin-top: auto; /* 푸터를 하단에 고정 */
+	border-top: 1px solid #ddd;
+}
+
+/* 콘텐츠 영역 */
+.content {
+	flex: 1;
+	padding: 20px;
+	box-sizing: border-box;
+	background-color: #fff;
+	margin: 20px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 폼 스타일 */
+.form-group {
+	display: flex;
+	margin-bottom: 15px;
+	align-items: center;
+}
+
+.form-group label {
+	width: 120px;
+	font-weight: bold;
+	margin-right: 10px;
+}
+
+.form-group input[type="text"], .form-group select, textarea {
+	flex: 1;
+	padding: 8px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+}
+
+textarea {
+	height: 200px;
+	resize: none;
+}
+
+.button-group {
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	margin-top: 20px;
+}
+
+.button-group button {
+	padding: 10px 30px;
+	background-color: #007BFF;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.button-group button:hover {
+	background-color: #0056b3;
+}
+
+.button-group button:last-child {
+	background-color: #6c757d;
+}
+
+.button-group button:last-child:hover {
+	background-color: #5a6268;
+}
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>수다게시판</h1>
-    <div class="post-header">
-      <div class="post-title">[후기] 아토양조장 마루나 약주 후기</div>
-      <div class="post-meta">장소진 | 2024.09.05 21:06:18 | 조회수 37</div>
-    </div>
-    <div class="post-content">
-      병 디자인도 개업한 주간 와인병 같다는 생각이 들었습니다 :)<br><br>
-      처음엔 평범한 강한 산미가 있어서 왜 사람들이 화이트와인 같다고 하는지 알 것 같았네요.<br><br>
-      하지만 시간이 지나고 찰떡되었던 술이 조금씩 온도가 올라오면서 단 맛이 올라와서 맛있게 마실 수 있었습니다.<br><br>
-      과실의 느낌이 강하니 회와 함께 먹으면 좋을 것 같았습니다~
-    </div>
-    <div class="comments-section">
-      <div class="comments-header">
-        <div>총 댓글 : 1</div>
-        <div><button>추천하기</button></div>
-      </div>
-      <div class="comment-box">
-        <input type="text" placeholder="댓글 내용을 입력하세요">
-        <button>확인</button>
-      </div>
 
+	<!-- 사이드바 -->
+	<div class="leftSideBar">
+		<jsp:include page="/WEB-INF/views/common/sidebar.jsp" />
+	</div>
 
-      <div class="single-comment">
-        <div class="comment-header">
-        <div class="comment-meta">슬아맘 | 2024-09-06 09:51:23</div>
-        <div class="comment-text">
-          우리 회원님 덕분에 멋진 게시판을 보게 됩니다. 정말 감사합니다! 하하하
-        </div>
-    </div>
-      </div>
-    </div>
-    <div class="btn-back">
-      <button>목록</button>
-    </div>
-  </div>
+	<!-- 메인 레이아웃 -->
+	<div class="main-container">
+
+		<!-- 헤더 -->
+		<div class="header">
+			<jsp:include page="/WEB-INF/views/common/header.jsp" />
+		</div>
+
+		<!-- 콘텐츠 -->
+		<div class="content">
+			<h1>자유 게시판 글쓰기</h1>
+
+			<!-- 말머리 -->
+			<div class="form-group">
+				<label for="category">말머리</label> <select id="category"
+					name="category">
+					<option value="일상">일상</option>
+					<option value="질문">질문</option>
+					<option value="정보 나눔">정보 나눔</option>
+					<option value="공지사항">공지사항</option>
+				</select>
+			</div>
+
+			<!-- 글쓴이 -->
+			<div class="form-group">
+				<label for="author">글쓴이</label> <input type="text" id="author"
+					name="author" value="이름" readonly>
+			</div>
+
+			<!-- 제목 -->
+			<div class="form-group">
+				<label for="title">제목</label> <input type="text" id="title"
+					name="title" placeholder="제목을 입력하세요">
+			</div>
+
+			<!-- 본문 -->
+			<div class="form-group">
+				<label for="content">본문</label>
+				<textarea id="content" name="content" placeholder="내용을 입력하세요..."></textarea>
+			</div>
+
+			<!-- 버튼 -->
+			<div class="button-group">
+				<button type="button">이전</button>
+				<button type="submit">저장</button>
+			</div>
+		</div>
+
+		<!-- 풋터 -->
+		<div class="footer">
+			<jsp:include page="/WEB-INF/views/common/footer.jsp" />
+		</div>
+	</div>
+
 </body>
 </html>

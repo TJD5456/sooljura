@@ -26,11 +26,18 @@ public class NoticeController {
 	public String noteNotice() {
 		return "notice/noteNotice";
 	}
-	@GetMapping("reviewNotice.kh")
+	@GetMapping("detaliReviewNotice.kh")
 	public String detaliReviewNotice() {
 		return "notice/detaliReviewNotice";
 	}
-
 	
+	@GetMapping("reviewListNotice.kh")
+	public String reviewListNotice() {
+		return "notice/reviewListNotice";
+	}
+	@GetMapping("freeNoticeWirter")
+	public String freeNoticeWirter() {
+		return "notice/freeNoticeWirter";
+	}
 	
 }

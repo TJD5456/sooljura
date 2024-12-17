@@ -98,7 +98,6 @@ public class AdminController {
                 }
             }
         }
-
         int result = service.uploadProduct(product, imgList);
 
         if (result == 1) {
@@ -106,6 +105,6 @@ public class AdminController {
         } else {
             return "redirect/admin/manageProducts.do";
         }
-    }
+    } // uploadProduct()
 
 }

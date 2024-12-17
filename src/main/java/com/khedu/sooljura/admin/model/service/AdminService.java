@@ -23,12 +23,11 @@ public class AdminService {
         int result = dao.uploadProduct(product);
 
         if(result == 1) {
-            for(ProductImage img : imgList) {
-                img.setProdKey(prodKey);
-                result = dao.uploadProdImg(img);
+            for(ProductImage image : imgList) {
+                image.setProdKey(prodKey);
+                result = dao.uploadProdImg(image);
             }
         }
-
         return result;
     }
 }

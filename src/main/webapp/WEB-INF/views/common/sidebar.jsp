@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%--왼쪽 사이드바 --%>
-<div class="leftSideBar">
+<div class="lSideBar">
     <a href="/"> <img id="logoImg" src="/resources/icons/logo.png" alt="술주라 로고"> </a>
     <div class="ulList">
         <span>카테고리</span>

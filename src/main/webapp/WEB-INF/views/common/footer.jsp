@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <footer class="footer">
 <div>
+	<div id="bottom"></div>
  	<div>
         <p>Copyright &copy; KH Information Educational Institution M-Class</p>
  	</div>

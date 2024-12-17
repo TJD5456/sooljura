@@ -16,8 +16,8 @@
 			<h1>메인페이지</h1>
 			<div style="height: 800px;"></div>
 		<jsp:include page="/WEB-INF/views/common/remoteController.jsp"/>
-		<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 		</main>
 	</div>
+		<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body>
 </html>

@@ -5,7 +5,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>수다게시판</title>
+  <title>자유 게시판</title>
   <style>
     body {
       font-family: Arial, sans-serif;

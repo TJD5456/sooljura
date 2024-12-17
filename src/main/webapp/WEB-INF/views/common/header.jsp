@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<link rel="stylesheet" href="/resources/css/common.css" />
+<link rel="stylesheet" href="/resources/css/common.css"/>
 
 <script src="/resources/jquery/jquery-3.7.1.min.js"></script>
 <script src="/resources/js/sweetalert.min.js"></script>
@@ -17,11 +17,11 @@
     </div>
 </header>
 <script>
-	function msg(title, text, icon) {
-	    swal({
-	       title : title,
-	       text : text,
-	       icon : icon
-	    });
-	 }
+    function msg(title, text, icon) {
+        swal({
+            title: title,
+            text: text,
+            icon: icon
+        });
+    }
 </script>

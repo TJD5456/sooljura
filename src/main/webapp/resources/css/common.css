@@ -8,16 +8,14 @@
 .leftSideBar {
     background-color: #EFECE5;
     left: 0px;
-
     width: 200px;
     min-width: 120px;
-
     height: 100%;
     position: fixed;
     padding: 10px;
-
     list-style: none;
     color: #ff2911;
+    top: 0;
 }
 
 .leftSideBar ul > li {
@@ -38,12 +36,14 @@
     margin-left: 200px;
     padding-left: 50px;
     justify-content: center;
+    height: auto;
+    min-height: 100%;
+    padding-bottom: 150px;
 }
 
 .headWrap {
     width: 100%;
     height: 75px;
-    top: 0px;
 }
 
 .headDiv > * {
@@ -73,8 +73,6 @@
 
 .rightSideBar {
     position: fixed;
-    right: 0px;
-    width: 50px;
     height: 20%;
     padding: 10px;
     bottom: 200px; /* headDiv 의 높이만큼 아래로 이동 */
@@ -118,8 +116,13 @@ button {
 .footer {
     height: 150px;
     padding-left: 225px;
-    position: absolute;
     bottom: 0;
+    position: relative;
+    transform: translateY(0%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(207, 207, 207, 1);
 }
 
 .footer > * {

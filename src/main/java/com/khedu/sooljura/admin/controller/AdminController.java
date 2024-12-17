@@ -49,6 +49,11 @@ public class AdminController {
         return "/admin/managePosts";
     }
 
+    @GetMapping("manageChats.do")
+    public String manageChats() {
+        return "/admin/manageChats";
+    }
+
     @GetMapping("manageLevel.do")
     public String manageLevel() {
         return "/admin/manageLevel";

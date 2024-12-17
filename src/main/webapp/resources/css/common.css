@@ -41,6 +41,11 @@ main{
     justify-content: center;
     height: auto;
     min-height: 100%;
+<<<<<<< HEAD
+=======
+    padding-bottom: 150px;
+
+>>>>>>> bd7c648a0f9b95396991954731a72ec109a4dcdf
     background-color: #f9f9f9;
 }
 
@@ -131,8 +136,11 @@ footer {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
+=======
+>>>>>>> bd7c648a0f9b95396991954731a72ec109a4dcdf
 .footer > * {
     justify-content: center;
 }

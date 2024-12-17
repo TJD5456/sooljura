@@ -49,6 +49,11 @@ public class AdminController {
         return "/admin/managePosts";
     }
 
+    @GetMapping("manageChats.do")
+    public String manageChats() {
+        return "/admin/manageChats";
+    }
+
     @GetMapping("manageLevel.do")
     public String manageLevel() {
         return "/admin/manageLevel";
@@ -98,7 +103,6 @@ public class AdminController {
                 }
             }
         }
-
         int result = service.uploadProduct(product, imgList);
 
         if (result == 1) {
@@ -106,6 +110,6 @@ public class AdminController {
         } else {
             return "redirect/admin/manageProducts.do";
         }
-    }
+    } // uploadProduct()
 
 }

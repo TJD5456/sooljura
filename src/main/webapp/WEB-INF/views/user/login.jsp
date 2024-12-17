@@ -59,7 +59,8 @@ a {
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
 }
-.remember {
+#remember {
+	text-align: none;
     font-size: 12px;
     color: gray;
     float: left;
@@ -76,17 +77,23 @@ a {
             <form action="/user/login.do" method="post">
                 <input type="text" id="userId" placeholder="아이디 입력"> <br>
                 <input type="password" id="userPw" placeholder="비밀번호 입력"><br>
-                <label class="remember">
-                    <input type="checkbox" name="saveId">아이디 기억
-                </label><br>
+                <div id="remember">
+	                <c:if test="${empty cookie.saveId.value }">
+	                    <input type="checkbox" name="saveId" id="saveId" value="chk">					
+	                </c:if>
+	                <c:if test="${!empty cookie.saveId.value }">
+	                    <input type="checkbox" name="saveId" id="saveId" value="chk" checked>					
+	                </c:if>
+                    <label for="saveId">아이디 저장</label>
+                </div>   
+                <br>
                 <a href="#">비밀번호 찾기</a> |
                 <a href="#">아이디 찾기</a> |
                 <a href="#">회원 가입</a>
 
                 <hr>
 
-                <input type="button" name="loginBtn" value="로그인" onclick="loginBtn()"
-                style="height: 40px; width: 200px; background-color:#FC8173; color:#EFECE5; border-radius: 20px; border: none;">
+                <button type="button" id="login" onclick="loginBtn()">로그인</button>
             </form>
         </div>
     </div>
@@ -96,7 +103,7 @@ a {
 --%>
 	function loginBtn(){
 		$.ajax({
-			url : "/user/login",
+			url : "/user/login.do",
 			type : "POST",
 			data : {
 					"userId" : $('#userId').val(),

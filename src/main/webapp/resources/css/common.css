@@ -41,7 +41,7 @@ main{
     justify-content: center;
     height: auto;
     min-height: 100%;
-  	
+    background-color: #f9f9f9;
 }
 
 .headWrap {
@@ -64,7 +64,7 @@ main{
 .headDiv > a {
     text-decoration: none;
     color: #000000;
-    
+
 }
 
 .headDiv > a:hover {
@@ -130,4 +130,10 @@ footer {
 
 }
 
+<<<<<<< HEAD
 
+=======
+.footer > * {
+    justify-content: center;
+}
+>>>>>>> bd7c648a0f9b95396991954731a72ec109a4dcdf

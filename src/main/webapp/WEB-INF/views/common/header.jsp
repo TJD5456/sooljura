@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="/resources/jquery/jquery-3.7.1.min.js"></script>
+<link rel="stylesheet" href="/resources/css/common.css" />
+
 <header class="headWrap">
     <div id="top"></div><%--리모콘 버튼 맨 위로 올리기 위치값 이름--%>
     <div class="headDiv">

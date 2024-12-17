@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%--왼쪽 사이드바 --%>
 <div class="leftSideBar">
-	<a href="/"> <img id="logoImg" src="/resource-img/icons/logo.png" alt=""> </a>
+	<a href="/"> <img id="logoImg" src="/resources/icons/logo.png" alt=""> </a>
 	<div class="ulList">
 		<span>카테고리</span>
 		<ul>

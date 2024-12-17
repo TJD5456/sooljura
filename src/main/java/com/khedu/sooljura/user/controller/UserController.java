@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,6 +24,13 @@ public class UserController {
 	@Autowired
 	@Qualifier("userService")
 	private UserService service;
+	
+	
+	@GetMapping("loginFrm.do")
+	public String loginFrm () {
+		return "user/login";
+	}
+	
 	
 	//로그인
 	@PostMapping("login.do")

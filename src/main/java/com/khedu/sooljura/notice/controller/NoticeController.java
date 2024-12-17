@@ -18,8 +18,17 @@ public class NoticeController {
 	private NoticeService service;
 	
 	@GetMapping("freeNotice.kh")
-	public String writeFrm() {
+	public String freeNotice() {
 		return "notice/freeNotice";
+	}
+	
+	@GetMapping("noteNotice.kh")
+	public String noteNotice() {
+		return "notice/noteNotice";
+	}
+	@GetMapping("reviewNotice.kh")
+	public String detaliReviewNotice() {
+		return "notice/detaliReviewNotice";
 	}
 
 	

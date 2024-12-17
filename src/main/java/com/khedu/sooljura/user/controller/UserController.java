@@ -1,6 +1,11 @@
 package com.khedu.sooljura.user.controller;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +25,9 @@ public class UserController {
 	private UserService service;
 	
 	//로그인
-	@PostMapping("login")
-	public String login(User user, HttpSession session) {
+	@PostMapping("login.do")
+	public void login(User user, HttpSession session, HttpServletRequest request, HttpServletResponse response) 
+					  throws ServletException, IOException {
 		User login = service.login(user);
 			
 		if(login != null) {
@@ -30,11 +36,17 @@ public class UserController {
 			
 			//아이디 저장 체크버튼
 			Cookie cookie = new Cookie("saveId", user.getUserId());
+			if(request.getParameter("saveId") != null) {
+				cookie.setMaxAge(60 * 60 * 24 * 30);//30일
+			}else {
+				cookie.setMaxAge(0);
+			}
+			response.addCookie(cookie);
 			
-			
-			return "redirect:/";
+			response.getWriter().print("0");
 		}else {
-			return null;
+			//로그인 실패
+			response.getWriter().print("1");
 		}
 	}
 }

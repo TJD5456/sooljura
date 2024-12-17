@@ -16,10 +16,9 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.http.HttpRequest;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 @Controller
@@ -28,7 +27,7 @@ public class AdminController {
 
     @Autowired
     @Qualifier("adminService")
-    private AdminService adminService;
+    private AdminService service;
 
     @GetMapping("adminPage.do")
     public String adminPage() {
@@ -56,15 +55,13 @@ public class AdminController {
     }
 
     @PostMapping("uploadProduct")
-    public String uploadProduct(HttpServletRequest request, MultipartFile file, MultipartFile[] prodImages, Product product) {
+    public String uploadProduct(HttpServletRequest request, MultipartFile[] images, Product product) {
         ArrayList<ProductImage> imgList = new ArrayList<>();
 
-        for (int i = 0; i < imgList.length; i++) {
-            MultipartFile prodImg = imgList[i];
-
-            if (!file.isEmpty()) {
+        for (MultipartFile prodImg : images) {
+            if (!prodImg.isEmpty()) {
                 String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/productImages/");
-                String originalFileName = file.getOriginalFilename();
+                String originalFileName = prodImg.getOriginalFilename();
                 String fileName = originalFileName.substring(0, originalFileName.lastIndexOf("."));
                 String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
 
@@ -77,7 +74,7 @@ public class AdminController {
                 BufferedOutputStream bos = null;
 
                 try {
-                    byte[] bytes = file.getBytes();
+                    byte[] bytes = prodImg.getBytes();
                     FileOutputStream fos = new FileOutputStream(new File(savePath));
                     bos = new BufferedOutputStream(fos);
                     bos.write(bytes);
@@ -89,21 +86,26 @@ public class AdminController {
                     imgList.add(productImage);
 
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("IOException from AdminController.uploadProduct");
                 } finally {
                     try {
                         if (bos != null) {
                             bos.close();
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        System.out.println("IOException from AdminController.uploadProduct when closing bos");
                     }
                 }
             }
         }
-        int result = adminService.insertNotice(product, imgList);
 
-        return "redirect/admin/adminPage.do?result=" + result;
+        int result = service.uploadProduct(product, imgList);
+
+        if (result == 1) {
+            return "redirect/admin/adminPage.do";
+        } else {
+            return "redirect/admin/manageProducts.do";
+        }
     }
 
 }

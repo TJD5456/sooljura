@@ -7,6 +7,8 @@
 	</settings>
 
 	<typeAliases>
-		<typeAlias type="com.kdedu.sooljura.user.model.vo.User" alias="user"/>
+		<typeAlias type="com.khedu.sooljura.user.model.vo.User" alias="user"/>
+		<typeAlias type="com.khedu.sooljura.admin.model.vo.Product" alias="product"/>
+		<typeAlias type="com.khedu.sooljura.admin.model.vo.ProductImage" alias="productImage"/>
 	</typeAliases>
 </configuration>

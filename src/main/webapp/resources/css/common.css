@@ -39,11 +39,15 @@
     height: auto;
     min-height: 100%;
     padding-bottom: 150px;
+  
+    background-color: #f9f9f9;
+
 }
 
 .headWrap {
     width: 100%;
     height: 75px;
+    background-color: #f9f9f9;
 }
 
 .headDiv > * {
@@ -60,6 +64,7 @@
 .headDiv > a {
     text-decoration: none;
     color: #000000;
+    
 }
 
 .headDiv > a:hover {
@@ -125,6 +130,14 @@ button {
     background-color: rgba(207, 207, 207, 1);
 }
 
+<<<<<<< HEAD
+    
+}
+.footer>*{
+	justify-content: center;
+    
+=======
 .footer > * {
     justify-content: center;
+>>>>>>> d4c5d73d92fd293ff7a387c1e197f80f135761d6
 }

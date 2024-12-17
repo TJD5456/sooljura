@@ -6,4 +6,7 @@
 		<setting name="jdbcTypeForNull" value="NULL" />
 	</settings>
 
+	<typeAliases>
+		<typeAlias type="com.khedu.sooljura.user.model.vo.User" alias="user"/>
+	</typeAliases>
 </configuration>

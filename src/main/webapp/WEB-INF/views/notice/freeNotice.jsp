@@ -50,13 +50,13 @@ body {
 
 /* 콘텐츠 영역 */
 .content {
-    flex: 1;
-    padding: 20px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column; /* 요소들을 세로로 정렬 */
-    justify-content: flex-start; /* 상단 정렬 */
-    align-items: center; /* 가운데 정렬 */
+	flex: 1;
+	padding: 20px;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column; /* 요소들을 세로로 정렬 */
+	justify-content: flex-start; /* 상단 정렬 */
+	align-items: center; /* 가운데 정렬 */
 }
 
 /* 테이블 스타일 */
@@ -81,10 +81,11 @@ th {
 tr:hover {
 	background-color: #f9f9f9;
 }
+
 h1 {
-    margin: 0; /* h1 여백 제거 */
-    font-size: 2rem; /* 적절한 크기로 조정 */
-    text-align: center; /* 텍스트 가운데 정렬 */
+	margin: 0; /* h1 여백 제거 */
+	font-size: 2rem; /* 적절한 크기로 조정 */
+	text-align: center; /* 텍스트 가운데 정렬 */
 }
 
 .notice {
@@ -92,21 +93,37 @@ h1 {
 	color: #ff5722;
 }
 
-
 /* 풋터 스타일 */
 .footer {
-    position: fixed; /* 화면 하단에 고정 */
-    bottom: 0; /* 화면의 아래쪽에 위치 */
-    left: 0; /* 왼쪽 기준 정렬 */
-    width: 100%; /* 전체 가로폭 */
-    padding: 20px 30px; /* 안쪽 여백 */
-    display: flex;
-    justify-content: space-between; /* 내용 양쪽 정렬 */
-    align-items: center; /* 세로 중앙 정렬 */
-    box-sizing: border-box;
-    font-size: 14px; /* 글자 크기 */
+	position: fixed; /* 화면 하단에 고정 */
+	bottom: 0; /* 화면의 아래쪽에 위치 */
+	left: 0; /* 왼쪽 기준 정렬 */
+	width: 100%; /* 전체 가로폭 */
+	padding: 20px 30px; /* 안쪽 여백 */
+	display: flex;
+	justify-content: space-between; /* 내용 양쪽 정렬 */
+	align-items: center; /* 세로 중앙 정렬 */
+	box-sizing: border-box;
+	font-size: 14px; /* 글자 크기 */
+}
+/* 작성하기 버튼 스타일 */
+.btn-write {
+	display: inline-block;
+	margin-top: 20px;
+	padding: 10px 30px;
+	background-color: #FC8173;
+	color: #EFECE5;
+	font-size: 16px;
+	border-radius: 5px;
+	text-align: center;
+	text-decoration: none; /* 밑줄 제거 */
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 버튼 그림자 */
+	transition: background-color 0.3s ease;
 }
 
+.btn-write:hover {
+	background-color: #ddd;
+}
 </style>
 </head>
 <body>
@@ -127,8 +144,7 @@ h1 {
 		<!-- 콘텐츠 영역 -->
 		<div class="content">
 			<h1>자유게시판</h1>
-			<hr>
-			<br>
+
 			<table>
 				<thead>
 					<tr>
@@ -175,6 +191,8 @@ h1 {
 					</tr>
 				</tbody>
 			</table>
+
+			<a href="/notice/freeNoticeWirter">작성하기</a>
 		</div>
 		<!-- 풋터 -->
 		<div class="footer">

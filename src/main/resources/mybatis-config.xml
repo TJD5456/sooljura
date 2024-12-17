@@ -7,6 +7,6 @@
 	</settings>
 
 	<typeAliases>
-		<typeAlias type="com.kdedu.sooljura.user.model.vo.User" alias="user"/>
+		<typeAlias type="com.khedu.sooljura.user.model.vo.User" alias="user"/>
 	</typeAliases>
 </configuration>

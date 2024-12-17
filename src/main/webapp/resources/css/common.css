@@ -1,52 +1,51 @@
 @charset "UTF-8";
-/*필요시 이름변경*/
-*{
+
+* {
     margin: 0;
     padding: 0;
 }
 
-.leftSideBar{
+.leftSideBar {
     background-color: #EFECE5;
     left: 0px;
-    
+
     width: 200px;
     min-width: 120px;
-    
+
     height: 100%;
-    position: fixed;  
+    position: fixed;
     padding: 10px;
-    
-}
-.leftSideBar {
+
     list-style: none;
     color: #ff2911;
 }
-.leftSideBar ul > li{
+
+.leftSideBar ul > li {
     padding-left: 30px;
 }
-.leftSideBar li> a{
-   text-decoration: none;
-   color: #ff6851;
- 
-}
- .leftSideBar a:hover{
-    text-decoration: underline;
-    color: #ff3819;
-  
+
+.leftSideBar li > a {
+    text-decoration: none;
+    color: #ff6851;
 }
 
-.mainDiv{
+.leftSideBar a:hover {
+    text-decoration: underline;
+    color: #ff3819;
+}
+
+.mainDiv {
     margin-left: 200px;
     padding-left: 50px;
     justify-content: center;
-    
 }
 
-.headWrap{
+.headWrap {
     width: 100%;
     height: 75px;
     top: 0px;
 }
+
 .headDiv > * {
     top: 0px;
     height: 20px;
@@ -57,69 +56,72 @@
     flex-direction: row-reverse;
     margin: 5px;
 }
+
 .headDiv > a {
     text-decoration: none;
     color: #000000;
 }
-.headDiv > a:hover{
+
+.headDiv > a:hover {
     text-decoration: underline;
     color: #ff5353;
 }
 
-#logoImg{
+#logoImg {
     justify-content: center;
 }
-.rightSideBar{
-    position: fixed;  
+
+.rightSideBar {
+    position: fixed;
     right: 0px;
     width: 50px;
     height: 20%;
     padding: 10px;
-    bottom: 200px; /* headDiv의 높이만큼 아래로 이동 */
+    bottom: 200px; /* headDiv 의 높이만큼 아래로 이동 */
     right: 28px;
     width: 60px;
-
-    
 }
-.rSideBar{
+
+.rSideBar {
     width: 48px;
     margin: 0 auto;
     margin-top: 15px;
     justify-content: center;
 }
-.rSideBar>ul>* {
+
+.rSideBar > ul > * {
     padding: 5px;
 }
-.rSideBar>img{
+
+.rSideBar > img {
     margin: auto;
     text-align: center;
-    
-}
-.rSideBar > span{
-    font-weight: bold;
-    
-}
-.rSideBar ul{
-    list-style: none;
-    
 }
 
-button{
-    height: 40px; 
-    width: 200px; 
-    background-color:#FC8173; 
-    color:#EFECE5; 
-    border-radius: 20px; 
+.rSideBar > span {
+    font-weight: bold;
+}
+
+.rSideBar ul {
+    list-style: none;
+}
+
+button {
+    height: 40px;
+    width: 200px;
+    background-color: #FC8173;
+    color: #EFECE5;
+    border-radius: 20px;
     border: none;
 }
-.footer{
-	height: 150px;
+
+.footer {
+    height: 150px;
     padding-left: 225px;
     position: absolute;
-    bottom: 0px;
-    
+    bottom: 0;
 }
-.footer>*{
-	justify-content: center;
-    
+
+.footer > * {
+    justify-content: center;
 }

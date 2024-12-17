@@ -5,33 +5,86 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<jsp:include page="/WEB-INF/views/common/header.jsp" />
-<jsp:include page="/WEB-INF/views/common/sidebar.jsp" />
-<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 <title>자유게시판</title>
+<link rel="stylesheet" href="/resources/css/your-styles.css">
+<!-- 스타일 시트 연결 -->
 <style>
+/* 전체 레이아웃 설정 */
 body {
+	margin: 0;
+	display: flex;
+	flex-direction: column; /* 전체 페이지를 세로 방향으로 구성 */
 	font-family: Arial, sans-serif;
-	margin: 20px;
+	min-height: 100vh; /* 화면 전체 높이 */
 }
 
+/* 사이드바 스타일 */
+.leftSideBar {
+	width: 250px;
+	height: 100vh;
+	background-color: #fdf3e7;
+	position: fixed;
+	top: 0;
+	left: 0;
+	padding: 20px;
+	box-sizing: border-box;
+	overflow-y: auto;
+}
+
+/* 메인 콘텐츠 및 레이아웃 */
+.main-container {
+	margin-left: 250px; /* 사이드바의 너비만큼 여백 */
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between; /* 콘텐츠와 풋터 사이 여백 */
+	flex: 1;
+}
+
+/* 헤더 */
+.header {
+	background-color: #fff;
+	padding: 10px 20px;
+	text-align: center;
+	border-bottom: 1px solid #ddd;
+}
+
+/* 콘텐츠 영역 */
+.content {
+    flex: 1;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column; /* 요소들을 세로로 정렬 */
+    justify-content: flex-start; /* 상단 정렬 */
+    align-items: center; /* 가운데 정렬 */
+}
+
+/* 테이블 스타일 */
 table {
-	width: 100%;
+	width: 80%; /* 테이블의 최대 너비 설정 */
+	max-width: 1000px; /* 최대 크기 제한 */
+	margin: 0 auto; /* 가운데 정렬 */
 	border-collapse: collapse;
 }
 
 th, td {
 	border: 1px solid #ddd;
-	padding: 8px;
-	text-align: left;
+	padding: 10px;
+	text-align: center;
 }
 
 th {
 	background-color: #f4f4f4;
+	font-weight: bold;
 }
 
 tr:hover {
 	background-color: #f9f9f9;
+}
+h1 {
+    margin: 0; /* h1 여백 제거 */
+    font-size: 2rem; /* 적절한 크기로 조정 */
+    text-align: center; /* 텍스트 가운데 정렬 */
 }
 
 .notice {
@@ -39,120 +92,96 @@ tr:hover {
 	color: #ff5722;
 }
 
-.board-navi {
-	list-style: none;
-	padding: 0;
-	margin: 0;
-	display: flex;
-	gap: 10px;
+
+/* 풋터 스타일 */
+.footer {
+    position: fixed; /* 화면 하단에 고정 */
+    bottom: 0; /* 화면의 아래쪽에 위치 */
+    left: 0; /* 왼쪽 기준 정렬 */
+    width: 100%; /* 전체 가로폭 */
+    padding: 20px 30px; /* 안쪽 여백 */
+    display: flex;
+    justify-content: space-between; /* 내용 양쪽 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    box-sizing: border-box;
+    font-size: 14px; /* 글자 크기 */
 }
 
-.board-navi li {
-	padding: 10px 15px;
-	border: 1px solid #ddd;
-	border-radius: 5px;
-	cursor: pointer;
-	text-align: center;
-	background-color: white;
-	font-weight: normal;
-	transition: all 0.3s ease;
-}
-
-.board-navi li.active {
-	font-weight: bold;
-	color: white;
-	background-color: black;
-	border-color: black;
-}
-
-.board-navi li:hover {
-	background-color: #f4f4f4;
-}
-
-.board-navi li.writer {
-	margin-left: auto; /* 오른쪽으로 정렬 */
-}
 </style>
 </head>
 <body>
-	<h1>공지사항</h1>
-	<hr>
-	<br>
 
+	<!-- 사이드바 -->
+	<jsp:include page="/WEB-INF/views/common/sidebar.jsp" />
+	<!-- 리모콘 -->
+	<jsp:include page="/WEB-INF/views/common/remoteController.jsp" />
 
+	<!-- 메인 레이아웃 -->
+	<div class="main-container">
 
-	<table>
+		<!-- 헤더 -->
+		<div class="header">
+			<jsp:include page="/WEB-INF/views/common/header.jsp" />
+		</div>
 
-		<ul class="board-navi">
-			<li class="active">전체</li>
-			<li>일상</li>
-			<li>질문</li>
-			<li>정보</li>
-			<li>공지사항</li>
-			<li class="writer">작성하기</li>
-		</ul>
+		<!-- 콘텐츠 영역 -->
+		<div class="content">
+			<h1>자유게시판</h1>
+			<hr>
+			<br>
+			<table>
+				<thead>
+					<tr>
+						<th>번호</th>
+						<th>분류</th>
+						<th>제목</th>
+						<th>작성자</th>
+						<th>작성일</th>
+						<th>조회수</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="notice">공지</td>
+						<td class="notice">공지</td>
+						<td class="notice">충사모 앱 다운로드 즉시 3000pt 적립 지급!</td>
+						<td>관리자</td>
+						<td>2024-10-04</td>
+						<td>159</td>
+					</tr>
+					<tr>
+						<td class="notice">공지</td>
+						<td class="notice">공지</td>
+						<td class="notice">수리금액 및 유의사항</td>
+						<td>관리자</td>
+						<td>2017-07-05</td>
+						<td>3247</td>
+					</tr>
+					<tr>
+						<td>193</td>
+						<td>일상</td>
+						<td>오늘은 훈련 하기 싫은 날이네!~!</td>
+						<td>메시</td>
+						<td>2024-12-02</td>
+						<td>18</td>
+					</tr>
+					<tr>
+						<td>192</td>
+						<td>정보</td>
+						<td>※ 2024년 11월 무이자할부!</td>
+						<td>관리자</td>
+						<td>2024-11-01</td>
+						<td>73</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!-- 풋터 -->
+		<div class="footer">
+			<jsp:include page="/WEB-INF/views/common/footer.jsp" />
+		</div>
 
-		<thead>
-			<tr>
-				<th>번호</th>
-				<th>분류</th>
-				<th>제목</th>
-				<th>작성자</th>
-				<th>작성일</th>
-				<th>조회수</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td class="notice">공지</td>
-				<td class="notice">공지</td>
-				<td class="notice">충사모 앱 다운로드 즉시 3000pt 적립 지급!</td>
-				<td>관리자</td>
-				<td>2024-10-04</td>
-				<td>159</td>
-			</tr>
-			<tr>
-				<td class="notice">공지</td>
-				<td class="notice">공지</td>
-				<td class="notice">수리금액 및 유의사항</td>
-				<td>관리자</td>
-				<td>2017-07-05</td>
-				<td>3247</td>
-			</tr>
-			<tr>
-				<td>193</td>
-				<td>일상</td>
-				<td>오늘은 훈련 하기 싫은 날이네!~!</td>
-				<td>메시</td>
-				<td>2024-12-02</td>
-				<td>18</td>
-			</tr>
-			<tr>
-				<td>192</td>
-				<td>정보</td>
-				<td>※ 2024년 11월 무이자할부!</td>
-				<td>관리자</td>
-				<td>2024-11-01</td>
-				<td>73</td>
-			</tr>
-			<tr>
-				<td>191</td>
-				<td>질문</td>
-				<td>독일까지 배달이 가능한가요??</td>
-				<td>김민재</td>
-				<td>2024-09-30</td>
-				<td>133</td>
-			</tr>
+	</div>
 
-			<tr>
-				<td>190</td>
-				<td>질문</td>
-				<td>사케 종류에서 회랑 먹을만한 술이 뭐가있을까요?!</td>
-				<td>충사모</td>
-				<td>2024-09-30</td>
-				<td>133</td>
-			</tr>
-		</tbody>
-	</table>
 </body>
 </html>

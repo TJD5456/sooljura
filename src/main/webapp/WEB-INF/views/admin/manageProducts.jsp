@@ -6,6 +6,7 @@
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
+
 <div class="title">
     <span>상품 관리 페이지</span>
 </div>
@@ -18,7 +19,7 @@
         </tr>
         <tr>
             <th>사진</th>
-            <td><input type="file" id="photoInput" name="prodPhoto"></td>
+            <td><input type="file" id="photoInput" name="prodImages"></td>
         </tr>
         <tr>
             <th><label for="priceInput">가격</label></th>
@@ -48,8 +49,5 @@
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 
-<script>
-
-</script>
 </body>
 </html>

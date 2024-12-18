@@ -19,7 +19,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Random;
 
@@ -63,41 +62,25 @@ public class AdminController {
 
     @PostMapping("uploadProduct")
     public String uploadProduct(HttpServletRequest request, MultipartFile[] prodImages, Product product) {
-        System.out.println("=== from AdminController ===");
-        System.out.println("prodImages: " + Arrays.toString(prodImages));
+        ArrayList<ProductImage> imageList = new ArrayList<>();
 
-        ArrayList<ProductImage> imgList = new ArrayList<>();
-
-        for (MultipartFile prodImg : prodImages) {
-            System.out.println("prodImg: " + prodImg.getOriginalFilename());
-
-            if (!prodImg.isEmpty()) {
-                String dirPath = request.getSession().getServletContext().getRealPath("/resources/upload/productImages/");
-                String originalFileName = prodImg.getOriginalFilename();
+        for (MultipartFile image : prodImages) {
+            if (!image.isEmpty()) {
+                String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/notice/");
+                String originalFileName = image.getOriginalFilename();
                 String fileName = originalFileName.substring(0, originalFileName.lastIndexOf("."));
                 String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
-
-                // Create directories if they do not exist
-                File uploadDir = new File(dirPath);
-                if (!uploadDir.exists()) {
-                    uploadDir.mkdirs();
-                }
-
-                System.out.println("originalFileName: " + originalFileName);
-                System.out.println("fileName: " + fileName);
-                System.out.println("extension: " + extension);
 
                 String toDay = new SimpleDateFormat("yyyyMMdd").format(new Date());
                 int ranNum = new Random().nextInt(10000) + 1;
                 String filePath = fileName + "_" + toDay + "_" + ranNum + extension;
-                String savePath = dirPath + File.separator + filePath;
 
                 savePath += filePath;
 
                 BufferedOutputStream bos = null;
 
                 try {
-                    byte[] bytes = prodImg.getBytes();
+                    byte[] bytes = image.getBytes();
                     FileOutputStream fos = new FileOutputStream(new File(savePath));
                     bos = new BufferedOutputStream(fos);
                     bos.write(bytes);
@@ -106,10 +89,9 @@ public class AdminController {
                     productImage.setImgNm(originalFileName);
                     productImage.setImgPath(filePath);
 
-                    imgList.add(productImage);
+                    imageList.add(productImage);
 
                 } catch (IOException e) {
-                    System.out.println("IOException from AdminController.uploadProduct while handling bos");
                     e.printStackTrace();
                 } finally {
                     try {
@@ -117,18 +99,17 @@ public class AdminController {
                             bos.close();
                         }
                     } catch (IOException e) {
-                        System.out.println("IOException from AdminController.uploadProduct while closing bos");
                         e.printStackTrace();
                     }
                 }
             }
         }
-        int result = service.uploadProduct(product, imgList);
+        int result = service.uploadProduct(product, imageList);
 
-        if (result == 1) {
-            return "redirect:/admin/adminPage.do?product=" + result;
+        if (result > 0) {
+            return "redirect:/admin/adminPage.do";
         } else {
-            return "redirect:/admin/manageProducts.do?product=" + result;
+            return "redirect:/admin/manageProducts.do";
         }
     } // uploadProduct()
 

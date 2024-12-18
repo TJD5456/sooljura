@@ -25,7 +25,7 @@ public class UserController {
 	@Qualifier("userService")
 	private UserService service;
 	
-	
+	//로그인 페이지로 이동
 	@GetMapping("loginFrm.do")
 	public String loginFrm () {
 		return "user/login";
@@ -51,10 +51,43 @@ public class UserController {
 			}
 			response.addCookie(cookie);
 			
+			//로그인 성공 = 0, 로그인 실패 = 1
 			response.getWriter().print("0");
 		}else {
 			//로그인 실패
 			response.getWriter().print("1");
 		}
+	}
+	
+	//회원가입 페이지로 이동
+	@GetMapping("joinFrm.do")
+	public String joinFrm() {
+		return "user/join";
+	}
+	
+	//회원가입
+	@PostMapping("join.do")
+	public void join(User user, HttpServletResponse response) {
+		int result = service.join(user);
+	}
+	
+	//회원가입 - 아이디 체크
+	@GetMapping("chkId.do")
+	public String chkId(String userId) {
+		int result = service.chkId(userId);		
+		return String.valueOf(result);
+	}
+	
+	//회원가입 - 닉네임 체크
+	@GetMapping("chkNickname.do")
+	public String chkNickname(String userNickname) {
+		int result = service.chkNickname(userNickname);
+		return String.valueOf(result);
+	}
+	
+	//약관동의 페이지로 이동
+	@GetMapping("provisionFrm.do")
+	public String provisionFrm() {
+		return "user/provision";
 	}
 }

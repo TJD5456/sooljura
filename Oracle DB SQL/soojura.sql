@@ -28,8 +28,6 @@ insert into tbl_product_category values ( 'c' || lpad (seq_product_category.next
 insert into tbl_product_category values ( 'c' || lpad (seq_product_category.nextval, 4, '0'), 1, '위스키/리큐르', null);
 insert into tbl_product_category values ( 'c' || lpad (seq_product_category.nextval, 4, '0'), 1, '기타', null);
 
-select * from TBL_PRODUCT_CATEGORY where HIGHER_CATEGORY is not null;
-
 create table
   tbl_product (
     prod_key char(11) primary key,

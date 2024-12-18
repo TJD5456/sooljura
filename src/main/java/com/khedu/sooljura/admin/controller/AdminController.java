@@ -91,14 +91,14 @@ public class AdminController {
                     imgList.add(productImage);
 
                 } catch (IOException e) {
-                    System.out.println("IOException from AdminController.uploadProduct");
+                    System.out.println("IOException from AdminController.uploadProduct while handling bos");
                 } finally {
                     try {
                         if (bos != null) {
                             bos.close();
                         }
                     } catch (IOException e) {
-                        System.out.println("IOException from AdminController.uploadProduct when closing bos");
+                        System.out.println("IOException from AdminController.uploadProduct while closing bos");
                     }
                 }
             }

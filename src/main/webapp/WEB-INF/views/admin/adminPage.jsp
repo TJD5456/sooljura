@@ -8,7 +8,7 @@
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
-<main class="mainDiv">
+<main>
     <div class="title">
         <span>관리자 페이지</span>
     </div>

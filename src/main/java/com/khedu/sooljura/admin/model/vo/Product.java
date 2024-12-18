@@ -10,7 +10,7 @@ public class Product {
     private String prodOrigin;
     private String prodIntro;
     private int prodCnt;
-    private String enrollDate;
+    private String uploadDate;
     private int categoryCd;
 
     private ArrayList<ProductImage> productImages;
@@ -19,7 +19,7 @@ public class Product {
         super();
     }
 
-    public Product(String prodKey, String prodName, int prodPrice, String prodMaker, String prodOrigin, String prodIntro, int prodCnt, String enrollDate, int categoryCd, ArrayList<ProductImage> productImages) {
+    public Product(String prodKey, String prodName, int prodPrice, String prodMaker, String prodOrigin, String prodIntro, int prodCnt, String uploadDate, int categoryCd, ArrayList<ProductImage> productImages) {
         this.prodKey = prodKey;
         this.prodName = prodName;
         this.prodPrice = prodPrice;
@@ -27,7 +27,7 @@ public class Product {
         this.prodOrigin = prodOrigin;
         this.prodIntro = prodIntro;
         this.prodCnt = prodCnt;
-        this.enrollDate = enrollDate;
+        this.uploadDate = uploadDate;
         this.categoryCd = categoryCd;
         this.productImages = productImages;
     }
@@ -88,12 +88,12 @@ public class Product {
         this.prodCnt = prodCnt;
     }
 
-    public String getEnrollDate() {
-        return enrollDate;
+    public String getUploadDate() {
+        return uploadDate;
     }
 
-    public void setEnrollDate(String enrollDate) {
-        this.enrollDate = enrollDate;
+    public void setUploadDate(String uploadDate) {
+        this.uploadDate = uploadDate;
     }
 
     public int getCategoryCd() {

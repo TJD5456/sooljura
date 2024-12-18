@@ -15,15 +15,15 @@ public class AdminDao {
     private SqlSessionTemplate template;
 
     public String selectProdKey() {
-        return template.selectOne("AdminDao.selectProdKey");
+        return template.selectOne("admin.selectProdKey");
     }
 
     public int uploadProduct(Product product) {
-        return template.insert("AdminDao.uploadProduct", product);
+        return template.insert("admin.uploadProduct", product);
     }
 
     public int uploadProdImg(ProductImage img) {
-        return template.insert("AdminDao.uploadProdImg", img);
+        return template.insert("admin.uploadProdImg", img);
     }
 
 }

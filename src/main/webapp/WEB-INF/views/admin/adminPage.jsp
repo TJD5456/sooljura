@@ -4,11 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <title>adminPage.jsp</title>
+    <style>
+        .main {
+            margin-left: 300px;
+        }
+    </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
-<main>
+<div class="main">
     <div class="title">
         <span>관리자 페이지</span>
     </div>
@@ -31,7 +36,7 @@
         <span><a href="/admin/manageLevel.do">회원 레벨 관리</a></span>
         <span>새로 회원가입한 회원수를 보여주는 span 태그</span>
     </div>
-</main>
+</div>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body>
 </html>

@@ -106,9 +106,9 @@ public class AdminController {
         int result = service.uploadProduct(product, imgList);
 
         if (result == 1) {
-            return "redirect/admin/adminPage.do";
+            return "redirect:/admin/adminPage.do";
         } else {
-            return "redirect/admin/manageProducts.do";
+            return "redirect:/admin/manageProducts.do";
         }
     } // uploadProduct()
 

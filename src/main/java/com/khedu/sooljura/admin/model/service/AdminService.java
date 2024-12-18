@@ -22,8 +22,8 @@ public class AdminService {
 
         int result = dao.uploadProduct(product);
 
-        if(result == 1) {
-            for(ProductImage image : imgList) {
+        if (result == 1) {
+            for (ProductImage image : imgList) {
                 image.setProdKey(prodKey);
                 result = dao.uploadProdImg(image);
             }

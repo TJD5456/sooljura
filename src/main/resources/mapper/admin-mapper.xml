@@ -8,16 +8,17 @@
     </select>
 
     <insert id="uploadProduct" parameterType="product">
-        insert into tbl_product (prod_key, prod_name, prod_price, prd_maker, prod_origin, prod_intro, prod_cnt,
-                                 upload_date)
+        insert into tbl_product (prod_key, prod_name, prod_price, prod_maker, prod_origin, prod_intro, prod_cnt,
+                                 upload_date, category_cd)
         values (#{prodKey},
                 #{prodName},
-                #{proPrice},
+                #{prodPrice},
                 #{prodMaker},
                 #{prodOrigin},
-                #{prod_intro},
-                #{prod_cnt},
-                sysdate)
+                #{prodIntro},
+                #{prodCnt},
+                sysdate,
+                #{categoryCd})
     </insert>
 
     <insert id="uploadProdImg" parameterType="productImage">

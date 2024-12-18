@@ -2,11 +2,16 @@
 <html>
 <head>
     <title>manageProducts.jsp</title>
+    <style>
+        .main {
+            margin-left: 300px;
+        }
+    </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
-<div class="mainDiv">
+<div class="main">
     <div class="title">
         <span>상품 관리 페이지</span>
     </div>
@@ -35,6 +40,10 @@
             <tr>
                 <th><label for="introInput">소개</label></th>
                 <td><input type="text" id="introInput" name="prodIntro"></td>
+            </tr>
+            <tr>
+                <th><label for="categoryInput">카테고리</label></th>
+                <td><input type="text" id="categoryInput" name="categoryLevel"></td>
             </tr>
             <tr>
                 <th><label for="cntInput">수량</label></th>

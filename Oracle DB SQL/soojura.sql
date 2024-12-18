@@ -18,7 +18,7 @@ create table
     higher_category references tbl_product_category (category_cd)
   );
 
--- 'c' || lpad (seq_product_category.nextval, 4, '0')
+-- 'c' || lpad(seq_product_category.nextval, 4, '0')
 create sequence seq_product_category maxvalue 9999 cycle;
 
 insert into tbl_product_category values ( 'c' || lpad (seq_product_category.nextval, 4, '0'), 1, '증류주/소주', null);
@@ -27,6 +27,8 @@ insert into tbl_product_category values ( 'c' || lpad (seq_product_category.next
 insert into tbl_product_category values ( 'c' || lpad (seq_product_category.nextval, 4, '0'), 1, '와인/샴페인', null);
 insert into tbl_product_category values ( 'c' || lpad (seq_product_category.nextval, 4, '0'), 1, '위스키/리큐르', null);
 insert into tbl_product_category values ( 'c' || lpad (seq_product_category.nextval, 4, '0'), 1, '기타', null);
+
+select * from TBL_PRODUCT_CATEGORY where HIGHER_CATEGORY is not null;
 
 create table
   tbl_product (
@@ -43,7 +45,7 @@ create table
 
   select * from TBL_PRODUCT;
 
--- 'p' || to_char(sysdate, 'yymmdd') || lpad (seq_product.nextval, 4, '0')
+-- 'p' || to_char(sysdate, 'yymmdd') || lpad(seq_product.nextval, 4, '0')
 create sequence seq_product maxvalue 9999 cycle;
 
 create table
@@ -54,7 +56,7 @@ create table
     prod_key references tbl_product (prod_key)
   );
 
--- 'i' || to_char(sysdate, 'yymmdd') || lpad (seq_prod_image.nextval, 4, '0')
+-- 'i' || to_char(sysdate, 'yymmdd') || lpad(seq_prod_image.nextval, 4, '0')
 create sequence seq_product_image maxvalue 9999 cycle;
 
 commit;

@@ -2,6 +2,7 @@ package com.khedu.sooljura.admin.controller;
 
 import com.khedu.sooljura.admin.model.service.AdminService;
 import com.khedu.sooljura.admin.model.vo.Product;
+import com.khedu.sooljura.admin.model.vo.ProductCategory;
 import com.khedu.sooljura.admin.model.vo.ProductImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -118,7 +119,8 @@ public class AdminController {
     }
 
     @GetMapping("manageCategory")
-    public String manageCategory() {
-        return null;
+    public String manageCategory(ProductCategory category) {
+        int result = service.createCategory(category);
+        return "redirect:/admin/manageProducts.do";
     }
 }

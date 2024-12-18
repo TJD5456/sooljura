@@ -2,6 +2,7 @@ package com.khedu.sooljura.admin.model.service;
 
 import com.khedu.sooljura.admin.model.dao.AdminDao;
 import com.khedu.sooljura.admin.model.vo.Product;
+import com.khedu.sooljura.admin.model.vo.ProductCategory;
 import com.khedu.sooljura.admin.model.vo.ProductImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,5 +30,9 @@ public class AdminService {
             }
         }
         return result;
+    }
+
+    public int createCategory(ProductCategory category) {
+        return dao.createCategory(category);
     }
 }

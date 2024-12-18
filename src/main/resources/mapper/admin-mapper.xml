@@ -21,8 +21,12 @@
                 #{categoryCd})
     </insert>
 
-    <insert id="uploadProdImg" parameterType="productImage">
-
+    <insert id="createCategory" parameterType="productCategory">
+        insert into tbl_product_category (category_cd, category_level, category_nm, higher_category)
+        values ('c' || lpad(seq_product_category.nextval, 4, '0'),
+                #{categoryLevel},
+                #{categoryNm},
+                #{higherCategory})
     </insert>
 
 </mapper>

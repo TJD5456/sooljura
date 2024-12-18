@@ -17,4 +17,16 @@ public class UserDao {
 	public User login(User user) {
 		return sessionTemplate.selectOne("user.userLogin", user);
 	}
+
+	public int join(User user) {
+		return sessionTemplate.insert("user.userJoin", user);
+	}
+
+	public int chkId(String userId) {
+		return sessionTemplate.selectOne("user.chkId", userId);
+	}
+
+	public int chkNickname(String userNickname) {
+		return sessionTemplate.selectOne("user.chkNickname", userNickname);
+	}
 }

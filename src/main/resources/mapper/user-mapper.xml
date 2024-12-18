@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="user">
+	<!-- 로그인 -->
 	<select id="userLogin" parameterType="user" resultType="user">
 		select
 			user_key as userKey,
@@ -16,5 +17,44 @@
 			enroll_date as enrollDate
 		from tbl_user
 		where user_id = #{userId} 
+	</select>
+	
+	<!-- 회원가입 -->
+	<insert id="userJoin" parameterType="user">
+		insert into tbl_user(
+			user_key,
+			user_cd,
+			user_id,
+			user_pw,
+			user_email,
+			user_name,
+			user_phone,
+			user_nickname,
+			user_point,
+			adult_chk,
+			enroll_date 
+		)values(
+			'u' || to_char(sysdate, 'yymmdd') || lpad (seq_prod_image.nextval, 4, '0'),
+			1,
+			#{userId},
+			#{userPw},
+			#{userEmail},
+			#{userName},
+			#{userPhone},
+			#{userNickname},
+			0,
+			#{adultChk},
+			sysdate			
+		)
+	</insert>
+	
+	<!-- 회원가입 : 아이디 중복 체크 -->
+	<select id="chkId" parameterType="string" resultType="_int">
+		select count(*) from tbl_user where user_id = #{_parameter}
+	</select>
+	
+	<!-- 회원가입 : 닉네임 중복 체크 -->
+	<select id="chkNickname" parameterType="string" resultType="_int">
+		select count(*) from tbl_user where user_nickname = #{_parameter}
 	</select>
 </mapper>

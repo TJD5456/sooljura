@@ -17,7 +17,7 @@
             </tr>
             <tr>
                 <th>사진</th>
-                <td><input type="file" id="photoInput" name="prodImages"></td>
+                <td><input type="file" name="prodImages" multiple></td>
             </tr>
             <tr>
                 <th><label for="priceInput">가격</label></th>

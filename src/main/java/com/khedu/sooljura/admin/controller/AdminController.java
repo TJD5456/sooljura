@@ -19,6 +19,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Random;
 
@@ -61,19 +62,35 @@ public class AdminController {
     }
 
     @PostMapping("uploadProduct")
-    public String uploadProduct(HttpServletRequest request, MultipartFile[] images, Product product) {
+    public String uploadProduct(HttpServletRequest request, MultipartFile[] prodImages, Product product) {
+        System.out.println("=== from AdminController ===");
+        System.out.println("prodImages: " + Arrays.toString(prodImages));
+
         ArrayList<ProductImage> imgList = new ArrayList<>();
 
-        for (MultipartFile prodImg : images) {
+        for (MultipartFile prodImg : prodImages) {
+            System.out.println("prodImg: " + prodImg.getOriginalFilename());
+
             if (!prodImg.isEmpty()) {
-                String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/productImages/");
+                String dirPath = request.getSession().getServletContext().getRealPath("/resources/upload/productImages/");
                 String originalFileName = prodImg.getOriginalFilename();
                 String fileName = originalFileName.substring(0, originalFileName.lastIndexOf("."));
                 String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
 
+                // Create directories if they do not exist
+                File uploadDir = new File(dirPath);
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdirs();
+                }
+
+                System.out.println("originalFileName: " + originalFileName);
+                System.out.println("fileName: " + fileName);
+                System.out.println("extension: " + extension);
+
                 String toDay = new SimpleDateFormat("yyyyMMdd").format(new Date());
                 int ranNum = new Random().nextInt(10000) + 1;
                 String filePath = fileName + "_" + toDay + "_" + ranNum + extension;
+                String savePath = dirPath + File.separator + filePath;
 
                 savePath += filePath;
 
@@ -93,6 +110,7 @@ public class AdminController {
 
                 } catch (IOException e) {
                     System.out.println("IOException from AdminController.uploadProduct while handling bos");
+                    e.printStackTrace();
                 } finally {
                     try {
                         if (bos != null) {
@@ -100,6 +118,7 @@ public class AdminController {
                         }
                     } catch (IOException e) {
                         System.out.println("IOException from AdminController.uploadProduct while closing bos");
+                        e.printStackTrace();
                     }
                 }
             }
@@ -107,9 +126,9 @@ public class AdminController {
         int result = service.uploadProduct(product, imgList);
 
         if (result == 1) {
-            return "redirect:/admin/adminPage.do";
+            return "redirect:/admin/adminPage.do?product=" + result;
         } else {
-            return "redirect:/admin/manageProducts.do";
+            return "redirect:/admin/manageProducts.do?product=" + result;
         }
     } // uploadProduct()
 
@@ -121,6 +140,7 @@ public class AdminController {
     @GetMapping("manageCategory")
     public String manageCategory(ProductCategory category) {
         int result = service.createCategory(category);
-        return "redirect:/admin/manageProducts.do";
+        return "redirect:/admin/manageProducts.do?category=" + result;
     }
+
 }

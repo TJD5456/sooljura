@@ -1,7 +1,7 @@
 -- user: sooljura
 -- password: 1234
 
-drop table tbl_product_category;
+drop table tbl_product_category cascade constraint;
 drop table tbl_product cascade constraint;
 drop table tbl_product_image;
 
@@ -54,7 +54,7 @@ create table
     prod_key references tbl_product (prod_key)
   );
 
--- 'i' || to_char(sysdate, 'yymmdd') || lpad(seq_prod_image.nextval, 4, '0')
+-- 'i' || to_char(sysdate, 'yymmdd') || lpad(seq_product_image.nextval, 4, '0')
 create sequence seq_product_image maxvalue 9999 cycle;
 
 select * from TBL_PRODUCT_CATEGORY;

@@ -21,6 +21,11 @@ public class AdminService {
     @Transactional
     public int uploadProduct(Product product, ArrayList<ProductImage> imgList) {
         String prodKey = dao.selectProdKey();
+
+        System.out.println("=== from AdminService ===");
+        System.out.println("prodKey: " + prodKey);
+        System.out.println("imgList: " + imgList);
+
         product.setProdKey(prodKey);
 
         int result = dao.uploadProduct(product);

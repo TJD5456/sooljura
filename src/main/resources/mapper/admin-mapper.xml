@@ -23,7 +23,7 @@
 
     <insert id="uploadProdImg" parameterType="productImage">
         insert into tbl_product_image (img_key, img_nm, img_path, prod_key)
-        values ('i' || to_char(sysdate, 'yymmdd') || lpad(seq_prod_image.nextval, 4, '0'),
+        values ('i' || to_char(sysdate, 'yymmdd') || lpad(seq_product_image.nextval, 4, '0'),
                 #{imgNm},
                 #{imgPath},
                 #{prodKey})

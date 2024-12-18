@@ -11,6 +11,10 @@
     margin: 0;
     padding: 0;
 }
+/*body태그 바로 밑에 main들어가야 한단다 용운용운아..*/
+main{
+	padding: 0;
+}
 body {
     background-color: #EFECE5;
     display: flex; /* 화면 중앙 정렬을 위해 플렉스 박스 사용 */
@@ -58,6 +62,8 @@ input[id="previous"]{
 </style>
 </head>
 <body>
+	<%-- body태그 바로 밑에 main 태그 들어가야 함. 지금 css가 그럼. 전체적으로 보기 간단하게 만들고 있고, index.jsp에 꾸준히 업데이트 중이니 확인 바람 --%>
+	<main>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	<div class="submit-wrap">
         <h2>약관동의</h2>
@@ -415,6 +421,7 @@ input[id="previous"]{
             </div>
         </form>
     </div>
+    </main>
 <script>
 	function previousBtn(){
 		window.opener.location.href="/";

@@ -8,6 +8,6 @@
 </head>
 <body>
 		<h1>안녕하세요~!</h1>
-		<button><a href="/notice/detaliReviewNotice.kh"> 이동하기</a></button>
+		<button><a href="/post/detaliReviewPost.do"> 이동하기</a></button>
 </body>
 </html>

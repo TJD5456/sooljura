@@ -112,4 +112,13 @@ public class AdminController {
         }
     } // uploadProduct()
 
+    @GetMapping("manageCategoryFrm")
+    public String manageCategoryFrm() {
+        return "/admin/manageCategory";
+    }
+
+    @GetMapping("manageCategory")
+    public String manageCategory() {
+        return null;
+    }
 }

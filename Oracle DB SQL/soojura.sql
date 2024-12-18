@@ -41,6 +41,8 @@ create table
     category_level number
   );
 
+  select * from TBL_PRODUCT;
+
 -- 'p' || to_char(sysdate, 'yymmdd') || lpad (seq_product.nextval, 4, '0')
 create sequence seq_product maxvalue 9999 cycle;
 

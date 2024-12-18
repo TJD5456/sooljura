@@ -37,7 +37,7 @@
             </tr>
             <tr>
                 <th><label for="categoryInput">카테고리</label></th>
-                <td><input type="text" id="categoryInput" name="categoryLevel"></td>
+                <td><input type="text" id="categoryInput" name="categoryKey"></td>
             </tr>
             <tr>
                 <th><label for="cntInput">수량</label></th>

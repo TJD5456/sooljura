@@ -12,10 +12,10 @@ drop sequence seq_product_image;
 
 create table
   tbl_product_category (
-    category_cd char(11) primary key,
+    category_key char(11) primary key,
     category_level number,
     category_nm varchar2 (50),
-    higher_category references tbl_product_category (category_cd)
+    higher_category references tbl_product_category (category_key)
   );
 
 -- 'c' || lpad(seq_product_category.nextval, 4, '0')
@@ -28,6 +28,7 @@ insert into tbl_product_category values ( 'c' || lpad (seq_product_category.next
 insert into tbl_product_category values ( 'c' || lpad (seq_product_category.nextval, 4, '0'), 1, '위스키/리큐르', null);
 insert into tbl_product_category values ( 'c' || lpad (seq_product_category.nextval, 4, '0'), 1, '기타', null);
 
+
 create table
   tbl_product (
     prod_key char(11) primary key,
@@ -38,10 +39,9 @@ create table
     prod_intro varchar2 (4000) not null,
     prod_cnt number not null,
     upload_date date default sysdate,
-    category_level number
+    category_key char(11) references tbl_product_category(category_key)
   );
 
-  select * from TBL_PRODUCT;
 
 -- 'p' || to_char(sysdate, 'yymmdd') || lpad(seq_product.nextval, 4, '0')
 create sequence seq_product maxvalue 9999 cycle;
@@ -56,5 +56,9 @@ create table
 
 -- 'i' || to_char(sysdate, 'yymmdd') || lpad(seq_prod_image.nextval, 4, '0')
 create sequence seq_product_image maxvalue 9999 cycle;
+
+select * from TBL_PRODUCT_CATEGORY;
+select * from TBL_PRODUCT;
+select * from TBL_PRODUCT_IMAGE;
 
 commit;

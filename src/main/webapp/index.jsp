@@ -9,15 +9,15 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
-	<div class="rWrap">
+	<main>
 		<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-		<main>
+		<div class="contentWrap">
 		<%--사이드바가 있으므로, <div class = "mainDiv"> </div> 안에 내용 넣어주어야 함. 만약 이 안에 내용 넣기 싫다면, padding-left:225px; 넣어줄것   --%>
 			<h1>메인페이지</h1>
-			<div style="height: 800px;"></div>
+			
 		<jsp:include page="/WEB-INF/views/common/remoteController.jsp"/>
-		</main>
-	</div>
+		</div>
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+	</main>
 </body>
 </html>

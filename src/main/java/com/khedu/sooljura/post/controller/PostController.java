@@ -40,4 +40,10 @@ public class PostController {
 		return "post/freePostWirter";
 	}
 	
+	@GetMapping("webPageInfo.do")
+	public String webPageInfo() {
+		return "post/webPageInfo";
+	}
+	
+	
 }

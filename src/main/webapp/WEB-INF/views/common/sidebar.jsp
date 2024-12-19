@@ -1,8 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%--왼쪽 사이드바 --%>
-<div class="lSideBar">
+<aside>
     <a href="/"> <img id="logoImg" src="/resources/icons/logo.png" alt="술주라 로고"> </a>
-    <div class="sideBarLists">
+    <div>
         <span>카테고리</span>
         <ul class="ul">
             <li><a href="/">증류주/소주</a></li>
@@ -27,4 +26,4 @@
             <li><a href="/">Q&#38;A</a></li>
         </ul>
     </div>
-</div>
+</aside>

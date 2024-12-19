@@ -22,7 +22,9 @@
                 <th><label for="higherCategoryInput">상위 카테고리 코드</label></th>
                 <td><input type="text" id="higherCategoryInput" name="higherCategory"></td>
             </tr>
-            <tr><th><input type="submit" value="등록하기"></th></tr>
+            <tr>
+                <th><input type="submit" value="등록하기"></th>
+            </tr>
         </table>
     </form>
 </main>

@@ -174,7 +174,7 @@ tr:hover {
 
 	<!-- 리모콘 -->
 	<div class="remote-controller">
-		<jsp:include page="/WEB-INF/views/common/remoteController.jsp" />
+		<jsp:include page="/WEB-INF/views/common/remote.jsp" />
 	</div>
 
 	<div class="main-container">

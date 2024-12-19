@@ -8,16 +8,16 @@
     <link rel="icon" href="/resources/icons/logo-circle-woText-16px-favicon.png">
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
-	<main>
-		<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-		<div class="contentWrap">
-		<%--사이드바가 있으므로, <div class = "mainDiv"> </div> 안에 내용 넣어주어야 함. 만약 이 안에 내용 넣기 싫다면, padding-left:225px; 넣어줄것   --%>
-			<h1>메인페이지</h1>
-			
-		<jsp:include page="/WEB-INF/views/common/remoteController.jsp"/>
-		</div>
-		<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
-	</main>
+<jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
+<main>
+    <jsp:include page="/WEB-INF/views/common/header.jsp"/>
+    <div class="wrapper">
+
+        <h1>메인페이지</h1>
+
+        <jsp:include page="/WEB-INF/views/common/remote.jsp"/>
+    </div>
+    <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+</main>
 </body>
 </html>

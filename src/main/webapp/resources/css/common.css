@@ -1,143 +1,138 @@
 @charset "UTF-8";
 
 * {
-	margin: 0;
-	padding: 0;
-}
-
-.lSideBar {
-	background-color: #EFECE5;
-	left: 0px;
-	width: 200px;
-	min-width: 120px;
-	height: 100%;
-	position: fixed;
-	padding: 10px;
-	list-style: none;
-	color: #ff2911;
-	top: 0;
-}
-
-.lSideBar ul>li {
-	padding-left: 30px;
-}
-
-.lSideBar li>a {
-	text-decoration: none;
-	color: #ff6851;
-}
-
-.lSideBar a:hover {
-	text-decoration: underline;
-	color: #ff3819;
-}
-
-main {
-	padding-left: 225px;
-	background-color: #f9f9f9;
-}
-
-.contentWrap {
-	height: auto;
-	min-height: 100%;
-	padding-bottom: 150px;
-	background-color: #f9f9f9;
-}
-
-footer {
-	height: 150px;
-	position: relative;
-	transform: translateY(-100%);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.footer>* {
-	justify-content: center;
-}
-
-.headWrap {
-	width: 100%;
-	min-width: 750px;
-	height: 75px;
-}
-
-.headDiv>* {
-	top: 0px;
-	height: 20px;
-	float: right;
-	margin: 25px auto;
-	padding-top: 15px;
-	padding-right: 20px;
-	flex-direction: row-reverse;
-	margin: 5px;
-}
-
-.headDiv>a {
-	text-decoration: none;
-	color: #000000;
-}
-
-.headDiv>a:hover {
-	text-decoration: underline;
-	color: #ff5353;
+    margin: 0;
+    padding: 0;
 }
 
 #logoImg {
-	justify-content: center;
+    justify-content: center;
 }
 
-.rightSideBar {
-	position: fixed;
-	height: 20%;
-	padding: 10px;
-	bottom: 200px; /* headDiv 의 높이만큼 아래로 이동 */
-	right: 28px;
-	width: 60px;
+aside {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px;
+    min-width: 120px;
+    height: 100%;
+    padding: 10px;
+    background-color: #efece5;
+    color: #ff2911;
+    list-style: none;
 }
 
-.rSideBar {
-	width: 48px;
-	margin: 0 auto;
-	margin-top: 15px;
-	justify-content: center;
+aside ul > li {
+    padding-left: 30px;
 }
 
-.rSideBar>ul>* {
-	padding: 5px;
+aside li > a {
+    color: #ff6851;
+    text-decoration: none;
 }
 
-.rSideBar>img {
-	margin: auto;
-	text-align: center;
+aside a:hover {
+    color: #ff3819;
+    text-decoration: underline;
 }
 
-.rSideBar>span {
-	font-weight: bold;
+header {
+    width: 100%;
+    min-width: 750px;
+    height: 75px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 20px;
+    box-sizing: border-box;
 }
 
-.rSideBar ul {
-	list-style: none;
+header > * {
+    margin-left: 15px;
 }
 
-button {
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-use-select: none;
-	user-select: none;
-	border: none;
-	border-radius: 15px;
-	color: #EFECE5;
-	background-color: #FC8173;
-	box-shadow: 1px 1px 1px 1px #d2210d;
+header > a {
+    color: #000000;
+    text-decoration: none;
 }
 
-button:hover {
-	background-color: #F5AFA5;
-	box-shadow: 1px 1px 1px 1px #FC8173;
+header > a:hover {
+    color: #ff5353;
+    text-decoration: underline;
+}
+
+main {
+    padding-left: 225px;
+    background-color: #f9f9f9;
+}
+
+.wrapper {
+    height: auto;
+    min-height: 100%;
+    padding-bottom: 150px;
+    background-color: #f9f9f9;
+}
+
+
+.remote {
+    position: fixed;
+    height: 20%;
+    padding: 10px;
+    bottom: 200px; /* header 의 높이만큼 아래로 이동 */
+    right: 28px;
+    width: 48px;
+    margin: 15px auto 0;
+    justify-content: center;
+}
+
+.remote > ul > * {
+    padding: 5px;
+}
+
+.remote > img {
+    margin: auto;
+    text-align: center;
+}
+
+.remote > span {
+    font-weight: bold;
+}
+
+.remote ul {
+    list-style: none;
+}
+
+footer {
+    height: 150px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f1f1f1;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .ul {
-	list-style-type: none;
+    list-style-type: none;
+}
+
+button {
+    /* Disable text selection inside the button */
+    /* Standard, FireFox, Safari & Chrome */
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+
+    border: none;
+    border-radius: 15px;
+    color: #efece5;
+    background-color: #fc8173;
+    box-shadow: 1px 1px 1px 1px #d2210d;
+}
+
+button:hover {
+    background-color: #f5afa5;
+    box-shadow: 1px 1px 1px 1px #fc8173;
 }

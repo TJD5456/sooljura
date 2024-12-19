@@ -143,7 +143,7 @@ h1 {
 	<jsp:include page="/WEB-INF/views/common/sidebar.jsp" />
 
 	<!-- 리모콘 -->
-	<jsp:include page="/WEB-INF/views/common/remoteController.jsp" />
+	<jsp:include page="/WEB-INF/views/common/remote.jsp" />
 
 	<!-- 메인 콘텐츠 -->
 	<div class="container">

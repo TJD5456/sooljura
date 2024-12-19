@@ -8,7 +8,7 @@
 <link rel="icon" href="/resources/icons/logo-circle-woText-16px-favicon.png">
 </head>
 <style>
-	.contentWrap{
+	.wrapper{
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -130,7 +130,7 @@
 	<jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
 	<main>
 		<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-	<div class="contentWrap">
+	<div class="wrapper">
 		<h1 style="margin: 15px;">마이 페이지</h1>
 		<div style="margin: 15px;"><span>필요하신 메뉴 버튼을 클릭하여 주세요!</span></div> 
 		<div class="myPageChoices">
@@ -140,7 +140,7 @@
 			<button class="myPageChoiceBtn" id="likedMerc" onclick="toggleView(this)">찜한상품 보기</button>
 		</div>
 		<div class="myPageInfoView"></div>
-	<jsp:include page="/WEB-INF/views/common/remoteController.jsp"/>
+	<jsp:include page="/WEB-INF/views/common/remote.jsp"/>
 	</div>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 	</main>

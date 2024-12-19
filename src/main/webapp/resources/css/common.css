@@ -1,150 +1,143 @@
 @charset "UTF-8";
 
 * {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 .lSideBar {
-    background-color: #EFECE5;
-    left: 0px;
-    width: 200px;
-    min-width: 120px;
-    height: 100%;
-    position: fixed;
-    padding: 10px;
-    list-style: none;
-    color: #ff2911;
-    top: 0;
+	background-color: #EFECE5;
+	left: 0px;
+	width: 200px;
+	min-width: 120px;
+	height: 100%;
+	position: fixed;
+	padding: 10px;
+	list-style: none;
+	color: #ff2911;
+	top: 0;
 }
 
-.lSideBar ul > li {
-    padding-left: 30px;
+.lSideBar ul>li {
+	padding-left: 30px;
 }
 
-.lSideBar li > a {
-    text-decoration: none;
-    color: #ff6851;
+.lSideBar li>a {
+	text-decoration: none;
+	color: #ff6851;
 }
 
 .lSideBar a:hover {
-    text-decoration: underline;
-    color: #ff3819;
+	text-decoration: underline;
+	color: #ff3819;
 }
 
-main{
+main {
 	padding-left: 225px;
 	background-color: #f9f9f9;
-	
 }
 
-.contentWrap{
+.contentWrap {
 	height: auto;
-    min-height: 100%;
-    padding-bottom:150px;
-    background-color: #f9f9f9;
+	min-height: 100%;
+	padding-bottom: 150px;
+	background-color: #f9f9f9;
 }
+
 footer {
-    height: 150px;
-  	
-  	position: relative;
-    transform: translateY(-100%);
-  	
-    display: flex;
-    align-items: center;
-    justify-content: center;
+	height: 150px;
+	position: relative;
+	transform: translateY(-100%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 
+.footer>* {
+	justify-content: center;
 }
-.footer > * {
-    justify-content: center;
-}
+
 .headWrap {
-    width: 100%;
-    min-width: 750px;
-    height: 75px;
-
+	width: 100%;
+	min-width: 750px;
+	height: 75px;
 }
 
-.headDiv > * {
-    top: 0px;
-    height: 20px;
-    float: right;
-    margin: 25px auto;
-    padding-top: 15px;
-    padding-right: 20px;
-    flex-direction: row-reverse;
-    margin: 5px;
+.headDiv>* {
+	top: 0px;
+	height: 20px;
+	float: right;
+	margin: 25px auto;
+	padding-top: 15px;
+	padding-right: 20px;
+	flex-direction: row-reverse;
+	margin: 5px;
 }
 
-.headDiv > a {
-    text-decoration: none;
-    color: #000000;
-
+.headDiv>a {
+	text-decoration: none;
+	color: #000000;
 }
 
-.headDiv > a:hover {
-    text-decoration: underline;
-    color: #ff5353;
+.headDiv>a:hover {
+	text-decoration: underline;
+	color: #ff5353;
 }
 
 #logoImg {
-    justify-content: center;
+	justify-content: center;
 }
 
 .rightSideBar {
-    position: fixed;
-    height: 20%;
-    padding: 10px;
-    bottom: 200px; /* headDiv 의 높이만큼 아래로 이동 */
-    right: 28px;
-    width: 60px;
+	position: fixed;
+	height: 20%;
+	padding: 10px;
+	bottom: 200px; /* headDiv 의 높이만큼 아래로 이동 */
+	right: 28px;
+	width: 60px;
 }
 
 .rSideBar {
-    width: 48px;
-    margin: 0 auto;
-    margin-top: 15px;
-    justify-content: center;
+	width: 48px;
+	margin: 0 auto;
+	margin-top: 15px;
+	justify-content: center;
 }
 
-.rSideBar > ul > * {
-    padding: 5px;
+.rSideBar>ul>* {
+	padding: 5px;
 }
 
-.rSideBar > img {
-    margin: auto;
-    text-align: center;
+.rSideBar>img {
+	margin: auto;
+	text-align: center;
 }
 
-.rSideBar > span {
-    font-weight: bold;
+.rSideBar>span {
+	font-weight: bold;
 }
 
 .rSideBar ul {
-    list-style: none;
+	list-style: none;
 }
 
 button {
-   -webkit-user-select: none;
- 	-moz-user-select: none;
- 	-ms-use-select: none;
- 	user-select: none;
-
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-use-select: none;
+	user-select: none;
 	border: none;
 	border-radius: 15px;
-
-	color: #EFECE5;	
+	color: #EFECE5;
 	background-color: #FC8173;
 	box-shadow: 1px 1px 1px 1px #d2210d;
 }
-button:hover{
+
+button:hover {
 	background-color: #F5AFA5;
 	box-shadow: 1px 1px 1px 1px #FC8173;
 }
 
-.ul{
+.ul {
 	list-style-type: none;
 }
-
-
-

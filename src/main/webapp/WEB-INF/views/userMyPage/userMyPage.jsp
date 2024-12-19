@@ -179,8 +179,41 @@
 		    }
 			
 		
-		//
-		$(document).ready(function(){
+//==========userInfo.jsp의 function============================================================================================================================
+	function pwChk(){
+		 $('#myPageInfoView').on('input','#userPw', function(){
+		       const regExp = /^[a-zA-Z0-9!@#$%^&*]{8,16}$/;
+		       const userPwVal = $('#userPw').val();
+		   
+		       if(userPw != regExp){
+		    	   
+		       }
+		   });
+	
+	
+	}
+	
+	function pwChk(){
+		 //비밀번호체크 
+			let newUserPw = $('#userUpdPw').val();
+			console.log(newUserPw);
+			let newUserPwChk = $('#userUpdPwChk').val();
+			console.log(newUserPwChk);
+			if(newUserPw != newUserPwChk){
+				console.log("pw-chk-error");
+				$('#pwUnMatchSpan').html('비밀번호가 일치하지 않습니다.').css('color', 'red');
+			}else{
+				$('#pwUnMatchSpan').html('비밀번호가 일치합니다.').css('color', 'green');
+			}
+	
+	
+	}
+	
+	
+		
+	$(document).ready(function(){
+			  
+			
 			
 			$('.myPageInfoView').on('click', '#pwChgBtn', function(){
 				console.log("button clicked");
@@ -192,6 +225,8 @@
 			});
 			
 			$('.myPageInfoView').on('click', '#userInfoUpd', function(){
+				
+				
 				console.log("Tlqkf anjrk answpdi");
 				$.ajax({
 					url : "/userMyPage/userInfoUpd",
@@ -209,7 +244,7 @@
 					});
 				});
 		});
-		
+//============================================================================================================================================
 </script>
 </body>
 </html>

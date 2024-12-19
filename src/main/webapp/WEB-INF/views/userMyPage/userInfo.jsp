@@ -52,17 +52,17 @@
 							</tr>
 							<tr>
 								<th>새 비밀번호</th>
-								<td><input id="userUpdPw" type="password"></td>
+								<td><input id="userUpdPw" oninput="pwChk()" type="password"></td>
 							</tr>
 							<tr>
 								<td colspan="2"><div id="newPwIrreg"><span>사용불가! 영어,숫자,특수기호(!@#$%^&#38;*)를 포함한 8~16글자의 비밀번호를 작성하여 주세요</span></div></td>
 							</tr>
 							<tr>
 								<th>새 비밀번호 확인</th>
-								<td><input id="userUpdPwChk" type="password">  </td>
+								<td><input id="userUpdPwChk" oninput="pwChk()" type="password">  </td>
 							</tr>
 							<tr>
-								<td colspan="2"><div id="oldPwUnMatchSpan"><span>비밀번호가 일치하지 않습니다</span></div></td>
+								<td colspan="2"><div id="pwUnMatchSpan"></div></td>
 							</tr>
 						</table>
 					</div>

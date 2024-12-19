@@ -52,8 +52,9 @@
         </table>
     </form>
 </main>
+<%-- 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
-
+--%>
 <script>
     function manageCategoryFrm() {
         window.location.href = '/admin/manageCategoryFrm.do';

@@ -31,6 +31,8 @@
         <span>새로 회원가입한 회원수를 보여주는 span 태그</span>
     </div>
 </main>
+<%-- 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+--%>
 </body>
 </html>

@@ -5,9 +5,9 @@
     <title>manageYoutube.jsp</title>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+<jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
 <main>
-    <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
+    <jsp:include page="/WEB-INF/views/common/header.jsp"/>
     <div class="wrapper">
         <div class="content">
             <h1>유튜브관리 페이지</h1>

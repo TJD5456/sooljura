@@ -4,13 +4,13 @@
     <title>manageProducts.jsp</title>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+<jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
 <main>
-    <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
+    <jsp:include page="/WEB-INF/views/common/header.jsp"/>
     <div class="wrapper">
         <div class="content">
             <div class="title">
-                <span>상품 관리 페이지</span>
+                <h1>상품 관리 페이지</h1>
             </div>
             <form action="/admin/uploadProduct.do" method="post" enctype="multipart/form-data" id="uploadForm">
                 <table border="1">

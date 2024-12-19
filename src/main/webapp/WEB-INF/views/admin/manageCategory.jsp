@@ -4,9 +4,9 @@
     <title>manageCategory.jsp</title>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+<jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
 <main>
-    <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
+    <jsp:include page="/WEB-INF/views/common/header.jsp"/>
     <div class="wrapper">
         <div class="content">
             <form action="/admin/manageCategory.do" method="get">
@@ -24,7 +24,7 @@
                         <td><input type="text" id="higherCategoryInput" name="higherCategory"></td>
                     </tr>
                     <tr>
-                        <th><input type="submit" value="등록하기"></th>
+                        <th colspan="2"><input type="submit" value="등록하기"></th>
                     </tr>
                 </table>
             </form>

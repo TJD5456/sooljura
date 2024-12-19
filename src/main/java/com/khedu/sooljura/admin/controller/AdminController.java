@@ -60,13 +60,29 @@ public class AdminController {
         return "/admin/manageLevel";
     }
 
+    public String savePath(HttpServletRequest request) {
+        String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/product_images/");
+
+        if (savePath.contains("target")) {
+            savePath = savePath.replace("\\target\\sooljura-1.0.0-BUILD-SNAPSHOT", "\\src\\main\\webapp");
+        }
+
+        File dir = new File(savePath);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+
+        return savePath;
+    }
+
     @PostMapping("uploadProduct")
     public String uploadProduct(HttpServletRequest request, MultipartFile[] prodImages, Product product) {
         ArrayList<ProductImage> imageList = new ArrayList<>();
 
+        String savePath = savePath(request);
+
         for (MultipartFile image : prodImages) {
             if (!image.isEmpty()) {
-                String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/notice/");
                 String originalFileName = image.getOriginalFilename();
                 String fileName = originalFileName.substring(0, originalFileName.lastIndexOf("."));
                 String extension = originalFileName.substring(originalFileName.lastIndexOf("."));

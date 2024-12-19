@@ -7,6 +7,7 @@ import com.khedu.sooljura.admin.model.vo.ProductImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +37,12 @@ public class AdminController {
     }
 
     @GetMapping("manageProducts.do")
-    public String manageProducts() {
+    public String manageProducts(Integer uploadProductResult, Integer manageCategoryResult, Model model) {
+        if (uploadProductResult != null) {
+            model.addAttribute("uploadProductResult", uploadProductResult);
+        } else if (manageCategoryResult != null) {
+            model.addAttribute("manageCategoryResult", manageCategoryResult);
+        }
         return "/admin/manageProducts";
     }
 
@@ -120,12 +126,12 @@ public class AdminController {
                 }
             }
         }
-        int result = service.uploadProduct(product, imageList);
+        int uploadProductResult = service.uploadProduct(product, imageList);
 
-        if (result > 0) {
+        if (uploadProductResult > 0) {
             return "redirect:/admin/adminPage.do";
         } else {
-            return "redirect:/admin/manageProducts.do";
+            return "redirect:/admin/manageProducts.do?uploadProductResult=" + uploadProductResult;
         }
     } // uploadProduct()
 
@@ -136,8 +142,8 @@ public class AdminController {
 
     @GetMapping("manageCategory")
     public String manageCategory(ProductCategory category) {
-        int result = service.createCategory(category);
-        return "redirect:/admin/manageProducts.do?category=" + result;
+        int manageCategoryResult = service.createCategory(category);
+        return "redirect:/admin/manageProducts.do?manageCategoryResult=" + manageCategoryResult;
     }
 
 }

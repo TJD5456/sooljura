@@ -56,6 +56,21 @@
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 --%>
 <script>
+    $(function () {
+        let uploadProductResult = "${uploadProductResult}";
+        let manageCategoryResult = "${manageCategoryResult}";
+
+        if (uploadProductResult === "0") {
+            window.alert("상품 등록 중 오류가 발생하였습니다");
+        }
+
+        if (manageCategoryResult === "1") {
+            window.alert("카테고리 등록 성공");
+        } else if (manageCategoryResult === "0") {
+            window.alert("카테고리 등록 중 오류가 발생하였습니다");
+        }
+    });
+
     function manageCategoryFrm() {
         window.location.href = '/admin/manageCategoryFrm.do';
     }

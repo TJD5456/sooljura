@@ -192,7 +192,7 @@ h1 {
 				</tbody>
 			</table>
 
-			<a href="/notice/freeNoticeWirter">작성하기</a>
+			<a href="/post/freePostWirter.do">작성하기</a>
 		</div>
 		<!-- 풋터 -->
 		<div class="footer">

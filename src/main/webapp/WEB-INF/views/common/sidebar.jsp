@@ -17,7 +17,7 @@
             <li><a href="/post/freePost.do?">자유게시판</a></li>
             <li><a href="/post/reviewListPost.do">후기 게시판</a></li>
             <li><a href="/">질문게시판</a></li>
-            <li><a href="/">웹사이트소개</a></li>
+            <li><a href="/post/webPageInfo.do">웹사이트소개</a></li>
         </ul>
         <span>공지사항</span>
         <ul class="ul">

@@ -74,15 +74,16 @@ main {
 .content {
     flex: 1; /* This allows the content area to expand and take available space */
     padding: 20px; /* Optional: Add some padding */
+    margin-right:63px;
 }
 
 .remote {
-    /* Remove the fixed positioning */
-    position: static;
-    padding: 10px;
+    position: fixed;
+    right: 0; /* fix it to the right side of the viewport */
+    top: 50%; /* position it at the vertical midpoint */
+    transform: translateY(-50%); /* shift upward by half of its own height to fully center */
     width: 48px;
-    margin-left: 20px; /* Add space between content and remote if desired */
-    align-self: center; /* This vertically centers .remote within .wrapper */
+    padding: 10px;
 }
 
 .remote ul {

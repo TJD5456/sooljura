@@ -1,9 +1,10 @@
+.metadata/
 .classpath
 .project
-.springBeans
 .settings/
+.springBeans
 target/
 bin/
 
 .idea/
-.metadata/
+sooljura.iml

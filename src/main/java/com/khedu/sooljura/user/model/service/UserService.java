@@ -1,12 +1,16 @@
 package com.khedu.sooljura.user.model.service;
 
+import java.util.ArrayList;
+
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.khedu.sooljura.user.model.dao.UserDao;
+import com.khedu.sooljura.user.model.vo.AddrListData;
 import com.khedu.sooljura.user.model.vo.User;
+import com.khedu.sooljura.user.model.vo.UserAddr;
 
 @Service("userService")
 public class UserService {
@@ -14,6 +18,7 @@ public class UserService {
 	@Qualifier("userDao")
 	private UserDao dao;
 
+	//로그인
 	public User login(User user) {
 		 User loginUser = dao.login(user);
 		 
@@ -34,6 +39,7 @@ public class UserService {
 		 }
 	}
 
+	//회원가입
 	public int join(User user) {
 		String userPw = BCrypt.hashpw(user.getUserPw(), BCrypt.gensalt());
 		user.setUserPw(userPw);
@@ -41,11 +47,26 @@ public class UserService {
 		return dao.join(user);
 	}
 
+	//아이디 중복체크
 	public int chkId(String userId) {
 		return dao.chkId(userId);
 	}
 
+	//닉네임 중복체크
 	public int chkNickname(String userNickname) {
 		return dao.chkNickname(userNickname);
-	} 
+	}
+
+	//주소지 추가
+	public int addAddr(UserAddr userAddr) {
+		return dao.addAddr(userAddr);
+	}
+
+	//주소지 목록 불러오기
+	public AddrListData addrList(String userKey) {
+		ArrayList<UserAddr> addrList = (ArrayList<UserAddr>) dao.addrList(userKey);
+		
+		AddrListData listData = new AddrListData(addrList);
+		return listData;
+	}
 }

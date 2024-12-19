@@ -1,6 +1,7 @@
 package com.khedu.sooljura.user.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -11,12 +12,16 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.khedu.sooljura.user.model.service.UserService;
+import com.khedu.sooljura.user.model.vo.AddrListData;
 import com.khedu.sooljura.user.model.vo.User;
+import com.khedu.sooljura.user.model.vo.UserAddr;
 
 @Controller
 @RequestMapping("/user/")
@@ -89,5 +94,28 @@ public class UserController {
 	@GetMapping("provisionFrm.do")
 	public String provisionFrm() {
 		return "user/provision";
+	}
+	
+	//주소지 관리 팝업 페이지로 이동 + 주소지 목록 보여주기
+	@GetMapping(value="addrListFrm.do", produces="application/json; charset=utf-8")
+	@ResponseBody
+	public String addrListFrm(Model model, String userKey) {
+		AddrListData addrList = service.addrList(userKey);
+		
+		model.addAttribute("addrList", addrList);
+		return "user/addrList";
+	}
+	
+	//주소지 추가 페이지
+	@GetMapping("addAddrFrm.do")
+	public String addAddrFrm() {
+		return "user/addAddr";
+	}
+	
+	//주소지 추가
+	@PostMapping("addAddr.do")
+	public String addAddr(UserAddr userAddr) {
+		int result = service.addAddr(userAddr);
+		return String.valueOf(result);
 	}
 }

@@ -15,6 +15,9 @@
     box-sizing: border-box; /* 전체 요소에 패딩 포함한 너비 계산 */
 }
 
+main{
+	padding: 0;
+}
 /* 전체 배경색 설정 */
 body {
     background-color: #EFECE5; /* 연한 배경색 */
@@ -101,49 +104,57 @@ input[type="button"] {
 .insert-wrap{
 	display:flex;
 	justify-content: center;
-	padding: 130px;
+	padding: 100px;
+	margin-right: 130px;
 }
 </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-	<div class="insert-wrap">
-        <div class="insert">
-            <form action="/user/join.do" method="post">
-                <div class="form-group">
-                    <input type="text" class="insertInfo" id="userId" name="userId" placeholder="아이디 : 영어,숫자 8~12글자">
-                    <input type="button" id="chkId" name="chkId" value="중복체크">
-                </div>
-                <div class="form-group">
-                    <input type="password" class="insertInfo" id="userPw" name="userPw" placeholder="비밀번호 : 영어,숫자,특수기호(!@#$%^&*) 8~16글자">
-                </div>
-                <div class="form-group">
-                    <input type="password" class="insertInfo" id="userPwChk" name="userPwChk" placeholder="비밀번호 확인">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="insertInfo" id="userNickname" name="userNickname" placeholder="닉네임 : 영어,숫자,한글 6~10글자">
-                    <input type="button" id="chkNickname" name="chkNickname" value="중복체크">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="insertInfo" id="userName" name="userName" placeholder="이름">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="insertInfo" id="userEmail" name="userEmail" placeholder="이메일">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="insertInfo" id="userPhone" name="userPhone" placeholder="전화번호(-제외하고 입력)">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="insertInfo" id="userAddr" name="userAddr" placeholder="주소">
-                    <input type="button" name="chkAddr" value="주소지 검색">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="insertInfo" id="DetailAddr" name="DetailAddr" placeholder="상세주소">
-                </div>
-                <button type="submit" class="submit" name="insertBtn">회원가입</button>
-            </form>
-        </div>
-    </div>
+	<main>
+		<div class="insert-wrap">
+	        <div class="insert">
+	            <form action="/user/join.do" method="post">
+	                <div class="form-group">
+	                    <input type="text" class="insertInfo" id="userId" name="userId" placeholder="아이디 : 영어,숫자 8~12글자">
+	                    <input type="button" id="chkId" name="chkId" value="중복체크">
+	                </div>
+	                <div class="form-group">
+	                    <input type="password" class="insertInfo" id="userPw" name="userPw" placeholder="비밀번호 : 영어,숫자,특수기호(!@#$%^&*) 8~16글자">
+	                </div>
+	                <div class="form-group">
+	                    <input type="password" class="insertInfo" id="userPwChk" name="userPwChk" placeholder="비밀번호 확인">
+	                </div>
+	                <div class="form-group">
+	                    <input type="text" class="insertInfo" id="userNickname" name="userNickname" placeholder="닉네임 : 영어,숫자,한글 6~10글자">
+	                    <input type="button" id="chkNickname" name="chkNickname" value="중복체크">
+	                </div>
+	                <div class="form-group">
+	                    <input type="text" class="insertInfo" id="userName" name="userName" placeholder="이름">
+	                </div>
+	                <div class="form-group">
+	                    <input type="text" class="insertInfo" id="userEmail" name="userEmail" placeholder="이메일">
+	                </div>
+	                <div class="form-group">
+	                    <input type="text" class="insertInfo" id="userPhone" name="userPhone" placeholder="전화번호(-제외하고 입력)">
+	                </div>
+	                <div class="form-group">
+	                    <input type="text" class="insertInfo" id="userAddrNo" name="userAddrNo" placeholder="우편번호" readonly>
+	                    <input type="button" onclick="srchAddr()" value="주소지 검색">
+	                </div>
+	                <div class="form-group">
+	                    <input type="text" class="insertInfo" id="userAddr" name="userAddr" placeholder="주소" readonly>
+	                </div>
+	                <div class="form-group">
+	                	<input type="text" class="insertInfo" id="detailAddr" name="detailAddr" placeholder="상세주소">
+	                	<input type="text" class="insertInfo" id="extraAddr" name="extraAddr" placeholder="참고주소" readonly>
+	                </div>
+	                <input type="button" onclick="insertBtn()" value="회원가입">
+	            </form>
+	        </div>
+	    </div>
+    </main>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 	//유효성 검사
 	const chkInfo = {
@@ -157,11 +168,12 @@ input[type="button"] {
 			"userEmail" : false
 	}
 	
-	//아이디 유효성 체크
-	const idVal = $('#userId').val();
 	
+	//아이디 유효성 체크
 	$('#chkId').on('click', function(){
-		const regExp = /^[a-zA-z0-9]{8,12}$/;
+		const idVal = $('#userId').val();
+		const regExp = /^[a-zA-Z0-9]{8,12}$/;
+		
 		if(!regExp.test(idVal)){
 			msg('알림', '영어,숫자 8~12글자로 입력해주세요', 'error');
 			return;
@@ -185,13 +197,13 @@ input[type="button"] {
 				console.log('ajax 오류');
 			}
 		});	
-	});
+	});	
 	
 	//닉네임 유효성 체크
-	const nicknameVal = $('#userNickname').val();
-	
 	$('#chkNickname').on('click', function(){
-		const regExp = /^[a-zA-z가-힇0-9]{6,10}$/;
+		const nicknameVal = $('#userNickname').val();
+		const regExp = /^[a-zA-Z가-힇0-9]{6,10}$/;
+		
 		if(!regExp.test(nicknameVal)){
 			msg('알림','영어,숫자,한글 6~10글자로 입력해주세요');
 			return;
@@ -206,7 +218,7 @@ input[type="button"] {
 				//닉네임 중복체크
 				if(res == '0'){
 					msg('알림', '사용 가능한 닉네임입니다', 'success');
-					chkInf.nicknameChkBtn = true;
+					chkInfo.nicknameChkBtn = true;
 				}else{
 					msg('알림', '중복된 닉네임입니다', 'error');
 				}
@@ -216,22 +228,20 @@ input[type="button"] {
 			}
 		});
 	});
-	
+		
 	//전화번호 유효성 체크
-	const userPhoneVal = $('#userPhone').val();
-	
-	userPhone.on('input', function(){
+	$('#userPhone').on('input', function(){
+		const userPhoneVal = $(this).val();
 		const regExp = /^[0-9]{11}$/;
 		
 		if(regExp.test(userPhoneVal)){
 			chkInfo.userPhone = true;
 		}
 	});
-	
+		
 	//이메일 유효성 체크
-	const userEmailVal = $('#userEmail').val();
-	
-	userEmail.on('input', function(){
+	$('#userEmail').on('input', function(){
+		const userEmailVal = $(this).val();
 		const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{3}$/;
 		
 		if(regExp.test(userEmailVal)){
@@ -240,9 +250,21 @@ input[type="button"] {
 	});
 	
 	//비밀번호 유효성 체크
-
+	$('#userPw').on('input', function(){
+	    const regExp = /^[a-zA-Z0-9!@#$%^&*]{8,16}$/;
+	    const userPwVal = $(this).val();
+	
+	    chkInfo.userPw = regExp.test(userPwVal);
+	});
 	
 	//비밀번호체크 
+	$('#userPwChk').on('input', function(){
+	    const userPwVal = $('#userPw').val();
+	    const userPwChkVal = $(this).val();
+	
+	    chkInfo.userPwChk = (userPwVal === userPwChkVal);
+	});
+	
 
 	
 	function joinValidate(){
@@ -285,6 +307,55 @@ input[type="button"] {
 		//오류 없음
 		return true;
 	}
+	
+	//주소지 검색 api
+	function srchAddr() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                if(data.userSelectedType === 'R'){
+                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있고, 공동주택일 경우 추가한다.
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                    if(extraAddr !== ''){
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+                    // 조합된 참고항목을 해당 필드에 넣는다.
+                    document.getElementById("extraAddr").value = extraAddr;
+                
+                } else {
+                    document.getElementById("extraAddr").value = '';
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('userAddrNo').value = data.zonecode;
+                document.getElementById("userAddr").value = addr;
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("detailAddr").focus();
+            }
+        }).open();
+    }
 </script>
 </body>
 </html>

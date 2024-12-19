@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="addr">
+	<!-- 주소지 추가 -->
+	<insert id="addAddrInfo" parameterType="addr">
+		insert into tbl_user_addr
+		(
+			addr_key,
+			user_key,
+			addr_nm,
+			addr_code,
+			addr,
+			addr_detail,
+			addr_ref,
+			rcpt_nm,
+			rcpt_phone,
+			default_yn
+		)values(
+			'u' || to_char(sysdate, 'yymmdd') || lpad (seq_prod_image.nextval, 4, '0'),
+			#{userKey},
+			#{addrNm},
+			#{addrCode},
+			#{addr},
+			#{addrDetail},
+			#{addrRef},
+			#{rcptNm},
+			#{rcptPhone},
+			#{defaultYn}
+		)
+	</insert>
+	
+	<!-- 주소지 조회 -->
+	<select id="userAddrList" parameterType="string" resultType="addr">
+		select 
+			addr_key as addrKey,
+			user_key as userKey,
+			addr_nm as addrNm,
+			addr_code as addrCd,
+			addr as addr,
+			addr_detail as addrDetail,
+			addr_ref as addrRef,
+			rcpt_nm as rcptNm,
+			rcpt_phone as rcptPhone,
+			default_yn as defaultYn
+		from tbl_user_addr
+		where user_key = #{userKey}
+	</select>
+</mapper>

@@ -83,7 +83,6 @@ main {
     width: 48px;
     margin-left: 20px; /* Add space between content and remote if desired */
     align-self: center; /* This vertically centers .remote within .wrapper */
-    background-color: #fff; /* Optional styling for the remote area */
 }
 
 .remote ul {

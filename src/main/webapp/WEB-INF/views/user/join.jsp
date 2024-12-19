@@ -139,17 +139,17 @@ input[type="button"] {
 	                    <input type="text" class="insertInfo" id="userPhone" name="userPhone" placeholder="전화번호(-제외하고 입력)">
 	                </div>
 	                <div class="form-group">
-	                    <input type="text" class="insertInfo" id="userAddrNo" name="userAddrNo" placeholder="우편번호">
+	                    <input type="text" class="insertInfo" id="userAddrNo" name="userAddrNo" placeholder="우편번호" readonly>
 	                    <input type="button" onclick="srchAddr()" value="주소지 검색">
 	                </div>
 	                <div class="form-group">
-	                    <input type="text" class="insertInfo" id="userAddr" name="userAddr" placeholder="주소">
+	                    <input type="text" class="insertInfo" id="userAddr" name="userAddr" placeholder="주소" readonly>
 	                </div>
 	                <div class="form-group">
 	                	<input type="text" class="insertInfo" id="detailAddr" name="detailAddr" placeholder="상세주소">
-	                	<input type="text" class="insertInfo" id="extraAddr" name="extraAddr" placeholder="참고주소">
+	                	<input type="text" class="insertInfo" id="extraAddr" name="extraAddr" placeholder="참고주소" readonly>
 	                </div>
-	                <button type="submit" class="submit" name="insertBtn">회원가입</button>
+	                <input type="button" onclick="insertBtn()" value="회원가입">
 	            </form>
 	        </div>
 	    </div>

@@ -32,5 +32,20 @@ public class UserService {
 				 return null;
 			 }
 		 }
+	}
+
+	public int join(User user) {
+		String userPw = BCrypt.hashpw(user.getUserPw(), BCrypt.gensalt());
+		user.setUserPw(userPw);
+		
+		return dao.join(user);
+	}
+
+	public int chkId(String userId) {
+		return dao.chkId(userId);
+	}
+
+	public int chkNickname(String userNickname) {
+		return dao.chkNickname(userNickname);
 	} 
 }

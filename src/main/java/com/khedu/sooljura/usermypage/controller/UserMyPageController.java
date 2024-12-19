@@ -5,7 +5,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.khedu.sooljura.usermypage.model.service.UserMyPageService;
 
 @Controller
@@ -36,4 +39,13 @@ public class UserMyPageController {
     public String likedMerc() {
         return "userMyPage/likedMerc";
     }
+	
+	@PostMapping("userInfoUpd")
+	@ResponseBody
+	public String userUpdInfo(String string) {
+		
+		System.out.println(string);
+		//int i = userMyPageService.userUpdInfo();
+		return null;
+	}
 }

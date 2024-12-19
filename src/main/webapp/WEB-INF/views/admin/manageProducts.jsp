@@ -2,20 +2,14 @@
 <html>
 <head>
     <title>manageProducts.jsp</title>
-    <style>
-        .main {
-            margin-left: 300px;
-        }
-    </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-<jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
-<div class="main">
+<main>
     <div class="title">
         <span>상품 관리 페이지</span>
     </div>
-    <form action="/admin/uploadProduct.do" method="post" enctype="multipart/form-data">
+    <form action="/admin/uploadProduct.do" method="post" enctype="multipart/form-data" id="uploadForm">
         <table border="1">
             <tr>
                 <th><label for="nameInput">상품명</label></th>
@@ -23,7 +17,7 @@
             </tr>
             <tr>
                 <th>사진</th>
-                <td><input type="file" id="photoInput" name="prodImages"></td>
+                <td><input type="file" name="prodImages" multiple></td>
             </tr>
             <tr>
                 <th><label for="priceInput">가격</label></th>
@@ -43,18 +37,27 @@
             </tr>
             <tr>
                 <th><label for="categoryInput">카테고리</label></th>
-                <td><input type="text" id="categoryInput" name="categoryLevel"></td>
+                <td><input type="text" id="categoryInput" name="categoryKey"></td>
             </tr>
             <tr>
                 <th><label for="cntInput">수량</label></th>
                 <td><input type="text" id="cntInput" name="prodCnt"></td>
             </tr>
             <tr>
-                <td colspan="2"><input type="submit" value="제품 등록"></td>
+                <th colspan="2">
+                    <input type="submit" value="제품 등록">
+                    <input type="button" value="카테고리 관리" onclick="manageCategoryFrm()">
+                </th>
             </tr>
         </table>
     </form>
-</div>
+</main>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+
+<script>
+    function manageCategoryFrm() {
+        window.location.href = '/admin/manageCategoryFrm.do';
+    }
+</script>
 </body>
 </html>

@@ -2,6 +2,7 @@ package com.khedu.sooljura.admin.controller;
 
 import com.khedu.sooljura.admin.model.service.AdminService;
 import com.khedu.sooljura.admin.model.vo.Product;
+import com.khedu.sooljura.admin.model.vo.ProductCategory;
 import com.khedu.sooljura.admin.model.vo.ProductImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -60,13 +61,13 @@ public class AdminController {
     }
 
     @PostMapping("uploadProduct")
-    public String uploadProduct(HttpServletRequest request, MultipartFile[] images, Product product) {
-        ArrayList<ProductImage> imgList = new ArrayList<>();
+    public String uploadProduct(HttpServletRequest request, MultipartFile[] prodImages, Product product) {
+        ArrayList<ProductImage> imageList = new ArrayList<>();
 
-        for (MultipartFile prodImg : images) {
-            if (!prodImg.isEmpty()) {
-                String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/productImages/");
-                String originalFileName = prodImg.getOriginalFilename();
+        for (MultipartFile image : prodImages) {
+            if (!image.isEmpty()) {
+                String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/notice/");
+                String originalFileName = image.getOriginalFilename();
                 String fileName = originalFileName.substring(0, originalFileName.lastIndexOf("."));
                 String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
 
@@ -79,7 +80,7 @@ public class AdminController {
                 BufferedOutputStream bos = null;
 
                 try {
-                    byte[] bytes = prodImg.getBytes();
+                    byte[] bytes = image.getBytes();
                     FileOutputStream fos = new FileOutputStream(new File(savePath));
                     bos = new BufferedOutputStream(fos);
                     bos.write(bytes);
@@ -88,28 +89,39 @@ public class AdminController {
                     productImage.setImgNm(originalFileName);
                     productImage.setImgPath(filePath);
 
-                    imgList.add(productImage);
+                    imageList.add(productImage);
 
                 } catch (IOException e) {
-                    System.out.println("IOException from AdminController.uploadProduct while handling bos");
+                    e.printStackTrace();
                 } finally {
                     try {
                         if (bos != null) {
                             bos.close();
                         }
                     } catch (IOException e) {
-                        System.out.println("IOException from AdminController.uploadProduct while closing bos");
+                        e.printStackTrace();
                     }
                 }
             }
         }
-        int result = service.uploadProduct(product, imgList);
+        int result = service.uploadProduct(product, imageList);
 
-        if (result == 1) {
+        if (result > 0) {
             return "redirect:/admin/adminPage.do";
         } else {
             return "redirect:/admin/manageProducts.do";
         }
     } // uploadProduct()
+
+    @GetMapping("manageCategoryFrm")
+    public String manageCategoryFrm() {
+        return "/admin/manageCategory";
+    }
+
+    @GetMapping("manageCategory")
+    public String manageCategory(ProductCategory category) {
+        int result = service.createCategory(category);
+        return "redirect:/admin/manageProducts.do?category=" + result;
+    }
 
 }

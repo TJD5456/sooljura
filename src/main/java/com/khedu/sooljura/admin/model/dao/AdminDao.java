@@ -1,6 +1,7 @@
 package com.khedu.sooljura.admin.model.dao;
 
 import com.khedu.sooljura.admin.model.vo.Product;
+import com.khedu.sooljura.admin.model.vo.ProductCategory;
 import com.khedu.sooljura.admin.model.vo.ProductImage;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,4 +27,7 @@ public class AdminDao {
         return template.insert("admin.uploadProdImg", img);
     }
 
+    public int createCategory(ProductCategory category) {
+        return template.insert("admin.createCategory", category);
+    }
 }

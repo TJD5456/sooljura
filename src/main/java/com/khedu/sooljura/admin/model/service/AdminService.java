@@ -2,10 +2,12 @@ package com.khedu.sooljura.admin.model.service;
 
 import com.khedu.sooljura.admin.model.dao.AdminDao;
 import com.khedu.sooljura.admin.model.vo.Product;
+import com.khedu.sooljura.admin.model.vo.ProductCategory;
 import com.khedu.sooljura.admin.model.vo.ProductImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
@@ -16,8 +18,10 @@ public class AdminService {
     @Qualifier("adminDao")
     private AdminDao dao;
 
+    @Transactional
     public int uploadProduct(Product product, ArrayList<ProductImage> imgList) {
         String prodKey = dao.selectProdKey();
+
         product.setProdKey(prodKey);
 
         int result = dao.uploadProduct(product);
@@ -29,5 +33,9 @@ public class AdminService {
             }
         }
         return result;
+    }
+
+    public int createCategory(ProductCategory category) {
+        return dao.createCategory(category);
     }
 }

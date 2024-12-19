@@ -14,7 +14,6 @@ aside {
     top: 0;
     left: 0;
     width: 200px;
-    min-width: 120px;
     height: 100%;
     padding: 10px;
     background-color: #efece5;
@@ -22,7 +21,7 @@ aside {
     list-style: none;
 }
 
-aside ul > li {
+aside li {
     padding-left: 30px;
 }
 
@@ -38,7 +37,6 @@ aside a:hover {
 
 header {
     width: 100%;
-    min-width: 750px;
     height: 75px;
     display: flex;
     justify-content: flex-end;
@@ -67,25 +65,25 @@ main {
 }
 
 .wrapper {
-    height: auto;
+    height: 100vh;
     min-height: 100%;
-    padding-bottom: 150px;
     background-color: #f9f9f9;
 }
 
+.content {
+    margin-right: 63px;
+}
 
 .remote {
     position: fixed;
-    height: 20%;
+    right: 0;
+    margin-top: 200px;
     padding: 10px;
-    bottom: 200px; /* header 의 높이만큼 아래로 이동 */
-    right: 28px;
     width: 48px;
-    margin: 15px auto 0;
-    justify-content: center;
 }
 
-.remote > ul > * {
+.remote ul {
+    list-style: none;
     padding: 5px;
 }
 
@@ -94,28 +92,20 @@ main {
     text-align: center;
 }
 
-.remote > span {
-    font-weight: bold;
-}
-
-.remote ul {
-    list-style: none;
-}
-
 footer {
     height: 150px;
-    position: fixed;
     bottom: 0;
     width: 100%;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     background-color: #f1f1f1;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.ul {
-    list-style-type: none;
+footer div {
+    text-align: center;
 }
 
 button {

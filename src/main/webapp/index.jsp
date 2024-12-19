@@ -12,9 +12,9 @@
 <main>
     <jsp:include page="/WEB-INF/views/common/header.jsp"/>
     <div class="wrapper">
-
-        <h1>메인페이지</h1>
-
+        <div class="content">
+            <h1>메인페이지</h1>
+        </div>
         <jsp:include page="/WEB-INF/views/common/remote.jsp"/>
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

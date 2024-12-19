@@ -14,24 +14,27 @@
     </div>
 
     <div class="wrapper">
-        <div>
-            <span><a href="/admin/manageProducts.do">상품 등록</a></span>
+        <div class="content">
+            <div>
+                <span><a href="/admin/manageProducts.do">상품 등록</a></span>
+            </div>
+            <div>
+                <span><a href="/admin/manageYoutube.do">유튜브 관리</a></span>
+            </div>
+            <div>
+                <span><a href="/admin/managePosts.do">게시글 관리</a></span>
+                <span>새로 업로드된 확인되지 않은 게시글 갯수를 보여주는 span 태그</span>
+            </div>
+            <div>
+                <span><a href="/admin/manageChats.do">1대1 채팅</a></span>
+                <span>새로 생긴 채팅중 확인되지 않은 채팅방 갯수를 보여주는 span 태그</span>
+            </div>
+            <div>
+                <span><a href="/admin/manageLevel.do">회원 레벨 관리</a></span>
+                <span>새로 회원가입한 회원수를 보여주는 span 태그</span>
+            </div>
         </div>
-        <div>
-            <span><a href="/admin/manageYoutube.do">유튜브 관리</a></span>
-        </div>
-        <div>
-            <span><a href="/admin/managePosts.do">게시글 관리</a></span>
-            <span>새로 업로드된 확인되지 않은 게시글 갯수를 보여주는 span 태그</span>
-        </div>
-        <div>
-            <span><a href="/admin/manageChats.do">1대1 채팅</a></span>
-            <span>새로 생긴 채팅중 확인되지 않은 채팅방 갯수를 보여주는 span 태그</span>
-        </div>
-        <div>
-            <span><a href="/admin/manageLevel.do">회원 레벨 관리</a></span>
-            <span>새로 회원가입한 회원수를 보여주는 span 태그</span>
-        </div>
+        <jsp:include page="/WEB-INF/views/common/remote.jsp"/>
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </main>

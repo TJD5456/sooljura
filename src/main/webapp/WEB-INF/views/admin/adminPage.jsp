@@ -9,12 +9,11 @@
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
 <main>
     <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-    <div class="title">
-        <span>관리자 페이지</span>
-    </div>
-
     <div class="wrapper">
         <div class="content">
+            <div class="title">
+                <h1>관리자 페이지</h1>
+            </div>
             <div>
                 <span><a href="/admin/manageProducts.do">상품 등록</a></span>
             </div>

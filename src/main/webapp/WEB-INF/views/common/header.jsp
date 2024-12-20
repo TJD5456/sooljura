@@ -7,6 +7,7 @@
 <header>
     <a href="/admin/adminPage.do">To admin page</a>
     <a href="/userMyPage/userMyPage.do">my page -test</a>
+    <a href="/webScraping/webScraper.do">web scraping -test</a>
     <a href="/user/provisionFrm.do">
         <img src="/resources/icons/join_회원가입_5705819_45px.png" alt="회원가입">
     </a>

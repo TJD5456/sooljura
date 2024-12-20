@@ -22,7 +22,6 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 #logoImg {
@@ -36,7 +35,7 @@ aside {
     width: 200px;
     height: 100%;
     padding: 10px;
-    background-color: #efece5;
+    background-color: var(--sidebar-background);
     color: #ff2911;
     list-style: none;
 }
@@ -70,7 +69,7 @@ header > * {
 }
 
 header > a {
-    color: #000000;
+    color: var(--black);
     text-decoration: none;
 }
 
@@ -110,7 +109,6 @@ main {
     list-style: none;
     padding: 5px;
 }
-
 
 .remote > img {
     margin: auto;

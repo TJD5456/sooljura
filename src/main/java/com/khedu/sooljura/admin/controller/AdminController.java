@@ -4,6 +4,7 @@ import com.khedu.sooljura.admin.model.service.AdminService;
 import com.khedu.sooljura.admin.model.vo.Product;
 import com.khedu.sooljura.admin.model.vo.ProductCategory;
 import com.khedu.sooljura.admin.model.vo.ProductImage;
+import com.khedu.sooljura.admin.model.vo.Youtube;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -144,6 +145,12 @@ public class AdminController {
     public String manageCategory(ProductCategory category) {
         int manageCategoryResult = service.createCategory(category);
         return "redirect:/admin/manageProducts.do?manageCategoryResult=" + manageCategoryResult;
+    }
+
+    @GetMapping("uploadYoutube")
+    public String uploadYoutube(Youtube youtube) {
+        int result = service.uploadYoutube(youtube);
+        return "redirect:/admin/uploadYoutube.do?uploadYoutubeResult=" + result;
     }
 
 }

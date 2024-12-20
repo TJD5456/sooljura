@@ -4,6 +4,7 @@ import com.khedu.sooljura.admin.model.dao.AdminDao;
 import com.khedu.sooljura.admin.model.vo.Product;
 import com.khedu.sooljura.admin.model.vo.ProductCategory;
 import com.khedu.sooljura.admin.model.vo.ProductImage;
+import com.khedu.sooljura.admin.model.vo.Youtube;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -37,5 +38,9 @@ public class AdminService {
 
     public int createCategory(ProductCategory category) {
         return dao.createCategory(category);
+    }
+
+    public int uploadYoutube(Youtube youtube) {
+        return dao.uploadYoutube(youtube);
     }
 }

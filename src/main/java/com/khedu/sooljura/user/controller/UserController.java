@@ -72,12 +72,27 @@ public class UserController {
 	
 	//회원가입
 	@PostMapping("join.do")
-	public void join(User user, HttpServletResponse response) {
+	public void join(User user, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int result = service.join(user);
+		if(result == 1) {
+			request.setAttribute("title", "알림");
+			request.setAttribute("msg", "회원가입이 완료되었습니다. 로그인 페이지로 이동합니다");
+			request.setAttribute("icon", "success");
+			request.setAttribute("loc", "user/login");
+			
+			request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
+		}else {
+			request.setAttribute("title", "알림");
+			request.setAttribute("msg", "회원가입 중 오류가 발생했습니다");
+			request.setAttribute("icon", "error");
+			
+			request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
+		}
 	}
 	
 	//회원가입 - 아이디 체크
 	@GetMapping("chkId.do")
+	@ResponseBody
 	public String chkId(String userId) {
 		int result = service.chkId(userId);		
 		return String.valueOf(result);
@@ -85,8 +100,9 @@ public class UserController {
 	
 	//회원가입 - 닉네임 체크
 	@GetMapping("chkNickname.do")
-	public String chkNickname(String userNickname) {
-		int result = service.chkNickname(userNickname);
+	@ResponseBody
+	public String chkNickname(String userNickNm) {
+		int result = service.chkNickname(userNickNm);
 		return String.valueOf(result);
 	}
 	
@@ -117,5 +133,40 @@ public class UserController {
 	public String addAddr(UserAddr userAddr) {
 		int result = service.addAddr(userAddr);
 		return String.valueOf(result);
+	}
+	
+	//주소지 삭제
+	@GetMapping("delAddr.do")
+	public String delAddr(String addrKey) {
+		int result = service.delAddr(addrKey);
+		return String.valueOf(result);
+	}
+	
+	//주소지 수정 페이지 이동
+	@GetMapping("updAddrFrm.do")
+	public String updAddrFrm(String addrKey, Model model) {
+		UserAddr userAddr = service.userAddr(addrKey);
+		
+		model.addAttribute("addrInfo", userAddr);
+		return "user/updAddr";
+	}
+	
+	//주소지 수정
+	@PostMapping("updAddr.do")
+	public String updAddr(UserAddr userAddr) {
+		//주소지 변경
+		int result = 0;
+		//기본주소지 변경 체크박스 체크 시 기존에 기본주소지로 세팅되어있는 주소 defaultYn 0으로 변경
+		int defaultYnChk = 0;
+		
+		if(userAddr.getDefaultYn() == 1) {
+			defaultYnChk = service.setDefaultYn(userAddr);
+			result = service.updAddr(userAddr);			
+		}else {
+			result = service.updAddr(userAddr);			
+		}
+		int complete = result + defaultYnChk;
+		
+		return String.valueOf(complete);
 	}
 }

@@ -3,7 +3,7 @@
 <mapper namespace="admin">
 
     <select id="selectProdKey" resultType="string">
-        select 'p' || to_char(sysdate, 'yymmdd') || lpad(seq_product.nextval, 4, '0')
+        select 'pr' || to_char(sysdate, 'yymmdd') || lpad(seq_product.nextval, 4, '0')
         from dual
     </select>
 
@@ -23,7 +23,7 @@
 
     <insert id="uploadProdImg" parameterType="productImage">
         insert into tbl_product_image (img_key, img_nm, img_path, prod_key)
-        values ('i' || to_char(sysdate, 'yymmdd') || lpad(seq_product_image.nextval, 4, '0'),
+        values ('im' || to_char(sysdate, 'yymmdd') || lpad(seq_product_image.nextval, 4, '0'),
                 #{imgNm},
                 #{imgPath},
                 #{prodKey})
@@ -35,6 +35,18 @@
                 #{categoryLevel},
                 #{categoryNm},
                 #{higherCategory})
+    </insert>
+
+    <insert id="uploadYoutube" parameterType="youtube">
+        insert into tbl_youtube (youtube_url, content, prod_key1
+        <if test="prodKey2 != null">, prod_key2</if>
+        <if test="prodKey2 != null">, prod_key3</if>)
+        values (#{youtubeUrl},
+                #{content},
+                #{prodKey1}
+        <if test="prodKey2 != null">, #{prodKey2}</if>
+        <if test="prodKey3 != null">, #{prodKey3}</if>
+        )
     </insert>
 
 </mapper>

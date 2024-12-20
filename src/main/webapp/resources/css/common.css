@@ -1,5 +1,24 @@
 @charset "UTF-8";
 
+:root {
+    --header-text-hover: #FF5353;
+
+    --button-background: #FC8173;
+    --button-shadow: #D2210D;
+
+    --button-background-hover: #F5AFA5;
+    --button-shadow-hover: #F2CFC5;
+
+    --sidebar-list: #FF2911;
+    --sidebar-text-hover: #FF3819;
+    --sidebar-text: #FF6851;
+    --sidebar-background: #EFECE5;
+
+    --back-ground: #F9F9F9;
+    --footer-background: #F1F1F1;
+    --black: #000000;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -16,7 +35,7 @@ aside {
     width: 200px;
     height: 100%;
     padding: 10px;
-    background-color: #efece5;
+    background-color: var(--sidebar-background);
     color: #ff2911;
     list-style: none;
 }
@@ -50,7 +69,7 @@ header > * {
 }
 
 header > a {
-    color: #000000;
+    color: var(--black);
     text-decoration: none;
 }
 
@@ -74,7 +93,7 @@ main {
 .content {
     flex: 1; /* This allows the content area to expand and take available space */
     padding: 20px; /* Optional: Add some padding */
-    margin-right:63px;
+    margin-right: 63px;
 }
 
 .remote {
@@ -90,7 +109,6 @@ main {
     list-style: none;
     padding: 5px;
 }
-
 
 .remote > img {
     margin: auto;

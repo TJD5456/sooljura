@@ -38,10 +38,10 @@ create table tbl_user_type (
 );
 
 insert into tbl_user_type values ( 0, '관리자' );
-insert into tbl_user_type values ( 1, '레벨 1 회원' );
-insert into tbl_user_type values ( 2, '레벨 2 회원' );
-insert into tbl_user_type values ( 3, '레벨 3 회원' );
-insert into tbl_user_type values ( 4, '레벨 4 회원' );
+insert into tbl_user_type values ( 1, '신규가입' );
+insert into tbl_user_type values ( 2, '일반회원' );
+insert into tbl_user_type values ( 3, '열심회원' );
+insert into tbl_user_type values ( 4, '단골회원' );
 insert into tbl_user_type values ( - 1, '관리대상' );
 
 create table tbl_user (
@@ -149,7 +149,7 @@ create table tbl_product (
    prod_intro   varchar2(4000) not null,
    prod_cnt     number not null,
    upload_date  date default sysdate,
-   category_key char(12) references tbl_product_category ( category_key )
+   category_key char(5) references tbl_product_category ( category_key )
 );
 
 -- 'pr' || to_char(sysdate, 'yymmdd') || lpad(seq_product.nextval, 4, '0')
@@ -168,7 +168,9 @@ create sequence seq_product_image maxvalue 9999 cycle;
 create table tbl_youtube (
    youtube_url varchar2(100) primary key,
    content     varchar2(1000) not null,
-   prod_key    char(12) not null references tbl_product ( prod_key ) on delete cascade
+   prod_key1    char(12) not null references tbl_product ( prod_key ) on delete cascade,
+   prod_key2    char(12) not null references tbl_product ( prod_key ) on delete cascade,
+   prod_key3    char(12) not null references tbl_product ( prod_key ) on delete cascade
 );
 
 create table tbl_discount_info (
@@ -234,3 +236,7 @@ create sequence seq_order_history maxvalue 9999 cycle;
 create sequence seq_refund_key maxvalue 9999 cycle;
 
 commit;
+
+select * from tbl_product_category;
+select * from tbl_product;
+select * from tbl_product_image;

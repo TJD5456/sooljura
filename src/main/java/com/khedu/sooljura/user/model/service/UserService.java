@@ -53,8 +53,8 @@ public class UserService {
 	}
 
 	//닉네임 중복체크
-	public int chkNickname(String userNickname) {
-		return dao.chkNickname(userNickname);
+	public int chkNickname(String userNickNm) {
+		return dao.chkNickname(userNickNm);
 	}
 
 	//주소지 추가
@@ -68,5 +68,27 @@ public class UserService {
 		
 		AddrListData listData = new AddrListData(addrList);
 		return listData;
+	}
+
+	//주소지 삭제
+	public int delAddr(String addrKey) {
+		return dao.delAddr(addrKey);
+	}
+
+	//주소지 수정을 위한 조회
+	public UserAddr userAddr(String addrKey) {
+		UserAddr userAddr = dao.userAddr(addrKey);
+		
+		return userAddr;
+	}
+
+	//주소지 수정
+	public int updAddr(UserAddr userAddr) {
+		return dao.updAddr(userAddr);
+	}
+
+	//기존 defaultYn값 수정
+	public int setDefaultYn(UserAddr userAddr) {
+		return dao.setDefaultYn(userAddr);
 	}
 }

@@ -3,6 +3,7 @@ package com.khedu.sooljura.admin.model.dao;
 import com.khedu.sooljura.admin.model.vo.Product;
 import com.khedu.sooljura.admin.model.vo.ProductCategory;
 import com.khedu.sooljura.admin.model.vo.ProductImage;
+import com.khedu.sooljura.admin.model.vo.Youtube;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,5 +30,9 @@ public class AdminDao {
 
     public int createCategory(ProductCategory category) {
         return template.insert("admin.createCategory", category);
+    }
+
+    public int uploadYoutube(Youtube youtube) {
+        return template.insert("admin.uploadYoutube", youtube);
     }
 }

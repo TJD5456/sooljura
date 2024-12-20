@@ -38,10 +38,10 @@ create table tbl_user_type (
 );
 
 insert into tbl_user_type values ( 0, '관리자' );
-insert into tbl_user_type values ( 1, '레벨 1 회원' );
-insert into tbl_user_type values ( 2, '레벨 2 회원' );
-insert into tbl_user_type values ( 3, '레벨 3 회원' );
-insert into tbl_user_type values ( 4, '레벨 4 회원' );
+insert into tbl_user_type values ( 1, '신규가입' );
+insert into tbl_user_type values ( 2, '일반회원' );
+insert into tbl_user_type values ( 3, '열심회원' );
+insert into tbl_user_type values ( 4, '단골회원' );
 insert into tbl_user_type values ( - 1, '관리대상' );
 
 create table tbl_user (

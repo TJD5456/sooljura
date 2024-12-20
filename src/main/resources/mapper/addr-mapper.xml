@@ -29,7 +29,7 @@
 		)
 	</insert>
 	
-	<!-- 주소지 조회 -->
+	<!-- 주소지 목록 조회 -->
 	<select id="userAddrList" parameterType="string" resultType="addr">
 		select 
 			addr_key as addrKey,
@@ -45,4 +45,47 @@
 		from tbl_user_addr
 		where user_key = #{userKey}
 	</select>
+	
+	<!-- 주소지 삭제 -->
+	<delete id="deleteAddr" parameterType="string">
+		delete from tbl_user_addr where addr_key = #{addrKey}
+	</delete>
+	
+	<!-- 주소지 정보 조회(1개) -->
+	<select id="addrInfo" parameterType="string" resultType="addr">
+		select
+			addr_key as addrKey,
+			user_key as userKey,
+			addr_nm as addrNm,
+			addr_code as addrCd,
+			addr as addr,
+			addr_detail as addrDetail,
+			addr_ref as addrRef,
+			rcpt_nm as rcptNm,
+			rcpt_phone as rcptPhone,
+			default_yn as defaultYn
+		from tbl_user_addr
+		where addr_key = #{addrKey}			
+	</select>
+	
+	<!-- 주소지 수정 -->
+	<update id="updAddr" parameterType="addr">
+		update tbl_user_addr set
+			addr_nm = #{addrNm},
+			addr_cd = #{addrCd},
+			addr = #{addr},
+			addr_detail = #{addrDetail},
+			addr_ref = #{addrRef},
+			rcpt_nm = #{rcptNm},
+			rcpt_phone = #{rcptPhone},
+			default_yn = #{defaultYn}
+		where addr_key = #{addrKey}
+	</update>
+	
+	<!-- defaultYn 변경 -->
+	<update id="setDefaultYn" parameterType="addr">
+		update tbl_user_addr set
+			default_yn = 0
+		where default_yn = 1
+	</update>
 </mapper>

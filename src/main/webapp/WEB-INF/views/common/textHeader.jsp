@@ -22,11 +22,16 @@
 </header>
 
 <script>
-	function msg(title, text, icon) {
+	function msg(title, text, icon, callback) {
 	    swal({
 	        title: title,
 	        text: text,
 	        icon: icon
-	    });
+	    }).then(function(){
+	    	  if(callback != '' && callback != null) {
+					//전달된 callback 내부 문자열을, Javascript 코드로 해석하고 실행할 수 있게 해주는 함수 : eval
+					eval(callback);
+				}
+	      });
 	}
 </script>

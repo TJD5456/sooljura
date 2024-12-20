@@ -118,4 +118,39 @@ public class UserController {
 		int result = service.addAddr(userAddr);
 		return String.valueOf(result);
 	}
+	
+	//주소지 삭제
+	@GetMapping("delAddr.do")
+	public String delAddr(String addrKey) {
+		int result = service.delAddr(addrKey);
+		return String.valueOf(result);
+	}
+	
+	//주소지 수정 페이지 이동
+	@GetMapping("updAddrFrm.do")
+	public String updAddrFrm(String addrKey, Model model) {
+		UserAddr userAddr = service.userAddr(addrKey);
+		
+		model.addAttribute("addrInfo", userAddr);
+		return "user/updAddr";
+	}
+	
+	//주소지 수정
+	@PostMapping("updAddr.do")
+	public String updAddr(UserAddr userAddr) {
+		//주소지 변경
+		int result = 0;
+		//기본주소지 변경 체크박스 체크 시 기존에 기본주소지로 세팅되어있는 주소 defaultYn 0으로 변경
+		int defaultYnChk = 0;
+		
+		if(userAddr.getDefaultYn() == 1) {
+			defaultYnChk = service.setDefaultYn(userAddr);
+			result = service.updAddr(userAddr);			
+		}else {
+			result = service.updAddr(userAddr);			
+		}
+		int complete = result + defaultYnChk;
+		
+		return String.valueOf(complete);
+	}
 }

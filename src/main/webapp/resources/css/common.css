@@ -1,18 +1,21 @@
 @charset "UTF-8";
 
 :root {
-    --dark4: #D2210D;
-    --dark3: #FF2911;
-    --dark2: #FF3819;
+    --header-text-hover: #FF5353;
 
-    --light4: #FC8173;
-    --light3: #F5AFA5;
-    --light2: #F2CFC5;
+    --button-background: #FC8173;
+    --button-shadow: #D2210D;
 
+    --button-background-hover: #F5AFA5;
+    --button-shadow-hover: #F2CFC5;
+
+    --sidebar-list: #FF2911;
+    --sidebar-text-hover: #FF3819;
     --sidebar-text: #FF6851;
     --sidebar-background: #EFECE5;
-    --footer-background: #F1F1F1;
+
     --back-ground: #F9F9F9;
+    --footer-background: #F1F1F1;
     --black: #000000;
 }
 

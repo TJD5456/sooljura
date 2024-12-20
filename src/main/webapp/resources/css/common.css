@@ -1,8 +1,25 @@
 @charset "UTF-8";
 
+:root {
+    --dark4: #D2210D;
+    --dark3: #FF2911;
+    --dark2: #FF3819;
+
+    --light4: #FC8173;
+    --light3: #F5AFA5;
+    --light2: #F2CFC5;
+
+    --sidebar-text: #FF6851;
+    --sidebar-background: #EFECE5;
+    --footer-background: #F1F1F1;
+    --back-ground: #F9F9F9;
+    --black: #000000;
+}
+
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 #logoImg {
@@ -74,7 +91,7 @@ main {
 .content {
     flex: 1; /* This allows the content area to expand and take available space */
     padding: 20px; /* Optional: Add some padding */
-    margin-right:63px;
+    margin-right: 63px;
 }
 
 .remote {

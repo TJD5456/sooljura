@@ -6,7 +6,7 @@
     </div>
     <div>
         <a href="https://github.com/TJD5456/sooljura">GitHub 페이지</a> <span>|</span>
-        <a href="#">이용약관</a> <span>|</span>
+        <a href="/common/commonTerms.do">이용약관</a> <span>|</span>
         <a href="#">개인정보처리 방침</a> <span>|</span>
         <a href="#">고객센터</a>
     </div>

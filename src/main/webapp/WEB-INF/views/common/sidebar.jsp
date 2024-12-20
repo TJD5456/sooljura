@@ -11,19 +11,18 @@
             <li><a href="/">위스키/리큐르</a></li>
             <li><a href="/">기타주류</a></li>
         </ul>
-        <span>커뮤니티</span>
-        <ul class="ul">
-            <li><a href="/post/freePost.do?">자유게시판</a></li>
-            <li><a href="/post/reviewListPost.do">후기 게시판</a></li>
-            <li><a href="/">질문게시판</a></li>
-            <li><a href="/post/webPageInfo.do">웹사이트소개</a></li>
-        </ul>
         <span>공지사항</span>
         <ul class="ul">
-            <li><a href="/">사이트공지사항</a></li>
+            <li><a href="/">공지사항</a></li>
             <li><a href="/">자주묻는질문</a></li>
             <li><a href="/">이벤트</a></li>
             <li><a href="/">Q&#38;A</a></li>
         </ul>
     </div>
+        <span>커뮤니티</span>
+        <ul class="ul">
+            <li><a href="/post/freePost.do?">자유게시판</a></li>
+            <li><a href="/post/reviewListPost.do">후기 게시판</a></li>
+            <li><a href="/post/webPageInfo.do">웹사이트소개</a></li>
+        </ul>
 </aside>

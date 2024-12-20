@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +21,6 @@ body {
 /* 사이드바 스타일 */
 .leftSideBar {
 	width: 250px;
-	background-color: #f8f5f0;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -49,18 +49,6 @@ body {
 	border-top: 1px solid #ddd;
 }
 
-/* 콘텐츠 영역 */
-.content {
-	flex: 1;
-	padding: 20px;
-	box-sizing: border-box;
-	background-color: #fff;
-	margin: 20px;
-	border: 1px solid #ddd;
-	border-radius: 8px;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
 /* 폼 스타일 */
 .form-group {
 	display: flex;
@@ -81,10 +69,6 @@ body {
 	border-radius: 4px;
 }
 
-textarea {
-	height: 200px;
-	resize: none;
-}
 
 .button-group {
 	display: flex;
@@ -95,24 +79,43 @@ textarea {
 
 .button-group button {
 	padding: 10px 30px;
-	background-color: #007BFF;
 	color: white;
 	border: none;
 	border-radius: 4px;
 	cursor: pointer;
 }
 
-.button-group button:hover {
-	background-color: #0056b3;
+/* 콘텐츠 영역 */
+.content {
+    flex: 1;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #fff;
+    margin: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.button-group button:last-child {
-	background-color: #6c757d;
+/* Summernote 스타일 */
+.note-editor {
+    max-width: 100%; /* 에디터가 화면을 넘어가지 않도록 설정 */
+    box-sizing: border-box;
 }
 
-.button-group button:last-child:hover {
-	background-color: #5a6268;
+#postContent {
+    display: block;
+    width: 100%; /* 에디터 크기 */
+    height: 400px; /* 기본 높이 */
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: none;
 }
+.note-toolbar button{
+	box-shadow: unset;
+}
+
 </style>
 </head>
 <body>
@@ -157,10 +160,10 @@ textarea {
 					name="title" placeholder="제목을 입력하세요">
 			</div>
 
-			<!-- 본문 -->
 			<div class="form-group">
-				<label for="content">본문</label>
-				<textarea id="content" name="content" placeholder="내용을 입력하세요..."></textarea>
+				<label for="postContent">본문</label>
+				<textarea id="postContent" name="postContent"
+					placeholder="내용을 입력하세요..."></textarea>
 			</div>
 
 			<!-- 버튼 -->
@@ -176,5 +179,32 @@ textarea {
 		</div>
 	</div>
 
+<script>
+$(document).ready(function () {
+    // Summernote 초기화
+    $('#postContent').summernote({
+        height: 400, // 에디터 높이
+        lang: 'ko-KR', // 한국어 설정
+        toolbar: [ // 도구 모음 설정
+            ['style', ['style']],
+            ['font', ['bold', 'italic', 'underline', 'clear']],
+            ['fontname', ['fontname']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['insert', ['picture', 'link', 'video']],
+            ['view', ['fullscreen', 'codeview', 'help']],
+        ],
+        placeholder: "내용을 입력하세요...",
+    });
+});
+</script>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Summernote JS -->
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+<!-- Summernote 언어팩 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
 </body>
 </html>

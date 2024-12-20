@@ -72,12 +72,27 @@ public class UserController {
 	
 	//회원가입
 	@PostMapping("join.do")
-	public void join(User user, HttpServletResponse response) {
+	public void join(User user, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int result = service.join(user);
+		if(result == 1) {
+			request.setAttribute("title", "알림");
+			request.setAttribute("msg", "회원가입이 완료되었습니다. 로그인 페이지로 이동합니다");
+			request.setAttribute("icon", "success");
+			request.setAttribute("loc", "user/login");
+			
+			request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
+		}else {
+			request.setAttribute("title", "알림");
+			request.setAttribute("msg", "회원가입 중 오류가 발생했습니다");
+			request.setAttribute("icon", "error");
+			
+			request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
+		}
 	}
 	
 	//회원가입 - 아이디 체크
 	@GetMapping("chkId.do")
+	@ResponseBody
 	public String chkId(String userId) {
 		int result = service.chkId(userId);		
 		return String.valueOf(result);
@@ -85,8 +100,9 @@ public class UserController {
 	
 	//회원가입 - 닉네임 체크
 	@GetMapping("chkNickname.do")
-	public String chkNickname(String userNickname) {
-		int result = service.chkNickname(userNickname);
+	@ResponseBody
+	public String chkNickname(String userNickNm) {
+		int result = service.chkNickname(userNickNm);
 		return String.valueOf(result);
 	}
 	

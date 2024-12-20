@@ -33,8 +33,8 @@ public class UserDao {
 	}
 
 	//닉네임 중복체크
-	public int chkNickname(String userNickname) {
-		return sessionTemplate.selectOne("user.chkNickname", userNickname);
+	public int chkNickname(String userNickNm) {
+		return sessionTemplate.selectOne("user.chkNickname", userNickNm);
 	}
 
 	//주소지 추가

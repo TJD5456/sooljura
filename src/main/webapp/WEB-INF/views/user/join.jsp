@@ -6,7 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <title>sooljura</title>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <style>
 /* 기본 스타일 초기화 */
 * {
@@ -126,11 +125,11 @@ input[type="button"] {
 	                    <input type="password" class="insertInfo" id="userPwChk" name="userPwChk" placeholder="비밀번호 확인">
 	                </div>
 	                <div class="form-group">
-	                    <input type="text" class="insertInfo" id="userNickname" name="userNickname" placeholder="닉네임 : 영어,숫자,한글 6~10글자">
+	                    <input type="text" class="insertInfo" id="userNickNm" name="userNickNm" placeholder="닉네임 : 영어,숫자,한글 6~10글자">
 	                    <input type="button" id="chkNickname" name="chkNickname" value="중복체크">
 	                </div>
 	                <div class="form-group">
-	                    <input type="text" class="insertInfo" id="userName" name="userName" placeholder="이름">
+	                    <input type="text" class="insertInfo" id="userNm" name="userNm" placeholder="이름">
 	                </div>
 	                <div class="form-group">
 	                    <input type="text" class="insertInfo" id="userEmail" name="userEmail" placeholder="이메일">
@@ -139,15 +138,15 @@ input[type="button"] {
 	                    <input type="text" class="insertInfo" id="userPhone" name="userPhone" placeholder="전화번호(-제외하고 입력)">
 	                </div>
 	                <div class="form-group">
-	                    <input type="text" class="insertInfo" id="userAddrNo" name="userAddrNo" placeholder="우편번호" readonly>
+	                    <input type="text" class="insertInfo" id="addrCd" name="addrCd" placeholder="우편번호" readonly>
 	                    <input type="button" onclick="srchAddr()" value="주소지 검색">
 	                </div>
 	                <div class="form-group">
-	                    <input type="text" class="insertInfo" id="userAddr" name="userAddr" placeholder="주소" readonly>
+	                    <input type="text" class="insertInfo" id="addr" name="addr" placeholder="주소" readonly>
 	                </div>
 	                <div class="form-group">
-	                	<input type="text" class="insertInfo" id="detailAddr" name="detailAddr" placeholder="상세주소">
-	                	<input type="text" class="insertInfo" id="extraAddr" name="extraAddr" placeholder="참고주소" readonly>
+	                	<input type="text" class="insertInfo" id="addrDetail" name="addrDetail" placeholder="상세주소">
+	                	<input type="text" class="insertInfo" id="addrRef" name="addrRef" placeholder="참고주소" readonly>
 	                </div>
 	                <input type="button" onclick="insertBtn()" value="회원가입">
 	            </form>
@@ -155,6 +154,7 @@ input[type="button"] {
 	    </div>
     </main>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
 	//유효성 검사
 	const chkInfo = {
@@ -162,10 +162,11 @@ input[type="button"] {
 			"idChkBtn" : false,
 			"userPw" : false,
 			"userPwChk" : false,
-			"userNickname" : false,
-			"userNicknameBtn" : false,
-			"userPhone" : false,
-			"userEmail" : false
+			"userNickNm" : false,
+			"userNickNmBtn" : false,
+			"userNm" : false,
+			"userEmail" : false,
+			"userPhone" : false
 	}
 	
 	
@@ -179,80 +180,78 @@ input[type="button"] {
 			return;
 		}else{
 			chkInfo.userId = true;
-		}
-		$.ajax({
-			url : "/user/chkId.do",
-			data : {userId : idVal},
-			type : "GET",
-			success : function(res){
-				if(res == '0'){
-					//아이디 중복 체크
-					msg('알림', '사용 가능한 아이디입니다', 'success');
-					chkInfo.idChkBtn = true;
-				}else{
-					msg('알림', '중복된 아이디입니다', 'error');
+			$.ajax({
+				url : "/user/chkId.do",
+				data : {userId : idVal},
+				type : "GET",
+				success : function(res){
+					if(res == "0"){
+						//아이디 중복 체크
+						msg('알림', '사용 가능한 아이디입니다', 'success');
+						chkInfo.idChkBtn = true;
+					}else{
+						msg('알림', '중복된 아이디입니다', 'error');
+					}
+				},
+				error : function(){
+					console.log('ajax 오류');
 				}
-			},
-			error : function(){
-				console.log('ajax 오류');
-			}
-		});	
+			});	
+		}
 	});	
 	
 	//닉네임 유효성 체크
 	$('#chkNickname').on('click', function(){
-		const nicknameVal = $('#userNickname').val();
+		const nicknameVal = $('#userNickNm').val();
 		const regExp = /^[a-zA-Z가-힇0-9]{6,10}$/;
 		
 		if(!regExp.test(nicknameVal)){
-			msg('알림','영어,숫자,한글 6~10글자로 입력해주세요');
+			msg('알림','영어,숫자,한글 6~10글자로 입력해주세요', 'error');
 			return;
 		}else{
-			chkInfo.userNickname = true;
-		}
-		$.ajax({
-			url : "/user/chkNickname.do",
-			data : {userNickname : nicknameVal},
-			type : "GET",
-			success : function(){
-				//닉네임 중복체크
-				if(res == '0'){
-					msg('알림', '사용 가능한 닉네임입니다', 'success');
-					chkInfo.nicknameChkBtn = true;
-				}else{
-					msg('알림', '중복된 닉네임입니다', 'error');
+			chkInfo.userNickNm = true;
+			$.ajax({
+				url : "/user/chkNickname.do",
+				data : {userNickNm : nicknameVal},
+				type : "GET",
+				success : function(res){
+					//닉네임 중복체크
+					if(res == "0"){
+						msg('알림', '사용 가능한 닉네임입니다', 'success');
+						chkInfo.userNickNmBtn = true;
+					}else{
+						msg('알림', '중복된 닉네임입니다', 'error');
+					}
+				},
+				error : function(){
+					console.log('ajax 오류');
 				}
-			},
-			error : function(){
-				console.log('ajax 오류');
-			}
-		});
+			});
+		}
 	});
 		
 	//전화번호 유효성 체크
 	$('#userPhone').on('input', function(){
-		const userPhoneVal = $(this).val();
+		const userPhoneVal = $('#userPhone').val();
 		const regExp = /^[0-9]{11}$/;
 		
-		if(regExp.test(userPhoneVal)){
-			chkInfo.userPhone = true;
-		}
+		chkInfo.userPhone = regExp.test(userPhoneVal);
+		console.log('chkInfo.userPhone:', chkInfo.userPhone);
 	});
 		
 	//이메일 유효성 체크
 	$('#userEmail').on('input', function(){
-		const userEmailVal = $(this).val();
+		const userEmailVal = $('#userEmail').val();
 		const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{3}$/;
 		
-		if(regExp.test(userEmailVal)){
-			chkInfo.userEmail = true;
-		}
+		chkInfo.userEmail = regExp.test(userEmailVal);
+		console.log('chkInfo.userEmail:', chkInfo.userEmail);
 	});
 	
 	//비밀번호 유효성 체크
 	$('#userPw').on('input', function(){
 	    const regExp = /^[a-zA-Z0-9!@#$%^&*]{8,16}$/;
-	    const userPwVal = $(this).val();
+	    const userPwVal = $('#userPw').val();
 	
 	    chkInfo.userPw = regExp.test(userPwVal);
 	});
@@ -260,18 +259,26 @@ input[type="button"] {
 	//비밀번호체크 
 	$('#userPwChk').on('input', function(){
 	    const userPwVal = $('#userPw').val();
-	    const userPwChkVal = $(this).val();
+	    const userPwChkVal = $('#userPwChk').val();
 	
 	    chkInfo.userPwChk = (userPwVal === userPwChkVal);
 	});
 	
-
+	//이름 체크(null만 아니면 가능하게 + 영어,한글만 가능)
+	$('#userNm').on('input', function(){
+	    const userNmVal = $('#userNm').val();
+		const regExp = /^[a-zA-Z가-힇]{1,20}$/;
+	    
+	    chkInfo.userNm = regExp.test(userNmVal);
+	    console.log('chkInfo.userNm:', chkInfo.userNm);
+	});
 	
-	function joinValidate(){
+	function insertBtn(){
 		let str = "";
-		
+		console.log(chkInfo);
 		for (let key in chkInfo) {
 	        if (!chkInfo[key]) {
+	        	console.log(key);
 	            switch (key) {
 	                case "userId": 
 	                    str = "아이디 형식이 유효하지 않습니다."; 
@@ -285,17 +292,20 @@ input[type="button"] {
 	                case "userPwChk": 
 	                    str = "비밀번호 확인 값이 일치하지 않습니다."; 
 	                    break;
+	                case "userNickNm": 
+	                    str = "닉네임 형식이 유효하지 않습니다."; 
+	                    break;
+	                case "userNickNmBtn": 
+	                    str = "닉네임 중복 체크를 진행하세요."; 
+	                    break;
+	                case "userNm": 
+	                    str = "이름을 입력해주세요."; 
+	                    break;
 	                case "userEmail": 
 	                    str = "이메일 형식이 유효하지 않습니다."; 
 	                    break;
 	                case "userPhone": 
 	                    str = "전화번호 형식이 유효하지 않습니다."; 
-	                    break;
-	                case "userNickname": 
-	                    str = "닉네임 형식이 유효하지 않습니다."; 
-	                    break;
-	                case "nicknameChkBtn": 
-	                    str = "닉네임 중복 체크를 진행하세요."; 
 	                    break;
 	            }
 
@@ -305,54 +315,54 @@ input[type="button"] {
 	        }
 	    }
 		//오류 없음
-		return true;
+		document.querySelector('form').submit();
 	}
 	
-	//주소지 검색 api
+	//주소찾기 버튼
 	function srchAddr() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+       new daum.Postcode({
+           oncomplete: function(data) {
+               // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
-                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                var addr = ''; // 주소 변수
-                var extraAddr = ''; // 참고항목 변수
+               // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+               // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+               var addr = ''; // 주소 변수
+               var extraAddr = ''; // 참고항목 변수
 
-                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                    addr = data.roadAddress;
-                } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                    addr = data.jibunAddress;
-                }
+               //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+               if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                   addr = data.roadAddress;
+               } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                   addr = data.jibunAddress;
+               }
 
-                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-                if(data.userSelectedType === 'R'){
-                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                        extraAddr += data.bname;
-                    }
-                    // 건물명이 있고, 공동주택일 경우 추가한다.
-                    if(data.buildingName !== '' && data.apartment === 'Y'){
-                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                    }
-                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                    if(extraAddr !== ''){
-                        extraAddr = ' (' + extraAddr + ')';
-                    }
-                    // 조합된 참고항목을 해당 필드에 넣는다.
-                    document.getElementById("extraAddr").value = extraAddr;
-                
-                } else {
-                    document.getElementById("extraAddr").value = '';
-                }
+               // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+               if(data.userSelectedType === 'R'){
+                   // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                   // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                   if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                       extraAddr += data.bname;
+                   }
+                   // 건물명이 있고, 공동주택일 경우 추가한다.
+                   if(data.buildingName !== '' && data.apartment === 'Y'){
+                       extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                   }
+                   // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                   if(extraAddr !== ''){
+                       extraAddr = ' (' + extraAddr + ')';
+                   }
+                   // 조합된 참고항목을 해당 필드에 넣는다.
+                   document.getElementById("addrRef").value = extraAddr;
+               
+               } else {
+                   document.getElementById("addrRef").value = '';
+               }
 
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('userAddrNo').value = data.zonecode;
-                document.getElementById("userAddr").value = addr;
-                // 커서를 상세주소 필드로 이동한다.
-                document.getElementById("detailAddr").focus();
+               // 우편번호와 주소 정보를 해당 필드에 넣는다.
+               document.getElementById('addrCd').value = data.zonecode;
+               document.getElementById("addr").value = addr;
+               // 커서를 상세주소 필드로 이동한다.
+               document.getElementById("addrDetail").focus();
             }
         }).open();
     }

@@ -34,7 +34,7 @@
 			adult_chk,
 			enroll_date 
 		)values(
-			'us' || to_char(sysdate, 'YYYYMMDD'), lpad(seq_user.nextval, 4, '0'),
+			'us'||to_char(sysdate,'YYMMDD')||lpad(seq_user.nextval,4,'0'),
 			1,
 			#{userId},
 			#{userPw},
@@ -44,10 +44,9 @@
 			#{userNicknm},
 			0,
 			0,
-			sysdate			
-		);
+			sysdate	
+		)
 	</insert>
-	 -->
 	
 	<!-- 회원가입 : 아이디 중복 체크 -->
 	<select id="chkId" parameterType="string" resultType="_int">

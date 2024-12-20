@@ -1,6 +1,5 @@
 package com.khedu.sooljura.user.model.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;

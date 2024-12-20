@@ -149,7 +149,7 @@ create table tbl_product (
    prod_intro   varchar2(4000) not null,
    prod_cnt     number not null,
    upload_date  date default sysdate,
-   category_key char(12) references tbl_product_category ( category_key )
+   category_key char(5) references tbl_product_category ( category_key )
 );
 
 -- 'pr' || to_char(sysdate, 'yymmdd') || lpad(seq_product.nextval, 4, '0')
@@ -234,3 +234,7 @@ create sequence seq_order_history maxvalue 9999 cycle;
 create sequence seq_refund_key maxvalue 9999 cycle;
 
 commit;
+
+select * from tbl_product_category;
+select * from tbl_product;
+select * from tbl_product_image;

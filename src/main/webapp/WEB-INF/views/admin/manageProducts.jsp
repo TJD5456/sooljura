@@ -70,6 +70,7 @@
             <div class="show-products">
                 <c:forEach var="product" items="${products}">
                     <div class="each-product">
+                            <%-- 제품을 클릭하면 제품 상세 페이지로 이동하도록 할것 --%>
                         <span>${product.prodKey}</span>
                         <span>${product.productCategory.categoryNm}</span>
                         <span>${product.prodName}</span>

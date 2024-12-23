@@ -21,6 +21,9 @@
 		    </a>
 		</c:when>
 	    <c:otherwise>
+<%--	로그인 하지 않고 테스트 할 수 있도록 일단 추가		--%>
+			<a href="/admin/adminPage.do">To admin page</a>
+
 		    <a href="/userMyPage/userMyPage.do">my page -test</a><!-- 지울예정 -->
 		    <a href="/webScraping/webScraper.do">web scraping -test</a><!-- 태호형이 처리할 예정 -->
 		    <a href="/user/provisionFrm.do">

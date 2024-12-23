@@ -1,15 +1,77 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<link rel="stylesheet" href="/resources/css/common.css"/>
-
 <script src="/resources/jquery/jquery-3.7.1.min.js"></script>
 <script src="/resources/js/sweetalert.min.js"></script>
 
 <style>
-.headWrap{
-	margin-left: 0px;
+@charset "UTF-8";
+
+:root {
+    --header-text-hover: #FF5353;
+
+    --button-background: #FC8173;
+    --button-shadow: #D2210D;
+
+    --button-background-hover: #F5AFA5;
+    --button-shadow-hover: #F2CFC5;
+
+    --sidebar-list: #FF2911;
+    --sidebar-text-hover: #FF3819;
+    --sidebar-text: #FF6851;
+    --sidebar-background: #EFECE5;
+
+    --back-ground: #F9F9F9;
+    --footer-background: #F1F1F1;
+    --black: #000000;
 }
+* {
+    margin: 0;
+    padding: 0;
+}
+header{
+	width:100%;
+	height: 75px;
+	display: flex;
+	background-color: #EFECE5;
+}
+button {
+    /* Disable text selection inside the button */
+    /* Standard, FireFox, Safari & Chrome */
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+
+    border: none;
+    border-radius: 15px;
+    color: #efece5;
+    background-color: #fc8173;
+    box-shadow: 1px 1px 1px 1px #d2210d;
+    width:30%;
+    height: 50px;
+    display: block;
+    position: fixed;
+    bottom: 20px;
+    left: 35%;
+}
+
+button:hover {
+    background-color: #f5afa5;
+    box-shadow: 1px 1px 1px 1px #fc8173;
+}
+
+main{
+	width: 50%;
+	display: block;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	margin: 0 auto;
+}
+img{
+	margin-left: 300px;
+}
+
 </style>
 
 <header class="headWrap">
@@ -17,7 +79,7 @@
     <div id="top"></div>
 
     <div class="headDiv">
-        <img src="/resources/icons/join_회원가입_5705819_45px.png" alt="">
+        <img src="/resources/icons/text_logo.png" alt="">
     </div>
 </header>
 

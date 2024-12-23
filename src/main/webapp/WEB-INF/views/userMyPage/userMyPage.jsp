@@ -138,6 +138,7 @@
 			<button class="myPageChoiceBtn" id="shoppingInfo" onclick="toggleView(this)">쇼핑 정보</button>
 			<button class="myPageChoiceBtn" id="readMyPost" onclick="toggleView(this)">내글 보기</button>
 			<button class="myPageChoiceBtn" id="likedMerc" onclick="toggleView(this)">찜한상품 보기</button>
+			<button class="myPageChoiceBtn" id="addrInfo" onclick="addrInfo()">주소지 관리</button>
 		</div>
 		<div class="myPageInfoView"></div>
 	<jsp:include page="/WEB-INF/views/common/remote.jsp"/>
@@ -245,6 +246,10 @@
 				});
 		});
 //============================================================================================================================================
+	function addrInfo(){
+		//주소지 정보
+		location.href = "/user/addrListFrm.do";
+	}
 </script>
 </body>
 </html>

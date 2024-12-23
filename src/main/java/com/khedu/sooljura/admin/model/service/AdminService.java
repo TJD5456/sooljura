@@ -40,6 +40,32 @@ public class AdminService {
         return dao.createCategory(category);
     }
 
+    public ArrayList<Product> getAllProductsInfo() {
+        ArrayList<Product> productsInfos = (ArrayList<Product>) dao.getAllProductsInfo();
+
+        for (Product product : productsInfos) {
+            ProductCategory category = dao.getCategoryInfo(product.getCategoryKey());
+            product.setProductCategory(category);
+
+            ArrayList<ProductImage> images = (ArrayList<ProductImage>) dao.getProductImages(product.getProdKey());
+            product.setProductImages(images);
+        }
+
+        return productsInfos;
+    }
+
+    public ArrayList<ProductCategory> getAllCategoryInfos() {
+        return (ArrayList<ProductCategory>) dao.getAllCategoryInfos();
+    }
+
+    public int numberOfUnCheckedPost() {
+        return dao.numberOfUnCheckedPost();
+    }
+
+    public int numberOfUnCheckedNewUser() {
+        return dao.numberOfUncheckedNewUser();
+    }
+
     public int uploadYoutube(Youtube youtube) {
         return dao.uploadYoutube(youtube);
     }

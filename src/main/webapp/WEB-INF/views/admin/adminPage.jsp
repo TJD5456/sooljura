@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -22,15 +23,16 @@
             </div>
             <div>
                 <span><a href="/admin/managePosts.do">게시글 관리</a></span>
-                <span>새로 업로드된 확인되지 않은 게시글 갯수를 보여주는 span 태그</span>
+                <span>${numberOfUnCheckedPost}</span>
             </div>
             <div>
                 <span><a href="/admin/manageChats.do">1대1 채팅</a></span>
-                <span>새로 생긴 채팅중 확인되지 않은 채팅방 갯수를 보여주는 span 태그</span>
+                <%-- TODO: 채팅창 부분도 하기 --%>
+                <span>${numberOfUnCheckedChats}</span>
             </div>
             <div>
                 <span><a href="/admin/manageLevel.do">회원 레벨 관리</a></span>
-                <span>새로 회원가입한 회원수를 보여주는 span 태그</span>
+                <span>${numberOfUnCheckedNewUser}</span>
             </div>
         </div>
         <jsp:include page="/WEB-INF/views/common/remote.jsp"/>

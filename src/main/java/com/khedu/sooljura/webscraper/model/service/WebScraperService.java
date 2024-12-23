@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import com.khedu.sooljura.webscraper.model.dao.WebScraperDao;
 import com.khedu.sooljura.webscraper.model.vo.Product;
+import com.khedu.sooljura.admin.model.vo.ProductImage;
+
 
 @Service("webScraperService")
 public class WebScraperService {
@@ -24,73 +26,95 @@ public class WebScraperService {
 	@Autowired
 	@Qualifier("webScraperDao")
 	private WebScraperDao dao;
+	/*
+	//보류
+	public void doScraperSake() {
+		ArrayList<Product> prodList = new ArrayList<Product>();
+
+		String sakeUrl = "http://www.kajawine.kr/shop/list.php?ca_id=b0&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=";  //분류코드 40 페이지 포맷 다름. 수정필요
+		
+		//주류 분류코드
+		String sortCode = "5040";
+	        
+	    System.out.println(sortCode);
+	    prodList = scraper(sakeUrl, sortCode);
+	    System.out.println(prodList.toString());
+	}
+	   */
 	
-	public String doScrapper() {
-		Product prod = new Product();
+	public void doScraper() {
+		
+		ArrayList<Product> prodList = new ArrayList<Product>();
+		ArrayList<ProductImage> prodImg = new ArrayList<ProductImage>();
+		
 		String [][] bevArrColl= {
 				{
-				//0 와인리스트
+					
 				"http://www.kajawine.kr/shop/list.php?ca_id=1010&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
 				"http://www.kajawine.kr/shop/list.php?ca_id=1020&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
 				"http://www.kajawine.kr/shop/list.php?ca_id=1030&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
 				"http://www.kajawine.kr/shop/list.php?ca_id=1040&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
-				"http://www.kajawine.kr/shop/list.php?ca_id=1060&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page="
+				"http://www.kajawine.kr/shop/list.php?ca_id=1060&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=" 
 				},
 				
 				{
-				//1 위스키 리스트
 				"http://www.kajawine.kr/shop/list.php?ca_id=2010&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
 				"http://www.kajawine.kr/shop/list.php?ca_id=2020&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
 				"http://www.kajawine.kr/shop/list.php?ca_id=2030&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
 				"http://www.kajawine.kr/shop/list.php?ca_id=2040&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
-				"http://www.kajawine.kr/shop/list.php?ca_id=2050&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page="
+				"http://www.kajawine.kr/shop/list.php?ca_id=2050&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=" 
 				},
 				{
-				//2 브랜디/ 꼬냑리스트
 				"http://www.kajawine.kr/shop/list.php?ca_id=3010&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
 				"http://www.kajawine.kr/shop/list.php?ca_id=3020&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
-				"http://www.kajawine.kr/shop/list.php?ca_id=3040&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page="
+				"http://www.kajawine.kr/shop/list.php?ca_id=3040&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=" 
 				},
 				{
-				//3 리큐르/ 보드카 리스트
 				"http://www.kajawine.kr/shop/list.php?ca_id=6010&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
 				"http://www.kajawine.kr/shop/list.php?ca_id=6020&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
 				"http://www.kajawine.kr/shop/list.php?ca_id=6030&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
 				"http://www.kajawine.kr/shop/list.php?ca_id=6040&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
-				"http://www.kajawine.kr/shop/list.php?ca_id=6050&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page="
+				"http://www.kajawine.kr/shop/list.php?ca_id=6050&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=" 
 				},
 				{
-				//4 리큐르/ 보드카 리스트
-				"http://www.kajawine.kr/shop/list.php?ca_id=40&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
+				"http://www.kajawine.kr/shop/list.php?ca_id=40&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",  
 				"http://www.kajawine.kr/shop/list.php?ca_id=5010&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
 				"http://www.kajawine.kr/shop/list.php?ca_id=5020&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
-				"http://www.kajawine.kr/shop/list.php?ca_id=b0&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
+				//"http://www.kajawine.kr/shop/list.php?ca_id=b0&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page="  //보류 -- 사케
 				}
 		};
-		int i = 0;
-		int j = 0;
-		for (String[] bevArr : bevArrColl) {
-			i++;
-			System.out.println(i);
-			for(String bevUrl : bevArr) {
-				j++;
-				System.out.println(i+" | "+j);
-				prod = scrapper(bevUrl);
-				System.out.println(prod.toString());
-			}
-		}
-		System.out.println(i);
-		return "";
-		
+		//주류 분류코드
+		String sortMjrCode = "c";
+
+	    for (int i = 0; i < bevArrColl.length; i++) {
+	        String[] bevArr = bevArrColl[i];
+	       
+	        
+	        for (int j = 0; j < bevArr.length; j++) {
+	        	
+	        	//세부 분류코드
+	        	String sortMnr = Integer.toString((j+1)*10);
+	        	
+	        	//분류코드 1010, 1020...
+	            String sortCode = sortMjrCode + sortMnr;
+	            
+	            prodList = scraper(bevArr[j], sortCode);
+	            
+	            dao.insProd(prodList.get(j));
+	            
+	            
+	            System.out.println(sortCode);
+	            System.out.println(prodList.toString());
+	            
+	        }
+	    }
+	   
 	}
 	
-	public Product scrapper(String url) {
-		Product prod = new Product();
+	public ArrayList<Product> scraper(String url, String sortCode) {
+		ArrayList<Product> list = new ArrayList<Product>();
 		// 1) 대상 페이지 URL
 		
-		
-//		String url = "http://www.kajawine.kr/shop/list.php?ca_id=1010&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=";//French Wine
-//		String url = "http://www.kajawine.kr/shop/list.php?ca_id=2010&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=";
 		for (int i = 1; i < 2; i++) {
 			String pageUrl = url + i;
 			try {
@@ -103,26 +127,21 @@ public class WebScraperService {
 				// 3) 위 url 페이지 내부에, 각 상품의 정보(상품명, 가격 등)를 가지고 있는 태그들의 공통 클래스명
 				Elements parentsEls = document.getElementsByClass("item_thumb"); // li 태그
 
-				ArrayList<Product> list = new ArrayList<Product>();
+				
 
 				for (Element parentsEl : parentsEls) {
+					Product prod = new Product();
 					// 4) 원하는 정보 추출
 
 					// 상세페이지 링크
-					String prodDetailLink = parentsEl.getElementsByClass("sct_txt").get(0).getElementsByTag("a")
-							.attr("href");
+					String prodDetailLink = parentsEl.getElementsByClass("sct_txt").get(0).getElementsByTag("a") .attr("href");
 
 					// 상세페이지 스크래퍼
-					prod = scraperDetail(prodDetailLink);
-
-					// 상품 사진 (thumbnail)
-					String productThumbnail = parentsEl.getElementsByClass("listImg").get(0).getElementsByTag("a")
-							.get(0).getElementsByTag("img").attr("src");
-					prod.setProdImgThumbnail(productThumbnail);
-					// 상품명
-					String productName = parentsEl.getElementsByClass("listImg").get(0).getElementsByTag("a").get(0)
-							.getElementsByTag("img").attr("alt");
-					prod.setProdNm(productName);
+					prod = scraperDetail(prodDetailLink, sortCode);
+					
+					//거래 종료상품 상품명
+					String productName = parentsEl.getElementsByClass("listImg").get(0).getElementsByTag("a").get(0).getElementsByTag("img").attr("alt");
+					
 					// 상품 정가
 					Element price = parentsEl.getElementsByClass("sct_cost").get(0);
 					Element strikeTag = parentsEl.getElementsByClass("sct_cost").get(0).getElementsByTag("strike").first();
@@ -137,7 +156,10 @@ public class WebScraperService {
 					//
 					if (prod.getIsTrading().equals("0")) {
 						System.out.println("거래 종료 상품");
-
+						
+						//거래 종료상품 상품명 제공
+						prod.setProdNm(productName);
+						
 						prod.setProdOrigin(null);
 						prod.setProdMaker(null);
 						prod.setProdVol(null);
@@ -147,7 +169,8 @@ public class WebScraperService {
 						prod.setIsTrading("0");
 						prod.setProdCnt(null);
 						prod.setProdImgDetail(null);
-
+						
+						list.add(prod);
 					} else {
 						list.add(prod);
 					}
@@ -157,21 +180,19 @@ public class WebScraperService {
 				e.printStackTrace();
 			}
 		}
-		return prod;
+		return list;
 
 	}
 
 	// 가자 주류 웹 스크래퍼 -상세 페이지
-	public Product scraperDetail(String url) throws IOException {
+	public Product scraperDetail(String url, String sortCode) throws IOException {
 		Document document = Jsoup.connect(url).ignoreContentType(true).get();
+		ProductImage prodImg = new ProductImage();
 		Product prod = new Product();
-
-		Elements rows = null;
-		Elements tds = null;
 
 		Element goodsImg = document.selectFirst(".popup_item_image"); // 제품 사진을 위한 접근
 		Element goodsInfo = document.selectFirst("#goods_extit_cont01"); // 그외 정보 얻기 위한 접근
-
+		
 		String productOrigin = null; // 제품 원산지
 		String productMaker = null; // 제품 제조사
 		String productIntro = null; // 제품 소개
@@ -179,20 +200,29 @@ public class WebScraperService {
 		String productVol = null; // 제품 용량
 		String productProof = null; // 제품 도수
 		String productImgLink = null; // 제품 상세 이미지
-
+		String productName = null; // 제품 명
+		
 		// 스크래핑용 인스턴스 변수
 		String productInfo1 = null;
 		String productInfo2 = null;
+		
+		Elements rows = null;
+		Elements tds = null;
 
-		// 가자주류 병신새끼들
-		String nullCheck = document.select("title").text().substring(0, 4);
-		if (nullCheck.equals("오류안내")) {
+		// 가자주류 주류 전체보기 페이지에서 이미지와 링크는 있지만 상세보기가 막혀있는 "거래중지" 페이지 대비책
+		// 받아올 수 있는 값 중 유일하게 해당 페이지가 "거래중지" 라는 것을 알려줄 수 있는것이 <title>오류안내 ...</title> 
+		// 페이지의 title에서 첫 4글자가 "오류안내"와 일치할 경우 "거래중지" 로 제품명, 가격을 제외한 나머지 컬럼 null
+		String isNull = document.select("title").text().substring(0, 4);
+		
+		if (isNull.equals("오류안내")) {
+		
+			//거래중지
 			prod.setIsTrading("0");
+		
 		} else {
 
 			// 이미지 받아오기위한 접근
 			productImgLink = goodsImg.select("img").attr("src");
-			// System.out.println("productImgLink : "+productImgLink);
 
 			// 원산지 및 제조사 가 적혀있는 테이블 아래 tbody 아래 tr태그 접근
 			rows = goodsInfo.select("table").select("tbody").select("tr");
@@ -229,6 +259,7 @@ public class WebScraperService {
 			}
 
 			// 용량 및 알콜도수 가 적혀있는 테이블 아래 tbody 아래 tr태그 접근
+			
 			Element table = goodsInfo.select("table").first();
 			if (table != null) {
 				Element tbody = table.select("tbody").first();
@@ -269,9 +300,27 @@ public class WebScraperService {
 			}
 
 			// 제품 설명
-
 			productIntro = goodsInfo.select("#goods_extit_cont02").text();
 
+			// 상품명
+			productName = document.selectFirst(".good_tit1").text();
+			//db에 저장될(웹페이지에 올라갈) 상품명 (특수기호 포함)
+			prod.setProdNm(productName);
+
+			//제품명에 a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ를 제외한 특수기호가 포함되어있는지 확인
+			String replacedProdNm =prodNameChk(productName);
+			
+			// 이미지 다운로드
+			// 상세페이지 이미지 (360x480)만 관리
+			String detailImgLoc = getImgFile(productImgLink, sortCode, replacedProdNm, "detail_360x480");
+			
+//			prodImg 객체에 값 전달
+			prodImg.setImgKey("");
+			prodImg.setProdKey("");
+			prodImg.setImgNm("");
+			prodImg.setImgPath(detailImgLoc);
+			
+			//prod객체에 각 값 전달
 			prod.setProdOrigin(productOrigin);
 			prod.setProdMaker(productMaker);
 			prod.setProdVol(productVol);
@@ -280,30 +329,35 @@ public class WebScraperService {
 			prod.setProdIntro(productIntro);
 			prod.setIsTrading("1");
 			prod.setProdCnt(productCnt);
-			prod.setProdImgDetail(productImgLink);
 
 		}
 		return prod;
 
 	}
 
+	//제품명에 /\?*:<>등 특수기호가 들어가 이미지 파일 생성 안되는 오류 발생. 오류 수정용 메소드
+	public String prodNameChk(String prodName) {
+		//제품명에 a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ를 제외한 특수기호가 포함된경우 해당 특수문자 제거
+		String regex = "[^a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ\\s]";
+		
+		String replaceStr = prodName.replaceAll(regex, "");		
+		return replaceStr;
+	}
 	// 이미지 다운로드 받는 메소드
-	private void getImgFile(String imageUrl, String sortCode) throws IOException {
+	private String getImgFile(String imageUrl, String sortCode, String productName, String fileFor) throws IOException {
 		URL url = null;
 		InputStream in = null;
 		OutputStream out = null;
-
+		// 컴퓨터 또는 서버의 저장할 경로 저장 경로 c드라이브 내 sooljura 폴더 내부 저장
+		String localSave = "C:/imgDownloadChk/";
+					
+		// 저장될 파일의 명칭 
+		//분류코드_제품명_이미지크기.jpg
+		//ex) 2010_버팔로 트레이스 1000ml VAT별도_thumbnail_160x214.jpg
+		localSave += sortCode+"_"+productName+"_"+fileFor+".jpg";
 		try {
 			url = new URL(imageUrl);
 			in = url.openStream();
-
-			// 컴퓨터 또는 서버의 저장할 경로 저장 경로 c드라이브 내 sooljura 폴더 내부 저장
-			String localSave = "C:/imgDownloadChk/";
-			
-			
-			
-			// 저장될 파일의 명칭
-			localSave += ".jpg";
 
 			//
 			out = new FileOutputStream(localSave);
@@ -329,7 +383,7 @@ public class WebScraperService {
 			// 예외처리
 			e.printStackTrace();
 		} finally {
-			// 만일 에러가 발생해서 클로즈가 안됐을 가능성 유
+			// 만일 에러가 발생해서 클로즈가 안됐을 경우
 			// NULL값을 체크후 클로즈
 			if (in != null) {
 				in.close();
@@ -338,6 +392,7 @@ public class WebScraperService {
 				out.close();
 			}
 		}
+		return localSave;
 	}
 
 }

@@ -13,13 +13,15 @@ public class Product {
     private String uploadDate;
     private String categoryKey;
 
+    private ProductCategory productCategory;
+
     private ArrayList<ProductImage> productImages;
 
     public Product() {
         super();
     }
 
-    public Product(String prodKey, String prodName, int prodPrice, String prodMaker, String prodOrigin, String prodIntro, int prodCnt, String uploadDate, String categoryKey, ArrayList<ProductImage> productImages) {
+    public Product(String prodKey, String prodName, int prodPrice, String prodMaker, String prodOrigin, String prodIntro, int prodCnt, String uploadDate, String categoryKey, ArrayList<ProductImage> productImages, ProductCategory productCategory) {
         this.prodKey = prodKey;
         this.prodName = prodName;
         this.prodPrice = prodPrice;
@@ -29,6 +31,8 @@ public class Product {
         this.prodCnt = prodCnt;
         this.uploadDate = uploadDate;
         this.categoryKey = categoryKey;
+
+        this.productCategory = productCategory;
         this.productImages = productImages;
     }
 
@@ -104,6 +108,14 @@ public class Product {
         this.categoryKey = categoryKey;
     }
 
+    public ProductCategory getProductCategory() {
+        return productCategory;
+    }
+
+    public void setProductCategory(ProductCategory productCategory) {
+        this.productCategory = productCategory;
+    }
+
     public ArrayList<ProductImage> getProductImages() {
         return productImages;
     }
@@ -111,4 +123,5 @@ public class Product {
     public void setProductImages(ArrayList<ProductImage> productImages) {
         this.productImages = productImages;
     }
+
 }

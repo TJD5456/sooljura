@@ -1,6 +1,7 @@
 package com.khedu.sooljura.user.controller;
 
 import java.io.IOException;
+import java.util.Collections;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -111,14 +112,21 @@ public class UserController {
 		return "user/provision";
 	}
 	
-	//주소지 관리 팝업 페이지로 이동 + 주소지 목록 보여주기
-	@GetMapping(value="addrListFrm.do", produces="application/json; charset=utf-8")
-	@ResponseBody
-	public String addrListFrm(Model model, String userKey) {
+	//주소지 관리 페이지로 이동 + 주소지 목록 보여주기
+	@GetMapping("addrListFrm.do")
+	public String addrListFrm(Model model, HttpSession session) {
+		User loginUser = (User) session.getAttribute("loginUser");
+		String userKey = loginUser.getUserKey();
+		
 		AddrListData addrList = service.addrList(userKey);
 		
-		model.addAttribute("addrList", addrList);
-		return "user/addrList";
+		if (addrList == null || addrList.getAddrList() == null || addrList.getAddrList().isEmpty()) {
+	        model.addAttribute("addrList", Collections.emptyList());
+	    } else {
+	        model.addAttribute("addrList", addrList.getAddrList());
+	    }
+	    
+	    return "user/addrList";
 	}
 	
 	//주소지 추가 페이지
@@ -131,6 +139,15 @@ public class UserController {
 	@PostMapping("addAddr.do")
 	public String addAddr(UserAddr userAddr) {
 		int result = service.addAddr(userAddr);
+		System.out.println("userKey : " + userAddr.getUserKey());
+		System.out.println("addrNm : " + userAddr.getAddrNm());
+		System.out.println("addrCd : " + userAddr.getAddrCd());
+		System.out.println("addr : " + userAddr.getAddr());
+		System.out.println("addrDetail : " + userAddr.getAddrDetail());
+		System.out.println("addrRef : " + userAddr.getAddrRef());
+		System.out.println("rcptNm : " + userAddr.getRcptNm());
+		System.out.println("rcptPhone : " + userAddr.getRcptPhone());
+		
 		return String.valueOf(result);
 	}
 	
@@ -167,5 +184,13 @@ public class UserController {
 		int complete = result + defaultYnChk;
 		
 		return String.valueOf(complete);
+	}
+	
+	//로그아웃
+	@GetMapping("logout.do")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		
+		return "redirect:/";
 	}
 }

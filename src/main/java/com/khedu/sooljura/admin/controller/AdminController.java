@@ -33,7 +33,14 @@ public class AdminController {
     private AdminService service;
 
     @GetMapping("adminPage.do")
-    public String adminPage() {
+    public String adminPage(Model model) {
+
+        int numberOfUnCheckedPost = service.numberOfUnCheckedPost();
+        model.addAttribute("numberOfUnCheckedPost", numberOfUnCheckedPost);
+
+        int numberOfUnCheckedNewUser = service.numberOfUnCheckedNewUser();
+        model.addAttribute("numberOfUnCheckedNewUser", numberOfUnCheckedNewUser);
+
         return "/admin/adminPage";
     }
 
@@ -44,11 +51,24 @@ public class AdminController {
         } else if (manageCategoryResult != null) {
             model.addAttribute("manageCategoryResult", manageCategoryResult);
         }
+
+        ArrayList<Product> products = service.getAllProductsInfo();
+        model.addAttribute("products", products);
+
+        ArrayList<ProductCategory> categoryList = service.getAllCategoryInfos();
+
+        model.addAttribute("categoryList", categoryList);
+
         return "/admin/manageProducts";
     }
 
     @GetMapping("manageYoutube.do")
-    public String manageYoutube() {
+    public String manageYoutube(String uploadYoutubeResult, Model model) {
+
+        if (uploadYoutubeResult != null) {
+            model.addAttribute("uploadYoutubeResult", uploadYoutubeResult);
+        }
+
         return "/admin/manageYoutube";
     }
 
@@ -130,7 +150,7 @@ public class AdminController {
         int uploadProductResult = service.uploadProduct(product, imageList);
 
         if (uploadProductResult > 0) {
-            return "redirect:/admin/adminPage.do";
+            return "redirect:/admin/manageProducts.do";
         } else {
             return "redirect:/admin/manageProducts.do?uploadProductResult=" + uploadProductResult;
         }
@@ -149,8 +169,13 @@ public class AdminController {
 
     @GetMapping("uploadYoutube")
     public String uploadYoutube(Youtube youtube) {
+
+        System.out.println("url: " + youtube.getYoutubeUrl());
+        System.out.println("content: " + youtube.getContent());
+        System.out.println("prodKey: " + youtube.getProdKey1());
+
         int result = service.uploadYoutube(youtube);
-        return "redirect:/admin/uploadYoutube.do?uploadYoutubeResult=" + result;
+        return "forward:/admin/manageYoutube.do?uploadYoutubeResult=" + result;
     }
 
 }

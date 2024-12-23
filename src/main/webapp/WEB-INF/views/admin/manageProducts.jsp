@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
 <html>
 <head>
     <title>manageProducts.jsp</title>
@@ -38,9 +40,18 @@
                         <th><label for="introInput">소개</label></th>
                         <td><input type="text" id="introInput" name="prodIntro"></td>
                     </tr>
-                    <tr>
-                        <th><label for="categoryInput">카테고리</label></th>
-                        <td><input type="text" id="categoryInput" name="categoryKey"></td>
+                    <tr class="categoryRow">
+                        <th>카테고리</th>
+                        <td>
+                            <c:forEach var="category" items="${categoryList}">
+                                <c:if test="${category.categoryLevel == 1}">
+                                    <input type="radio" value="${category.categoryKey}"
+                                           id="categoryInput${category.categoryNm}" name="categoryKey">
+                                    <label for="categoryInput${category.categoryNm}">${category.categoryNm}</label>
+                                    <br>
+                                </c:if>
+                            </c:forEach>
+                        </td>
                     </tr>
                     <tr>
                         <th><label for="cntInput">수량</label></th>
@@ -54,14 +65,40 @@
                     </tr>
                 </table>
             </form>
+
+            <div class="product-header">
+                <span>제품키</span>
+                <span>카테고리</span>
+                <span>이름</span>
+                <span>가격</span>
+                <span>원산지</span>
+                <span>제조사</span>
+                <span>사진</span>
+                <span>수량</span>
+            </div>
+
+            <div class="show-products">
+                <c:forEach var="product" items="${products}">
+                    <div class="product-each">
+                        <%-- TODO: 제품을 클릭하면 제품 상세 페이지로 이동하도록 할것 --%>
+                        <span>${product.prodKey}</span>
+                        <span>${product.productCategory.categoryNm}</span>
+                        <span>${product.prodName}</span>
+                        <span>${product.prodPrice}</span>
+                        <span>${product.prodOrigin}</span>
+                        <span>${product.prodMaker}</span>
+                        <span><img src="/resources/upload/product_images/${product.productImages[0].imgPath}"
+                                   alt="${product.productImages[0].imgNm}" style="height: 100px"></span>
+                        <span>${product.prodCnt}</span>
+                    </div>
+                </c:forEach>
+            </div>
+
         </div>
         <jsp:include page="/WEB-INF/views/common/remote.jsp"/>
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </main>
-<%--
-<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
---%>
 <script>
     $(function () {
         let uploadProductResult = "${uploadProductResult}";

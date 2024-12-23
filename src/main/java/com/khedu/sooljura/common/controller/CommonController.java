@@ -23,5 +23,13 @@ public class CommonController {
 		return "common/Terms";
 	}
 
+	@GetMapping("commonprivacy.do")
+	public String Commonprivacy() {
+		return "common/privacy";
+	}
 	
+	@GetMapping("commonguide.do")
+	public String Commonguide() {
+		return "common/guide";
+	}
 }

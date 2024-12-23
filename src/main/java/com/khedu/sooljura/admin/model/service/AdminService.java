@@ -58,4 +58,15 @@ public class AdminService {
         return productsInfos;
     }
 
+    public ArrayList<ProductCategory> getAllCategoryInfos() {
+        return (ArrayList<ProductCategory>) dao.getAllCategoryInfos();
+    }
+
+    public int numberOfUnCheckedPost() {
+        return dao.numberOfUnCheckedPost();
+    }
+
+    public int numberOfUnCheckedNewUser() {
+        return dao.numberOfUncheckedNewUser();
+    }
 }

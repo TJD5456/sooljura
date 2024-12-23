@@ -2,6 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="admin">
 
+    <select id="numberOfUnCheckedPost" resultType="int">
+        select count(*)
+        from tbl_post
+        where confirm_yn = 0
+    </select>
+
+    <select id="numberOfUncheckedNewUser" resultType="int">
+        select count(*)
+        from tbl_user
+        where user_cd = 1
+    </select>
+
     <select id="selectProdKey" resultType="string">
         select 'pr' || to_char(sysdate, 'yymmdd') || lpad(seq_product.nextval, 4, '0')
         from dual
@@ -48,6 +60,7 @@
                upload_date  as uploadDate,
                category_key as categoryKey
         from tbl_product
+        order by upload_date desc
     </select>
 
     <select id="getCategoryInfo" resultType="productCategory">
@@ -57,6 +70,14 @@
                higher_category as higherCategory
         from tbl_product_category
         where category_key = #{categoryKey}
+    </select>
+
+    <select id="getAllCategoryInfos" resultType="productCategory">
+        select category_key    as categoryKey,
+               category_level  as categoryLevel,
+               category_nm     as categoryNm,
+               higher_category as higherCategory
+        from tbl_product_category
     </select>
 
     <select id="getProductImages" resultType="productImage">

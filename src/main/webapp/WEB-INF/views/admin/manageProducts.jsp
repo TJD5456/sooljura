@@ -40,15 +40,16 @@
                         <th><label for="introInput">소개</label></th>
                         <td><input type="text" id="introInput" name="prodIntro"></td>
                     </tr>
-                    <tr>
+                    <tr class="categoryRow">
                         <th>카테고리</th>
                         <td>
                             <c:forEach var="category" items="${categoryList}">
-                                <input type="radio" value="${category.categoryKey}"
-                                       id="categoryInput${category.categoryNm}"
-                                       name="categoryKey">
-                                <label for="categoryInput${category.categoryNm}"> ${category.categoryNm} </label>
-                                <br>
+                                <c:if test="${category.categoryLevel == 1}">
+                                    <input type="radio" value="${category.categoryKey}"
+                                           id="categoryInput${category.categoryNm}" name="categoryKey">
+                                    <label for="categoryInput${category.categoryNm}">${category.categoryNm}</label>
+                                    <br>
+                                </c:if>
                             </c:forEach>
                         </td>
                     </tr>
@@ -78,8 +79,8 @@
 
             <div class="show-products">
                 <c:forEach var="product" items="${products}">
-                    <div class="each-product">
-                            <%-- 제품을 클릭하면 제품 상세 페이지로 이동하도록 할것 --%>
+                    <div class="product-each">
+                        <%-- TODO: 제품을 클릭하면 제품 상세 페이지로 이동하도록 할것 --%>
                         <span>${product.prodKey}</span>
                         <span>${product.productCategory.categoryNm}</span>
                         <span>${product.prodName}</span>
@@ -87,7 +88,7 @@
                         <span>${product.prodOrigin}</span>
                         <span>${product.prodMaker}</span>
                         <span><img src="/resources/upload/product_images/${product.productImages[0].imgPath}"
-                                   alt="${product.productImages[0].imgNm}"></span>
+                                   alt="${product.productImages[0].imgNm}" style="height: 100px"></span>
                         <span>${product.prodCnt}</span>
                     </div>
                 </c:forEach>

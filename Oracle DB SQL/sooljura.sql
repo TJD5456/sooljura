@@ -18,19 +18,19 @@ drop table tbl_basket_type cascade constraint;
 drop table tbl_basket cascade constraint;
 drop table tbl_order_history cascade constraint;
 
-drop sequence seq_user;
-drop sequence seq_addr;
-drop sequence seq_post;
-drop sequence seq_comment;
-drop sequence seq_chat;
-drop sequence seq_product_category;
-drop sequence seq_product;
-drop sequence seq_product_image;
-drop sequence seq_discount_info;
-drop sequence seq_discount_histstory;
-drop sequence seq_basket;
-drop sequence seq_order_history;
-drop sequence seq_refund_key;
+drop sequence seq_user; -- us
+drop sequence seq_addr; -- ad
+drop sequence seq_post; -- po
+drop sequence seq_comment; -- cm
+drop sequence seq_chat; -- ch
+drop sequence seq_product_category; -- c
+drop sequence seq_product; -- pr
+drop sequence seq_product_image; -- im
+drop sequence seq_discount_info; -- di
+drop sequence seq_discount_histstory; -- dh
+drop sequence seq_basket; --bk
+drop sequence seq_order_histoy; -- oh
+drop sequence seq_refund_key; -- rf
 
 create table tbl_user_type (
    user_cd number primary key,

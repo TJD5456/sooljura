@@ -1,7 +1,6 @@
 package com.khedu.sooljura.user.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -78,7 +77,7 @@ public class UserController {
 			request.setAttribute("title", "알림");
 			request.setAttribute("msg", "회원가입이 완료되었습니다. 로그인 페이지로 이동합니다");
 			request.setAttribute("icon", "success");
-			request.setAttribute("loc", "user/login");
+			request.setAttribute("loc", "loginFrm.do");
 			
 			request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
 		}else {

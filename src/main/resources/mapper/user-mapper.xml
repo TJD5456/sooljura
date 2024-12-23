@@ -9,9 +9,9 @@
 			user_id as userId,
 			user_pw as userPw,
 			user_email as userEmail,
-			user_name as userNm,
+			user_nm as userNm,
 			user_phone as userPhone,
-			user_nm as userNicknm,
+			user_nicknm as userNicknm,
 			user_point as userPoint,
 			adult_chk as adultChk,
 			enroll_date as enrollDate

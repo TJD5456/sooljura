@@ -29,7 +29,7 @@ drop sequence seq_product_image;      -- im
 drop sequence seq_discount_info;      -- di
 drop sequence seq_discount_histstory; -- dh
 drop sequence seq_basket;             -- bk
-drop sequence seq_order_histoy;       -- oh
+drop sequence seq_order_history;       -- oh
 drop sequence seq_refund_key;         -- rf
 
 create table tbl_user_type (
@@ -65,7 +65,7 @@ create table tbl_user_addr (
    addr_key    char(12) primary key,
    user_key    char(12) not null references tbl_user ( user_key ) on delete cascade,
    addr_nm     char(30) not null,
-   addr_code   char(5) not null,
+   addr_cd   char(5) not null,
    addr        varchar2(300) not null,
    addr_detail varchar2(100) not null,
    addr_ref    varchar2(50) not null,
@@ -249,3 +249,9 @@ commit;
 select * from tbl_product_category;
 select * from tbl_product;
 select * from tbl_product_image;
+
+select * from tbl_youtube;
+delete from tbl_youtube where content = 'nf';
+
+select * from tbl_user;
+select * from tbl_user_addr;

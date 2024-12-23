@@ -19,50 +19,56 @@ h2 {
 	width:100%;
 	
 }
+
 </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/textHeader.jsp"/>
 	<main>
+	<br><br>
 		<h2>주소지 관리</h2>
 		<br><hr><br>
 <%--
 		<form>
 			<input type="hidden" name="userKey" value="${loginUser.userKey}">
-			<input type="hidden" name="addrKey" value="${addr.addrKey}">
 		</form>
 --%>		
-		<ul>
-			<c:forEach var="addr" items="${addrList}">
-				<li>
-					<div class="addrWrap">
-						<span>
-							${addr.rcptNm} (${addr.addrNm != null ? addr.addrNm : ''})
-							<c:if test="${defaultYn eq 1}" >
-								<p>기본배송지</p>
-							</c:if>
-						</span>
-						<div class="btnWrap">
-							<button onclick="delAddr()">삭제</button>
-							<button onclick="updAddr()">수정</button>
-						</div>
-					</div>
-					<div class="addrWrap">
-						<span>${addr.rcptPhone}</span>
-					</div>
-					<div class="addrWrap">
-						<span>${addr.addr}(${addrCd})</span><br>
-					</div>
-				</li>
-			</c:forEach>
-		</ul>
-	</main>
-	<footer>
+			<ul>
+	        <c:choose>
+	            <c:when test="${not empty addrList}">
+	                <c:forEach var="addr" items="${addrList}">
+	                    <li>
+	                        <div class="addrWrap">
+								<input type="hidden" name="addrKey" id="addrKey" value="${addr.addrKey}">
+	                            <span>
+	                                ${addr.rcptNm} 
+	                                <c:if test="${not empty addr.addrNm}">(${addr.addrNm})</c:if>
+	                                <c:if test="${addr.defaultYn == 1}"><p>기본배송지</p></c:if>
+	                            </span>
+	                            <div class="btnWrap">
+	                                <button onclick="delAddr()">삭제</button>
+	                                <button onclick="updAddr()">수정</button>
+	                            </div>
+	                        </div>
+	                        <div class="addrWrap">
+	                            <span>${addr.rcptPhone}</span>
+	                        </div>
+	                        <div class="addrWrap">
+	                            <span>${addr.addr} (${addr.addrCd})</span>
+	                        </div>
+	                    </li>
+	                </c:forEach>
+	            </c:when>
+	            <c:otherwise>
+	                <p>등록된 주소지가 없습니다.</p>
+	            </c:otherwise>
+	        </c:choose>
+	    </ul>
 		<button onclick="addAddr()">주소지 추가</button>
-	</footer>
+	</main>
 <script>
 	function addAddr(){
-		window.opener.location.href="/user/addAddrFrm.do";
+		location.href = "/user/addAddrFrm.do";
 	}
 	
 	function delAddr(){
@@ -75,7 +81,7 @@ h2 {
 					text : "취소",
 					value : false,
 					visible : true,
-					closeModal true: 
+					closeModal : true
 				},
 				confirm : {
 					text : "삭제",
@@ -90,7 +96,7 @@ h2 {
 					url : "/user/delAddr.do",
 					type : "GET",
 					data : {
-						addrKey : ${addrList.addrKey}
+						addrKey : $('#addrKey').val()
 					},
 					success : function(res){
 						if(res == "1"){

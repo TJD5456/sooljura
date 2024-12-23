@@ -18,7 +18,7 @@ public class AdminDao {
     @Qualifier("sqlSessionTemplate")
     private SqlSessionTemplate template;
 
-    public Integer numberOfUnCheckedPost() {
+    public int numberOfUnCheckedPost() {
         return template.selectOne("admin.numberOfUnCheckedPost");
     }
 

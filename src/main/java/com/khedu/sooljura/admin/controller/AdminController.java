@@ -33,7 +33,14 @@ public class AdminController {
     private AdminService service;
 
     @GetMapping("adminPage.do")
-    public String adminPage() {
+    public String adminPage(Model model) {
+
+        int numberOfUnCheckedPost = service.numberOfUnCheckedPost();
+        model.addAttribute("numberOfUnCheckedPost", numberOfUnCheckedPost);
+
+        int numberOfUnCheckedNewUser = service.numberOfUnCheckedNewUser();
+        model.addAttribute("numberOfUnCheckedNewUser", numberOfUnCheckedNewUser);
+
         return "/admin/adminPage";
     }
 

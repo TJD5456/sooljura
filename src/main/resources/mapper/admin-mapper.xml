@@ -2,6 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="admin">
 
+    <select id="numberOfUnCheckedPost" resultType="int">
+        select count(*)
+        from tbl_post
+        where confirm_yn = 0
+    </select>
+
+    <select id="numberOfUncheckedNewUser" resultType="int">
+        select count(*)
+        from tbl_user
+        where user_cd = 1
+    </select>
+
     <select id="selectProdKey" resultType="string">
         select 'pr' || to_char(sysdate, 'yymmdd') || lpad(seq_product.nextval, 4, '0')
         from dual

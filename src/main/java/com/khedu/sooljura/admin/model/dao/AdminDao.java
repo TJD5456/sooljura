@@ -18,6 +18,14 @@ public class AdminDao {
     @Qualifier("sqlSessionTemplate")
     private SqlSessionTemplate template;
 
+    public Integer numberOfUnCheckedPost() {
+        return template.selectOne("admin.numberOfUnCheckedPost");
+    }
+
+    public int numberOfUncheckedNewUser() {
+        return template.selectOne("admin.numberOfUncheckedNewUser");
+    }
+
     public String selectProdKey() {
         return template.selectOne("admin.selectProdKey");
     }

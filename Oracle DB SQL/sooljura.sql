@@ -90,7 +90,7 @@ create table tbl_post (
    post_key        char(12) primary key,
    post_cd         number not null references tbl_post_type ( post_cd ) on delete cascade,
    user_key        char(12) not null references tbl_user ( user_key ) on delete set null,
-   post_content  varchar2(2000 not null), 
+   post_content  varchar2(2000) not null, 
    post_title       varchar2(225) not null, 
    post_date       date default sysdate,
    post_view       number default 0,

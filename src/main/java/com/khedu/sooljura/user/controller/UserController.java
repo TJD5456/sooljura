@@ -112,7 +112,7 @@ public class UserController {
 	}
 	
 	//주소지 관리 팝업 페이지로 이동 + 주소지 목록 보여주기
-	@GetMapping(value="addrListFrm.do", produces="application/json; charset=utf-8")
+	@GetMapping("addrListFrm.do")
 	@ResponseBody
 	public String addrListFrm(Model model, String userKey) {
 		AddrListData addrList = service.addrList(userKey);
@@ -167,5 +167,13 @@ public class UserController {
 		int complete = result + defaultYnChk;
 		
 		return String.valueOf(complete);
+	}
+	
+	//로그아웃
+	@GetMapping("logout.do")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		
+		return "redirect:/";
 	}
 }

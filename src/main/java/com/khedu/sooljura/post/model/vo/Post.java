@@ -1,13 +1,13 @@
 package com.khedu.sooljura.post.model.vo;
 
 public class Post {
-
+	
 	private String postKey; // 게시글 키
 	private String postCd; // 게시글 코드
 	private String userKey; // 작성자 키
 	private String userNickname; // 작성자 닉네임
 	private String postTitle; // 게시글 제목
-	private String commentContent; // 게시글 내용
+	private String postContent; // 게시글 내용
 	private int postViews; // 조회수
 	private String postDate; // 작성일
 	private String confirmYn; // 승인 여부
@@ -19,15 +19,15 @@ public class Post {
 		// TODO Auto-generated constructor stub
 	}
 	public Post(String postKey, String postCd, String userKey, String userNickname, String postTitle,
-			String commentContent, int postViews, String postDate, String confirmYn, String deleteYn,
-			String deleteReason, String postCategory) {
+			String postContent, int postViews, String postDate, String confirmYn, String deleteYn, String deleteReason,
+			String postCategory) {
 		super();
 		this.postKey = postKey;
 		this.postCd = postCd;
 		this.userKey = userKey;
 		this.userNickname = userNickname;
 		this.postTitle = postTitle;
-		this.commentContent = commentContent;
+		this.postContent = postContent;
 		this.postViews = postViews;
 		this.postDate = postDate;
 		this.confirmYn = confirmYn;
@@ -65,11 +65,11 @@ public class Post {
 	public void setPostTitle(String postTitle) {
 		this.postTitle = postTitle;
 	}
-	public String getCommentContent() {
-		return commentContent;
+	public String getPostContent() {
+		return postContent;
 	}
-	public void setCommentContent(String commentContent) {
-		this.commentContent = commentContent;
+	public void setPostContent(String postContent) {
+		this.postContent = postContent;
 	}
 	public int getPostViews() {
 		return postViews;
@@ -109,10 +109,12 @@ public class Post {
 	}
 	@Override
 	public String toString() {
-		return "FreePost [postKey=" + postKey + ", postCd=" + postCd + ", userKey=" + userKey + ", userNickname="
-				+ userNickname + ", postTitle=" + postTitle + ", commentContent=" + commentContent + ", postViews="
+		return "Post [postKey=" + postKey + ", postCd=" + postCd + ", userKey=" + userKey + ", userNickname="
+				+ userNickname + ", postTitle=" + postTitle + ", postContent=" + postContent + ", postViews="
 				+ postViews + ", postDate=" + postDate + ", confirmYn=" + confirmYn + ", deleteYn=" + deleteYn
 				+ ", deleteReason=" + deleteReason + ", postCategory=" + postCategory + "]";
 	}
- 
+	
+	
+	
 }

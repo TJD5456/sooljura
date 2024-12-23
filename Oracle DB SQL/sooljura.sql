@@ -228,7 +228,7 @@ create table tbl_discount_history (
    end_date   date
 );
 
--- 'dh' || to_char(sysdate, 'yymmdd') || lpad(seq_discount_histstory.nextval, 4, '0')
+-- 'dh' || to_char(sysdate, 'yymmdd') || lpad(seq_discount_history.nextval, 4, '0')
 create sequence seq_discount_history maxvalue 9999 cycle;
 
 create table tbl_basket_type (

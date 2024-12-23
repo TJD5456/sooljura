@@ -62,10 +62,10 @@ create table tbl_user (
 create sequence seq_user maxvalue 9999 cycle;
 
 create table tbl_user_addr (
-   addr_key    char(12) primary key,
+   addr_key    char(12) primary key,   
    user_key    char(12) not null references tbl_user ( user_key ) on delete cascade,
    addr_nm     char(30) not null,
-   addr_code   char(5) not null,
+   addr_cd   char(5) not null,
    addr        varchar2(300) not null,
    addr_detail varchar2(100) not null,
    addr_ref    varchar2(50) not null,
@@ -73,6 +73,31 @@ create table tbl_user_addr (
    rcpt_phone  varchar2(11) not null,
    default_yn  number default 0
 );
+
+insert into tbl_user_addr(
+			addr_key,
+			user_key,
+			addr_nm,
+			addr_cd,
+			addr,
+			addr_detail,
+			addr_ref,
+			rcpt_nm,
+			rcpt_phone,
+			default_yn
+		)values(
+			'ad' || to_char(sysdate, 'YYMMDD') || lpad (seq_addr.nextval, 4, '0'),
+			'us2412230002',
+			'집',
+			12345,
+			'청랴랴아아앙리리',
+			'지하철 3번출구구',
+			'청량리리',
+			'김김김',
+			'01012345678',
+			0
+		);
+
 
 -- 'ad' || lpad(seq_user_addr.nextval, 4, '0')
 create sequence seq_addr maxvalue 9999 cycle;
@@ -240,3 +265,5 @@ commit;
 select * from tbl_product_category;
 select * from tbl_product;
 select * from tbl_product_image;
+select * from tbl_user;
+select * from TBL_USER_ADDR;

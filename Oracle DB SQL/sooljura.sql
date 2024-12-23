@@ -29,7 +29,7 @@ drop sequence seq_product_image;      -- im
 drop sequence seq_discount_info;      -- di
 drop sequence seq_discount_histstory; -- dh
 drop sequence seq_basket;             -- bk
-drop sequence seq_order_histoy;       -- oh
+drop sequence seq_order_history;       -- oh
 drop sequence seq_refund_key;         -- rf
 
 create table tbl_user_type (
@@ -73,9 +73,6 @@ create table tbl_user_addr (
    rcpt_phone  varchar2(11) not null,
    default_yn  number default 0
 );
-
-insert into tbl_user_addr( addr_key, user_key, addr_nm, addr_cd, addr, addr_detail, addr_ref, rcpt_nm, rcpt_phone, default_yn )
-values( 'ad' || to_char(sysdate, 'YYMMDD') || lpad (seq_addr.nextval, 4, '0'), 'us2412230002', '집', 12345, '청랴랴아아앙리리', '지하철 3번출구구', '청량리리', '김김김', '01012345678', 0);
 
 -- 'ad' || lpad(seq_user_addr.nextval, 4, '0')
 create sequence seq_addr maxvalue 9999 cycle;

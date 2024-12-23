@@ -117,27 +117,6 @@ h1 {
 	font-size: 0.9rem;
 	color: #444;
 }
-
-/* ================= 풋터 ================= */
-.footer {
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	text-align: center;
-	padding: 15px 0;
-	font-size: 0.9rem;
-	box-sizing: border-box;
-}
-
-.footer a {
-	text-decoration: none;
-	margin: 0 10px;
-}
-
-.footer a:hover {
-	text-decoration: underline;
-}
 </style>
 </head>
 <body>
@@ -177,12 +156,9 @@ h1 {
 			감사합니다! 하하하
 		</div>
 	</div>
-
-	<!-- 풋터 -->
-	<div class="footer">
-		Copyright © KH Information Educational Institution M-Class | <a
-			href="#">프로젝트 소개</a> | <a href="#">이용약관</a> | <a href="#">개인정보처리방침</a>
-		| <a href="#">고객센터</a>
-	</div>
+		<!-- 풋터 -->
+		<div class="footer">
+			<jsp:include page="/WEB-INF/views/common/footer.jsp" />
+		</div>
 </body>
 </html>

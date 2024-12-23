@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>이용약관</title>
+<title>이용 안내</title>
 <style>
 /* 전체 레이아웃 */
 ul {

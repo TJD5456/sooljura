@@ -42,6 +42,7 @@ aside {
 
 aside li {
     padding-left: 30px;
+    list-style: none;
 }
 
 aside li > a {

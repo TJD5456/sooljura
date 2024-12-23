@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.khedu.sooljura.post.model.service.PostService;
+import com.khedu.sooljura.post.model.vo.Post;
 import com.khedu.sooljura.post.model.vo.PostPageData;
 
 import org.springframework.beans.factory.annotation.Qualifier;

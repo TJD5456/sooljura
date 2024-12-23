@@ -5,6 +5,12 @@
 <head>
     <meta charset="UTF-8">
     <title>adminPage.jsp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            border: black solid 1px;
+        }
+    </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
@@ -27,6 +33,7 @@
             </div>
             <div>
                 <span><a href="/admin/manageChats.do">1대1 채팅</a></span>
+                <%-- TODO: 채팅창 부분도 하기 --%>
                 <span>${numberOfUnCheckedChats}</span>
             </div>
             <div>

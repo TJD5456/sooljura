@@ -18,14 +18,13 @@ public class WebScraperDao {
 
 	public int insProd(Product prod) {
 		//제품 등록
-		return template.insert("webScraper.uploadProduct", prod);
-	}
-	public int insProdThmbImg(ProductImage prodImg) {
-		//제품 이미지(섬네일) 등록
-		return template.insert("webScraper.uploadProduct", prodImg);
+		return template.insert("webScraper.insProd", prod);
 	}
 	public int insProdDetailImg(ProductImage prodImg) {
 		//제품 이미지(상세) 등록
-		return template.insert("webScraper.uploadProduct", prodImg);
+		return template.insert("webScraper.updProdImg", prodImg);
+	}
+	public String selProdKey(String prodName) {
+		return template.selectOne("webScraper.selProdKey", prodName);
 	}
 }

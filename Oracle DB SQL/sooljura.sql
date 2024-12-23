@@ -90,7 +90,7 @@ create table tbl_post (
    post_key        char(12) primary key,
    post_cd         number not null references tbl_post_type ( post_cd ) on delete cascade,
    user_key        char(12) not null references tbl_user ( user_key ) on delete set null,
-   post_content  varchar2(2000) not null, 
+   post_content  varchar2(2000 not null), 
    post_title       varchar2(225) not null, 
    post_date       date default sysdate,
    post_view       number default 0,
@@ -137,14 +137,42 @@ create table tbl_product_category (
 -- 'c' || lpad(seq_product_category.nextval, 4, '0')
 create sequence seq_product_category maxvalue 9999 cycle;
 
-insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 1, '증류주/소주', null );
-insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 1, '맥주', null );
-insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 1, '전통주', null );
 insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 1, '와인/샴페인', null );
 insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 1, '위스키/리큐르', null );
-insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 1, '기타', null );
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 1, '브랜디/꼬냑', null );
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 1, '보드카/스피릿', null );
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 1, '전통주/민속주', null );
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 1, '기타주류', null );
 
-insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '테네시 위스키', 'c0005' );
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '프랑스 와인', 'c0001' );
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '이탈리아 와인', 'c0001' );
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '칠레 와인', 'c0001' );
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '미국 와인', 'c0001' );
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '호주 와인', 'c0001' );
+
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '아메리칸 위스키', 'c0002' );
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '스카치 위스키', 'c0002' );
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '아이리쉬 위스키', 'c0002' );
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '캐나다 위스키', 'c0002' );
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '일본 위스키', 'c0002' );
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '리큐르', 'c0002' );
+
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '브랜디', 'c0003' );
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '꼬냑', 'c0003' );
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '알마냑', 'c0003' );
+
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '진', 'c0004' );
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '럼', 'c0004' );
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '보드카', 'c0004' );
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '테킬라', 'c0004' );
+
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '민속주', 'c0005' );
+
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '중국술', 'c0006' );
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '대만술', 'c0006' );
+
+--아메리카 위스키 하위로 들어갈 예정
+--insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '테네시 위스키', 'c0012' );
 
 create table tbl_product (
    prod_key     char(12) primary key,

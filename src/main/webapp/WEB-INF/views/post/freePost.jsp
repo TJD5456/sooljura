@@ -101,7 +101,7 @@ tr:hover {
 	background-color: #ff5722;
 }
 
-/* 풋터 스타일 */
+/* 풋터 스타일 
 .footer {
 	position: fixed;
 	bottom: 0;
@@ -112,6 +112,44 @@ tr:hover {
 	justify-content: space-between;
 	box-sizing: border-box;
 	font-size: 14px;
+}
+*/
+/* 페이지네이션 컨테이너 스타일 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    padding: 10px 0;
+    font-size: 14px;
+}
+
+/* 페이지 번호 스타일 */
+.pagination a,
+.pagination span {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 0 5px;
+    text-decoration: none;
+    color: #555;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+/* 현재 페이지 번호 스타일 */
+.pagination .current {
+    background-color: #FC8173;
+    color: #fff;
+    font-weight: bold;
+    border-color: #FC8173;
+}
+
+/* 호버 시 스타일 */
+.pagination a:hover {
+    background-color: #f4f4f4;
+    border-color: #bbb;
+    color: #000;
 }
 </style>
 </head>
@@ -159,7 +197,7 @@ tr:hover {
 						<tr>
 							<td>${post.postKey}</td>
 							<td>${post.postCategory}</td>
-							<td>${post.postTitle}</td>
+							<td><a href="/post/postView.do?postCd=${notice.noticeNo}">${post.postTitle}</a></td>
 							<td>${post.userNickname}</td>
 							<td>${post.postViews}</td>
 							<td>${post.postDate}</td>
@@ -172,12 +210,16 @@ tr:hover {
 					</c:if>
 				</tbody>
 			</table>
-		</div>
-		<div class="pagination">${pageNavi}</div>
+			<div class="pagination">${pageNavi}</div>
+		<br><br><br><br><br><br>
 		<!-- 풋터 -->
 		<div class="footer">
 			<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 		</div>
+		</div>
+		
+		
+		
 
 	</div>
 

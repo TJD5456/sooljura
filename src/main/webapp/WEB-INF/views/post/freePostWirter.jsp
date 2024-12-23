@@ -40,13 +40,14 @@ body {
 .header, .footer {
 	background-color: #fff;
 	text-align: center;
-	padding: 10px 20px;
 	border-bottom: 1px solid #ddd;
 }
 
 .footer {
 	margin-top: auto; /* 푸터를 하단에 고정 */
 	border-top: 1px solid #ddd;
+	 box-shadow: none;
+	
 }
 
 /* 폼 스타일 */
@@ -135,7 +136,7 @@ body {
 
 		<!-- 콘텐츠 -->
 		<div class="content">
-			<h1>자유 게시판 글쓰기</h1>
+			<h1>자유 게시판 글쓰기</h1><br><br><br>
 
 			<!-- 말머리 -->
 			<div class="form-group">
@@ -169,7 +170,7 @@ body {
 			<!-- 버튼 -->
 			<div class="button-group">
 				<button type="button">이전</button>
-				<button type="submit">저장</button>
+				<button type="submit">등록</button>
 			</div>
 		</div>
 

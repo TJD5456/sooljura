@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
 <html>
 <head>
     <title>manageProducts.jsp</title>
@@ -47,6 +48,7 @@
                                        id="categoryInput${category.categoryNm}"
                                        name="categoryKey">
                                 <label for="categoryInput${category.categoryNm}"> ${category.categoryNm} </label>
+                                <br>
                             </c:forEach>
                         </td>
                     </tr>

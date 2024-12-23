@@ -48,6 +48,7 @@
                upload_date  as uploadDate,
                category_key as categoryKey
         from tbl_product
+        order by upload_date desc
     </select>
 
     <select id="getCategoryInfo" resultType="productCategory">

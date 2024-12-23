@@ -45,7 +45,6 @@ public class WebScraperService {
 	public void doScraper() {
 		
 		ArrayList<Product> prodList = new ArrayList<Product>();
-		ArrayList<ProductImage> prodImg = new ArrayList<ProductImage>();
 		
 		String [][] bevArrColl= {
 				{
@@ -92,10 +91,8 @@ public class WebScraperService {
 	        
 	        for (int j = 0; j < bevArr.length; j++) {
 	        	
-	        	//세부 분류코드
 	        	String sortMnr = Integer.toString((j+1)*10);
 	        	
-	        	//분류코드 1010, 1020...
 	            String sortCode = sortMjrCode + sortMnr;
 	            
 	            prodList = scraper(bevArr[j], sortCode);

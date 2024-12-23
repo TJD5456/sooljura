@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="webScraper">
-	<insert id="insProd" parameterType = "">
+	<insert id="insProd" parameterType = "com.khedu.sooljura.webscraper.model.vo.Product">
 		 insert 
 		   into tbl_product 
 		        (
@@ -12,11 +12,14 @@
 		        prod_origin, 
 		        prod_intro, 
 		        prod_cnt,
-		        upload_date, 
+		        upload_date,
+		        prod_vol,
+		        prod_proof, 
+		        is_trading,
 		        category_key
 		        )
          values (
-         		#{prodKey},
+         		'pr' || to_char(sysdate, 'yymmdd') || lpad(seq_product.nextval, 4, '0'),
                 #{prodName},
                 #{prodPrice},
                 #{prodMaker},
@@ -24,11 +27,14 @@
                 #{prodIntro},
                 #{prodCnt},
                 sysdate,
+                #{prod_vol},
+   				#{prod_proof},
+   				#{is_trading},
                 #{categoryKey}
                 )
 	</insert> 
 	
-	<insert id="uploadProdImg" parameterType="productImage">
+	<insert id="updProdImg" parameterType="productImage">
         insert 
           into tbl_product_image 
                (

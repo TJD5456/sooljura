@@ -31,9 +31,9 @@ public class Product {
         this.prodCnt = prodCnt;
         this.uploadDate = uploadDate;
         this.categoryKey = categoryKey;
+
         this.productCategory = productCategory;
         this.productImages = productImages;
-
     }
 
     public String getProdKey() {
@@ -108,6 +108,14 @@ public class Product {
         this.categoryKey = categoryKey;
     }
 
+    public ProductCategory getProductCategory() {
+        return productCategory;
+    }
+
+    public void setProductCategory(ProductCategory productCategory) {
+        this.productCategory = productCategory;
+    }
+
     public ArrayList<ProductImage> getProductImages() {
         return productImages;
     }
@@ -116,11 +124,4 @@ public class Product {
         this.productImages = productImages;
     }
 
-    public ProductCategory getProductCategory() {
-        return productCategory;
-    }
-
-    public void setProductCategory(ProductCategory productCategory) {
-        this.productCategory = productCategory;
-    }
 }

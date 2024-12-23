@@ -39,7 +39,7 @@
 
     <select id="getAllProductsInfo" resultType="product">
         select prod_key     as prodKey,
-               prod_name     as prodName,
+               prod_name    as prodName,
                prod_price   as prodPricem,
                prod_maker   as prodMaker,
                prod_origin  as prodOrigin,
@@ -50,13 +50,22 @@
         from tbl_product
     </select>
 
+    <select id="getCategoryInfo" resultType="productCategory">
+        select category_key    as categoryKey,
+               category_level  as categoryLevel,
+               category_nm     as categoryNm,
+               higher_category as higherCategory
+        from tbl_product_category
+        where category_key = #{categoryKey}
+    </select>
+
     <insert id="uploadYoutube" parameterType="youtube">
         insert into tbl_youtube (youtube_url, content, prod_key1
         <if test="prodKey2 != null">, prod_key2</if>
         <if test="prodKey2 != null">, prod_key3</if>)
         values (#{youtubeUrl},
-                #{content},
-                #{prodKey1}
+        #{content},
+        #{prodKey1}
         <if test="prodKey2 != null">, #{prodKey2}</if>
         <if test="prodKey3 != null">, #{prodKey3}</if>
         )

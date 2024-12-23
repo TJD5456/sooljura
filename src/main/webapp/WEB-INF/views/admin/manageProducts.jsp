@@ -58,32 +58,27 @@
 
             <div class="product-header">
                 <span>제품키</span>
+                <span>카테고리</span>
                 <span>이름</span>
                 <span>가격</span>
-                <span>제조사</span>
                 <span>원산지</span>
-                <span>설명</span>
+                <span>제조사</span>
                 <span>수량</span>
-                <span>등록일</span>
-                <span>카테고리</span>
             </div>
 
-            <div class="show-product">
+            <div class="show-products">
                 <c:forEach var="product" items="${products}">
                     <div class="each-product">
                         <span>${product.prodKey}</span>
+                        <span>${product.productCategory.categoryNm}</span>
                         <span>${product.prodName}</span>
                         <span>${product.prodPrice}</span>
-                        <span>${product.prodMaker}</span>
                         <span>${product.prodOrigin}</span>
-                        <span>${product.prodIntro}</span>
+                        <span>${product.prodMaker}</span>
                         <span>${product.prodCnt}</span>
-                        <span>${product.uploadDate}</span>
-                        <span>${product.categoryKey}</span>
                     </div>
                 </c:forEach>
             </div>
-
 
         </div>
         <jsp:include page="/WEB-INF/views/common/remote.jsp"/>

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.ArrayList;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -67,12 +68,13 @@ public class WebScraperService {
 				}
 		};
 		int i = 0;
+		int j = 0;
 		for (String[] bevArr : bevArrColl) {
-			
-			
+			i++;
 			System.out.println(i);
 			for(String bevUrl : bevArr) {
-				i++;
+				j++;
+				System.out.println(i+" | "+j);
 				prod = scrapper(bevUrl);
 				System.out.println(prod.toString());
 			}
@@ -301,7 +303,7 @@ public class WebScraperService {
 			
 			
 			// 저장될 파일의 명칭
-			localSave += "";
+			localSave += ".jpg";
 
 			//
 			out = new FileOutputStream(localSave);

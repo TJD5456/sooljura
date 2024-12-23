@@ -111,14 +111,16 @@ public class AdminController {
         for (MultipartFile image : prodImages) {
             if (!image.isEmpty()) {
                 String originalFileName = image.getOriginalFilename();
-                String fileName = originalFileName.substring(0, originalFileName.lastIndexOf("."));
-                String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+                String filePath = null;
+                if (originalFileName != null) {
+                    String fileName = originalFileName.substring(0, originalFileName.lastIndexOf("."));
+                    String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
 
-                String toDay = new SimpleDateFormat("yyyyMMdd").format(new Date());
-                int ranNum = new Random().nextInt(10000) + 1;
-                String filePath = fileName + "_" + toDay + "_" + ranNum + extension;
-
-                savePath += filePath;
+                    String toDay = new SimpleDateFormat("yyyyMMdd").format(new Date());
+                    int ranNum = new Random().nextInt(10000) + 1;
+                    filePath = fileName + "_" + toDay + "_" + ranNum + extension;
+                    savePath += filePath;
+                }
 
                 BufferedOutputStream bos = null;
 

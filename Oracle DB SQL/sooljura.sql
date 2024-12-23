@@ -27,9 +27,9 @@ drop sequence seq_product_category;   -- c
 drop sequence seq_product;            -- pr
 drop sequence seq_product_image;      -- im
 drop sequence seq_discount_info;      -- di
-drop sequence seq_discount_histstory; -- dh
+drop sequence seq_discount_history;   -- dh
 drop sequence seq_basket;             -- bk
-drop sequence seq_order_histoy;       -- oh
+drop sequence seq_order_history;      -- oh
 drop sequence seq_refund_key;         -- rf
 
 create table tbl_user_type (
@@ -62,7 +62,7 @@ create table tbl_user (
 create sequence seq_user maxvalue 9999 cycle;
 
 create table tbl_user_addr (
-   addr_key    char(12) primary key,   
+   addr_key    char(12) primary key,
    user_key    char(12) not null references tbl_user ( user_key ) on delete cascade,
    addr_nm     char(30) not null,
    addr_cd   char(5) not null,
@@ -74,31 +74,6 @@ create table tbl_user_addr (
    default_yn  number default 0
 );
 
-insert into tbl_user_addr(
-			addr_key,
-			user_key,
-			addr_nm,
-			addr_cd,
-			addr,
-			addr_detail,
-			addr_ref,
-			rcpt_nm,
-			rcpt_phone,
-			default_yn
-		)values(
-			'ad' || to_char(sysdate, 'YYMMDD') || lpad (seq_addr.nextval, 4, '0'),
-			'us2412230002',
-			'집',
-			12345,
-			'청랴랴아아앙리리',
-			'지하철 3번출구구',
-			'청량리리',
-			'김김김',
-			'01012345678',
-			0
-		);
-
-
 -- 'ad' || lpad(seq_user_addr.nextval, 4, '0')
 create sequence seq_addr maxvalue 9999 cycle;
 
@@ -107,19 +82,23 @@ create table tbl_post_type (
    post_nm varchar2(30)
 );
 
-insert into tbl_post_type values ( 1, '게시글' );
-insert into tbl_post_type values ( 2, '후기' );
+insert into tbl_post_type values ( 1, '공지사항' );
+insert into tbl_post_type values ( 2, '자유게시판' );
+insert into tbl_post_type values ( 3, '후기' );
 
 create table tbl_post (
    post_key        char(12) primary key,
    post_cd         number not null references tbl_post_type ( post_cd ) on delete cascade,
    user_key        char(12) not null references tbl_user ( user_key ) on delete set null,
-   comment_content varchar2(2000) not null,
+   post_content  varchar2(2000) not null, 
+   post_title       varchar2(225) not null, 
    post_date       date default sysdate,
+   post_view       number default 0,
    confirm_yn      number default 0,
    delete_yn       number default 0,
    delete_reason   varchar2(200)
 );
+-- post_content comment_content로 되어있었어서 수정.
 
 -- 'po' || lpad(seq_post .nextval, 4, '0')
 create sequence seq_post maxvalue 9999 cycle;
@@ -171,11 +150,14 @@ create table tbl_product (
    prod_key     char(12) primary key,
    prod_name    varchar2(100) not null,
    prod_price   number not null,
-   prod_maker   varchar2(100) not null,
-   prod_origin  varchar2(100) not null,
-   prod_intro   varchar2(4000) not null,
+   prod_maker   varchar2(100),
+   prod_origin  varchar2(100),
+   prod_intro   varchar2(4000),
    prod_cnt     number not null,
    upload_date  date default sysdate,
+   prod_vol      varchar2(30),
+   prod_proof   varchar2(30),
+   is_trading     number default 0,
    category_key char(5) references tbl_product_category ( category_key )
 );
 
@@ -219,7 +201,7 @@ create table tbl_discount_history (
 );
 
 -- 'dh' || to_char(sysdate, 'yymmdd') || lpad(seq_discount_histstory.nextval, 4, '0')
-create sequence seq_discount_histstory maxvalue 9999 cycle;
+create sequence seq_discount_history maxvalue 9999 cycle;
 
 create table tbl_basket_type (
    basket_cd number primary key,
@@ -267,5 +249,9 @@ commit;
 select * from tbl_product_category;
 select * from tbl_product;
 select * from tbl_product_image;
+
+select * from tbl_youtube;
+delete from tbl_youtube where content = 'nf';
+
 select * from tbl_user;
-select * from TBL_USER_ADDR;
+select * from tbl_user_addr;

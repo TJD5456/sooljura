@@ -90,10 +90,15 @@
     </select>
 
     <insert id="uploadYoutube" parameterType="youtube">
-        insert into tbl_youtube (youtube_url, content, prod_key1
+        insert into tbl_youtube (
+        youtube_url,
+        content,
+        prod_key1
         <if test="prodKey2 != null">, prod_key2</if>
-        <if test="prodKey2 != null">, prod_key3</if>)
-        values (#{youtubeUrl},
+        <if test="prodKey3 != null">, prod_key3</if>
+        )
+        values (
+        #{youtubeUrl},
         #{content},
         #{prodKey1}
         <if test="prodKey2 != null">, #{prodKey2}</if>

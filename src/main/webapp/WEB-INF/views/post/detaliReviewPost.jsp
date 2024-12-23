@@ -46,9 +46,11 @@ body {
 /* ================= 메인 콘텐츠 ================= */
 .container {
 	margin-left: 250px; /* 사이드바 여백 */
+	margin-right: 60px; /* 리모콘 여백 추가 */
 	padding: 20px;
 	box-sizing: border-box;
 	flex: 1;
+	width: calc(100% - 310px); /* 사이드바와 리모콘 영역을 제외한 너비 */
 }
 
 h1 {
@@ -163,7 +165,7 @@ h1 {
 			화이트와인 같다고 하는지 알 것 같았네요.<br> 시간이 지나고 찰떡되었던 술이 조금씩 온도가 올라오면서 단 맛이
 			올라와서 맛있게 마실 수 있었습니다.<br> 과실의 느낌이 강하니 회와 함께 먹으면 좋을 것 같았습니다~
 		</div>
-		
+
 		<!-- 댓글 섹션 -->
 		<div class="comment-box">
 			<input type="text" placeholder="댓글 내용을 입력하세요">

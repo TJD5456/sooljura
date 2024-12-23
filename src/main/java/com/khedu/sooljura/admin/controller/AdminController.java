@@ -63,7 +63,12 @@ public class AdminController {
     }
 
     @GetMapping("manageYoutube.do")
-    public String manageYoutube() {
+    public String manageYoutube(String uploadYoutubeResult, Model model) {
+
+        if (uploadYoutubeResult != null) {
+            model.addAttribute("uploadYoutubeResult", uploadYoutubeResult);
+        }
+
         return "/admin/manageYoutube";
     }
 
@@ -164,8 +169,13 @@ public class AdminController {
 
     @GetMapping("uploadYoutube")
     public String uploadYoutube(Youtube youtube) {
+
+        System.out.println("url: " + youtube.getYoutubeUrl());
+        System.out.println("content: " + youtube.getContent());
+        System.out.println("prodKey: " + youtube.getProdKey1());
+
         int result = service.uploadYoutube(youtube);
-        return "redirect:/admin/uploadYoutube.do?uploadYoutubeResult=" + result;
+        return "forward:/admin/manageYoutube.do?uploadYoutubeResult=" + result;
     }
 
 }

@@ -1,36 +1,36 @@
 -- user: sooljura
 -- password: 1234
 
-drop table tbl_user_type cascade constraint;
-drop table tbl_user cascade constraint;
-drop table tbl_user_addr cascade constraint;
-drop table tbl_post_type cascade constraint;
-drop table tbl_post cascade constraint;
-drop table tbl_comment cascade constraint;
-drop table tbl_chat cascade constraint;
+drop table tbl_user_type        cascade constraint;
+drop table tbl_user             cascade constraint;
+drop table tbl_user_addr        cascade constraint;
+drop table tbl_post_type        cascade constraint;
+drop table tbl_post             cascade constraint;
+drop table tbl_comment          cascade constraint;
+drop table tbl_chat             cascade constraint;
 drop table tbl_product_category cascade constraint;
-drop table tbl_product cascade constraint;
-drop table tbl_product_image cascade constraint;
-drop table tbl_youtube cascade constraint;
-drop table tbl_discount_info cascade constraint;
+drop table tbl_product          cascade constraint;
+drop table tbl_product_image    cascade constraint;
+drop table tbl_youtube          cascade constraint;
+drop table tbl_discount_info    cascade constraint;
 drop table tbl_discount_history cascade constraint;
-drop table tbl_basket_type cascade constraint;
-drop table tbl_basket cascade constraint;
-drop table tbl_order_history cascade constraint;
+drop table tbl_basket_type      cascade constraint;
+drop table tbl_basket           cascade constraint;
+drop table tbl_order_history    cascade constraint;
 
-drop sequence seq_user; -- us
-drop sequence seq_addr; -- ad
-drop sequence seq_post; -- po
-drop sequence seq_comment; -- cm
-drop sequence seq_chat; -- ch
-drop sequence seq_product_category; -- c
-drop sequence seq_product; -- pr
-drop sequence seq_product_image; -- im
-drop sequence seq_discount_info; -- di
+drop sequence seq_user;               -- us
+drop sequence seq_addr;               -- ad
+drop sequence seq_post;               -- po
+drop sequence seq_comment;            -- cm
+drop sequence seq_chat;               -- ch
+drop sequence seq_product_category;   -- c
+drop sequence seq_product;            -- pr
+drop sequence seq_product_image;      -- im
+drop sequence seq_discount_info;      -- di
 drop sequence seq_discount_histstory; -- dh
-drop sequence seq_basket; --bk
-drop sequence seq_order_histoy; -- oh
-drop sequence seq_refund_key; -- rf
+drop sequence seq_basket;             -- bk
+drop sequence seq_order_histoy;       -- oh
+drop sequence seq_refund_key;         -- rf
 
 create table tbl_user_type (
    user_cd number primary key,

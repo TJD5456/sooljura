@@ -53,8 +53,8 @@ public class UserService {
 	}
 
 	//닉네임 중복체크
-	public int chkNickname(String userNickNm) {
-		return dao.chkNickname(userNickNm);
+	public int chkNickname(String userNicknm) {
+		return dao.chkNickname(userNicknm);
 	}
 
 	//주소지 추가

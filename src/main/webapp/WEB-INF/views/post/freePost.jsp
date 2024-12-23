@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -7,15 +8,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>자유게시판</title>
 <link rel="stylesheet" href="/resources/css/your-styles.css">
+
 <!-- 스타일 시트 연결 -->
 <style>
 /* 전체 레이아웃 설정 */
 body {
 	margin: 0;
 	display: flex;
-	flex-direction: column; /* 전체 페이지를 세로 방향으로 구성 */
+	flex-direction: column;
 	font-family: Arial, sans-serif;
-	min-height: 100vh; /* 화면 전체 높이 */
 }
 
 /* 사이드바 스타일 */
@@ -29,14 +30,14 @@ body {
 	padding: 20px;
 	box-sizing: border-box;
 	overflow-y: auto;
+	border-right: 1px solid #ddd;
 }
 
 /* 메인 콘텐츠 및 레이아웃 */
 .main-container {
-	margin-left: 250px; /* 사이드바의 너비만큼 여백 */
+	margin-left: 250px;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between; /* 콘텐츠와 풋터 사이 여백 */
 	flex: 1;
 }
 
@@ -52,18 +53,13 @@ body {
 .content {
 	flex: 1;
 	padding: 20px;
-	box-sizing: border-box;
-	display: flex;
-	flex-direction: column; /* 요소들을 세로로 정렬 */
-	justify-content: flex-start; /* 상단 정렬 */
-	align-items: center; /* 가운데 정렬 */
 }
 
 /* 테이블 스타일 */
 table {
-	width: 80%; /* 테이블의 최대 너비 설정 */
-	max-width: 1000px; /* 최대 크기 제한 */
-	margin: 0 auto; /* 가운데 정렬 */
+	width: 80%;
+	max-width: 1000px;
+	margin: 0 auto;
 	border-collapse: collapse;
 }
 
@@ -82,47 +78,40 @@ tr:hover {
 	background-color: #f9f9f9;
 }
 
-h1 {
-	margin: 0; /* h1 여백 제거 */
-	font-size: 2rem; /* 적절한 크기로 조정 */
-	text-align: center; /* 텍스트 가운데 정렬 */
-}
-
 .notice {
 	font-weight: bold;
 	color: #ff5722;
 }
 
-/* 풋터 스타일 */
-.footer {
-	position: fixed; /* 화면 하단에 고정 */
-	bottom: 0; /* 화면의 아래쪽에 위치 */
-	left: 0; /* 왼쪽 기준 정렬 */
-	width: 100%; /* 전체 가로폭 */
-	padding: 20px 30px; /* 안쪽 여백 */
-	display: flex;
-	justify-content: space-between; /* 내용 양쪽 정렬 */
-	align-items: center; /* 세로 중앙 정렬 */
-	box-sizing: border-box;
-	font-size: 14px; /* 글자 크기 */
-}
 /* 작성하기 버튼 스타일 */
 .btn-write {
 	display: inline-block;
-	margin-top: 20px;
-	padding: 10px 30px;
+	padding: 10px 20px;
 	background-color: #FC8173;
 	color: #EFECE5;
 	font-size: 16px;
 	border-radius: 5px;
 	text-align: center;
-	text-decoration: none; /* 밑줄 제거 */
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 버튼 그림자 */
+	text-decoration: none;
 	transition: background-color 0.3s ease;
+	float: right;
 }
 
 .btn-write:hover {
-	background-color: #ddd;
+	background-color: #ff5722;
+}
+
+/* 풋터 스타일 */
+.footer {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	padding: 20px 30px;
+	display: flex;
+	justify-content: space-between;
+	box-sizing: border-box;
+	font-size: 14px;
 }
 </style>
 </head>
@@ -144,7 +133,16 @@ h1 {
 		<!-- 콘텐츠 영역 -->
 		<div class="content">
 			<h1>자유게시판</h1>
-
+			<br> <br> <br> <br>
+			<!-- 버튼과 테이블을 같은 섹션에 포함 -->
+			<div
+				style="display: flex; justify-content: space-between; align-items: center; width: 80%; margin: 0 auto;">
+				<h2 style="margin: 0;">목록</h2>
+				<!-- 테이블 제목 -->
+				<a href="/post/freePostWirter.do" class="btn-write">작성하기</a>
+				<!-- 작성하기 버튼 -->
+			</div>
+			<br>
 			<table>
 				<thead>
 					<tr>
@@ -152,48 +150,30 @@ h1 {
 						<th>분류</th>
 						<th>제목</th>
 						<th>작성자</th>
-						<th>작성일</th>
 						<th>조회수</th>
+						<th>작성일</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td class="notice">공지</td>
-						<td class="notice">공지</td>
-						<td class="notice">충사모 앱 다운로드 즉시 3000pt 적립 지급!</td>
-						<td>관리자</td>
-						<td>2024-10-04</td>
-						<td>159</td>
-					</tr>
-					<tr>
-						<td class="notice">공지</td>
-						<td class="notice">공지</td>
-						<td class="notice">수리금액 및 유의사항</td>
-						<td>관리자</td>
-						<td>2017-07-05</td>
-						<td>3247</td>
-					</tr>
-					<tr>
-						<td>193</td>
-						<td>일상</td>
-						<td>오늘은 훈련 하기 싫은 날이네!~!</td>
-						<td>메시</td>
-						<td>2024-12-02</td>
-						<td>18</td>
-					</tr>
-					<tr>
-						<td>192</td>
-						<td>정보</td>
-						<td>※ 2024년 11월 무이자할부!</td>
-						<td>관리자</td>
-						<td>2024-11-01</td>
-						<td>73</td>
-					</tr>
+					<c:forEach var="post" items="${list}">
+						<tr>
+							<td>${post.postKey}</td>
+							<td>${post.postCategory}</td>
+							<td>${post.postTitle}</td>
+							<td>${post.userNickname}</td>
+							<td>${post.postViews}</td>
+							<td>${post.postDate}</td>
+						</tr>
+					</c:forEach>
+					<c:if test="${empty list}">
+						<tr>
+							<td colspan="6">게시글이 없습니다.</td>
+						</tr>
+					</c:if>
 				</tbody>
 			</table>
-
-			<a href="/post/freePostWirter.do">작성하기</a>
 		</div>
+		<div class="pagination">${pageNavi}</div>
 		<!-- 풋터 -->
 		<div class="footer">
 			<jsp:include page="/WEB-INF/views/common/footer.jsp" />

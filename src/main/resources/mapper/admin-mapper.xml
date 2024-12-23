@@ -59,6 +59,15 @@
         where category_key = #{categoryKey}
     </select>
 
+    <select id="getProductImages" resultType="productImage">
+        select img_key  as imgKey,
+               img_nm   as imgNm,
+               img_path as imgPath,
+               prod_key as prodKey
+        from tbl_product_image
+        where prod_key = #{prodKey}
+    </select>
+
     <insert id="uploadYoutube" parameterType="youtube">
         insert into tbl_youtube (youtube_url, content, prod_key1
         <if test="prodKey2 != null">, prod_key2</if>

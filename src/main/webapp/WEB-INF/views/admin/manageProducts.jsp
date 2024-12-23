@@ -63,6 +63,7 @@
                 <span>가격</span>
                 <span>원산지</span>
                 <span>제조사</span>
+                <span>사진</span>
                 <span>수량</span>
             </div>
 
@@ -75,6 +76,8 @@
                         <span>${product.prodPrice}</span>
                         <span>${product.prodOrigin}</span>
                         <span>${product.prodMaker}</span>
+                        <span><img src="/resources/upload/product_images/${product.productImages[0].imgPath}"
+                                   alt="${product.productImages[0].imgNm}"></span>
                         <span>${product.prodCnt}</span>
                     </div>
                 </c:forEach>

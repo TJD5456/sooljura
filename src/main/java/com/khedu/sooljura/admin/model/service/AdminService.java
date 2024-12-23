@@ -48,8 +48,11 @@ public class AdminService {
         ArrayList<Product> productsInfos = (ArrayList<Product>) dao.getAllProductsInfo();
 
         for (Product product : productsInfos) {
-            ProductCategory category = (ProductCategory) dao.getCategoryInfo(product.getCategoryKey());
+            ProductCategory category = dao.getCategoryInfo(product.getCategoryKey());
             product.setProductCategory(category);
+
+            ArrayList<ProductImage> images = (ArrayList<ProductImage>) dao.getProductImages(product.getProdKey());
+            product.setProductImages(images);
         }
 
         return productsInfos;

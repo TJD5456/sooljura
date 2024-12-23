@@ -46,7 +46,7 @@ public class AdminDao {
         return template.selectOne("admin.getCategoryInfo", categoryKey);
     }
 
-    public Object getProductImages(String prodKey) {
-        return null;
+    public List<ProductImage> getProductImages(String prodKey) {
+        return template.selectList("admin.getProductImages", prodKey);
     }
 }

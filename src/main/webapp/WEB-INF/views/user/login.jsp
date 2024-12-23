@@ -110,8 +110,8 @@ a {
 					"userPw" : $('#userPw').val()
 					},
 			success : function(res){
-				if(res == "0"){
-					window.opener.location.href="/";
+				if(res === "0"){
+					location.href = "/";
 				}else{
 					msg("알림", "아이디, 비밀번호를 확인해주세요", "error");
 				}

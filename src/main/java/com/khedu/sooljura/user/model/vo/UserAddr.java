@@ -1,123 +1,121 @@
 package com.khedu.sooljura.user.model.vo;
 
 public class UserAddr {
-	private String addrKey;
-	private String userKey;
-	private String addrNm;
-	private String addrCd;
-	private String addr;
-	private String addrDetail;
-	private String addrRef;
-	private String rcptNm;
-	private String rcptPhone;
-	private int defaultYn;
-	
-	public UserAddr() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	
-	public UserAddr(String addrKey, String userKey, String addrNm, String addrCd, String addr, String addrDetail,
-			String addrRef, String rcptNm, String rcptPhone, int defaultYn) {
-		super();
-		this.addrKey = addrKey;
-		this.userKey = userKey;
-		this.addrNm = addrNm;
-		this.addrCd = addrCd;
-		this.addr = addr;
-		this.addrDetail = addrDetail;
-		this.addrRef = addrRef;
-		this.rcptNm = rcptNm;
-		this.rcptPhone = rcptPhone;
-		this.defaultYn = defaultYn;
-	}
+    private String addrKey;
+    private String userKey;
+    private String addrNm;
+    private String addrCd;
+    private String addr;
+    private String addrDetail;
+    private String addrRef;
+    private String rcptNm;
+    private String rcptPhone;
+    private int defaultYn;
 
-	public String getAddrKey() {
-		return addrKey;
-	}
+    public UserAddr() {
+        super();
+    }
 
-	public void setAddrKey(String addrKey) {
-		this.addrKey = addrKey;
-	}
+    public UserAddr(String addrKey, String userKey, String addrNm, String addrCd, String addr, String addrDetail,
+                    String addrRef, String rcptNm, String rcptPhone, int defaultYn) {
+        super();
+        this.addrKey = addrKey;
+        this.userKey = userKey;
+        this.addrNm = addrNm;
+        this.addrCd = addrCd;
+        this.addr = addr;
+        this.addrDetail = addrDetail;
+        this.addrRef = addrRef;
+        this.rcptNm = rcptNm;
+        this.rcptPhone = rcptPhone;
+        this.defaultYn = defaultYn;
+    }
 
-	public String getUserKey() {
-		return userKey;
-	}
+    public String getAddrKey() {
+        return addrKey;
+    }
 
-	public void setUserKey(String userKey) {
-		this.userKey = userKey;
-	}
+    public void setAddrKey(String addrKey) {
+        this.addrKey = addrKey;
+    }
 
-	public String getAddrNm() {
-		return addrNm;
-	}
+    public String getUserKey() {
+        return userKey;
+    }
 
-	public void setAddrNm(String addrNm) {
-		this.addrNm = addrNm;
-	}
+    public void setUserKey(String userKey) {
+        this.userKey = userKey;
+    }
 
-	public String getAddrCd() {
-		return addrCd;
-	}
+    public String getAddrNm() {
+        return addrNm;
+    }
 
-	public void setAddrCd(String addrCd) {
-		this.addrCd = addrCd;
-	}
+    public void setAddrNm(String addrNm) {
+        this.addrNm = addrNm;
+    }
 
-	public String getAddr() {
-		return addr;
-	}
+    public String getAddrCd() {
+        return addrCd;
+    }
 
-	public void setAddr(String addr) {
-		this.addr = addr;
-	}
+    public void setAddrCd(String addrCd) {
+        this.addrCd = addrCd;
+    }
 
-	public String getAddrDetail() {
-		return addrDetail;
-	}
+    public String getAddr() {
+        return addr;
+    }
 
-	public void setAddrDetail(String addrDetail) {
-		this.addrDetail = addrDetail;
-	}
+    public void setAddr(String addr) {
+        this.addr = addr;
+    }
 
-	public String getAddrRef() {
-		return addrRef;
-	}
+    public String getAddrDetail() {
+        return addrDetail;
+    }
 
-	public void setAddrRef(String addrRef) {
-		this.addrRef = addrRef;
-	}
+    public void setAddrDetail(String addrDetail) {
+        this.addrDetail = addrDetail;
+    }
 
-	public String getRcptNm() {
-		return rcptNm;
-	}
+    public String getAddrRef() {
+        return addrRef;
+    }
 
-	public void setRcptNm(String rcptNm) {
-		this.rcptNm = rcptNm;
-	}
+    public void setAddrRef(String addrRef) {
+        this.addrRef = addrRef;
+    }
 
-	public String getRcptPhone() {
-		return rcptPhone;
-	}
+    public String getRcptNm() {
+        return rcptNm;
+    }
 
-	public void setRcptPhone(String rcptPhone) {
-		this.rcptPhone = rcptPhone;
-	}
+    public void setRcptNm(String rcptNm) {
+        this.rcptNm = rcptNm;
+    }
 
-	public int getDefaultYn() {
-		return defaultYn;
-	}
+    public String getRcptPhone() {
+        return rcptPhone;
+    }
 
-	public void setDefaultYn(int defaultYn) {
-		this.defaultYn = defaultYn;
-	}
+    public void setRcptPhone(String rcptPhone) {
+        this.rcptPhone = rcptPhone;
+    }
 
-	@Override
-	public String toString() {
-		return "UserAddr [addrKey=" + addrKey + ", userKey=" + userKey + ", addrNm=" + addrNm + ", addrCd=" + addrCd
-				+ ", addr=" + addr + ", addrDetail=" + addrDetail + ", addrRef=" + addrRef + ", rcptNm=" + rcptNm
-				+ ", rcptPhone=" + rcptPhone + ", defaultYn=" + defaultYn + "]";
-	}
-	
-	
+    public int getDefaultYn() {
+        return defaultYn;
+    }
+
+    public void setDefaultYn(int defaultYn) {
+        this.defaultYn = defaultYn;
+    }
+
+    @Override
+    public String toString() {
+        return "UserAddr [addrKey=" + addrKey + ", userKey=" + userKey + ", addrNm=" + addrNm + ", addrCd=" + addrCd
+            + ", addr=" + addr + ", addrDetail=" + addrDetail + ", addrRef=" + addrRef + ", rcptNm=" + rcptNm
+            + ", rcptPhone=" + rcptPhone + ", defaultYn=" + defaultYn + "]";
+    }
+
 }

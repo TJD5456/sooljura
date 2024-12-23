@@ -15,7 +15,7 @@
 	$('#webscraper').on('click', function(){
 		$.ajax({
 			url : "/webScraping/scrapingTest.do",
-			success : function(resData){
+			success : function(){
 			},
 			error : function(){
 				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);       

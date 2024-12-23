@@ -40,10 +40,6 @@ public class AdminService {
         return dao.createCategory(category);
     }
 
-    public int uploadYoutube(Youtube youtube) {
-        return dao.uploadYoutube(youtube);
-    }
-
     public ArrayList<Product> getAllProductsInfo() {
         ArrayList<Product> productsInfos = (ArrayList<Product>) dao.getAllProductsInfo();
 
@@ -68,5 +64,9 @@ public class AdminService {
 
     public int numberOfUnCheckedNewUser() {
         return dao.numberOfUncheckedNewUser();
+    }
+
+    public int uploadYoutube(Youtube youtube) {
+        return dao.uploadYoutube(youtube);
     }
 }

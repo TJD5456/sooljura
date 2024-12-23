@@ -168,11 +168,11 @@ create table tbl_product_image (
 create sequence seq_product_image maxvalue 9999 cycle;
 
 create table tbl_youtube (
-   youtube_url varchar2(100) primary key,
+   youtube_url varchar2(500) primary key,
    content     varchar2(1000) not null,
    prod_key1    char(12) not null references tbl_product ( prod_key ) on delete cascade,
-   prod_key2    char(12) not null references tbl_product ( prod_key ) on delete cascade,
-   prod_key3    char(12) not null references tbl_product ( prod_key ) on delete cascade
+   prod_key2    char(12) references tbl_product ( prod_key ) on delete cascade,
+   prod_key3    char(12) references tbl_product ( prod_key ) on delete cascade
 );
 
 create table tbl_discount_info (
@@ -242,3 +242,6 @@ commit;
 select * from tbl_product_category;
 select * from tbl_product;
 select * from tbl_product_image;
+
+select * from TBL_YOUTUBE;
+delete from tbl_youtube where content = 'nf';

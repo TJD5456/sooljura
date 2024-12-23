@@ -5,12 +5,6 @@
 <head>
     <meta charset="UTF-8">
     <title>adminPage.jsp</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        * {
-            border: black solid 1px;
-        }
-    </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>

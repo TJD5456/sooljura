@@ -46,6 +46,10 @@ public class AdminDao {
         return template.selectOne("admin.getCategoryInfo", categoryKey);
     }
 
+    public List<ProductCategory> getAllCategoryInfos() {
+        return template.selectList("admin.getAllCategoryInfos");
+    }
+
     public List<ProductImage> getProductImages(String prodKey) {
         return template.selectList("admin.getProductImages", prodKey);
     }

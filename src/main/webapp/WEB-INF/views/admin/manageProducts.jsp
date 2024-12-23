@@ -40,8 +40,15 @@
                         <td><input type="text" id="introInput" name="prodIntro"></td>
                     </tr>
                     <tr>
-                        <th><label for="categoryInput">카테고리</label></th>
-                        <td><input type="text" id="categoryInput" name="categoryKey"></td>
+                        <th>카테고리</th>
+                        <td>
+                            <c:forEach var="category" items="${categoryList}">
+                                <input type="radio" value="${category.categoryKey}"
+                                       id="categoryInput${category.categoryNm}"
+                                       name="categoryKey">
+                                <label for="categoryInput${category.categoryNm}"> ${category.categoryNm} </label>
+                            </c:forEach>
+                        </td>
                     </tr>
                     <tr>
                         <th><label for="cntInput">수량</label></th>

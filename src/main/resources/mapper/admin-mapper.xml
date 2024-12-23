@@ -51,12 +51,20 @@
     </select>
 
     <select id="getCategoryInfo" resultType="productCategory">
+        select category_key    as category_key,
+               category_level  as category_level,
+               category_nm     as category_nm,
+               higher_category as higher_category
+        from tbl_product_category
+        where category_key = #{categoryKey}
+    </select>
+
+    <select id="getAllCategoryInfos" resultType="productCategory">
         select category_key    as categoryKey,
                category_level  as categoryLevel,
                category_nm     as categoryNm,
                higher_category as higherCategory
         from tbl_product_category
-        where category_key = #{categoryKey}
     </select>
 
     <select id="getProductImages" resultType="productImage">

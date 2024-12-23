@@ -48,6 +48,10 @@ public class AdminController {
         ArrayList<Product> products = service.getAllProductsInfo();
         model.addAttribute("products", products);
 
+        ArrayList<ProductCategory> categoryList = service.getAllCategoryInfos();
+
+        model.addAttribute("categoryList", categoryList);
+
         return "/admin/manageProducts";
     }
 

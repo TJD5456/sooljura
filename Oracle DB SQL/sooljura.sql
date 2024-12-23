@@ -82,19 +82,23 @@ create table tbl_post_type (
    post_nm varchar2(30)
 );
 
-insert into tbl_post_type values ( 1, '게시글' );
-insert into tbl_post_type values ( 2, '후기' );
+insert into tbl_post_type values ( 1, '공지사항' );
+insert into tbl_post_type values ( 2, '자유게시판' );
+insert into tbl_post_type values ( 3, '후기' );
 
 create table tbl_post (
    post_key        char(12) primary key,
    post_cd         number not null references tbl_post_type ( post_cd ) on delete cascade,
    user_key        char(12) not null references tbl_user ( user_key ) on delete set null,
-   comment_content varchar2(2000) not null,
+   post_content  varchar2(2000) not null, 
+   post_title       varchar2(225) not null, 
    post_date       date default sysdate,
+   post_view       number default 0,
    confirm_yn      number default 0,
    delete_yn       number default 0,
    delete_reason   varchar2(200)
 );
+-- post_content comment_content로 되어있었어서 수정.
 
 -- 'po' || lpad(seq_post .nextval, 4, '0')
 create sequence seq_post maxvalue 9999 cycle;
@@ -146,11 +150,14 @@ create table tbl_product (
    prod_key     char(12) primary key,
    prod_name    varchar2(100) not null,
    prod_price   number not null,
-   prod_maker   varchar2(100) not null,
-   prod_origin  varchar2(100) not null,
-   prod_intro   varchar2(4000) not null,
+   prod_maker   varchar2(100),
+   prod_origin  varchar2(100),
+   prod_intro   varchar2(4000),
    prod_cnt     number not null,
    upload_date  date default sysdate,
+   prod_vol      varchar2(30),
+   prod_proof   varchar2(30),
+   is_trading     number default 0,
    category_key char(5) references tbl_product_category ( category_key )
 );
 

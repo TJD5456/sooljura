@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="webScraper">
+	<insert id="insProd" parameterType = "">
+		 insert 
+		   into tbl_product 
+		        (
+		        prod_key, 
+		        prod_name, 
+		        prod_price, 
+		        prod_maker, 
+		        prod_origin, 
+		        prod_intro, 
+		        prod_cnt,
+		        upload_date, 
+		        category_key
+		        )
+         values (
+         		#{prodKey},
+                #{prodName},
+                #{prodPrice},
+                #{prodMaker},
+                #{prodOrigin},
+                #{prodIntro},
+                #{prodCnt},
+                sysdate,
+                #{categoryKey}
+                )
+	</insert> 
+	
+	<insert id="uploadProdImg" parameterType="productImage">
+        insert 
+          into tbl_product_image 
+               (
+               img_key, 
+               img_nm, 
+               img_path, 
+               prod_key
+               )
+        values ('im' || to_char(sysdate, 'yymmdd') || lpad(seq_product_image.nextval, 4, '0'),
+                #{imgNm},
+                #{imgPath},
+                #{prodKey})
+    </insert>
+</mapper>

@@ -137,6 +137,7 @@ public class UserController {
 	
 	//주소지 추가
 	@PostMapping("addAddr.do")
+	@ResponseBody
 	public String addAddr(UserAddr userAddr) {
 		int result = service.addAddr(userAddr);
 		System.out.println("userKey : " + userAddr.getUserKey());

@@ -56,7 +56,7 @@ h2 {
 	                        <div class="addrWrap">
 	                            <span>${addr.addr} (${addr.addrCd})</span>
 	                        </div>
-	                    </li>
+	                    </li><br><hr><br>
 	                </c:forEach>
 	            </c:when>
 	            <c:otherwise>
@@ -64,7 +64,7 @@ h2 {
 	            </c:otherwise>
 	        </c:choose>
 	    </ul>
-		<button onclick="addAddr()">주소지 추가</button>
+		<input type="button" onclick="addAddr()" value="주소지 추가">
 	</main>
 <script>
 	function addAddr(){

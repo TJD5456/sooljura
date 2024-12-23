@@ -127,7 +127,7 @@ form{
 			</div>
 			<div class="form-group">
                 <input type="text" class="insertInfo" id="addrCd" name="addrCd" placeholder="우편번호" readonly>
-                <input type="button" onclick="srchAddr()" value="주소지 검색">
+                <button type="button" onclick="srchAddr()">주소지 검색</button>
             </div>
             <div class="form-group">
                 <input type="text" class="insertInfo" id="addr" name="addr" placeholder="주소" readonly>
@@ -136,7 +136,7 @@ form{
             	<input type="text" class="insertInfo" id="addrDetail" name="addrDetail" placeholder="상세주소">
             	<input type="text" class="insertInfo" id="addrRef" name="addrRef" placeholder="참고주소" readonly>
             </div>
-            <div>
+            <div id="mainBtn">
 	            <input type="button" id="undo" onclick="undo()" value="돌아가기">
 	            <input type="button" id="addAddr" onclick="submitBtn()" value="추가하기">
             </div>
@@ -227,8 +227,7 @@ form{
 				type : "POST",
 				success : function(res){
 					if(res === "1"){
-						msg('알림', '주소 등록이 완료되었습니다', 'success');
-						location.href = "/user/addrListFrm.do";
+						msg('알림', '주소 등록이 완료되었습니다', 'success', "location.href = '/user/addrListFrm.do';");
 					}else{
 						msg('알림', '주소 등록 중 오류가 발생했습니다', 'error');
 					}

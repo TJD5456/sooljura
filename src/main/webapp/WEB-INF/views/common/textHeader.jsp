@@ -35,7 +35,7 @@ header{
 	display: flex;
 	background-color: #EFECE5;
 }
-button {
+input[type=button] {
     /* Disable text selection inside the button */
     /* Standard, FireFox, Safari & Chrome */
     user-select: none;

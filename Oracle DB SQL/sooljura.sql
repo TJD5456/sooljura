@@ -27,9 +27,9 @@ drop sequence seq_product_category;   -- c
 drop sequence seq_product;            -- pr
 drop sequence seq_product_image;      -- im
 drop sequence seq_discount_info;      -- di
-drop sequence seq_discount_histstory; -- dh
+drop sequence seq_discount_history;   -- dh
 drop sequence seq_basket;             -- bk
-drop sequence seq_order_history;       -- oh
+drop sequence seq_order_history;      -- oh
 drop sequence seq_refund_key;         -- rf
 
 create table tbl_user_type (
@@ -194,7 +194,7 @@ create table tbl_discount_history (
 );
 
 -- 'dh' || to_char(sysdate, 'yymmdd') || lpad(seq_discount_histstory.nextval, 4, '0')
-create sequence seq_discount_histstory maxvalue 9999 cycle;
+create sequence seq_discount_history maxvalue 9999 cycle;
 
 create table tbl_basket_type (
    basket_cd number primary key,

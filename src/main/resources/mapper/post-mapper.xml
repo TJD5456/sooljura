@@ -4,7 +4,7 @@
 
 <mapper namespace="post">
 
-   <select id="selectPostList" resultType="post">
+   <select id="selectPostList" resultType="Post">
     SELECT *
     FROM (
         SELECT 
@@ -14,8 +14,8 @@
             p.user_key AS userKey,
             u.user_nicknm AS userNickname,
             p.post_title AS postTitle,
-            p.comment_content AS commentContent,
-            p.post_views AS postViews,
+            p.post_content AS postContent,
+            p.post_view AS postViews,
             TO_CHAR(p.post_date, 'YYYY-MM-DD HH24:MI:SS') AS postDate,
             p.confirm_yn AS confirmYn,
             p.delete_yn AS deleteYn,
@@ -31,7 +31,7 @@
             p.delete_yn = 0
         ORDER BY 
             p.post_date DESC
-    ) 
+    )
     WHERE rnum BETWEEN #{start} AND #{end}
 </select>
 

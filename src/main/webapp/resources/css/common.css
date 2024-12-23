@@ -149,3 +149,26 @@ button:hover {
     background-color: #f5afa5;
     box-shadow: 1px 1px 1px 1px #fc8173;
 }
+
+/* 테이블 스타일 */
+table {
+	width: 80%;
+	max-width: 1000px;
+	margin: 0 auto;
+	border-collapse: collapse;
+}
+
+th, td {
+	border: 1px solid #ddd;
+	padding: 10px;
+	text-align: center;
+}
+
+th {
+	background-color: #f4f4f4;
+	font-weight: bold;
+}
+
+tr:hover {
+	background-color: #f9f9f9;
+}

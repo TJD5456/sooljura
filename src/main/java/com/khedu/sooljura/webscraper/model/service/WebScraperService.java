@@ -45,7 +45,6 @@ public class WebScraperService {
 	public void doScraper() {
 		
 		ArrayList<Product> prodList = new ArrayList<Product>();
-		
 		String [][] bevArrColl= {
 				{
 					
@@ -61,7 +60,8 @@ public class WebScraperService {
 				"http://www.kajawine.kr/shop/list.php?ca_id=2020&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
 				"http://www.kajawine.kr/shop/list.php?ca_id=2030&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
 				"http://www.kajawine.kr/shop/list.php?ca_id=2040&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
-				"http://www.kajawine.kr/shop/list.php?ca_id=2050&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=" 
+				"http://www.kajawine.kr/shop/list.php?ca_id=2050&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
+				"http://www.kajawine.kr/shop/list.php?ca_id=6010&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page="
 				},
 				{
 				"http://www.kajawine.kr/shop/list.php?ca_id=3010&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
@@ -69,42 +69,56 @@ public class WebScraperService {
 				"http://www.kajawine.kr/shop/list.php?ca_id=3040&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=" 
 				},
 				{
-				"http://www.kajawine.kr/shop/list.php?ca_id=6010&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
 				"http://www.kajawine.kr/shop/list.php?ca_id=6020&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
 				"http://www.kajawine.kr/shop/list.php?ca_id=6030&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
 				"http://www.kajawine.kr/shop/list.php?ca_id=6040&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
 				"http://www.kajawine.kr/shop/list.php?ca_id=6050&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=" 
 				},
 				{
-				"http://www.kajawine.kr/shop/list.php?ca_id=40&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",  
+				"http://www.kajawine.kr/shop/list.php?ca_id=40&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page="
+				},
+				{
 				"http://www.kajawine.kr/shop/list.php?ca_id=5010&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
 				"http://www.kajawine.kr/shop/list.php?ca_id=5020&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",
 				//"http://www.kajawine.kr/shop/list.php?ca_id=b0&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page="  //보류 -- 사케
 				}
 		};
-		//주류 분류코드
-		String sortMjrCode = "c";
-
-	    for (int i = 0; i < bevArrColl.length; i++) {
-	        String[] bevArr = bevArrColl[i];
-	       
-	        
+		
+		String [] sortCodeArr = {
+				"c0007",
+				"c0008",
+				"c0009",
+				"c0010",
+				"c0011",
+				"c0012",
+				"c0013",
+				"c0014",
+				"c0015",
+				"c0016",
+				"c0017",
+				"c0018",
+				"c0019",
+				"c0020",
+				"c0021",
+				"c0022",
+				"c0023",
+				"c0024",
+				"c0025",
+				"c0026",
+				"c0027"
+		};
+	    for (int i = 0; i < bevArrColl.length; i++) {	        
+	    	String[] bevArr = bevArrColl[i];
 	        for (int j = 0; j < bevArr.length; j++) {
-	        	
-	        	String sortMnr = Integer.toString((j+1)*10);
-	        	
-	            String sortCode = sortMjrCode + sortMnr;
-	            
+	        	String sortCode = sortCodeArr[j];
 	            prodList = scraper(bevArr[j], sortCode);
-	            
-	            dao.insProd(prodList.get(j));
-	            
-	            
 	            System.out.println(sortCode);
-	            System.out.println(prodList.toString());
+	            System.out.println(prodList.get(j).toString());
+	            dao.insProd(prodList.get(j));
 	            
 	        }
 	    }
+		
 	   
 	}
 	
@@ -144,10 +158,12 @@ public class WebScraperService {
 					Element strikeTag = parentsEl.getElementsByClass("sct_cost").get(0).getElementsByTag("strike").first();
 					if (strikeTag != null) {
 						String productPrice = strikeTag.text(); 
-						prod.setProdPrice(productPrice);
+						String cleanedPrice = productPrice.replace(",", "").replace("원", "");
+						prod.setProdPrice(cleanedPrice);
 					}else {
 						String productPrice = price.text(); 
-						prod.setProdPrice(productPrice);
+						String cleanedPrice = productPrice.replace(",", "").replace("원", "");
+						prod.setProdPrice(cleanedPrice);
 					}
 
 					//
@@ -155,7 +171,7 @@ public class WebScraperService {
 						System.out.println("거래 종료 상품");
 						
 						//거래 종료상품 상품명 제공
-						prod.setProdNm(productName);
+						prod.setProdName(productName);
 						
 						prod.setProdOrigin(null);
 						prod.setProdMaker(null);
@@ -164,9 +180,8 @@ public class WebScraperService {
 						prod.setProdVol(null);
 						prod.setProdIntro(null);
 						prod.setIsTrading("0");
-						prod.setProdCnt(null);
-						prod.setProdImgDetail(null);
-						
+						prod.setProdCnt("0");
+						prod.setCategoryKey(sortCode);
 						list.add(prod);
 					} else {
 						list.add(prod);
@@ -302,20 +317,23 @@ public class WebScraperService {
 			// 상품명
 			productName = document.selectFirst(".good_tit1").text();
 			//db에 저장될(웹페이지에 올라갈) 상품명 (특수기호 포함)
-			prod.setProdNm(productName);
+			prod.setProdName(productName);
 
 			//제품명에 a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ를 제외한 특수기호가 포함되어있는지 확인
 			String replacedProdNm =prodNameChk(productName);
 			
 			// 이미지 다운로드
 			// 상세페이지 이미지 (360x480)만 관리
-			String detailImgLoc = getImgFile(productImgLink, sortCode, replacedProdNm, "detail_360x480");
-			
-//			prodImg 객체에 값 전달
-			prodImg.setImgKey("");
-			prodImg.setProdKey("");
-			prodImg.setImgNm("");
+			String detailImgLoc = getImgFile(productImgLink, sortCode, replacedProdNm, "360x480");
+			String detailImgLocNm = detailImgLoc.replace(".jpg", "");
+			String prodKey = dao.selProdKey(productName);
+
+			//prodImg 객체에 값 전달
+			prodImg.setProdKey(prodKey);
+			prodImg.setImgNm(detailImgLocNm);
 			prodImg.setImgPath(detailImgLoc);
+			
+			dao.insProdDetailImg(prodImg);
 			
 			//prod객체에 각 값 전달
 			prod.setProdOrigin(productOrigin);

@@ -3,7 +3,7 @@ package com.khedu.sooljura.webscraper.model.vo;
 
 
 public class Product {
-	private String prodNm; 		//제품명
+	private String prodName; 		//제품명
 	private String prodPrice; 	//제품가격
 	private String prodMaker; 	//제조사
 	private String prodOrigin; 	//원산지
@@ -14,19 +14,17 @@ public class Product {
 	private String prodVol; 	//용량  									//tbl_prod 컬럼 추가 예정 
 	private String prodProof; 	//알콜도수  								//tbl_prod 컬럼 추가 예정 
 	
-	private String prodImgThumbnail;
-	private String prodImgDetail;
-	
+	private String categoryKey;
+
 	public Product() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Product(String prodNm, String prodPrice, String prodMaker, String prodOrigin, String prodIntro,
-			String prodCnt, String isTrading, String prodVol, String prodProof, String prodImgThumbnail,
-			String prodImgDetail) {
+	public Product(String prodName, String prodPrice, String prodMaker, String prodOrigin, String prodIntro,
+			String prodCnt, String isTrading, String prodVol, String prodProof, String categoryKey) {
 		super();
-		this.prodNm = prodNm;
+		this.prodName = prodName;
 		this.prodPrice = prodPrice;
 		this.prodMaker = prodMaker;
 		this.prodOrigin = prodOrigin;
@@ -35,16 +33,15 @@ public class Product {
 		this.isTrading = isTrading;
 		this.prodVol = prodVol;
 		this.prodProof = prodProof;
-		this.prodImgThumbnail = prodImgThumbnail;
-		this.prodImgDetail = prodImgDetail;
+		this.categoryKey = categoryKey;
 	}
 
-	public String getProdNm() {
-		return prodNm;
+	public String getProdName() {
+		return prodName;
 	}
 
-	public void setProdNm(String prodNm) {
-		this.prodNm = prodNm;
+	public void setProdName(String prodName) {
+		this.prodName = prodName;
 	}
 
 	public String getProdPrice() {
@@ -111,29 +108,22 @@ public class Product {
 		this.prodProof = prodProof;
 	}
 
-	public String getProdImgThumbnail() {
-		return prodImgThumbnail;
+	public String getCategoryKey() {
+		return categoryKey;
 	}
 
-	public void setProdImgThumbnail(String prodImgThumbnail) {
-		this.prodImgThumbnail = prodImgThumbnail;
-	}
-
-	public String getProdImgDetail() {
-		return prodImgDetail;
-	}
-
-	public void setProdImgDetail(String prodImgDetail) {
-		this.prodImgDetail = prodImgDetail;
+	public void setCategoryKey(String categoryKey) {
+		this.categoryKey = categoryKey;
 	}
 
 	@Override
 	public String toString() {
-		return "prodNm=" + prodNm + "\nprodPrice=" + prodPrice + "\nprodMaker=" + prodMaker + "\nprodOrigin="
-				+ prodOrigin + "\nprodIntro=" + prodIntro + "\nprodCnt=" + prodCnt + "\nisTrading=" + isTrading
-				+ "\nprodVol=" + prodVol + "\nprodProof=" + prodProof + "\nprodImgThumbnail=" + prodImgThumbnail
-				+ "\nprodImgDetail=" + prodImgDetail;
+		return "Product [prodName=" + prodName + ", prodPrice=" + prodPrice + ", prodMaker=" + prodMaker
+				+ ", prodOrigin=" + prodOrigin + ", prodIntro=" + prodIntro + ", prodCnt=" + prodCnt + ", isTrading="
+				+ isTrading + ", prodVol=" + prodVol + ", prodProof=" + prodProof + ", categoryKey=" + categoryKey
+				+ "]";
 	}
-
+	
+	
 	
 }	

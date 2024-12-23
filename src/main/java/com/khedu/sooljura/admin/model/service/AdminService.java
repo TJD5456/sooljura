@@ -43,4 +43,8 @@ public class AdminService {
     public int uploadYoutube(Youtube youtube) {
         return dao.uploadYoutube(youtube);
     }
+
+    public ArrayList<Product> getAllProductsInfo() {
+        return (ArrayList<Product>) dao.getAllProductsInfo();
+    }
 }

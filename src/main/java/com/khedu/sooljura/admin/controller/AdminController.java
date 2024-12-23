@@ -44,6 +44,10 @@ public class AdminController {
         } else if (manageCategoryResult != null) {
             model.addAttribute("manageCategoryResult", manageCategoryResult);
         }
+
+        ArrayList<Product> products = service.getAllProductsInfo();
+        model.addAttribute("products", products);
+
         return "/admin/manageProducts";
     }
 
@@ -130,7 +134,7 @@ public class AdminController {
         int uploadProductResult = service.uploadProduct(product, imageList);
 
         if (uploadProductResult > 0) {
-            return "redirect:/admin/adminPage.do";
+            return "redirect:/admin/manageProducts.do";
         } else {
             return "redirect:/admin/manageProducts.do?uploadProductResult=" + uploadProductResult;
         }

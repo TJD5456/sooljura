@@ -37,6 +37,19 @@
                 #{higherCategory})
     </insert>
 
+    <select id="getAllProductsInfo" resultType="product">
+        select prod_key     as prodKey,
+               prod_name     as prodName,
+               prod_price   as prodPricem,
+               prod_maker   as prodMaker,
+               prod_origin  as prodOrigin,
+               prod_intro   as prodIntro,
+               prod_cnt     as prodCnt,
+               upload_date  as uploadDate,
+               category_key as categoryKey
+        from tbl_product
+    </select>
+
     <insert id="uploadYoutube" parameterType="youtube">
         insert into tbl_youtube (youtube_url, content, prod_key1
         <if test="prodKey2 != null">, prod_key2</if>

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository("adminDao")
 public class AdminDao {
 
@@ -34,5 +36,9 @@ public class AdminDao {
 
     public int uploadYoutube(Youtube youtube) {
         return template.insert("admin.uploadYoutube", youtube);
+    }
+
+    public List<Product> getAllProductsInfo() {
+        return template.selectList("admin.getAllProductsInfo");
     }
 }

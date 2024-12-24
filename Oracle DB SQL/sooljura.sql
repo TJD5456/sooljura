@@ -67,8 +67,8 @@ create table tbl_user_addr (
    addr_nm     char(30) not null,
    addr_cd     char(5) not null,
    addr        varchar2(300) not null,
-   addr_detail varchar2(100) not null,
-   addr_ref    varchar2(50) not null,
+   addr_detail varchar2(100),
+   addr_ref    varchar2(50),
    rcpt_nm     varchar2(50) not null,
    rcpt_phone  varchar2(11) not null,
    default_yn  number default 0
@@ -93,6 +93,9 @@ create table tbl_post_file (
    post_file_nm   varchar2(400) not null,
    post_file_path varchar2(100) not null
 );
+
+--'pi' || lpad(seq_product_category.nextval, 4, '0')
+create sequence seq_post_file maxvalue 9999 cycle;
 
 create table tbl_post (
    post_key      char(12) primary key,

@@ -54,7 +54,10 @@ input[type=button] {
     bottom: 20px;
     left: 35%;
 }
-
+input[type=button]:hover{
+	background-color: #f5afa5;
+    box-shadow: 1px 1px 1px 1px #fc8173;
+}
 button:hover {
     background-color: #f5afa5;
     box-shadow: 1px 1px 1px 1px #fc8173;

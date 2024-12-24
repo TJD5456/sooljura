@@ -49,8 +49,4 @@
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </main>
-<script>
-    // TODO: youtube 정보 입력 성공하고서 페이지 다시 띄어질때 알림 보이게하기
-
-</script>
 </html>

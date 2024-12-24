@@ -14,11 +14,6 @@
             <div class="title">
                 <h1>유튜브관리 페이지</h1>
             </div>
-
-            https://www.youtube.com/watch?v=fnlJw9H0xAM&pp=ygUCbmY%3D
-            <br>
-            pr2412240001
-
             <form action="${pageContext.request.contextPath}/admin/uploadYoutube.do" method="get">
                 <table>
                     <tr>

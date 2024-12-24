@@ -8,5 +8,6 @@ bin/
 
 .idea/
 sooljura.iml
+qodana.yaml
 
 .vscode/settings.json

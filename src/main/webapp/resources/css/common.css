@@ -86,14 +86,14 @@ header > a:hover {
 
 main {
     padding-left: 225px;
-    background-color: #f9f9f9;
+    background-color: var(--back-ground);
 }
 
 .wrapper {
     display: flex; /* Make the wrapper a flex container */
     align-items: flex-start; /* Optional: aligns items at the start of the container */
     min-height: 100vh; /* Ensures the wrapper takes up the full viewport height */
-    background-color: #f9f9f9;
+    background-color: var(--back-ground);
 }
 
 .content {
@@ -129,7 +129,7 @@ footer {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #f1f1f1;
+    background-color: var(--footer-background);
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -148,12 +148,12 @@ button {
     border-radius: 15px;
     color: #efece5;
     background-color: #fc8173;
-    box-shadow: 1px 1px 1px 1px #d2210d;
+    box-shadow: 1px 1px 1px 1px var(--button-shadow);
 }
 
 button:hover {
     background-color: #f5afa5;
-    box-shadow: 1px 1px 1px 1px #fc8173;
+    box-shadow: 1px 1px 1px 1px var(--button-background);
 }
 
 /* 테이블 스타일 */

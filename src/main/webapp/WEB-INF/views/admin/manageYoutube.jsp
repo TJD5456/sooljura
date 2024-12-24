@@ -27,7 +27,10 @@
                     </tr>
                     <tr>
                         <th><label for="contentInput">제품 설명</label></th>
-                        <td><input type="text" name="content" id="contentInput"></td>
+                        <td>
+                            <textarea id="contentInput" name="content" rows="6" cols="50" placeholder="유튜브 소개 작성 ..."
+                                      maxlength="4000" wrap="hard" style="resize: none" required></textarea>
+                        </td>
                     </tr>
                     <tr>
                         <th><label for="prodKeyInput1">제품 1 등록</label></th>

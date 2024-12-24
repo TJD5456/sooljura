@@ -4,6 +4,15 @@
 <html>
 <head>
     <title>manageProducts.jsp</title>
+    <style>
+        .categoryLevel1, .categoryLevel2 {
+            border-bottom: var(--table-border) 1px solid;
+        }
+
+        .categoryLevel2, .categoryLevel3 {
+            display: none;
+        }
+    </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
@@ -47,16 +56,37 @@
                     <tr class="categoryRow">
                         <th>카테고리</th>
                         <td>
-                            <c:forEach var="category" items="${categoryList}">
-                                <c:if test="${category.categoryLevel == 1}">
-                                    <input type="radio" value="${category.categoryKey}"
-                                           id="categoryInput${category.categoryNm}" name="categoryKey" required>
-                                    <label for="categoryInput${category.categoryNm}">${category.categoryNm}</label>
-                                    <br>
-                                </c:if>
-                            </c:forEach>
+                            <div class="categoryLevel1">
+                                <c:forEach var="category" items="${categoryList}">
+                                    <c:if test="${category.categoryLevel == 1}">
+                                        <input type="radio" value="${category.categoryKey}"
+                                               id="categoryInput${category.categoryNm}" required>
+                                        <label for="categoryInput${category.categoryNm}">${category.categoryNm}</label>
+                                        <br>
+                                    </c:if>
+                                </c:forEach>
+                            </div>
+                            <div class="categoryLevel2">
+                                <c:forEach var="category" items="${categoryList}">
+                                    <c:if test="${category.categoryLevel == 2}">
+                                        <input type="radio" value="${category.categoryKey}"
+                                               id="categoryInput${category.categoryNm}" required>
+                                        <label for="categoryInput${category.categoryNm}">${category.categoryNm}</label>
+                                        <br>
+                                    </c:if>
+                                </c:forEach>
+                            </div>
+                            <div class="categoryLevel3">
+                                <c:forEach var="category" items="${categoryList}">
+                                    <c:if test="${category.categoryLevel == 3}">
+                                        <input type="radio" value="${category.categoryKey}"
+                                               id="categoryInput${category.categoryNm}" required>
+                                        <label for="categoryInput${category.categoryNm}">${category.categoryNm}</label>
+                                        <br>
+                                    </c:if>
+                                </c:forEach>
+                            </div>
                         </td>
-                    </tr>
                     <tr>
                         <th><label for="cntInput">수량</label></th>
                         <td><input type="text" id="cntInput" name="prodCnt" required></td>
@@ -104,6 +134,11 @@
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </main>
 <script>
+    function manageCategoryFrm() {
+        window.location.href = '/admin/manageCategoryFrm.do';
+    }
+
+    // TODO: 상품, 카테고리 등록하고 돌아오면 알림 뜨게 하기
     $(function () {
         let uploadProductResult = "${uploadProductResult}";
         let manageCategoryResult = "${manageCategoryResult}";
@@ -119,9 +154,10 @@
         }
     });
 
-    function manageCategoryFrm() {
-        window.location.href = '/admin/manageCategoryFrm.do';
-    }
+    $('.categoryLevel1 input[type="radio"]').on('change', function () {
+        $('.categoryLevel2').toggle();
+    });
+
 </script>
 </body>
 </html>

@@ -62,4 +62,5 @@ public class AdminDao {
     public List<ProductImage> getProductImages(String prodKey) {
         return template.selectList("admin.getProductImages", prodKey);
     }
+
 }

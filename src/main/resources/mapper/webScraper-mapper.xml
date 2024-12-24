@@ -29,7 +29,7 @@
                 sysdate,
                 #{prodVol},
    				#{prodProof},
-   				#{isTrading},
+   				#{tradingYn},
                 #{categoryKey}
                 )
 	</insert> 

@@ -17,6 +17,11 @@
     --back-ground: #F9F9F9;
     --footer-background: #F1F1F1;
     --black: #000000;
+
+    --table-border: #DDD;
+
+    --table-th-background: #f4f4f4;
+    --table-tr-background-hover: #f9f9f9;
 }
 
 * {
@@ -160,16 +165,16 @@ table {
 }
 
 th, td {
-    border: 1px solid #ddd;
+    border: 1px solid var(--table-border);
     padding: 10px;
     text-align: center;
 }
 
 th {
-    background-color: #f4f4f4;
+    background-color: var(--table-th-background);
     font-weight: bold;
 }
 
 tr:hover {
-    background-color: #f9f9f9;
+    background-color: var(--table-tr-background-hover););
 }

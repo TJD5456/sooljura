@@ -5,7 +5,6 @@ import com.khedu.sooljura.admin.model.vo.ProductCategory;
 import com.khedu.sooljura.admin.model.vo.ProductImage;
 import com.khedu.sooljura.admin.model.vo.Youtube;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
@@ -14,9 +13,11 @@ import java.util.List;
 @Repository("adminDao")
 public class AdminDao {
 
-    @Autowired
-    @Qualifier("sqlSessionTemplate")
-    private SqlSessionTemplate template;
+    private final SqlSessionTemplate template;
+
+    public AdminDao(@Qualifier("sqlSessionTemplate") SqlSessionTemplate template) {
+        this.template = template;
+    }
 
     public int numberOfUnCheckedPost() {
         return template.selectOne("admin.numberOfUnCheckedPost");
@@ -61,4 +62,5 @@ public class AdminDao {
     public List<ProductImage> getProductImages(String prodKey) {
         return template.selectList("admin.getProductImages", prodKey);
     }
+
 }

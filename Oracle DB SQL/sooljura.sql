@@ -67,8 +67,8 @@ create table tbl_user_addr (
    addr_nm     char(30) not null,
    addr_cd     char(5) not null,
    addr        varchar2(300) not null,
-   addr_detail varchar2(100) not null,
-   addr_ref    varchar2(50) not null,
+   addr_detail varchar2(100),
+   addr_ref    varchar2(50),
    rcpt_nm     varchar2(50) not null,
    rcpt_phone  varchar2(11) not null,
    default_yn  number default 0
@@ -87,12 +87,15 @@ insert into tbl_post_type values ( 2, '자유게시판' );
 insert into tbl_post_type values ( 3, '후기' );
 
 
-CREATE TABLE tbl_post_file (
-   post_file_key   char(12)      primary key ,
+create table tbl_post_file (
+   post_file_key  char(12) primary key,
    post_key       char(12) not null references tbl_post ( post_key ) on delete cascade,
-   post_file_nm   varchar2(400)   not null,
-   post_file_path   varchar2(100)   not null
+   post_file_nm   varchar2(400) not null,
+   post_file_path varchar2(100) not null
 );
+
+--'pi' || lpad(seq_product_category.nextval, 4, '0')
+create sequence seq_post_file maxvalue 9999 cycle;
 
 create table tbl_post (
    post_key      char(12) primary key,
@@ -113,7 +116,7 @@ create sequence seq_post maxvalue 9999 cycle;
 
 create table tbl_comment (
    comment_key     char(12) primary key,
-   post_key        char(12) not null references tbl_post ( post_key ) on delete set null,
+   post_key        char(12) not null references tbl_post ( post_key ) on delete cascade,
    user_key        char(12) not null references tbl_user ( user_key ) on delete set null,
    comment_content varchar2(2000) not null,
    comment_date    date default sysdate
@@ -188,11 +191,11 @@ create table tbl_product (
    prod_origin  varchar2(100),
    prod_intro   varchar2(4000),
    prod_cnt     number not null,
-   upload_date  date default sysdate,
    prod_vol     varchar2(30),
    prod_proof   varchar2(30),
-   is_trading   number default 0,
-   category_key char(5) references tbl_product_category ( category_key )
+   trading_yn   number default 0,
+   category_key char(5) references tbl_product_category ( category_key ),
+   upload_date  date default sysdate
 );
 
 -- 'pr' || to_char(sysdate, 'yymmdd') || lpad(seq_product.nextval, 4, '0')

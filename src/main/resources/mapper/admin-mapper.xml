@@ -20,8 +20,18 @@
     </select>
 
     <insert id="uploadProduct" parameterType="product">
-        insert into tbl_product (prod_key, prod_name, prod_price, prod_maker, prod_origin, prod_intro, prod_cnt,
-                                 upload_date, category_key)
+        insert into tbl_product (prod_key,
+                                 prod_name,
+                                 prod_price,
+                                 prod_maker,
+                                 prod_origin,
+                                 prod_intro,
+                                 prod_cnt,
+                                 prod_vol,
+                                 prod_proof,
+                                 trading_yn,
+                                 category_key,
+                                 upload_date)
         values (#{prodKey},
                 #{prodName},
                 #{prodPrice},
@@ -29,8 +39,11 @@
                 #{prodOrigin},
                 #{prodIntro},
                 #{prodCnt},
-                sysdate,
-                #{categoryKey})
+                #{prodVol},
+                #{prodProof},
+                #{tradingYn},
+                #{categoryKey},
+                sysdate)
     </insert>
 
     <insert id="uploadProdImg" parameterType="productImage">
@@ -40,6 +53,16 @@
                 #{imgPath},
                 #{prodKey})
     </insert>
+
+
+    <select id="selectLowerCategory" parameterType="string" resultType="productCategory">
+        select category_key    as categoryKey,
+               category_level  as categoryLevel,
+               category_nm     as categoryNm,
+               higher_category as higherCategory
+        from tbl_product_category
+        where higher_category = #{_currentCategoryKey}
+    </select>
 
     <insert id="createCategory" parameterType="productCategory">
         insert into tbl_product_category (category_key, category_level, category_nm, higher_category)
@@ -69,7 +92,7 @@
                category_nm     as categoryNm,
                higher_category as higherCategory
         from tbl_product_category
-        where category_key = #{categoryKey}
+        where category_key = #{_categoryKey}
     </select>
 
     <select id="getAllCategoryInfos" resultType="productCategory">

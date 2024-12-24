@@ -5,7 +5,6 @@ import com.khedu.sooljura.admin.model.vo.Product;
 import com.khedu.sooljura.admin.model.vo.ProductCategory;
 import com.khedu.sooljura.admin.model.vo.ProductImage;
 import com.khedu.sooljura.admin.model.vo.Youtube;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,9 +27,11 @@ import java.util.Random;
 @RequestMapping("/admin/")
 public class AdminController {
 
-    @Autowired
-    @Qualifier("adminService")
-    private AdminService service;
+    private final AdminService service;
+
+    public AdminController(@Qualifier("adminService") AdminService service) {
+        this.service = service;
+    }
 
     @GetMapping("adminPage.do")
     public String adminPage(Model model) {
@@ -126,7 +127,7 @@ public class AdminController {
 
                 try {
                     byte[] bytes = image.getBytes();
-                    FileOutputStream fos = new FileOutputStream(new File(savePath));
+                    FileOutputStream fos = new FileOutputStream(savePath);
                     bos = new BufferedOutputStream(fos);
                     bos.write(bytes);
 

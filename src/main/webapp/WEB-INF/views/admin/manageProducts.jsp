@@ -14,8 +14,8 @@
             <div class="title">
                 <h1>상품 관리 페이지</h1>
             </div>
-            <form action="/admin/uploadProduct.do" method="post" enctype="multipart/form-data" id="uploadForm">
-                <table border="1">
+            <form action="${pageContext.request.contextPath}/admin/uploadProduct.do" method="post" enctype="multipart/form-data" id="uploadForm">
+                <table>
                     <tr>
                         <th><label for="nameInput">상품명</label></th>
                         <td><input type="text" id="nameInput" name="prodName"></td>
@@ -80,7 +80,7 @@
             <div class="show-products">
                 <c:forEach var="product" items="${products}">
                     <div class="product-each">
-                        <%-- TODO: 제품을 클릭하면 제품 상세 페이지로 이동하도록 할것 --%>
+                            <%-- TODO: 제품을 클릭하면 제품 상세 페이지로 이동하도록 할것 --%>
                         <span>${product.prodKey}</span>
                         <span>${product.productCategory.categoryNm}</span>
                         <span>${product.prodName}</span>

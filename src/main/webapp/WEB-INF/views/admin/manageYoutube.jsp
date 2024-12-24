@@ -18,8 +18,8 @@
             https://www.youtube.com/watch?v=fnlJw9H0xAM&pp=ygUCbmY%3D
             <br>
             pr2412230001
-            <form action="/admin/uploadYoutube.do" method="get">
-                <table border="1">
+            <form action="${pageContext.request.contextPath}/admin/uploadYoutube.do" method="get">
+                <table>
                     <tr>
                         <th><label for="urlInput">유튜브 URL</label></th>
                         <td><input type="text" name="youtubeUrl" id="urlInput"></td>

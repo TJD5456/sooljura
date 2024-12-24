@@ -10,8 +10,8 @@
     <jsp:include page="/WEB-INF/views/common/header.jsp"/>
     <div class="wrapper">
         <div class="content">
-            <form action="/admin/manageCategory.do" method="get">
-                <table border="1">
+            <form action="${pageContext.request.contextPath}/admin/manageCategory.do" method="get">
+                <table>
                     <tr>
                         <th><label for="categoryLevelInput">카테고리 레벨</label></th>
                         <td><input type="text" id="categoryLevelInput" name="categoryLevel"></td>

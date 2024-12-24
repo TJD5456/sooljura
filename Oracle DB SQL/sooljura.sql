@@ -105,7 +105,7 @@ create sequence seq_post maxvalue 9999 cycle;
 
 create table tbl_comment (
    comment_key     char(12) primary key,
-   post_key        char(12) not null references tbl_post ( post_key ) on delete set null,
+   post_key        char(12) not null references tbl_post ( post_key ) on delete cascade,
    user_key        char(12) not null references tbl_user ( user_key ) on delete set null,
    comment_content varchar2(2000) not null,
    comment_date    date default sysdate

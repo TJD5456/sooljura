@@ -65,7 +65,7 @@ create table tbl_user_addr (
    addr_key    char(12) primary key,
    user_key    char(12) not null references tbl_user ( user_key ) on delete cascade,
    addr_nm     char(30) not null,
-   addr_cd   char(5) not null,
+   addr_cd     char(5) not null,
    addr        varchar2(300) not null,
    addr_detail varchar2(100) not null,
    addr_ref    varchar2(50) not null,
@@ -87,16 +87,16 @@ insert into tbl_post_type values ( 2, '자유게시판' );
 insert into tbl_post_type values ( 3, '후기' );
 
 create table tbl_post (
-   post_key        char(12) primary key,
-   post_cd         number not null references tbl_post_type ( post_cd ) on delete cascade,
-   user_key        char(12) not null references tbl_user ( user_key ) on delete set null,
-   post_content  varchar2(2000) not null, 
-   post_title       varchar2(225) not null, 
-   post_date       date default sysdate,
-   post_view       number default 0,
-   confirm_yn      number default 0,
-   delete_yn       number default 0,
-   delete_reason   varchar2(200)
+   post_key      char(12) primary key,
+   post_cd       number not null references tbl_post_type ( post_cd ) on delete cascade,
+   user_key      char(12) not null references tbl_user ( user_key ) on delete set null,
+   post_content  varchar2(2000) not null,
+   post_title    varchar2(225) not null,
+   post_date     date default sysdate,
+   post_view     number default 0,
+   confirm_yn    number default 0,
+   delete_yn     number default 0,
+   delete_reason varchar2(200)
 );
 -- post_content comment_content로 되어있었어서 수정.
 
@@ -143,8 +143,8 @@ insert into tbl_product_category values ( 'c' || lpad( seq_product_category.next
 insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 1, '보드카/스피릿', null );
 insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 1, '전통주/민속주', null );
 insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 1, '기타주류', null );
-
 insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '프랑스 와인', 'c0001' );
+
 insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '이탈리아 와인', 'c0001' );
 insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '칠레 와인', 'c0001' );
 insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '미국 와인', 'c0001' );
@@ -167,12 +167,8 @@ insert into tbl_product_category values ( 'c' || lpad( seq_product_category.next
 insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '테킬라', 'c0004' );
 
 insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '민속주', 'c0005' );
-
 insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '중국술', 'c0006' );
 insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '대만술', 'c0006' );
-
---아메리카 위스키 하위로 들어갈 예정
---insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '테네시 위스키', 'c0012' );
 
 create table tbl_product (
    prod_key     char(12) primary key,
@@ -183,9 +179,9 @@ create table tbl_product (
    prod_intro   varchar2(4000),
    prod_cnt     number not null,
    upload_date  date default sysdate,
-   prod_vol      varchar2(30),
+   prod_vol     varchar2(30),
    prod_proof   varchar2(30),
-   is_trading     number default 0,
+   is_trading   number default 0,
    category_key char(5) references tbl_product_category ( category_key )
 );
 
@@ -205,9 +201,9 @@ create sequence seq_product_image maxvalue 9999 cycle;
 create table tbl_youtube (
    youtube_url varchar2(100) primary key,
    content     varchar2(1000) not null,
-   prod_key1    char(12) not null references tbl_product ( prod_key ) on delete cascade,
-   prod_key2    char(12) references tbl_product ( prod_key ) on delete cascade,
-   prod_key3    char(12) references tbl_product ( prod_key ) on delete cascade
+   prod_key1   char(12) not null references tbl_product ( prod_key ) on delete cascade,
+   prod_key2   char(12) references tbl_product ( prod_key ) on delete cascade,
+   prod_key3   char(12) references tbl_product ( prod_key ) on delete cascade
 );
 
 create table tbl_discount_info (

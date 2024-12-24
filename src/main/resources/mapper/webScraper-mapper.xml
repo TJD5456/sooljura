@@ -53,4 +53,9 @@
     	  from tbl_product
     	 where prod_name = #{prodName}
     </select>
+     <select id="selDuplNmCnt" parameterType = "String" resultType="java.lang.Integer">
+    	select count(*)
+    	  from tbl_product
+    	 where prod_name = #{prodName}
+    </select>
 </mapper>

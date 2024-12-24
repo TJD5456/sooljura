@@ -191,10 +191,10 @@ create table tbl_product (
    prod_origin  varchar2(100),
    prod_intro   varchar2(4000),
    prod_cnt     number not null,
-   upload_date  date default sysdate,
    prod_vol     varchar2(30),
    prod_proof   varchar2(30),
-   is_trading   number default 0,
+   upload_date  date default sysdate,
+   trading_yn   number default 0,
    category_key char(5) references tbl_product_category ( category_key )
 );
 

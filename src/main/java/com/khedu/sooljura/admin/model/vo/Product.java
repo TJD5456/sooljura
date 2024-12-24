@@ -13,7 +13,7 @@ public class Product {
     private String prodVol;
     private String prodProof;
     private String uploadDate;
-    private int tradYn;
+    private int tradingYn;
     private String categoryKey;
 
     private ProductCategory productCategory;
@@ -24,7 +24,7 @@ public class Product {
         super();
     }
 
-    public Product(String prodKey, String prodName, int prodPrice, String prodMaker, String prodOrigin, String prodIntro, int prodCnt, String prodVol, String prodProof, String uploadDate, int tradYn, String categoryKey, ProductCategory productCategory, ArrayList<ProductImage> productImages) {
+    public Product(String prodKey, String prodName, int prodPrice, String prodMaker, String prodOrigin, String prodIntro, int prodCnt, String prodVol, String prodProof, String uploadDate, int tradingYn, String categoryKey, ProductCategory productCategory, ArrayList<ProductImage> productImages) {
         this.prodKey = prodKey;
         this.prodName = prodName;
         this.prodPrice = prodPrice;
@@ -35,7 +35,7 @@ public class Product {
         this.prodVol = prodVol;
         this.prodProof = prodProof;
         this.uploadDate = uploadDate;
-        this.tradYn = tradYn;
+        this.tradingYn = tradingYn;
         this.categoryKey = categoryKey;
         this.productCategory = productCategory;
         this.productImages = productImages;
@@ -121,12 +121,12 @@ public class Product {
         this.uploadDate = uploadDate;
     }
 
-    public int getTradYn() {
-        return tradYn;
+    public int getTradingYn() {
+        return tradingYn;
     }
 
-    public void setTradYn(int tradYn) {
-        this.tradYn = tradYn;
+    public void setTradingYn(int tradingYn) {
+        this.tradingYn = tradingYn;
     }
 
     public String getCategoryKey() {

@@ -63,7 +63,7 @@
                     </tr>
                     <tr>
                         <th><label for="tradeYnInput">거래여부</label></th>
-                        <td><input type="text" id="tradeYnInput" name="tradYn"></td>
+                        <td><input type="text" id="tradeYnInput" name="tradingYn"></td>
                     </tr>
                     <tr class="categoryRow">
                         <th>카테고리</th>
@@ -95,7 +95,7 @@
                                     <c:if test="${category.categoryLevel == 3}">
                                         <span>
                                             <input type="radio" value="${category.categoryKey}"
-                                                   id="${category.categoryNm}" name="categoryNm" required>
+                                                   id="${category.categoryNm}" name="categoryKey" required>
                                             <label for="${category.categoryNm}">${category.categoryNm}</label>
                                         </span>
                                     </c:if>
@@ -127,23 +127,20 @@
                 </tr>
                 </thead>
                 <tbody>
-
+                <c:forEach var="product" items="${products}">
+                    <tr class="product-each">
+                            <%-- TODO: 제품을 클릭하면 제품 상세 페이지로 이동하도록 할것 --%>
+                        <td>${product.prodKey}</td>
+                        <td>${product.productCategory.categoryNm}</td>
+                        <td>${product.prodName}</td>
+                        <td>${product.prodPrice}</td>
+                        <td><img src="/resources/upload/product_images/${product.productImages[0].imgPath}"
+                                 alt="${product.productImages[0].imgNm}" style="height: 100px"></td>
+                        <td>${product.prodCnt}</td>
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
-
-            <c:forEach var="product" items="${products}">
-                <tr class="product-each">
-                        <%-- TODO: 제품을 클릭하면 제품 상세 페이지로 이동하도록 할것 --%>
-                    <td>${product.prodKey}</td>
-                    <td>${product.productCategory.categoryNm}</td>
-                    <td>${product.prodName}</td>
-                    <td>${product.prodPrice}</td>
-                    <td><img src="/resources/product_images/${product.productImages[0].imgPath}"
-                             alt="${product.productImages[0].imgNm}" style="height: 100px"></td>
-                    <td>${product.prodCnt}</td>
-                </tr>
-            </c:forEach>
-
         </div>
         <jsp:include page="/WEB-INF/views/common/remote.jsp"/>
     </div>

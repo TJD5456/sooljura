@@ -193,9 +193,9 @@ create table tbl_product (
    prod_cnt     number not null,
    prod_vol     varchar2(30),
    prod_proof   varchar2(30),
-   upload_date  date default sysdate,
    trading_yn   number default 0,
-   category_key char(5) references tbl_product_category ( category_key )
+   category_key char(5) references tbl_product_category ( category_key ),
+   upload_date  date default sysdate
 );
 
 -- 'pr' || to_char(sysdate, 'yymmdd') || lpad(seq_product.nextval, 4, '0')

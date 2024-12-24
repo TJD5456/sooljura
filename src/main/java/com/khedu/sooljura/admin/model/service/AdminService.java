@@ -45,6 +45,7 @@ public class AdminService {
         ArrayList<Product> productsInfos = (ArrayList<Product>) dao.getAllProductsInfo();
 
         for (Product product : productsInfos) {
+
             ProductCategory category = dao.getCategoryInfo(product.getCategoryKey());
             product.setProductCategory(category);
 

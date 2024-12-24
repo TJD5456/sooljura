@@ -5,6 +5,7 @@ import com.khedu.sooljura.admin.model.vo.Product;
 import com.khedu.sooljura.admin.model.vo.ProductCategory;
 import com.khedu.sooljura.admin.model.vo.ProductImage;
 import com.khedu.sooljura.admin.model.vo.Youtube;
+import jdk.jfr.Category;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +36,10 @@ public class AdminService {
             }
         }
         return result;
+    }
+
+    public ArrayList<Category> selectLowerCategory(String currentCategoryKey) {
+        return (ArrayList<Category>) dao.selectLowerCategory(currentCategoryKey);
     }
 
     public int createCategory(ProductCategory category) {

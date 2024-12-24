@@ -33,6 +33,15 @@
                 #{categoryKey})
     </insert>
 
+    <select id="selectLowerCategory" parameterType="string" resultType="productCategory">
+        select category_key    as categoryKey,
+               category_level  as categoryLevel,
+               category_nm     as categoryNm,
+               higher_category as higherCategory
+        from tbl_product_category
+        where higher_category = #{_currentCategoryKey}
+    </select>
+
     <insert id="uploadProdImg" parameterType="productImage">
         insert into tbl_product_image (img_key, img_nm, img_path, prod_key)
         values ('im' || to_char(sysdate, 'yymmdd') || lpad(seq_product_image.nextval, 4, '0'),

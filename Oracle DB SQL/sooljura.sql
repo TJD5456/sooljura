@@ -206,8 +206,8 @@ create table tbl_youtube (
    youtube_url varchar2(100) primary key,
    content     varchar2(1000) not null,
    prod_key1    char(12) not null references tbl_product ( prod_key ) on delete cascade,
-   prod_key2    char(12) not null references tbl_product ( prod_key ) on delete cascade,
-   prod_key3    char(12) not null references tbl_product ( prod_key ) on delete cascade
+   prod_key2    char(12) references tbl_product ( prod_key ) on delete cascade,
+   prod_key3    char(12) references tbl_product ( prod_key ) on delete cascade
 );
 
 create table tbl_discount_info (

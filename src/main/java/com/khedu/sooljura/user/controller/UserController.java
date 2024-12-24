@@ -74,6 +74,13 @@ public class UserController {
 	@PostMapping("join.do")
 	public void join(User user, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int result = service.join(user);
+		
+/*
+	주소지 입력란 null이 아닐 시 회원가입을 진행한 후 
+	user.userId 추출해서 DB에 들어간 user.userKey 조회
+	조회한 userKey로 tbl_user_addr에 입력한 주소지 넣기
+*/
+		System.out.println("userKey : " + user.getUserKey());
 		if(result == 1) {
 			request.setAttribute("title", "알림");
 			request.setAttribute("msg", "회원가입이 완료되었습니다. 로그인 페이지로 이동합니다");
@@ -153,19 +160,17 @@ public class UserController {
 	}
 	
 	//주소지 수정 페이지 이동
-	@PostMapping("updAddrFrm.do")
-	@ResponseBody
+	@GetMapping("updAddrFrm.do")
 	public String updAddrFrm(String addrKey, Model model) {
 		UserAddr userAddr = service.userAddr(addrKey);
 		
-		System.out.println(userAddr.getAddrKey());
-		
 		model.addAttribute("addrInfo", userAddr);
-		return "/user/updAddr.do?addrKey="+userAddr.getAddrKey();
+		return "/user/updAddr";
 	}
 	
 	//주소지 수정
 	@PostMapping("updAddr.do")
+	@ResponseBody
 	public String updAddr(UserAddr userAddr) {
 		//주소지 변경
 		int result = 0;
@@ -183,6 +188,7 @@ public class UserController {
 			result = service.updAddr(userAddr);			
 		}
 		int complete = result + defaultYnChk;
+		System.out.println("complete : " + complete);
 		
 		return String.valueOf(complete);
 	}

@@ -25,6 +25,11 @@ li{
 .btnWrap > button {
 	width:70px;
 	height: 30px;
+	border-radius: 10px;
+	border : 1px solid #fc8173;
+	background-color: #fc8173;
+	color: #efece5;
+	box-shadow: 1px 1px 1px 1px #d2210d;
 }
 </style>
 </head>
@@ -38,19 +43,23 @@ li{
 	        <c:choose>
 	            <c:when test="${not empty addrList}">
 	                <c:forEach var="addr" items="${addrList}">
-	                    <li>
+	                    <li style="list-style-type: none;">
 	                        <div class="addrWrap">
 								<input type="hidden" class="addrKey" name="addrKey" value="${addr.addrKey}">
-	                            <span>
-	                                ${addr.rcptNm} 
-	                                <c:if test="${not empty addr.addrNm}">(${addr.addrNm})</c:if>
-	                                <c:if test="${addr.defaultYn == 1}"><p>기본배송지</p></c:if>
+	                            <span style="display: flex; font-size: 20px;">
+	                                ${addr.rcptNm}
+	                                <c:if test="${not empty addr.addrNm}">
+	                                	(${addr.addrNm})
+	                                </c:if>
+	                                <c:if test="${addr.defaultYn == 1}">
+	                                	<span style="font-weight: lighter; color: #fc8173; border: 1px solid #fc8173; font-size: 15px; margin-left: 10px;">기본배송지</span>
+	                                </c:if>
 	                            </span>
+	                        </div>
 	                            <div class="btnWrap">
 	                                <button onclick="delAddr(this)">삭제</button>
 	                                <button onclick="updAddr(this)">수정</button>
 	                            </div>
-	                        </div>
 	                        <div class="addrWrap">
 	                            <span>${addr.rcptPhone}</span>
 	                        </div>
@@ -73,7 +82,7 @@ li{
 	}
 	
 	function delAddr(button){
-		const addrKey = $(button).closest('.addrWrap').find('.addrKey').val();
+		const addrKey = $(button).closest('li').find('.addrKey').val();
 		swal({
 			title : "알림",
 			text : "주소를 삭제하시겠습니까?",
@@ -102,8 +111,10 @@ li{
 					},
 					success : function(res){
 						if(res === "1"){
+							console.log('111111111111111');
 							msg('알림', '삭제가 완료되었습니다', 'success', "location.href = '/user/addrListFrm.do';");
 						}else{
+							console.log('22222222222222222');
 							msg('알림', '삭제중 오류가 발생했습니다', 'error');						
 						}
 					},
@@ -116,22 +127,10 @@ li{
 	}
 	
 	function updAddr(button){
-		const addrKey = $(button).closest('.addrWrap').find('.addrKey').val();
-				
-		$.ajax({
-			url : "/user/updAddrFrm.do",
-			type : "POST",
-			data : {
-				addrKey : addrKey,
-			},
-			success : function(res){
-					//window.location.href = "/user/updAddr.do?addrKey=" + res;			
-					location.href=res;
-			},
-			error : function(){
-				console.log('ajax 오류');
-			}
-		});
+		const addrKey = $(button).closest('li').find('.addrKey').val();
+		console.log(addrKey);
+		
+		location.href = "/user/updAddrFrm.do?addrKey=" + addrKey;
 		
 		<%--
 		if (!addrKey) {

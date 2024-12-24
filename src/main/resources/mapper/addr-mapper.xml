@@ -79,13 +79,12 @@
 			rcpt_phone = #{rcptPhone},
 			default_yn = #{defaultYn}
 		where addr_key = #{addrKey}
-		order by addr_key
 	</update>
 	
-	<!-- defaultYn 변경 -->
+	<!-- 기본배송지 변경시 기존 기본배송지 변경 -->
 	<update id="setDefaultYn" parameterType="addr">
 		update tbl_user_addr set
 			default_yn = 0
-		where default_yn = 1
+		where default_yn = 1 and user_key = #{userKey}
 	</update>
 </mapper>

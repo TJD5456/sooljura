@@ -59,30 +59,11 @@
                             <div class="categoryLevel1">
                                 <c:forEach var="category" items="${categoryList}">
                                     <c:if test="${category.categoryLevel == 1}">
-                                        <input type="radio" value="${category.categoryKey}"
-                                               id="categoryInput${category.categoryNm}" required>
-                                        <label for="categoryInput${category.categoryNm}">${category.categoryNm}</label>
-                                        <br>
-                                    </c:if>
-                                </c:forEach>
-                            </div>
-                            <div class="categoryLevel2">
-                                <c:forEach var="category" items="${categoryList}">
-                                    <c:if test="${category.categoryLevel == 2}">
-                                        <input type="radio" value="${category.categoryKey}"
-                                               id="categoryInput${category.categoryNm}" required>
-                                        <label for="categoryInput${category.categoryNm}">${category.categoryNm}</label>
-                                        <br>
-                                    </c:if>
-                                </c:forEach>
-                            </div>
-                            <div class="categoryLevel3">
-                                <c:forEach var="category" items="${categoryList}">
-                                    <c:if test="${category.categoryLevel == 3}">
-                                        <input type="radio" value="${category.categoryKey}"
-                                               id="categoryInput${category.categoryNm}" required>
-                                        <label for="categoryInput${category.categoryNm}">${category.categoryNm}</label>
-                                        <br>
+                                        <span>
+                                            <input type="radio" value="${category.categoryKey}"
+                                                   id="${category.categoryNm}" name="level1" required>
+                                            <label for="${category.categoryNm}">${category.categoryNm}</label>
+                                        </span>
                                     </c:if>
                                 </c:forEach>
                             </div>
@@ -155,9 +136,33 @@
     });
 
     $('.categoryLevel1 input[type="radio"]').on('change', function () {
-        $('.categoryLevel2').toggle();
+        if ($(this).is(':checked')) {
+            selectLowerCategory($(this).val());
+            // TODO: element 를 만들어서 추가
+        } else {
+        }
     });
 
+    $('.categoryLevel2 input[type="radio"]').on('change', function () {
+        if ($(this).is(':checked')) {
+            selectLowerCategory($(this).val());
+        } else {
+        }
+    });
+
+    function selectLowerCategory(obj) {
+        $.ajax({
+            type: 'GET',
+            url: '/admin/selectLowerCategory.do',
+            data: {currentCategoryKey: obj},
+            success: function (res) {
+                console.log(res);
+            },
+            error: function () {
+                console.log("ajax error while retrieving lower categories");
+            }
+        })
+    }
 </script>
 </body>
 </html>

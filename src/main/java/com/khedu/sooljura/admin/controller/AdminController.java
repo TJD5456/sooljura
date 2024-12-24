@@ -5,12 +5,14 @@ import com.khedu.sooljura.admin.model.vo.Product;
 import com.khedu.sooljura.admin.model.vo.ProductCategory;
 import com.khedu.sooljura.admin.model.vo.ProductImage;
 import com.khedu.sooljura.admin.model.vo.Youtube;
+import jdk.jfr.Category;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +23,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 @Controller
@@ -158,6 +161,12 @@ public class AdminController {
             return "redirect:/admin/manageProducts.do?uploadProductResult=" + uploadProductResult;
         }
     } // uploadProduct()
+
+    @GetMapping("selectLowerCategory")
+    @ResponseBody
+    public List<Category> selectLowerCategory(String currentCategoryKey) {
+        return service.selectLowerCategory(currentCategoryKey);
+    }
 
     @GetMapping("manageCategoryFrm")
     public String manageCategoryFrm() {

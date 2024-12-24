@@ -14,11 +14,6 @@
             <div class="title">
                 <h1>유튜브관리 페이지</h1>
             </div>
-
-            https://www.youtube.com/watch?v=fnlJw9H0xAM&pp=ygUCbmY%3D
-            <br>
-            pr2412230001
-
             <form action="${pageContext.request.contextPath}/admin/uploadYoutube.do" method="get">
                 <table>
                     <tr>
@@ -54,8 +49,4 @@
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </main>
-<script>
-    // TODO: youtube 정보 입력 성공하고서 페이지 다시 띄어질때 알림 보이게하기
-
-</script>
 </html>

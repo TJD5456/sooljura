@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.khedu.sooljura.post.model.dao.PostDao;
 import com.khedu.sooljura.post.model.vo.Post;
+import com.khedu.sooljura.post.model.vo.PostFile;
 import com.khedu.sooljura.post.model.vo.PostPageData;
 
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -72,7 +73,30 @@ public class PostService {
 		}
 		return new PostPageData(list, pageNavi.toString());
 	}
+/*
+	public int insertPost(Post post, ArrayList<PostFile> fileList) {
+		
+		//등록될 게시글의 번호를 먼저 조회(notice 정보 및 notice_file 정보 등록 시 모두 필요하므로)
+			String Postkey = dao.selectPostKey();
+		//tbl_poset(참조되는)와 tbl_post_file(참조하는)은 참조 관계이므로, tbl_post-insert를 선작업.
+			post.setPostKey(Postkey);
+			int result = dao.insertPost(post);
+			
+			
+			
+			if(result > 0) {
+				for(int i=0; i<fileList.size();i++) {
+					PostFile file = fileList.get(i);
+					file.setPostKey(Postkey);
+					
+//					result = dao.insertNoticeFile(file);
+					  RuntimeException ex = new RentimeException("강제 exception");
+				
+				}
+			}
+			return result;
 
+	}
 	
-	
+*/	
 }

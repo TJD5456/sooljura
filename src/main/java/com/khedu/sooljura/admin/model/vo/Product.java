@@ -10,7 +10,10 @@ public class Product {
     private String prodOrigin;
     private String prodIntro;
     private int prodCnt;
+    private String prodVol;
+    private String prodProof;
     private String uploadDate;
+    private int tradingYn;
     private String categoryKey;
 
     private ProductCategory productCategory;
@@ -21,7 +24,7 @@ public class Product {
         super();
     }
 
-    public Product(String prodKey, String prodName, int prodPrice, String prodMaker, String prodOrigin, String prodIntro, int prodCnt, String uploadDate, String categoryKey, ArrayList<ProductImage> productImages, ProductCategory productCategory) {
+    public Product(String prodKey, String prodName, int prodPrice, String prodMaker, String prodOrigin, String prodIntro, int prodCnt, String prodVol, String prodProof, String uploadDate, int tradingYn, String categoryKey, ProductCategory productCategory, ArrayList<ProductImage> productImages) {
         this.prodKey = prodKey;
         this.prodName = prodName;
         this.prodPrice = prodPrice;
@@ -29,9 +32,11 @@ public class Product {
         this.prodOrigin = prodOrigin;
         this.prodIntro = prodIntro;
         this.prodCnt = prodCnt;
+        this.prodVol = prodVol;
+        this.prodProof = prodProof;
         this.uploadDate = uploadDate;
+        this.tradingYn = tradingYn;
         this.categoryKey = categoryKey;
-
         this.productCategory = productCategory;
         this.productImages = productImages;
     }
@@ -92,12 +97,36 @@ public class Product {
         this.prodCnt = prodCnt;
     }
 
+    public String getProdVol() {
+        return prodVol;
+    }
+
+    public void setProdVol(String prodVol) {
+        this.prodVol = prodVol;
+    }
+
+    public String getProdProof() {
+        return prodProof;
+    }
+
+    public void setProdProof(String prodProof) {
+        this.prodProof = prodProof;
+    }
+
     public String getUploadDate() {
         return uploadDate;
     }
 
     public void setUploadDate(String uploadDate) {
         this.uploadDate = uploadDate;
+    }
+
+    public int getTradingYn() {
+        return tradingYn;
+    }
+
+    public void setTradingYn(int tradingYn) {
+        this.tradingYn = tradingYn;
     }
 
     public String getCategoryKey() {
@@ -123,5 +152,4 @@ public class Product {
     public void setProductImages(ArrayList<ProductImage> productImages) {
         this.productImages = productImages;
     }
-
 }

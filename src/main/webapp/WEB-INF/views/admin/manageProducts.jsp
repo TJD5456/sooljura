@@ -9,8 +9,8 @@
             border-bottom: var(--table-border) 1px solid;
         }
 
-        .categoryLevel2, .categoryLevel3 {
-            display: none;
+        .second-table {
+            margin-top: 50px;
         }
     </style>
 </head>
@@ -53,6 +53,18 @@
                                       maxlength="4000" wrap="hard" style="resize: none" required></textarea>
                         </td>
                     </tr>
+                    <tr>
+                        <th><label for="volInput">용량</label></th>
+                        <td><input type="text" id="volInput" name="prodVol" required></td>
+                    </tr>
+                    <tr>
+                        <th><label for="proofInput">도수</label></th>
+                        <td><input type="text" id="proofInput" name="prodProof" required></td>
+                    </tr>
+                    <tr>
+                        <th><label for="tradeYnInput">거래여부</label></th>
+                        <td><input type="text" id="tradeYnInput" name="tradingYn"></td>
+                    </tr>
                     <tr class="categoryRow">
                         <th>카테고리</th>
                         <td>
@@ -62,6 +74,28 @@
                                         <span>
                                             <input type="radio" value="${category.categoryKey}"
                                                    id="${category.categoryNm}" name="level1" required>
+                                            <label for="${category.categoryNm}">${category.categoryNm}</label>
+                                        </span>
+                                    </c:if>
+                                </c:forEach>
+                            </div>
+                            <div class="categoryLevel2">
+                                <c:forEach var="category" items="${categoryList}">
+                                    <c:if test="${category.categoryLevel == 2}">
+                                        <span>
+                                            <input type="radio" value="${category.categoryKey}"
+                                                   id="${category.categoryNm}" name="level2" required>
+                                            <label for="${category.categoryNm}">${category.categoryNm}</label>
+                                        </span>
+                                    </c:if>
+                                </c:forEach>
+                            </div>
+                            <div class="categoryLevel3">
+                                <c:forEach var="category" items="${categoryList}">
+                                    <c:if test="${category.categoryLevel == 3}">
+                                        <span>
+                                            <input type="radio" value="${category.categoryKey}"
+                                                   id="${category.categoryNm}" name="categoryKey" required>
                                             <label for="${category.categoryNm}">${category.categoryNm}</label>
                                         </span>
                                     </c:if>
@@ -81,34 +115,32 @@
                 </table>
             </form>
 
-            <div class="product-header">
-                <span>제품키</span>
-                <span>카테고리</span>
-                <span>이름</span>
-                <span>가격</span>
-                <span>원산지</span>
-                <span>제조사</span>
-                <span>사진</span>
-                <span>수량</span>
-            </div>
-
-            <div class="show-products">
+            <table class="second-table">
+                <thead>
+                <tr>
+                    <th>제품키</th>
+                    <th>카테고리</th>
+                    <th>이름</th>
+                    <th>가격</th>
+                    <th>사진</th>
+                    <th>수량</th>
+                </tr>
+                </thead>
+                <tbody>
                 <c:forEach var="product" items="${products}">
-                    <div class="product-each">
+                    <tr class="product-each">
                             <%-- TODO: 제품을 클릭하면 제품 상세 페이지로 이동하도록 할것 --%>
-                        <span>${product.prodKey}</span>
-                        <span>${product.productCategory.categoryNm}</span>
-                        <span>${product.prodName}</span>
-                        <span>${product.prodPrice}</span>
-                        <span>${product.prodOrigin}</span>
-                        <span>${product.prodMaker}</span>
-                        <span><img src="/resources/upload/product_images/${product.productImages[0].imgPath}"
-                                   alt="${product.productImages[0].imgNm}" style="height: 100px"></span>
-                        <span>${product.prodCnt}</span>
-                    </div>
+                        <td>${product.prodKey}</td>
+                        <td>${product.productCategory.categoryNm}</td>
+                        <td>${product.prodName}</td>
+                        <td>${product.prodPrice}</td>
+                        <td><img src="/resources/upload/product_images/${product.productImages[0].imgPath}"
+                                 alt="${product.productImages[0].imgNm}" style="height: 100px"></td>
+                        <td>${product.prodCnt}</td>
+                    </tr>
                 </c:forEach>
-            </div>
-
+                </tbody>
+            </table>
         </div>
         <jsp:include page="/WEB-INF/views/common/remote.jsp"/>
     </div>
@@ -119,7 +151,6 @@
         window.location.href = '/admin/manageCategoryFrm.do';
     }
 
-    // TODO: 상품, 카테고리 등록하고 돌아오면 알림 뜨게 하기
     $(function () {
         let uploadProductResult = "${uploadProductResult}";
         let manageCategoryResult = "${manageCategoryResult}";
@@ -135,34 +166,14 @@
         }
     });
 
+    // TODO: 상위 카테고리를 클릭하면 다음이 보이게 하기
     $('.categoryLevel1 input[type="radio"]').on('change', function () {
         if ($(this).is(':checked')) {
-            selectLowerCategory($(this).val());
-            // TODO: element 를 만들어서 추가
+
         } else {
+
         }
     });
-
-    $('.categoryLevel2 input[type="radio"]').on('change', function () {
-        if ($(this).is(':checked')) {
-            selectLowerCategory($(this).val());
-        } else {
-        }
-    });
-
-    function selectLowerCategory(obj) {
-        $.ajax({
-            type: 'GET',
-            url: '/admin/selectLowerCategory.do',
-            data: {currentCategoryKey: obj},
-            success: function (res) {
-                console.log(res);
-            },
-            error: function () {
-                console.log("ajax error while retrieving lower categories");
-            }
-        })
-    }
 </script>
 </body>
 </html>

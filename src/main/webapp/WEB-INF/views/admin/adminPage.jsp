@@ -39,5 +39,16 @@
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </main>
+<script>
+    $(function () {
+        let uploadYoutubeResult = "${uploadYoutubeResult}";
+
+        if (uploadYoutubeResult === "1") {
+            window.alert("유튜브 등록 성공");
+        } else if (uploadYoutubeResult === "0") {
+            window.alert("유튜브 등록 중 오류가 발생하였습니다");
+        }
+    });
+</script>
 </body>
 </html>

@@ -120,92 +120,86 @@ body {
 </style>
 </head>
 <body>
+	
+	
+	<!--  사이드바 -->
+   <div class="leftSideBar">
+        <jsp:include page="/WEB-INF/views/common/sidebar.jsp" />
+    </div>
 
-	<!-- 사이드바 -->
-	<div class="leftSideBar">
-		<jsp:include page="/WEB-INF/views/common/sidebar.jsp" />
-	</div>
+    <div class="main-container">
+    	<!-- 헤더 -->
+        <div class="header">
+            <jsp:include page="/WEB-INF/views/common/header.jsp" />
+        </div>
 
-	<!-- 메인 레이아웃 -->
-	<div class="main-container">
+        <div class="content">
+            <h1>자유 게시판 글쓰기</h1>
+            <!-- Form 태그 추가 -->
+            <form action="/post/freewrite.do" method="post">
+                <!-- 말머리 -->
+                <div class="form-group">
+                    <label for="category">말머리</label>
+                    <select id="category" name="category">
+                        <option value="1">일상</option>
+                        <option value="2">질문</option>
+                        <option value="3">정보 나눔</option>
+                        <option value="4">공지사항</option>
+                    </select>
+                </div>
 
-		<!-- 헤더 -->
-		<div class="header">
-			<jsp:include page="/WEB-INF/views/common/header.jsp" />
-		</div>
+                <!-- 글쓴이 -->
+                <div class="form-group">
+                    <label for="author">글쓴이</label>
+                    <input type="text" id="author" name="author" value="<%= session.getAttribute("userNm") %>" readonly>
+                </div>
 
-		<!-- 콘텐츠 -->
-		<div class="content">
-			<h1>자유 게시판 글쓰기</h1><br><br><br>
+                <!-- 제목 -->
+                <div class="form-group">
+                    <label for="title">제목</label>
+                    <input type="text" id="title" name="title" placeholder="제목을 입력하세요" required>
+                </div>
 
-			<!-- 말머리 -->
-			<div class="form-group">
-				<label for="category">말머리</label> <select id="category"
-					name="category">
-					<option value="일상">일상</option>
-					<option value="질문">질문</option>
-					<option value="정보 나눔">정보 나눔</option>
-					<option value="공지사항">공지사항</option>
-				</select>
-			</div>
+                <!-- 본문 -->
+                <div class="form-group">
+                    <label for="postContent">본문</label>
+                    <textarea id="postContent" name="postContent" placeholder="내용을 입력하세요..." required></textarea>
+                </div>
 
-			<!-- 글쓴이 -->
-			<div class="form-group">
-				<label for="author">글쓴이</label> <input type="text" id="author"
-					name="author" value="이름" readonly>
-			</div>
+                <!-- 버튼 -->
+                <div class="button-group">
+                    <button type="button" onclick="history.back();">이전</button>
+                    <button type="submit">등록</button>
+                </div>
+            </form>
+        </div>
 
-			<!-- 제목 -->
-			<div class="form-group">
-				<label for="title">제목</label> <input type="text" id="title"
-					name="title" placeholder="제목을 입력하세요">
-			</div>
+        <div class="footer">
+            <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+        </div>
+    </div>
 
-			<div class="form-group">
-				<label for="postContent">본문</label>
-				<textarea id="postContent" name="postContent"
-					placeholder="내용을 입력하세요..."></textarea>
-			</div>
-
-			<!-- 버튼 -->
-			<div class="button-group">
-				<button type="button">이전</button>
-				<button type="submit">등록</button>
-			</div>
-		</div>
-
-		<!-- 풋터 -->
-		<div class="footer">
-			<jsp:include page="/WEB-INF/views/common/footer.jsp" />
-		</div>
-	</div>
-
-<script>
-$(document).ready(function () {
-    // Summernote 초기화
-    $('#postContent').summernote({
-        height: 400, // 에디터 높이
-        lang: 'ko-KR', // 한국어 설정
-        toolbar: [ // 도구 모음 설정
-            ['style', ['style']],
-            ['font', ['bold', 'italic', 'underline', 'clear']],
-            ['fontname', ['fontname']],
-            ['fontsize', ['fontsize']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['insert', ['picture', 'link', 'video']],
-            ['view', ['fullscreen', 'codeview', 'help']],
-        ],
-        placeholder: "내용을 입력하세요...",
-    });
-});
-</script>
-
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- Summernote JS -->
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-<!-- Summernote 언어팩 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#postContent').summernote({
+                height: 400,
+                lang: 'ko-KR',
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'italic', 'underline', 'clear']],
+                    ['fontname', ['fontname']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['insert', ['picture', 'link', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']],
+                ],
+                placeholder: "내용을 입력하세요...",
+            });
+        });
+    </script>
 </body>
 </html>

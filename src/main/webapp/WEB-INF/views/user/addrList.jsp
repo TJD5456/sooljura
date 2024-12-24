@@ -19,7 +19,13 @@ h2 {
 	width:100%;
 	
 }
-
+li{
+	font-weight: none;
+}
+.btnWrap > button {
+	width:70px;
+	height: 30px;
+}
 </style>
 </head>
 <body>
@@ -27,27 +33,22 @@ h2 {
 	<main>
 	<br><br>
 		<h2>주소지 관리</h2>
-		<br><hr><br>
-<%--
-		<form>
-			<input type="hidden" name="userKey" value="${loginUser.userKey}">
-		</form>
---%>		
+		<br><hr><br>	
 			<ul>
 	        <c:choose>
 	            <c:when test="${not empty addrList}">
 	                <c:forEach var="addr" items="${addrList}">
 	                    <li>
 	                        <div class="addrWrap">
-								<input type="hidden" name="addrKey" id="addrKey" value="${addr.addrKey}">
+								<input type="hidden" class="addrKey" name="addrKey" value="${addr.addrKey}">
 	                            <span>
 	                                ${addr.rcptNm} 
 	                                <c:if test="${not empty addr.addrNm}">(${addr.addrNm})</c:if>
 	                                <c:if test="${addr.defaultYn == 1}"><p>기본배송지</p></c:if>
 	                            </span>
 	                            <div class="btnWrap">
-	                                <button onclick="delAddr()">삭제</button>
-	                                <button onclick="updAddr()">수정</button>
+	                                <button onclick="delAddr(this)">삭제</button>
+	                                <button onclick="updAddr(this)">수정</button>
 	                            </div>
 	                        </div>
 	                        <div class="addrWrap">
@@ -71,7 +72,8 @@ h2 {
 		location.href = "/user/addAddrFrm.do";
 	}
 	
-	function delAddr(){
+	function delAddr(button){
+		const addrKey = $(button).closest('.addrWrap').find('.addrKey').val();
 		swal({
 			title : "알림",
 			text : "주소를 삭제하시겠습니까?",
@@ -96,13 +98,13 @@ h2 {
 					url : "/user/delAddr.do",
 					type : "GET",
 					data : {
-						addrKey : $('#addrKey').val()
+						addrKey : addrKey
 					},
 					success : function(res){
-						if(res == "1"){
-							msg('알림', '삭제가 완료되었습니다', 'success', 'window.self.close();window.opener.location.href = "/user/addrListFrm.do";')
+						if(res === "1"){
+							msg('알림', '삭제가 완료되었습니다', 'success', "location.href = '/user/addrListFrm.do';");
 						}else{
-							msg('알림', '삭제중 오류가 발생했습니다', 'error', 'window.self.close();window.opener.location.href = "/user/addrListFrm.do";')						
+							msg('알림', '삭제중 오류가 발생했습니다', 'error');						
 						}
 					},
 					error : function(){
@@ -113,8 +115,31 @@ h2 {
 		});
 	}
 	
-	function updAddr(){
-		window.opener.location.href="/user/updAddrFrm.do";
+	function updAddr(button){
+		const addrKey = $(button).closest('.addrWrap').find('.addrKey').val();
+				
+		$.ajax({
+			url : "/user/updAddrFrm.do",
+			type : "POST",
+			data : {
+				addrKey : addrKey,
+			},
+			success : function(res){
+					//window.location.href = "/user/updAddr.do?addrKey=" + res;			
+					location.href=res;
+			},
+			error : function(){
+				console.log('ajax 오류');
+			}
+		});
+		
+		<%--
+		if (!addrKey) {
+	        alert("주소 키 값을 찾을 수 없습니다.");
+	        return;
+	    }
+		location.href = `/user/updAddrFrm.do?addrKey=${addrKey}`;
+		--%>
 	}
 </script>
 </body>

@@ -140,32 +140,28 @@ public class UserController {
 	@ResponseBody
 	public String addAddr(UserAddr userAddr) {
 		int result = service.addAddr(userAddr);
-		System.out.println("userKey : " + userAddr.getUserKey());
-		System.out.println("addrNm : " + userAddr.getAddrNm());
-		System.out.println("addrCd : " + userAddr.getAddrCd());
-		System.out.println("addr : " + userAddr.getAddr());
-		System.out.println("addrDetail : " + userAddr.getAddrDetail());
-		System.out.println("addrRef : " + userAddr.getAddrRef());
-		System.out.println("rcptNm : " + userAddr.getRcptNm());
-		System.out.println("rcptPhone : " + userAddr.getRcptPhone());
 		
 		return String.valueOf(result);
 	}
 	
 	//주소지 삭제
 	@GetMapping("delAddr.do")
+	@ResponseBody
 	public String delAddr(String addrKey) {
 		int result = service.delAddr(addrKey);
 		return String.valueOf(result);
 	}
 	
 	//주소지 수정 페이지 이동
-	@GetMapping("updAddrFrm.do")
+	@PostMapping("updAddrFrm.do")
+	@ResponseBody
 	public String updAddrFrm(String addrKey, Model model) {
 		UserAddr userAddr = service.userAddr(addrKey);
 		
+		System.out.println(userAddr.getAddrKey());
+		
 		model.addAttribute("addrInfo", userAddr);
-		return "user/updAddr";
+		return "/user/updAddr.do?addrKey="+userAddr.getAddrKey();
 	}
 	
 	//주소지 수정
@@ -175,7 +171,11 @@ public class UserController {
 		int result = 0;
 		//기본주소지 변경 체크박스 체크 시 기존에 기본주소지로 세팅되어있는 주소 defaultYn 0으로 변경
 		int defaultYnChk = 0;
-		
+/*
+		jsp에서 기본배송지가 아닌 경우만 defaultYn 체크박스 체크 가능
+		defaultYn이 체크되어 있으면 1이 반환되고 1이 반환되면 기존 기본배송지의 defaultYn을 0으로 변경 후 주소지 변경(1 = 기본배송지, 0 = 배송지)
+		defaultYn이 체크되어있지 않으면 0이니까 그냥 변경만
+*/
 		if(userAddr.getDefaultYn() == 1) {
 			defaultYnChk = service.setDefaultYn(userAddr);
 			result = service.updAddr(userAddr);			

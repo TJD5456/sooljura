@@ -79,6 +79,7 @@
 			rcpt_phone = #{rcptPhone},
 			default_yn = #{defaultYn}
 		where addr_key = #{addrKey}
+		order by addr_key
 	</update>
 	
 	<!-- defaultYn 변경 -->

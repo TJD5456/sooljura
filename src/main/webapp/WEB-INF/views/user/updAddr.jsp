@@ -12,34 +12,37 @@
 	<main>
 		<h1>주소지 수정</h1>
 		<hr>
-		<input type="hidden" name="addrKey" id="addrKey" value="${addrInfo.addrKey}">
-		<input type="hidden" name="userKey" id="userKey" value="${addrInfo.userKey}">
-		<div>
-			<span>배송지 명</span><br>
-			<input type="text" name="addrNm" id="addrNm" value="${addrInfo.addrNm}"><br>
-		</div>
-		<div>
-			<span>주소</span><br>
-			<input type="text" name="addrCd" id="addrCd" value="${addrInfo.addrCd}" readonly><button onclick="srchAddr()">주소 검색</button><br>
-			<input type="text" name="addr" id="addr" value="${addrInfo.addr}" readonly><br>
-			<input type="text" name="addrDetail" id="addrDetail" value="${addrInfo.addrDetail}"><br>
-			<input type="text" name="addrRef" id="addrRef" value="${addrInfo.addrRef}" readonly>		
-		</div>
-		<div>
-			<span>수령인</span><br>
-			<input type="text" name="rcptNm" id="rcptNm" value="${addrInfo.rcptNm}">
-		</div>
-		<div>
-			<span>연락처</span><br>
-			<input type="text" name="rcptPhone" id="rcptPhone" value="${addrInfo.rcptPhone}">
-		</div>
-		<c:if test="${addrInfo.defaultYn eq 0}">
-			<input type="checkbox" name="defaultYn" id="defaultYn" value=1>기본 배송지로 설정
-		</c:if>
-		<div>
-			<button id="cancelBtn" onclick="cancelBtn()">취소</button>
-			<button id="saveBtn" onclick="saveBtn()">저장</button>
-		</div>
+		<form action="/user/updAddr.do" method="post">
+			<input type="hidden" name="addrKey" id="addrKey" value="${addrInfo.addrKey}">
+			<input type="hidden" name="userKey" id="userKey" value="${addrInfo.userKey}">
+			<div>
+				<span>배송지 명</span><br>
+				<input type="text" name="addrNm" id="addrNm" value="${addrInfo.addrNm}"><br>
+			</div>
+			<div>
+				<span>주소</span><br>
+				<input type="text" name="addrCd" id="addrCd" value="${addrInfo.addrCd}" readonly><button onclick="srchAddr()">주소 검색</button><br>
+				<input type="text" name="addr" id="addr" value="${addrInfo.addr}" readonly><br>
+				<input type="text" name="addrDetail" id="addrDetail" value="${addrInfo.addrDetail}"><br>
+				<input type="text" name="addrRef" id="addrRef" value="${addrInfo.addrRef}" readonly>		
+			</div>
+			<div>
+				<span>수령인</span><br>
+				<input type="text" name="rcptNm" id="rcptNm" value="${addrInfo.rcptNm}">
+			</div>
+			<div>
+				<span>연락처</span><br>
+				<input type="text" name="rcptPhone" id="rcptPhone" value="${addrInfo.rcptPhone}">
+			</div>
+			<c:if test="${addrInfo.defaultYn == 0}">
+			    <input type="checkbox" name="defaultYn" id="defaultYn" value="1" onchange="setDefaultYn(this)">기본 배송지로 설정
+			</c:if>
+				<input type="hidden" name="defaultYnHidden" id="defaultYnHidden" value="0">
+			<div>
+				<button id="cancelBtn" onclick="cancelBtn()">취소</button>
+				<button id="saveBtn" onclick="saveBtn()">저장</button>
+			</div>
+		</form>
 	</main>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -94,7 +97,7 @@
 	    }
 		
 		function cancelBtn(){
-			window.self.close();window.opener.location.href = "/user/addrListFrm.do";
+			location.href = "/user/addrListFrm.do";
 		}
 		
 		function saveBtn(){
@@ -107,7 +110,7 @@
 						text : "취소",
 						value : false,
 						visible : true,
-						closeModal true: 
+						closeModal : true 
 					},
 					confirm : {
 						text : "수정",
@@ -122,20 +125,20 @@
 						url : "/user/updAddr.do",
 						type : "POST",
 						data : {
-							addrKey : $('#addrKey'),
-							userKey : $('#userKey'),
-							addrNm : $('#addrNm'),
-							addrCd : $('#addrCd'),
-							addr : $('#addr'),
-							addrDetail : $('#addrDetail'),
-							addrRef : $('#addrRef'),
-							rcptNm : $('#rcptNm'),
-							rcptPhone : $('#rcptPhone'),
-							defaultYn : $('#defaultYn')
+							addrKey : $('#addrKey').val(),
+							userKey : $('#userKey').val(),
+							addrNm : $('#addrNm').val(),
+							addrCd : $('#addrCd').val(),
+							addr : $('#addr').val(),
+							addrDetail : $('#addrDetail').val(),
+							addrRef : $('#addrRef').val(),
+							rcptNm : $('#rcptNm').val(),
+							rcptPhone : $('#rcptPhone').val(),
+							defaultYn : $('#defaultYn').val()
 						},
 						success : function(res){
-							if(res == "1" || res == "2"){
-								msg('알림', '수정이 완료되었습니다', 'success', 'window.self.close();window.opener.location.href = "/user/addrListFrm.do";');
+							if(res === "1" || res === "2"){
+								msg('알림', '수정이 완료되었습니다', 'success', "location.href = '/user/addrListFrm.do';");
 							}else{
 								msg('알림', '수정 중 오류가 발생했습니다', 'error');
 							}

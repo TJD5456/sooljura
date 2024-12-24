@@ -167,6 +167,7 @@
         }
     });
 
+    // TODO: 상위 카테고리를 클릭하면 다음이 보이게 하기
     $('.categoryLevel1 input[type="radio"]').on('change', function () {
         if ($(this).is(':checked')) {
 

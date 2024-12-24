@@ -27,9 +27,9 @@
                 #{prodIntro},
                 #{prodCnt},
                 sysdate,
-                #{prod_vol},
-   				#{prod_proof},
-   				#{is_trading},
+                #{prodVol},
+   				#{prodProof},
+   				#{isTrading},
                 #{categoryKey}
                 )
 	</insert> 
@@ -48,4 +48,9 @@
                 #{imgPath},
                 #{prodKey})
     </insert>
+    <select id="selProdKey" parameterType = "String" resultType="String">
+    	select prod_key
+    	  from tbl_product
+    	 where prod_name = #{prodName}
+    </select>
 </mapper>

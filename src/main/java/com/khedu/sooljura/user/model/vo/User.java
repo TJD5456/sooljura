@@ -1,134 +1,132 @@
 package com.khedu.sooljura.user.model.vo;
 
 public class User {
-	private String userKey;
-	private int userCd;
-	private String userId;
-	private String userPw;
-	private String userEmail;
-	private String userNm;
-	private String userPhone;
-	private String userNicknm;
-	private int userPoint;
-	private int adultChk;
-	private String enrollDate;
-	
-	public User() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    private String userKey;
+    private int userCd;
+    private String userId;
+    private String userPw;
+    private String userEmail;
+    private String userNm;
+    private String userPhone;
+    private String userNicknm;
+    private int userPoint;
+    private int adultChk;
+    private String enrollDate;
 
-	public User(String userKey, int userCd, String userId, String userPw, String userEmail, String userNm,
-			String userPhone, String userNicknm, int userPoint, int adultChk, String enrollDate) {
-		super();
-		this.userKey = userKey;
-		this.userCd = userCd;
-		this.userId = userId;
-		this.userPw = userPw;
-		this.userEmail = userEmail;
-		this.userNm = userNm;
-		this.userPhone = userPhone;
-		this.userNicknm = userNicknm;
-		this.userPoint = userPoint;
-		this.adultChk = adultChk;
-		this.enrollDate = enrollDate;
-	}
+    public User() {
+        super();
+    }
 
-	public String getUserKey() {
-		return userKey;
-	}
+    public User(String userKey, int userCd, String userId, String userPw, String userEmail, String userNm,
+                String userPhone, String userNicknm, int userPoint, int adultChk, String enrollDate) {
+        super();
+        this.userKey = userKey;
+        this.userCd = userCd;
+        this.userId = userId;
+        this.userPw = userPw;
+        this.userEmail = userEmail;
+        this.userNm = userNm;
+        this.userPhone = userPhone;
+        this.userNicknm = userNicknm;
+        this.userPoint = userPoint;
+        this.adultChk = adultChk;
+        this.enrollDate = enrollDate;
+    }
 
-	public void setUserKey(String userKey) {
-		this.userKey = userKey;
-	}
+    public String getUserKey() {
+        return userKey;
+    }
 
-	public int getUserCd() {
-		return userCd;
-	}
+    public void setUserKey(String userKey) {
+        this.userKey = userKey;
+    }
 
-	public void setUserCd(int userCd) {
-		this.userCd = userCd;
-	}
+    public int getUserCd() {
+        return userCd;
+    }
 
-	public String getUserId() {
-		return userId;
-	}
+    public void setUserCd(int userCd) {
+        this.userCd = userCd;
+    }
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    public String getUserId() {
+        return userId;
+    }
 
-	public String getUserPw() {
-		return userPw;
-	}
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-	public void setUserPw(String userPw) {
-		this.userPw = userPw;
-	}
+    public String getUserPw() {
+        return userPw;
+    }
 
-	public String getUserEmail() {
-		return userEmail;
-	}
+    public void setUserPw(String userPw) {
+        this.userPw = userPw;
+    }
 
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
-	}
+    public String getUserEmail() {
+        return userEmail;
+    }
 
-	public String getUserNm() {
-		return userNm;
-	}
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
 
-	public void setUserNm(String userNm) {
-		this.userNm = userNm;
-	}
+    public String getUserNm() {
+        return userNm;
+    }
 
-	public String getUserPhone() {
-		return userPhone;
-	}
+    public void setUserNm(String userNm) {
+        this.userNm = userNm;
+    }
 
-	public void setUserPhone(String userPhone) {
-		this.userPhone = userPhone;
-	}
+    public String getUserPhone() {
+        return userPhone;
+    }
 
-	public String getUserNicknm() {
-		return userNicknm;
-	}
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
+    }
 
-	public void setUserNicknm(String userNicknm) {
-		this.userNicknm = userNicknm;
-	}
+    public String getUserNicknm() {
+        return userNicknm;
+    }
 
-	public int getUserPoint() {
-		return userPoint;
-	}
+    public void setUserNicknm(String userNicknm) {
+        this.userNicknm = userNicknm;
+    }
 
-	public void setUserPoint(int userPoint) {
-		this.userPoint = userPoint;
-	}
+    public int getUserPoint() {
+        return userPoint;
+    }
 
-	public int getAdultChk() {
-		return adultChk;
-	}
+    public void setUserPoint(int userPoint) {
+        this.userPoint = userPoint;
+    }
 
-	public void setAdultChk(int adultChk) {
-		this.adultChk = adultChk;
-	}
+    public int getAdultChk() {
+        return adultChk;
+    }
 
-	public String getEnrollDate() {
-		return enrollDate;
-	}
+    public void setAdultChk(int adultChk) {
+        this.adultChk = adultChk;
+    }
 
-	public void setEnrollDate(String enrollDate) {
-		this.enrollDate = enrollDate;
-	}
+    public String getEnrollDate() {
+        return enrollDate;
+    }
 
-	@Override
-	public String toString() {
-		return "User [userKey=" + userKey + ", userCd=" + userCd + ", userId=" + userId + ", userPw=" + userPw
-				+ ", userEmail=" + userEmail + ", userNm=" + userNm + ", userPhone=" + userPhone + ", userNicknm="
-				+ userNicknm + ", userPoint=" + userPoint + ", adultChk=" + adultChk + ", enrollDate=" + enrollDate
-				+ "]";
-	}
-	
-	
+    public void setEnrollDate(String enrollDate) {
+        this.enrollDate = enrollDate;
+    }
+
+    @Override
+    public String toString() {
+        return "User [userKey=" + userKey + ", userCd=" + userCd + ", userId=" + userId + ", userPw=" + userPw
+            + ", userEmail=" + userEmail + ", userNm=" + userNm + ", userPhone=" + userPhone + ", userNicknm="
+            + userNicknm + ", userPoint=" + userPoint + ", adultChk=" + adultChk + ", enrollDate=" + enrollDate
+            + "]";
+    }
+
 }

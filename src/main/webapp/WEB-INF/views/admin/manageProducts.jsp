@@ -151,7 +151,6 @@
         window.location.href = '/admin/manageCategoryFrm.do';
     }
 
-    // TODO: 상품, 카테고리 등록하고 돌아오면 알림 뜨게 하기
     $(function () {
         let uploadProductResult = "${uploadProductResult}";
         let manageCategoryResult = "${manageCategoryResult}";

@@ -34,13 +34,16 @@ public class AdminController {
     }
 
     @GetMapping("adminPage.do")
-    public String adminPage(Model model) {
-
+    public String adminPage(Model model, String uploadYoutubeResult) {
         int numberOfUnCheckedPost = service.numberOfUnCheckedPost();
         model.addAttribute("numberOfUnCheckedPost", numberOfUnCheckedPost);
 
         int numberOfUnCheckedNewUser = service.numberOfUnCheckedNewUser();
         model.addAttribute("numberOfUnCheckedNewUser", numberOfUnCheckedNewUser);
+
+        if (uploadYoutubeResult != null) {
+            model.addAttribute("uploadYoutubeResult", uploadYoutubeResult);
+        }
 
         return "/admin/adminPage";
     }
@@ -171,13 +174,8 @@ public class AdminController {
 
     @GetMapping("uploadYoutube")
     public String uploadYoutube(Youtube youtube) {
-
-        System.out.println("url: " + youtube.getYoutubeUrl());
-        System.out.println("content: " + youtube.getContent());
-        System.out.println("prodKey: " + youtube.getProdKey1());
-
         int result = service.uploadYoutube(youtube);
-        return "forward:/admin/manageYoutube.do?uploadYoutubeResult=" + result;
+        return "forward:/admin/adminPage.do?uploadYoutubeResult=" + result;
     }
 
 }

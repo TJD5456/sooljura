@@ -85,41 +85,24 @@ public class WebScraperService {
 		};
 		
 		String [] sortCodeArr = {
-				"c0007",
-				"c0008",
-				"c0009",
-				"c0010",
-				"c0011",
-				"c0012",
-				"c0013",
-				"c0014",
-				"c0015",
-				"c0016",
-				"c0017",
-				"c0018",
-				"c0019",
-				"c0020",
-				"c0021",
-				"c0022",
-				"c0023",
-				"c0024",
-				"c0025",
-				"c0026",
-				"c0027"
+				"c0007", "c0008", "c0009", "c0010", "c0011", "c0012", "c0013",
+				"c0014", "c0015", "c0016", "c0017", "c0018", "c0019", "c0020",
+				"c0021", "c0022", "c0023", "c0024", "c0025", "c0026", "c0027"
 		};
-	    for (int i = 0; i < bevArrColl.length; i++) {	        
-	    	String[] bevArr = bevArrColl[i];
+		int sortCodeIndex = 0;
+
+	    for (int i = 0; i < bevArrColl.length; i++) {
+	        String[] bevArr = bevArrColl[i];
+	        if (sortCodeIndex < sortCodeArr.length) {
+        	String sortCode = sortCodeArr[sortCodeIndex++];
 	        for (int j = 0; j < bevArr.length; j++) {
-	        	String sortCode = sortCodeArr[j];
-	            prodList = scraper(bevArr[j], sortCode);
-	            System.out.println(sortCode);
-	            System.out.println(prodList.get(j).toString());
-	            dao.insProd(prodList.get(j));
-	            
+	                System.out.println(sortCode);
+	                prodList = scraper(bevArr[j], sortCode);
+	                dao.insProd(prodList.get(j));
+	                System.out.println(prodList.get(j).toString());
+	            }
 	        }
 	    }
-		
-	   
 	}
 	
 	public ArrayList<Product> scraper(String url, String sortCode) {
@@ -312,7 +295,7 @@ public class WebScraperService {
 			}
 
 			// 제품 설명
-			productIntro = goodsInfo.select("#goods_extit_cont02").text();
+			productIntro = goodsInfo.select("#goods_extit_cont02").select("p").text();
 
 			// 상품명
 			productName = document.selectFirst(".good_tit1").text();
@@ -344,7 +327,7 @@ public class WebScraperService {
 			prod.setProdIntro(productIntro);
 			prod.setIsTrading("1");
 			prod.setProdCnt(productCnt);
-
+			prod.setCategoryKey(sortCode);
 		}
 		return prod;
 

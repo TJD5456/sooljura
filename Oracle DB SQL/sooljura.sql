@@ -86,6 +86,14 @@ insert into tbl_post_type values ( 1, '공지사항' );
 insert into tbl_post_type values ( 2, '자유게시판' );
 insert into tbl_post_type values ( 3, '후기' );
 
+
+CREATE TABLE tbl_post_file (
+   post_file_key   char(12)      primary key ,
+   post_key       char(12) not null references tbl_post ( post_key ) on delete cascade,
+   post_file_nm   varchar2(400)   not null,
+   post_file_path   varchar2(100)   not null
+);
+
 create table tbl_post (
    post_key      char(12) primary key,
    post_cd       number not null references tbl_post_type ( post_cd ) on delete cascade,
@@ -192,8 +200,8 @@ create sequence seq_product maxvalue 9999 cycle;
 
 create table tbl_product_image (
    img_key  char(12) primary key,
-   img_nm   varchar2(100),
-   img_path varchar2(100),
+   img_nm   varchar2(400),
+   img_path varchar2(400),
    prod_key references tbl_product ( prod_key ) on delete cascade
 );
 

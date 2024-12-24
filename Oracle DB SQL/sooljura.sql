@@ -170,6 +170,8 @@ insert into tbl_product_category values ( 'c' || lpad( seq_product_category.next
 insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '중국술', 'c0006' );
 insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 2, '대만술', 'c0006' );
 
+insert into tbl_product_category values ( 'c' || lpad( seq_product_category.nextval, 4, '0'), 3, '테네시 위스키', 'c0012' );
+
 create table tbl_product (
    prod_key     char(12) primary key,
    prod_name    varchar2(100) not null,

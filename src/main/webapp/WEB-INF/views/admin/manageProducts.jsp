@@ -14,31 +14,35 @@
             <div class="title">
                 <h1>상품 관리 페이지</h1>
             </div>
-            <form action="${pageContext.request.contextPath}/admin/uploadProduct.do" method="post" enctype="multipart/form-data" id="uploadForm">
+            <form action="${pageContext.request.contextPath}/admin/uploadProduct.do" method="post"
+                  enctype="multipart/form-data" id="uploadForm">
                 <table>
                     <tr>
                         <th><label for="nameInput">상품명</label></th>
-                        <td><input type="text" id="nameInput" name="prodName"></td>
+                        <td><input type="text" id="nameInput" name="prodName" autofocus required></td>
                     </tr>
                     <tr>
                         <th>사진</th>
-                        <td><input type="file" name="prodImages" multiple></td>
+                        <td><input type="file" name="prodImages" multiple required></td>
                     </tr>
                     <tr>
                         <th><label for="priceInput">가격</label></th>
-                        <td><input type="text" id="priceInput" name="prodPrice"></td>
+                        <td><input type="text" id="priceInput" name="prodPrice" required></td>
                     </tr>
                     <tr>
                         <th><label for="makerInput">제조사</label></th>
-                        <td><input type="text" id="makerInput" name="prodMaker"></td>
+                        <td><input type="text" id="makerInput" name="prodMaker" required></td>
                     </tr>
                     <tr>
                         <th><label for="originInput">원산지</label></th>
-                        <td><input type="text" id="originInput" name="prodOrigin"></td>
+                        <td><input type="text" id="originInput" name="prodOrigin" required></td>
                     </tr>
                     <tr>
                         <th><label for="introInput">소개</label></th>
-                        <td><input type="text" id="introInput" name="prodIntro"></td>
+                        <td>
+                            <textarea id="introInput" name="prodIntro" rows="6" cols="50" placeholder="제품 소개 작성 ..."
+                                      maxlength="4000" wrap="hard" style="resize: none" required></textarea>
+                        </td>
                     </tr>
                     <tr class="categoryRow">
                         <th>카테고리</th>
@@ -46,7 +50,7 @@
                             <c:forEach var="category" items="${categoryList}">
                                 <c:if test="${category.categoryLevel == 1}">
                                     <input type="radio" value="${category.categoryKey}"
-                                           id="categoryInput${category.categoryNm}" name="categoryKey">
+                                           id="categoryInput${category.categoryNm}" name="categoryKey" required>
                                     <label for="categoryInput${category.categoryNm}">${category.categoryNm}</label>
                                     <br>
                                 </c:if>
@@ -55,7 +59,7 @@
                     </tr>
                     <tr>
                         <th><label for="cntInput">수량</label></th>
-                        <td><input type="text" id="cntInput" name="prodCnt"></td>
+                        <td><input type="text" id="cntInput" name="prodCnt" required></td>
                     </tr>
                     <tr>
                         <th colspan="2">

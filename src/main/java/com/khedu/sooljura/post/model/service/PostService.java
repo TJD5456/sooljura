@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
 import com.khedu.sooljura.post.model.dao.PostDao;
 import com.khedu.sooljura.post.model.vo.Post;
-import com.khedu.sooljura.post.model.vo.PostFile;
 import com.khedu.sooljura.post.model.vo.PostPageData;
-
-import org.springframework.beans.factory.annotation.Qualifier;
 
 @Service("postService")
 public class PostService {

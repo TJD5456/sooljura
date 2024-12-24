@@ -8,10 +8,6 @@
         .categoryLevel1, .categoryLevel2 {
             border-bottom: var(--table-border) 1px solid;
         }
-
-        .categoryLevel2, .categoryLevel3 {
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -59,6 +55,17 @@
                             <div class="categoryLevel1">
                                 <c:forEach var="category" items="${categoryList}">
                                     <c:if test="${category.categoryLevel == 1}">
+                                        <span>
+                                            <input type="radio" value="${category.categoryKey}"
+                                                   id="${category.categoryNm}" name="level1" required>
+                                            <label for="${category.categoryNm}">${category.categoryNm}</label>
+                                        </span>
+                                    </c:if>
+                                </c:forEach>
+                            </div>
+                            <div class="categoryLevel2">
+                                <c:forEach var="category" items="${categoryList}">
+                                    <c:if test="${category.categoryLevel == 2}">
                                         <span>
                                             <input type="radio" value="${category.categoryKey}"
                                                    id="${category.categoryNm}" name="level1" required>
@@ -137,32 +144,19 @@
 
     $('.categoryLevel1 input[type="radio"]').on('change', function () {
         if ($(this).is(':checked')) {
-            selectLowerCategory($(this).val());
-            // TODO: element 를 만들어서 추가
+
         } else {
+
         }
     });
 
     $('.categoryLevel2 input[type="radio"]').on('change', function () {
         if ($(this).is(':checked')) {
-            selectLowerCategory($(this).val());
+
         } else {
+
         }
     });
-
-    function selectLowerCategory(obj) {
-        $.ajax({
-            type: 'GET',
-            url: '/admin/selectLowerCategory.do',
-            data: {currentCategoryKey: obj},
-            success: function (res) {
-                console.log(res);
-            },
-            error: function () {
-                console.log("ajax error while retrieving lower categories");
-            }
-        })
-    }
 </script>
 </body>
 </html>

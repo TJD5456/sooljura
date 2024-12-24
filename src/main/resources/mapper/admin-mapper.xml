@@ -42,14 +42,6 @@
         where higher_category = #{_currentCategoryKey}
     </select>
 
-    <insert id="uploadProdImg" parameterType="productImage">
-        insert into tbl_product_image (img_key, img_nm, img_path, prod_key)
-        values ('im' || to_char(sysdate, 'yymmdd') || lpad(seq_product_image.nextval, 4, '0'),
-                #{imgNm},
-                #{imgPath},
-                #{prodKey})
-    </insert>
-
     <insert id="createCategory" parameterType="productCategory">
         insert into tbl_product_category (category_key, category_level, category_nm, higher_category)
         values ('c' || lpad(seq_product_category.nextval, 4, '0'),

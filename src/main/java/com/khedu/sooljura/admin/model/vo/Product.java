@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Product {
     private String prodKey;
-    private String prodName;
+    private String prodNm;
     private int prodPrice;
     private String prodMaker;
     private String prodOrigin;
@@ -24,9 +24,9 @@ public class Product {
         super();
     }
 
-    public Product(String prodKey, String prodName, int prodPrice, String prodMaker, String prodOrigin, String prodIntro, int prodCnt, String prodVol, String prodProof, String uploadDate, int tradingYn, String categoryKey, ProductCategory productCategory, ArrayList<ProductImage> productImages) {
+    public Product(String prodKey, String prodNm, int prodPrice, String prodMaker, String prodOrigin, String prodIntro, int prodCnt, String prodVol, String prodProof, String uploadDate, int tradingYn, String categoryKey, ProductCategory productCategory, ArrayList<ProductImage> productImages) {
         this.prodKey = prodKey;
-        this.prodName = prodName;
+        this.prodNm = prodNm;
         this.prodPrice = prodPrice;
         this.prodMaker = prodMaker;
         this.prodOrigin = prodOrigin;
@@ -49,12 +49,12 @@ public class Product {
         this.prodKey = prodKey;
     }
 
-    public String getProdName() {
-        return prodName;
+    public String getProdNm() {
+        return prodNm;
     }
 
-    public void setProdName(String prodName) {
-        this.prodName = prodName;
+    public void setProdNm(String prodNm) {
+        this.prodNm = prodNm;
     }
 
     public int getProdPrice() {

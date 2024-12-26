@@ -6,7 +6,6 @@ import com.khedu.sooljura.admin.model.vo.ProductImage;
 import java.util.ArrayList;
 
 public class Product {
-    private String prodKey;
     private String prodName;
     private String prodPrice;
     private String prodMaker;
@@ -14,7 +13,7 @@ public class Product {
     private String prodIntro;
     private String prodCnt;
 
-    private String tradingYn; // 0 == 거래중지, 1 == 거래중
+    private String isTrading; // 0 == 거래중지, 1 == 거래중
     private String prodVol;   //용량
     private String prodProof; //알콜도수
 
@@ -29,7 +28,7 @@ public class Product {
         super();
     }
 
-    public Product(String prodName, String prodPrice, String prodMaker, String prodOrigin, String prodIntro, String prodCnt, String tradingYn, String prodVol, String prodProof, String categoryKey, ArrayList<ProductImage> productImages, String detailImgLoc, String detailImgNm) {
+    public Product(String prodName, String prodPrice, String prodMaker, String prodOrigin, String prodIntro, String prodCnt, String isTrading, String prodVol, String prodProof, String categoryKey, ArrayList<ProductImage> productImages, String detailImgLoc, String detailImgNm) {
         super();
         this.prodName = prodName;
         this.prodPrice = prodPrice;
@@ -37,7 +36,7 @@ public class Product {
         this.prodOrigin = prodOrigin;
         this.prodIntro = prodIntro;
         this.prodCnt = prodCnt;
-        this.tradingYn = tradingYn;
+        this.isTrading = isTrading;
         this.prodVol = prodVol;
         this.prodProof = prodProof;
         this.categoryKey = categoryKey;
@@ -94,12 +93,12 @@ public class Product {
         this.prodCnt = prodCnt;
     }
 
-    public String getTradingYn() {
-        return tradingYn;
+    public String getIsTrading() {
+        return isTrading;
     }
 
-    public void setTradingYn(String tradingYn) {
-        this.tradingYn = tradingYn;
+    public void setIsTrading(String isTrading) {
+        this.isTrading = isTrading;
     }
 
     public String getProdVol() {
@@ -152,8 +151,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product [prodName=" + prodName + ", prodPrice=" + prodPrice + ", prodMaker=" + prodMaker + ", prodOrigin=" + prodOrigin + ", prodIntro=" + prodIntro + ", prodCnt=" + prodCnt + ", isTrading=" + tradingYn + ", prodVol=" + prodVol + ", prodProof=" + prodProof + ", categoryKey=" + categoryKey + ", productImages=" + productImages + ", detailImgLoc=" + detailImgLoc + ", detailImgNm=" + detailImgNm + "]";
+        return "Product [prodName=" + prodName + ", prodPrice=" + prodPrice + ", prodMaker=" + prodMaker + ", prodOrigin=" + prodOrigin + ", prodIntro=" + prodIntro + ", prodCnt=" + prodCnt + ", isTrading=" + isTrading + ", prodVol=" + prodVol + ", prodProof=" + prodProof + ", categoryKey=" + categoryKey + ", productImages=" + productImages + ", detailImgLoc=" + detailImgLoc + ", detailImgNm=" + detailImgNm + "]";
     }
-
 
 }

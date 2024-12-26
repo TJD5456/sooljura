@@ -72,30 +72,21 @@ public class PostService {
 		}
 		return new PostPageData(list, pageNavi.toString());
 	}
-/*
-	public int insertPost(Post post, ArrayList<PostFile> fileList) {
-		
-		//등록될 게시글의 번호를 먼저 조회(notice 정보 및 notice_file 정보 등록 시 모두 필요하므로)
-			String Postkey = dao.selectPostKey();
-		//tbl_poset(참조되는)와 tbl_post_file(참조하는)은 참조 관계이므로, tbl_post-insert를 선작업.
-			post.setPostKey(Postkey);
-			int result = dao.insertPost(post);
-			
-			
-			
-			if(result > 0) {
-				for(int i=0; i<fileList.size();i++) {
-					PostFile file = fileList.get(i);
-					file.setPostKey(Postkey);
-					
-//					result = dao.insertNoticeFile(file);
-					  RuntimeException ex = new RentimeException("강제 exception");
-				
-				}
-			}
-			return result;
 
+	/*
+	public int insertPost(Post post, ArrayList<PostFile> fileList) {
+		// 1. 게시글 저장
+		int postResult = dao.insertPost(post);
+
+		// 2. 파일 저장
+		int fileResult = 0;
+		if (fileList != null && !fileList.isEmpty()) {
+			PostFile file = fileList.get(0); // 단일 파일이므로 첫 번째 요소만 처리
+			file.setPostKey(post.getPostKey()); // 게시글 키 설정
+			fileResult = dao.insertPostFile(file);
+		}
+
+		return postResult > 0 && fileResult > 0 ? 1 : 0;
 	}
-	
-*/	
+*/
 }

@@ -21,7 +21,7 @@
 
     <insert id="uploadProduct" parameterType="product">
         insert into tbl_product (prod_key,
-                                 prod_name,
+                                 prod_nm,
                                  prod_price,
                                  prod_maker,
                                  prod_origin,
@@ -33,7 +33,7 @@
                                  category_key,
                                  upload_date)
         values (#{prodKey},
-                #{prodName},
+                #{prodNm},
                 #{prodPrice},
                 #{prodMaker},
                 #{prodOrigin},
@@ -41,7 +41,7 @@
                 #{prodCnt},
                 #{prodVol},
                 #{prodProof},
-                #{tradingYn},
+                #{isTrading},
                 #{categoryKey},
                 sysdate)
     </insert>
@@ -73,7 +73,7 @@
 
     <select id="getAllProductsInfo" resultType="product">
         select prod_key     as prodKey,
-               prod_name    as prodName,
+               prod_nm    as prodNm,
                prod_price   as prodPricem,
                prod_maker   as prodMaker,
                prod_origin  as prodOrigin,
@@ -127,5 +127,21 @@
         <if test="prodKey3 != null">, #{prodKey3}</if>
         )
     </insert>
+
+    <select id="selectLowerCategoryLevel" resultType="productCategory">
+        select category_key    as categoryKey,
+               category_level  as categoryLevel,
+               category_nm     as categoryNm,
+               higher_category as higherCategory
+        from tbl_product_category
+        where higher_category = #{_hihgercategorykey}
+    </select>
+
+    <select id="searchProductName" resultType="product">
+        select prod_key  as prodKey,
+               prod_nm as prodNm
+        from tbl_product
+        where prod_nm like '%' || #{_currentInputValue} || '%'
+    </select>
 
 </mapper>

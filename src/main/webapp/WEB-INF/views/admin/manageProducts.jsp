@@ -5,12 +5,16 @@
 <head>
     <title>manageProducts.jsp</title>
     <style>
-        .categoryLevel1, .categoryLevel2 {
-            border-bottom: var(--table-border) 1px solid;
+        .categoryLevel2, .categoryLevel3 {
+            border-top: var(--table-border) 1px solid;
         }
 
         .second-table {
             margin-top: 50px;
+        }
+
+        span {
+            display: inline-block;
         }
     </style>
 </head>
@@ -28,7 +32,7 @@
                 <table>
                     <tr>
                         <th><label for="nameInput">상품명</label></th>
-                        <td><input type="text" id="nameInput" name="prodName" autofocus required></td>
+                        <td><input type="text" id="nameInput" name="prodNm" autofocus required></td>
                     </tr>
                     <tr>
                         <th>사진</th>
@@ -63,7 +67,7 @@
                     </tr>
                     <tr>
                         <th><label for="tradeYnInput">거래여부</label></th>
-                        <td><input type="text" id="tradeYnInput" name="tradingYn"></td>
+                        <td><input type="text" id="tradeYnInput" name="isTrading"></td>
                     </tr>
                     <tr class="categoryRow">
                         <th>카테고리</th>
@@ -74,28 +78,6 @@
                                         <span>
                                             <input type="radio" value="${category.categoryKey}"
                                                    id="${category.categoryNm}" name="categoryLevel1" required>
-                                            <label for="${category.categoryNm}">${category.categoryNm}</label>
-                                        </span>
-                                    </c:if>
-                                </c:forEach>
-                            </div>
-                            <div class="categoryLevel2">
-                                <c:forEach var="category" items="${categoryList}">
-                                    <c:if test="${category.categoryLevel == 2}">
-                                        <span>
-                                            <input type="radio" value="${category.categoryKey}"
-                                                   id="${category.categoryNm}" name="categoryLevel2" required>
-                                            <label for="${category.categoryNm}">${category.categoryNm}</label>
-                                        </span>
-                                    </c:if>
-                                </c:forEach>
-                            </div>
-                            <div class="categoryLevel3">
-                                <c:forEach var="category" items="${categoryList}">
-                                    <c:if test="${category.categoryLevel == 3}">
-                                        <span>
-                                            <input type="radio" value="${category.categoryKey}"
-                                                   id="${category.categoryNm}" name="categoryKey" required>
                                             <label for="${category.categoryNm}">${category.categoryNm}</label>
                                         </span>
                                     </c:if>
@@ -132,7 +114,7 @@
                             <%-- TODO: 제품을 클릭하면 제품 상세 페이지로 이동하도록 할것 --%>
                         <td>${product.prodKey}</td>
                         <td>${product.productCategory.categoryNm}</td>
-                        <td>${product.prodName}</td>
+                        <td>${product.prodNm}</td>
                         <td>${product.prodPrice}</td>
                         <td><img src="/resources/upload/product_images/${product.productImages[0].imgPath}"
                                  alt="${product.productImages[0].imgNm}" style="height: 100px"></td>
@@ -167,12 +149,108 @@
         }
     });
 
-    // TODO: 상위 카테고리를 클릭하면 다음이 보이게 하기
     $('.categoryLevel1 input[type="radio"]').on('change', function () {
         if ($(this).is(':checked')) {
 
-        } else {
+            let higherCategoryKey = $(this).val();
 
+            $.ajax({
+                url: '/admin/selectLowerCategoryLevel.do',
+                type: 'get',
+                data: {
+                    "higherCategoryKey": higherCategoryKey
+                },
+                success: function (result) {
+                    const categoryLevel1Div = $(".categoryLevel1");
+
+                    const existingCategoryLevel2Div = $(".categoryLevel2");
+                    if (existingCategoryLevel2Div) {
+                        existingCategoryLevel2Div.remove();
+                    }
+
+                    const divEl = document.createElement("div");
+                    divEl.classList.add("categoryLevel2");
+
+                    for (let i = 0; i < result.length; i++) {
+                        let categoryKey = result[i].categoryKey;
+                        let categoryNm = result[i].categoryNm;
+
+                        const spanEl = document.createElement("span");
+
+                        const inputEl = document.createElement("input");
+                        inputEl.setAttribute("type", "radio");
+                        inputEl.setAttribute("value", categoryKey);
+                        inputEl.setAttribute("id", categoryNm);
+                        inputEl.setAttribute("name", "categoryLevel2");
+                        inputEl.setAttribute("required", "");
+
+                        const labelEl = document.createElement("label");
+                        labelEl.setAttribute("for", categoryNm);
+                        labelEl.innerText = categoryNm;
+
+                        spanEl.appendChild(inputEl);
+                        spanEl.appendChild(labelEl);
+
+                        divEl.appendChild(spanEl);
+                    }
+
+                    categoryLevel1Div.after(divEl);
+                },
+                error: function () {
+                    console.log("ajax error");
+                }
+            })
+        }
+    });
+
+    // Use "document" or another static parent for event delegation
+    $(document).on('change', '.categoryLevel2 input[type="radio"]', function () {
+        if ($(this).is(':checked')) {
+            let higherCategoryKey = $(this).val();
+
+            $.ajax({
+                url: '/admin/selectLowerCategoryLevel.do',
+                type: 'get',
+                data: { "higherCategoryKey": higherCategoryKey },
+                success: function (result) {
+                    const categoryLevel2Div = $(".categoryLevel2");
+
+                    const existingCategoryLevel3Div = $(".categoryLevel3");
+                    if (existingCategoryLevel3Div) {
+                        existingCategoryLevel3Div.remove();
+                    }
+
+                    const divEl = document.createElement("div");
+                    divEl.classList.add("categoryLevel3");
+
+                    for (let i = 0; i < result.length; i++) {
+                        let categoryKey = result[i].categoryKey;
+                        let categoryNm = result[i].categoryNm;
+
+                        const spanEl = document.createElement("span");
+
+                        const inputEl = document.createElement("input");
+                        inputEl.setAttribute("type", "radio");
+                        inputEl.setAttribute("value", categoryKey);
+                        inputEl.setAttribute("id", categoryNm);
+                        inputEl.setAttribute("name", "categoryKey");
+                        inputEl.setAttribute("required", "");
+
+                        const labelEl = document.createElement("label");
+                        labelEl.setAttribute("for", categoryNm);
+                        labelEl.innerText = categoryNm;
+
+                        spanEl.appendChild(inputEl);
+                        spanEl.appendChild(labelEl);
+                        divEl.appendChild(spanEl);
+                    }
+
+                    categoryLevel2Div.after(divEl);
+                },
+                error: function () {
+                    console.log("ajax error");
+                }
+            });
         }
     });
 </script>

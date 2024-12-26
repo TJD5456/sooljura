@@ -185,7 +185,7 @@ insert into tbl_product_category values ( 'c' || lpad( seq_product_category.next
 
 create table tbl_product (
    prod_key     char(12) primary key,
-   prod_name    varchar2(400) not null,
+   prod_nm    varchar2(400) not null,
    prod_price   number not null,
    prod_maker   varchar2(400),
    prod_origin  varchar2(400),

@@ -40,6 +40,56 @@
         SELECT COUNT(*) FROM tbl_post WHERE delete_yn = 0
     </select>
     
+    
+    <select id="selectPosetKey"
+			resultType="string">
+			select seq_post.nextval from dual
+	</select>
+    
+    <insert id="insertPost" parameterType="post">
+    INSERT INTO tbl_post (
+        post_key, 
+        post_cd, 
+        user_key, 
+        post_content, 
+        post_title, 
+        post_date, 
+        post_view, 
+        confirm_yn, 
+        delete_yn, 
+        delete_reason
+    ) VALUES (
+        'po' || LPAD(seq_post.NEXTVAL, 4, '0'),
+        #{postCd}, 
+        #{userKey}, 
+        #{postContent}, 
+        #{postTitle}, 
+        SYSDATE, 
+        #{postViews}, 
+        #{confirmYn}, 
+        #{deleteYn}, 
+        #{deleteReason}
+    )
+</insert>
+    
+ <insert id="insertPostFile" parameterType="postFile">
+    INSERT INTO tbl_post_file (
+        post_file_key,
+        post_key,
+        post_file_nm,
+        post_file_path
+    ) VALUES (
+        'pf' || LPAD(seq_post_file.NEXTVAL, 4, '0'),
+        #{postKey},
+        #{postFileNm},
+        #{postFilePath}
+    )
+</insert>
+    
+    
+    
+    
+    
 </mapper>
 
 

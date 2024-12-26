@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import com.google.gson.Gson;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -172,10 +174,34 @@ public class AdminController {
         return "redirect:/admin/manageProducts.do?manageCategoryResult=" + manageCategoryResult;
     }
 
+    @GetMapping(value = "selectLowerCategoryLevel", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public String selectLowerCategoryLevel(String higherCategoryKey) {
+        ArrayList<ProductCategory> lowerCategories = service.selectLowerCategoryLevel(higherCategoryKey);
+
+        Gson gson = new Gson();
+
+        return gson.toJson(lowerCategories);
+    }
+
     @GetMapping("uploadYoutube")
     public String uploadYoutube(Youtube youtube) {
         int result = service.uploadYoutube(youtube);
         return "forward:/admin/adminPage.do?uploadYoutubeResult=" + result;
+    }
+
+    @GetMapping(value = "searchProductName", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public String searchProductName(String currentInputValue) {
+
+        ArrayList<Product> productList = service.searchProductName(currentInputValue);
+
+        System.out.println("=== from admin con ===");
+        System.out.println(productList.toString());
+
+        Gson gson = new Gson();
+
+        return gson.toJson(productList);
     }
 
 }

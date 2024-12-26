@@ -48,26 +48,31 @@
         <jsp:include page="/WEB-INF/views/common/remote.jsp"/>
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
-    
+
     <script>
         $(".searchProductName").on("keyup", function () {
-            const currentInputId = $(this).attr("id");
             let currentInputValue = $(this).val();
 
             $.ajax({
                 url: "/admin/searchProductName.do",
                 type: "get",
-                data:{
+                data: {
                     "currentInputValue": currentInputValue
                 },
                 success: function (result) {
-                    console.log(result);
+                    if (result.length > 0) {
+                        let prodNm = result[0].prodNm;
+                        let prodKey = result[0].prodKey;
+
+                        
+
+                    } else if (result.length === "0") {
+                        let searchResult = "일치하는 상품이 없습니다"
+                    }
                 },
-                error: function (e) {
+                error: function () {
                     console.log("ajax error");
                 },
-
-
             })
 
             console.log(currentInputValue);

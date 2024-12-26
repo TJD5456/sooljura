@@ -73,7 +73,7 @@
 
     <select id="getAllProductsInfo" resultType="product">
         select prod_key     as prodKey,
-               prod_nm    as prodNm,
+               prod_nm      as prodNm,
                prod_price   as prodPricem,
                prod_maker   as prodMaker,
                prod_origin  as prodOrigin,
@@ -138,8 +138,8 @@
     </select>
 
     <select id="searchProductName" resultType="product">
-        select prod_key  as prodKey,
-               prod_nm as prodNm
+        select prod_key as prodKey,
+               prod_nm  as prodNm
         from tbl_product
         where prod_nm like '%' || #{_currentInputValue} || '%'
     </select>

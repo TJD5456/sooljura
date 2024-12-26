@@ -73,7 +73,7 @@
                                     <c:if test="${category.categoryLevel == 1}">
                                         <span>
                                             <input type="radio" value="${category.categoryKey}"
-                                                   id="${category.categoryNm}" name="level1" required>
+                                                   id="${category.categoryNm}" name="categoryLevel1" required>
                                             <label for="${category.categoryNm}">${category.categoryNm}</label>
                                         </span>
                                     </c:if>
@@ -84,7 +84,7 @@
                                     <c:if test="${category.categoryLevel == 2}">
                                         <span>
                                             <input type="radio" value="${category.categoryKey}"
-                                                   id="${category.categoryNm}" name="level2" required>
+                                                   id="${category.categoryNm}" name="categoryLevel2" required>
                                             <label for="${category.categoryNm}">${category.categoryNm}</label>
                                         </span>
                                     </c:if>

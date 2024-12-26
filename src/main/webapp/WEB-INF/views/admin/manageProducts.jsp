@@ -12,6 +12,10 @@
         .second-table {
             margin-top: 50px;
         }
+
+        span {
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -169,9 +173,7 @@
 
                     for (let i = 0; i < result.length; i++) {
                         let categoryKey = result[i].categoryKey;
-                        let categoryLevel = result[i].categoryLevel;
                         let categoryNm = result[i].categoryNm;
-                        let higherCategory = result[i].higherCategory;
 
                         const spanEl = document.createElement("span");
 
@@ -251,7 +253,6 @@
             });
         }
     });
-
 </script>
 </body>
 </html>

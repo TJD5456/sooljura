@@ -54,7 +54,6 @@
                 #{prodKey})
     </insert>
 
-
     <select id="selectLowerCategory" parameterType="string" resultType="productCategory">
         select category_key    as categoryKey,
                category_level  as categoryLevel,

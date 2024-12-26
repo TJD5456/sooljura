@@ -157,8 +157,9 @@
                     "higherCategoryKey": higherCategoryKey
                 },
                 success: function (result) {
-                    const categoryLevel1Div = document.querySelector('.categoryLevel1');
-                    const existingCategoryLevel2Div = document.querySelector('.categoryLevel2');
+                    const categoryLevel1Div = $(".categoryLevel1");
+
+                    const existingCategoryLevel2Div = $(".categoryLevel2");
                     if (existingCategoryLevel2Div) {
                         existingCategoryLevel2Div.remove();
                     }
@@ -191,9 +192,7 @@
                         divEl.appendChild(spanEl);
                     }
 
-                    if (categoryLevel1Div) {
-                        categoryLevel1Div.insertAdjacentElement('afterend', divEl);
-                    }
+                    categoryLevel1Div.after(divEl);
                 },
                 error: function () {
                     console.log("ajax error");
@@ -201,6 +200,58 @@
             })
         }
     });
+
+    // Use "document" or another static parent for event delegation
+    $(document).on('change', '.categoryLevel2 input[type="radio"]', function () {
+        if ($(this).is(':checked')) {
+            let higherCategoryKey = $(this).val();
+
+            $.ajax({
+                url: '/admin/selectLowerCategoryLevel.do',
+                type: 'get',
+                data: { "higherCategoryKey": higherCategoryKey },
+                success: function (result) {
+                    const categoryLevel2Div = $(".categoryLevel2");
+
+                    const existingCategoryLevel3Div = $(".categoryLevel3");
+                    if (existingCategoryLevel3Div) {
+                        existingCategoryLevel3Div.remove();
+                    }
+
+                    const divEl = document.createElement("div");
+                    divEl.classList.add("categoryLevel3");
+
+                    for (let i = 0; i < result.length; i++) {
+                        let categoryKey = result[i].categoryKey;
+                        let categoryNm = result[i].categoryNm;
+
+                        const spanEl = document.createElement("span");
+
+                        const inputEl = document.createElement("input");
+                        inputEl.setAttribute("type", "radio");
+                        inputEl.setAttribute("value", categoryKey);
+                        inputEl.setAttribute("id", categoryNm);
+                        inputEl.setAttribute("name", "categoryKey");
+                        inputEl.setAttribute("required", "");
+
+                        const labelEl = document.createElement("label");
+                        labelEl.setAttribute("for", categoryNm);
+                        labelEl.innerText = categoryNm;
+
+                        spanEl.appendChild(inputEl);
+                        spanEl.appendChild(labelEl);
+                        divEl.appendChild(spanEl);
+                    }
+
+                    categoryLevel2Div.after(divEl);
+                },
+                error: function () {
+                    console.log("ajax error");
+                }
+            });
+        }
+    });
+
 </script>
 </body>
 </html>

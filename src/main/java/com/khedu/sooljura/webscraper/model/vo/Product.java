@@ -1,9 +1,9 @@
 package com.khedu.sooljura.webscraper.model.vo;
 //임시로 쓰고있음. 추후 admin/model/vo/Product로 사용예정
 
-import java.util.ArrayList;
-
 import com.khedu.sooljura.admin.model.vo.ProductImage;
+
+import java.util.ArrayList;
 
 public class Product {
     private String prodName;   //제품명
@@ -26,7 +26,6 @@ public class Product {
 	
 	public Product() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Product(String prodName, String prodPrice, String prodMaker, String prodOrigin, String prodIntro,

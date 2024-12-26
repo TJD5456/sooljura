@@ -9,7 +9,6 @@ public class PostFile {
 	
 	public PostFile() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 

@@ -1,12 +1,8 @@
 package com.khedu.sooljura.webscraper.model.service;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.util.ArrayList;
-
+import com.khedu.sooljura.admin.model.vo.ProductImage;
+import com.khedu.sooljura.webscraper.model.dao.WebScraperDao;
+import com.khedu.sooljura.webscraper.model.vo.Product;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -15,9 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.khedu.sooljura.webscraper.model.dao.WebScraperDao;
-import com.khedu.sooljura.webscraper.model.vo.Product;
-import com.khedu.sooljura.admin.model.vo.ProductImage;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.util.ArrayList;
 
 @Service("webScraperService")
 public class WebScraperService {

@@ -32,7 +32,7 @@
                 <table>
                     <tr>
                         <th><label for="nameInput">상품명</label></th>
-                        <td><input type="text" id="nameInput" name="prodName" autofocus required></td>
+                        <td><input type="text" id="nameInput" name="prodNm" autofocus required></td>
                     </tr>
                     <tr>
                         <th>사진</th>
@@ -67,7 +67,7 @@
                     </tr>
                     <tr>
                         <th><label for="tradeYnInput">거래여부</label></th>
-                        <td><input type="text" id="tradeYnInput" name="tradingYn"></td>
+                        <td><input type="text" id="tradeYnInput" name="isTrading"></td>
                     </tr>
                     <tr class="categoryRow">
                         <th>카테고리</th>
@@ -114,7 +114,7 @@
                             <%-- TODO: 제품을 클릭하면 제품 상세 페이지로 이동하도록 할것 --%>
                         <td>${product.prodKey}</td>
                         <td>${product.productCategory.categoryNm}</td>
-                        <td>${product.prodName}</td>
+                        <td>${product.prodNm}</td>
                         <td>${product.prodPrice}</td>
                         <td><img src="/resources/upload/product_images/${product.productImages[0].imgPath}"
                                  alt="${product.productImages[0].imgNm}" style="height: 100px"></td>

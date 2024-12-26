@@ -20,7 +20,7 @@
 		        )
          values (
          		'pr' || to_char(sysdate, 'yymmdd') || lpad(seq_product.nextval, 4, '0'),
-                #{prodName},
+                #{prodNm},
                 #{prodPrice},
                 #{prodMaker},
                 #{prodOrigin},
@@ -29,7 +29,7 @@
                 sysdate,
                 #{prodVol},
    				#{prodProof},
-   				#{tradingYn},
+   				#{isTrading},
                 #{categoryKey}
                 )
 	</insert> 
@@ -51,11 +51,11 @@
     <select id="selProdKey" parameterType = "String" resultType="String">
     	select prod_key
     	  from tbl_product
-    	 where prod_name = #{prodName}
+    	 where prod_name = #{prodNm}
     </select>
      <select id="selDuplNmCnt" parameterType = "String" resultType="java.lang.Integer">
     	select count(*)
     	  from tbl_product
-    	 where prod_name = #{prodName}
+    	 where prod_name = #{prodNm}
     </select>
 </mapper>

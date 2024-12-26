@@ -167,7 +167,7 @@ public class WebScraperService {
 					}
 
 					//
-					if (prod.getTradingYn().equals("0")) {
+					if (prod.getIsTrading().equals("0")) {
 						// System.out.println("거래 종료 상품");
 
 						String imgUrl = parentsEl.getElementsByClass("listImg").get(0).getElementsByTag("a").get(0).getElementsByTag("img").attr("src");
@@ -186,7 +186,7 @@ public class WebScraperService {
 						prod.setProdProof("");
 						prod.setProdVol("");
 						prod.setProdIntro("");
-						prod.setTradingYn("0");
+						prod.setIsTrading("0");
 						prod.setProdCnt("0");
 						prod.setProdVol("");
 						prod.setProdProof("");
@@ -238,7 +238,7 @@ public class WebScraperService {
 		if (isNull.equals("오류안내")) {
 
 			// 거래중지
-			prod.setTradingYn("0");
+			prod.setIsTrading("0");
 
 		} else {
 
@@ -354,7 +354,7 @@ public class WebScraperService {
 			prod.setProdProof(productProof);
 			prod.setProdVol(productVol);
 			prod.setProdIntro(productIntro);
-			prod.setTradingYn("1");
+			prod.setIsTrading("1");
 			prod.setProdCnt(productCnt);
 			prod.setCategoryKey(sortCode);
 		}

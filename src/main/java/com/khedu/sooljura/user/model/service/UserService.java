@@ -91,4 +91,14 @@ public class UserService {
 	public int setDefaultYn(UserAddr userAddr) {
 		return dao.setDefaultYn(userAddr);
 	}
+
+	//회원가입시 주소지를 넣기 위한 유저코드 찾기
+	public String findUserKey(String userId) {
+		return dao.findUserKey(userId);
+	}
+
+	//회원가입시 주소지 입력한 경우 주소지 DB에 넣기
+	public int joinAddr(UserAddr userAddr) {
+		return dao.joinAddr(userAddr);
+	}	
 }

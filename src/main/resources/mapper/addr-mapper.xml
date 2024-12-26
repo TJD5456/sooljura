@@ -87,4 +87,31 @@
 			default_yn = 0
 		where default_yn = 1 and user_key = #{userKey}
 	</update>
+	
+	<!-- 회원가입시 주소지 입력한 경우 주소지 DB에 넣기 -->
+	<insert id="joinAddr" parameterType="addr">
+		insert into tbl_user_addr(
+			addr_key,
+			user_key,
+			addr_nm,
+			addr_cd,
+			addr,
+			addr_detail,
+			addr_ref,
+			rcpt_nm,
+			rcpt_phone,
+			default_yn
+		)values(
+			'ad' || to_char(sysdate, 'YYMMDD') || lpad (seq_addr.nextval, 4, '0'),
+			#{userKey},
+			#{addrNm},
+			#{addrCd},
+			#{addr},
+			#{addrDetail},
+			#{addrRef},
+			#{rcptNm},
+			#{rcptPhone},
+			#{defaultYn}
+		)
+	</insert>
 </mapper>

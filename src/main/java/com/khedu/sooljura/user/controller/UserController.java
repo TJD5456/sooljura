@@ -72,7 +72,8 @@ public class UserController {
 	
 	//회원가입
 	@PostMapping("join.do")
-	public void join(User user, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void join(User user,String addrCd, String addr, String addrDetail, String addrRef, 
+			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int result = service.join(user);
 		
 /*
@@ -80,8 +81,34 @@ public class UserController {
 	user.userId 추출해서 DB에 들어간 user.userKey 조회
 	조회한 userKey로 tbl_user_addr에 입력한 주소지 넣기
 */
-		System.out.println("userKey : " + user.getUserKey());
+		
 		if(result == 1) {
+			//회원가입 완료 후 주소지 DB에 넣기 1 - userId로 DB에 들어간 userKey 가져오기
+			if(addrCd != null) {
+				String userKey = service.findUserKey(user.getUserId());
+				
+				UserAddr userAddr = new UserAddr();
+				userAddr.setUserKey(userKey);
+				userAddr.setAddrNm(user.getUserNm());
+				userAddr.setAddrCd(addrCd);
+				userAddr.setAddr(addr);
+				userAddr.setAddrDetail(addrDetail);
+				userAddr.setAddrRef(addrRef);
+				userAddr.setRcptNm(user.getUserNm());
+				userAddr.setRcptPhone(user.getUserPhone());
+				userAddr.setDefaultYn(1);
+				
+				int insertAddr = service.joinAddr(userAddr);
+				
+				//주소 정상적으로 안들어갔을때
+				if(insertAddr < 1) {
+					request.setAttribute("title", "알림");
+					request.setAttribute("msg", "주소입력 중 오류가 발생했습니다");
+					request.setAttribute("icon", "error");
+					request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
+				}
+			}
+			
 			request.setAttribute("title", "알림");
 			request.setAttribute("msg", "회원가입이 완료되었습니다. 로그인 페이지로 이동합니다");
 			request.setAttribute("icon", "success");

@@ -1,8 +1,8 @@
 package com.khedu.sooljura.webscraper.model.service;
 
+import com.khedu.sooljura.admin.model.vo.Product;
 import com.khedu.sooljura.admin.model.vo.ProductImage;
 import com.khedu.sooljura.webscraper.model.dao.WebScraperDao;
-import com.khedu.sooljura.webscraper.model.vo.Product;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -39,9 +39,9 @@ public class WebScraperService {
 	 */
 
 	public void doScraper() {
-
 		ArrayList<Product> prodList = new ArrayList<Product>();
-
+		ArrayList<ProductImage> prodImgList = new ArrayList<ProductImage>();
+		
 		String[][] bevArrColl = {
 				{
 				"http://www.kajawine.kr/shop/list.php?ca_id=1010&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0007
@@ -96,24 +96,31 @@ public class WebScraperService {
 					// db 값 저장
 					for (Product product : prodList) {
 							// 중복 확인
-							int duplCnt = dao.selDuplNmCnt(product.getProdName());
+							int duplCnt = dao.selDuplNmCnt(product.getProdNm());
 							if (duplCnt == 0) { // 데이터베이스에 값이 없는 경우
 								dao.insProd(product); // 데이터 삽입
-								System.out.println(product.toString());
-
-								String imgPath = product.getDetailImgLoc();
-								String imgNm = product.getDetailImgNm();
-								String prodKey = dao.selProdKey(product.getProdName());
-
-								if (prodKey != null) { // prodKey 값이 null이 아닐 경우만 진행
-									System.out.println("이미지 경로 : " + imgPath);
-									System.out.println("이미지 이름 : " + imgNm);
-									System.out.println("제품 키 : " + prodKey);
+								System.out.println(product.getProdNm());
+								
+								prodImgList = product.getProductImages();
+								for(ProductImage prodImg: prodImgList) {
+									String imgPath = prodImg.getImgPath();
+									System.out.println(imgPath);
+									String imgNm = prodImg.getImgNm();
+									System.out.println(imgNm);
 									
-									setImgFileDb(imgPath, imgNm, prodKey);
+									String prodKey = dao.selProdKey(product.getProdNm());
+
+									if (prodKey != null) { // prodKey 값이 null이 아닐 경우만 진행
+										System.out.println("이미지 경로 : " + imgPath);
+										System.out.println("이미지 이름 : " + imgNm);
+										System.out.println("제품 키 : " + prodKey);
+										
+										setImgFileDb(imgPath, imgNm, prodKey);
+									}
 								}
+								
 							} else if (duplCnt > 0) {// 중복된 경우
-								System.out.println("다음괴 같은 이름을 가진 제품 존재! 제품명 : " + product.getProdName());
+								System.out.println("다음괴 같은 이름을 가진 제품 존재! 제품명 : " + product.getProdNm());
 								continue;
 							}
 						}
@@ -123,6 +130,8 @@ public class WebScraperService {
 		}
 
 	public ArrayList<Product> scraper(String url, String sortCode) {
+		ArrayList<ProductImage> prodImgList = new ArrayList<ProductImage>();
+		ProductImage prodImg = new ProductImage();
 		ArrayList<Product> list = new ArrayList<Product>();
 		// 1) 대상 페이지 URL
 
@@ -158,16 +167,16 @@ public class WebScraperService {
 							.first();
 					if (strikeTag != null) {
 						String productPrice = strikeTag.text();
-						String cleanedPrice = productPrice.replace(",", "").replace("원", "");
+						int cleanedPrice = Integer.parseInt(productPrice.replace(",", "").replace("원", ""));
 						prod.setProdPrice(cleanedPrice);
 					} else {
 						String productPrice = price.text();
-						String cleanedPrice = productPrice.replace(",", "").replace("원", "");
+						int cleanedPrice = Integer.parseInt(productPrice.replace(",", "").replace("원", ""));
 						prod.setProdPrice(cleanedPrice);
 					}
 
 					//
-					if (prod.getIsTrading().equals("0")) {
+					if (prod.getTradingYn()==0) {
 						// System.out.println("거래 종료 상품");
 
 						String imgUrl = parentsEl.getElementsByClass("listImg").get(0).getElementsByTag("a").get(0).getElementsByTag("img").attr("src");
@@ -175,22 +184,27 @@ public class WebScraperService {
 						String prodNm = prodNameChk(productName);
 
 						String imgPath =  getImgFile(imgUrl, sortCode, prodNm, "only_for_thumbnail");
+						imgPath=imgPath.replace("C:/finalProject/sooljura/src/main/webapp", "");
+						prodImg.setImgPath(imgPath);
+						prodImg.setImgNm(prodNm);
 						
-						prod.setDetailImgLoc(imgPath);
-						prod.setDetailImgNm(prodNm);
+						prodImgList.add(prodImg);
 						
-						prod.setProdName(prodNm);
+						prod.setProdNm(prodNm);
 						prod.setProdOrigin("");
 						prod.setProdMaker("");
 						prod.setProdVol("");
 						prod.setProdProof("");
 						prod.setProdVol("");
 						prod.setProdIntro("");
-						prod.setIsTrading("0");
-						prod.setProdCnt("0");
+						prod.setTradingYn(0);
+						prod.setProdCnt(0);
 						prod.setProdVol("");
 						prod.setProdProof("");
 						prod.setCategoryKey(sortCode);
+						
+						prod.setProductImages(prodImgList);
+						
 						list.add(prod);
 					} else {
 						list.add(prod);
@@ -208,6 +222,8 @@ public class WebScraperService {
 	// 가자 주류 웹 스크래퍼 -상세 페이지
 	public Product scraperDetail(String url, String sortCode) throws IOException {
 		Document document = Jsoup.connect(url).ignoreContentType(true).get();
+		ArrayList<ProductImage> prodImgList = new ArrayList<ProductImage>(); 
+		ProductImage prodImg = new ProductImage();
 
 		Product prod = new Product();
 
@@ -217,7 +233,7 @@ public class WebScraperService {
 		String productOrigin = ""; // 제품 원산지
 		String productMaker = ""; // 제품 제조사
 		String productIntro = ""; // 제품 소개
-		String productCnt = "10"; // 제품 개수 -- 기본값 = 10
+		int productCnt = 10; // 제품 개수 -- 기본값 = 10
 		String productVol = ""; // 제품 용량
 		String productProof = ""; // 제품 도수
 		String productImgLink = ""; // 제품 상세 이미지
@@ -238,7 +254,7 @@ public class WebScraperService {
 		if (isNull.equals("오류안내")) {
 
 			// 거래중지
-			prod.setIsTrading("0");
+			prod.setTradingYn(0);
 
 		} else {
 
@@ -334,7 +350,7 @@ public class WebScraperService {
 			// 상품명
 			productName = document.selectFirst(".good_tit1").text();
 			// db에 저장될(웹페이지에 올라갈) 상품명 (특수기호 포함)
-			prod.setProdName(productName);
+			prod.setProdNm(productName);
 
 			// 제품명에 a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ를 제외한 특수기호가 포함되어있는지 확인
 			String replacedProdNm = prodNameChk(productName);
@@ -342,11 +358,14 @@ public class WebScraperService {
 			// 이미지 다운로드
 			// 상세페이지 이미지 (360x480)만 관리
 			String imgPath = getImgFile(productImgLink, sortCode, replacedProdNm, "360x480");
+			imgPath=imgPath.replace("C:/finalProject/sooljura/src/main/webapp", "");
 			String imgNm = prodNameChk(productName);
 
-			prod.setDetailImgLoc(imgPath);
-			prod.setDetailImgNm(imgNm);
-
+			prodImg.setImgPath(imgPath);
+			prodImg.setImgNm(imgNm);
+			
+			prodImgList.add(prodImg);
+			
 			// prod객체에 각 값 전달
 			prod.setProdOrigin(productOrigin);
 			prod.setProdMaker(productMaker);
@@ -354,9 +373,10 @@ public class WebScraperService {
 			prod.setProdProof(productProof);
 			prod.setProdVol(productVol);
 			prod.setProdIntro(productIntro);
-			prod.setIsTrading("1");
+			prod.setTradingYn(1);
 			prod.setProdCnt(productCnt);
 			prod.setCategoryKey(sortCode);
+			prod.setProductImages(prodImgList);
 		}
 		return prod;
 
@@ -385,10 +405,12 @@ public class WebScraperService {
 		URL url = null;
 		InputStream in = null;
 		OutputStream out = null;
-		// 컴퓨터 또는 서버의 저장할 경로 저장 경로 c드라이브 내 sooljura 폴더 내부 저장
-		//TODO
+		// 컴퓨터 또는 서버의 저장할 경로 저장 경로 c드라이브 내 .../sooljura/src/main/webapp/resources/productImage 폴더 내부 저장
+		//resource 하위 productImage폴더 필요!!!
+		//TODO 저장될 하위 경로 지정 필요!!!
+		//String localSave = "C:/.../sooljura/src/main/webapp/resources/productImage/";
 		String localSave = "C:/finalProject/sooljura/src/main/webapp/resources/productImage/";
-
+		
 		// 저장될 파일의 명칭
 		// 분류코드_제품명_이미지크기.jpg
 		// ex) 2010_버팔로 트레이스 1000ml VAT별도_thumbnail_160x214.jpg

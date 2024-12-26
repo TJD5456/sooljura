@@ -15,7 +15,6 @@
 		<div class="wrapper">
 			<div class="content">
 				<h1>메인페이지</h1>
-				<jsp:include page="/WEB-INF/views/common/productList.jsp" />
 			</div>
 			<jsp:include page="/WEB-INF/views/common/remote.jsp" />
 		</div>

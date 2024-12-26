@@ -1,9 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>manageYoutube.jsp</title>
+    <style>
+        .currentYoutube {
+            display: block;
+        }
+    </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
@@ -29,7 +34,9 @@
                     </tr>
                     <tr>
                         <th><label for="prodKeyInput1">제품 1 등록</label></th>
-                        <td><input type="text" name="prodKey1" class="searchProductName" id="prodKeyInput1"></td>
+                        <td>
+                            <input type="text" name="prodKey1" class="searchProductName" id="prodKeyInput1">
+                        </td>
                     </tr>
                     <tr>
                         <th><label for="prodKeyInput2">제품 2 등록</label></th>
@@ -51,8 +58,10 @@
 
     <script>
         $(".searchProductName").on("keyup", function () {
-            if ($(this).val() !== "") {
-                let currentInputValue = $(this).val();
+            const $thisInput = $(this);
+
+            if ($thisInput.val() !== "") {
+                let currentInputValue = $thisInput.val();
 
                 $.ajax({
                     url: "/admin/searchProductName.do",
@@ -61,21 +70,45 @@
                         "currentInputValue": currentInputValue
                     },
                     success: function (result) {
+                        let existingDiv = $thisInput.parent().find(".search-result-div");
+                        if (existingDiv.length > 0) {
+                            existingDiv.remove();
+                        }
+
                         if (result.length > 0) {
-                            let prodNm = result[0].prodNm;
-                            let prodKey = result[0].prodKey;
+                            const divEl = document.createElement("div");
+                            divEl.classList.add("search-result-div");
 
+                            for (let i = 0; i < result.length; i++) {
+                                let prodNm = result[i].prodNm;
+                                let prodKey = result[i].prodKey;
 
-                        } else if (result.length === "0") {
-                            let searchResult = "일치하는 상품이 없습니다"
+                                const inputEl = document.createElement("input");
+                                inputEl.setAttribute("type", "button");
+                                inputEl.setAttribute("name", prodKey);
+                                inputEl.setAttribute("value", prodNm);
+                                inputEl.setAttribute("readonly", "readonly");
+
+                                divEl.appendChild(inputEl);
+                            }
+
+                            $thisInput.after(divEl);
+
+                        } else {
+                            console.log("일치하는 상품이 없습니다");
                         }
                     },
                     error: function () {
                         console.log("ajax error");
                     },
-                })
+                });
+            } else {
+                let existingDiv = $thisInput.parent().find(".search-result-div");
+                if (existingDiv.length > 0) {
+                    existingDiv.remove();
+                }
             }
-        })
+        });
     </script>
 </main>
 </html>

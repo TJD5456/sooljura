@@ -177,7 +177,7 @@ tr:hover {
 				style="display: flex; justify-content: space-between; align-items: center; width: 80%; margin: 0 auto;">
 				<h2 style="margin: 0;">목록</h2>
 				<!-- 테이블 제목 -->
-				<a href="/post/freePostWirter.do" class="btn-write">작성하기</a>
+				<a href="/post/freePostWriter.do" class="btn-write">작성하기</a>
 				<!-- 작성하기 버튼 -->
 			</div>
 			<br>
@@ -197,7 +197,7 @@ tr:hover {
 						<tr>
 							<td>${post.postKey}</td>
 							<td>${post.postCategory}</td>
-							<td><a href="/post/postView.do?postCd=${notice.noticeNo}">${post.postTitle}</a></td>
+							<td><a href="/post/postView.do?postKey=${post.postKey}">${post.postTitle}</a></td>
 							<td>${post.userNickname}</td>
 							<td>${post.postViews}</td>
 							<td>${post.postDate}</td>

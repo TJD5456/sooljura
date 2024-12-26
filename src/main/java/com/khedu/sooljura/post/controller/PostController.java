@@ -3,7 +3,6 @@ package com.khedu.sooljura.post.controller;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,9 +38,9 @@ public class PostController {
 		return "post/notePost";
 	}
 
-	@GetMapping("detaliReviewPost.do")
-	public String detaliReviewPost() {
-		return "post/detaliReviewPost";
+	@GetMapping("detailReviewPost.do")
+	public String detailReviewPost() {
+		return "post/detailReviewPost";
 	}
 
 	@GetMapping("reviewListPost.do")
@@ -48,9 +48,9 @@ public class PostController {
 		return "post/reviewListPost";
 	}
 
-	@GetMapping("freePostWirter.do")
+	@GetMapping("freePostWriter.do")
 	public String freePostWirter() {
-		return "post/freePostWirter";
+		return "post/freePostWriter";
 	}
 
 	@GetMapping("webPageInfo.do")
@@ -69,59 +69,52 @@ public class PostController {
 		return "post/freePost";
 	}
 
-	@GetMapping("freewrite.do")
-	public String freewrite(HttpServletRequest request, MultipartFile[] files, Post post) {
+	@PostMapping("freewrite.do")
+	public String freewrite(HttpServletRequest request, MultipartFile file, Post post, Model model) {
+	    String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/post/");
+	    String filePath = null;
 
-		// 서비스에 파일 정보를 전달하기 위한 ArrayList
-		ArrayList<PostFile> fileList = new ArrayList<PostFile>();
+	    try {
+	        // 디렉토리가 존재하지 않을 경우 생성
+	        File directory = new File(savePath);
+	        if (!directory.exists()) {
+	            directory.mkdirs();
+	        }
 
-		for (int i = 0; i < files.length; i++) {
-			MultipartFile file = files[i];
+	        if (file != null && !file.isEmpty()) {
+	            String originalFileName = file.getOriginalFilename();
+	            String fileName = originalFileName.substring(0, originalFileName.lastIndexOf("."));
+	            String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+	            String toDay = new SimpleDateFormat("yyyyMMdd").format(new Date());
+	            int ranNum = new Random().nextInt(10000) + 1;
+	            filePath = fileName + "_" + toDay + "_" + ranNum + extension;
+	            String fullSavePath = savePath + filePath;
 
-			if (!file.isEmpty()) {
-				String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/notice/");
-				String originalFileName = file.getOriginalFilename();// 업로드한 파일명 =>test1.txt
-				String fileName = originalFileName.substring(0, originalFileName.lastIndexOf("."));// test1
-				String extension = originalFileName.substring(originalFileName.lastIndexOf("."));// .txt
+	            // 파일 저장
+	            try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(fullSavePath)))) {
+	                byte[] bytes = file.getBytes();
+	                bos.write(bytes);
+	            }
 
-				String toDay = new SimpleDateFormat("yyyyMMdd").format(new Date());// 오늘 날짜 ==20241205
-				int ranNum = new Random().nextInt(10000) + 1;// 1~10000사이 랜덤 숫자
-				String filePath = fileName + "_" + toDay + "_" + ranNum + extension;// test1 + _ + 20241205 + _랜덤숫자 +
-																					// .txt = > test1_20241205_4525.txt
+	            // 파일 정보를 PostFile 객체에 설정
+	            PostFile postFile = new PostFile();
+	            postFile.setPostFileNm(originalFileName);
+	            postFile.setPostFilePath(filePath);
 
-				savePath += filePath;
+	            ArrayList<PostFile> fileList = new ArrayList<>();
+	            fileList.add(postFile);
+	            service.insertPost(post, fileList);
+	        } else {
+	            service.insertPost(post, null); // 파일 없이 게시글 등록
+	        }
 
-				// 파일 업로드를 위한 보조 스트림
-				BufferedOutputStream bos = null;
+	        return "redirect:/post/getList.do?reqPage=1";
 
-				try {
-					byte[] bytes = file.getBytes();
-					FileOutputStream fos = new FileOutputStream(new File(savePath));
-					bos = new BufferedOutputStream(fos);
-					bos.write(bytes);
-
-					PostFile postFile = new PostFile();
-					// tbl_post_file(post_file_key,post_key,post_file_nm,post_file_path)
-					postFile.setPostFileNm(originalFileName);// 원본 파일명
-					postFile.setPostFilePath(filePath); // 업로드 파일명
-
-					// 리스트에 추가
-					fileList.add(postFile);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} finally {
-					try {
-						bos.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-
-		}
-		int result = service.insertPost(post, fileList);
-		
-		return "redirect:/post/getList.do?reqPage=1";
+	    } catch (Exception e) {
+	        e.printStackTrace(); // 디버깅용 로그
+	        model.addAttribute("errorMessage", "게시글 등록에 실패했습니다.");
+	        model.addAttribute("post", post); // 기존 입력 내용을 다시 전달
+	        return "post/freePostWriter"; // 작성 페이지로 다시 이동
+	    }
 	}
 }

@@ -14,5 +14,6 @@
         <typeAlias type="com.khedu.sooljura.admin.model.vo.ProductCategory" alias="productCategory"/>
         <typeAlias type="com.khedu.sooljura.admin.model.vo.Youtube" alias="youtube"/>
         <typeAlias type="com.khedu.sooljura.post.model.vo.Post" alias="post"/>
+        <typeAlias type="com.khedu.sooljura.post.model.vo.PostFile" alias="postFile"/>
     </typeAliases>
 </configuration>

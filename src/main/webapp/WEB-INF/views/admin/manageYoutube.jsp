@@ -8,6 +8,12 @@
         .currentYoutube {
             display: block;
         }
+
+        [type="button"] {
+            display: block;
+            margin: 3px auto;
+            width: 28%;
+        }
     </style>
 </head>
 <body>
@@ -33,18 +39,25 @@
                         </td>
                     </tr>
                     <tr>
-                        <th><label for="prodKeyInput1">제품 1 등록</label></th>
+                        <th><label for="prodKey1">제품 1 등록</label></th>
                         <td>
-                            <input type="text" name="prodKey1" class="searchProductName" id="prodKeyInput1">
+                            <input type="text" class="searchProductName" id="prodKey1">
+                            <input type="hidden" name="prodKey1">
                         </td>
                     </tr>
                     <tr>
-                        <th><label for="prodKeyInput2">제품 2 등록</label></th>
-                        <td><input type="text" name="prodKey2" class="searchProductName" id="prodKeyInput2"></td>
+                        <th><label for="prodKey2">제품 2 등록</label></th>
+                        <td>
+                            <input type="text" class="searchProductName" id="prodKey2">
+                            <input type="hidden" name="prodKey2">
+                        </td>
                     </tr>
                     <tr>
-                        <th><label for="prodKeyInput3">제품 3 등록</label></th>
-                        <td><input type="text" name="prodKey3" class="searchProductName" id="prodKeyInput3"></td>
+                        <th><label for="prodKey3">제품 3 등록</label></th>
+                        <td>
+                            <input type="text" class="searchProductName" id="prodKey3">
+                            <input type="hidden" name="prodKey3">
+                        </td>
                     </tr>
                     <tr>
                         <th colspan="2"><input type="submit" value="YouTube 등록"></th>
@@ -59,6 +72,7 @@
     <script>
         $(".searchProductName").on("keyup", function () {
             const $thisInput = $(this);
+            const $thisInputId = $thisInput.attr("id");
 
             if ($thisInput.val() !== "") {
                 let currentInputValue = $thisInput.val();
@@ -87,6 +101,7 @@
                                 inputEl.setAttribute("type", "button");
                                 inputEl.setAttribute("name", prodKey);
                                 inputEl.setAttribute("value", prodNm);
+                                inputEl.setAttribute("onclick", "insertKeyToInput(this, '" + $thisInputId + "')");
                                 inputEl.setAttribute("readonly", "readonly");
 
                                 divEl.appendChild(inputEl);
@@ -109,6 +124,23 @@
                 }
             }
         });
+
+        function insertKeyToInput(obj, inputId) {
+            // obj.name  : prodKey
+            // obj.value : prodNm
+            let prodKey = obj.name;
+            let prodName = obj.value;
+
+            console.log("product key: " + prodKey);
+            console.log("product name: " + prodName);
+
+            // 1) 검색창(텍스트 필드)에 prodNm(상품명) 표시
+            document.getElementById(inputId).value = prodName;
+
+            // 2) 폼 전송용 숨긴 필드(또는 별도의 input)에 prodKey(상품키) 세팅
+            //    name 속성이 inputId와 같은 요소가 존재한다고 가정
+            document.getElementsByName(inputId)[0].value = prodKey;
+        }
     </script>
 </main>
 </html>

@@ -1,14 +1,15 @@
 package com.khedu.sooljura.post.controller;
 
 import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,6 +24,7 @@ import com.khedu.sooljura.post.model.service.PostService;
 import com.khedu.sooljura.post.model.vo.Post;
 import com.khedu.sooljura.post.model.vo.PostFile;
 import com.khedu.sooljura.post.model.vo.PostPageData;
+import com.khedu.sooljura.user.model.vo.User;
 
 @Controller
 @RequestMapping("/post/")
@@ -72,55 +74,39 @@ public class PostController {
 		return "post/freePost";
 	}
 
-	
-	/*
 	@PostMapping("freewrite.do")
-	public String freewrite(HttpServletRequest request, MultipartFile file, Post post, Model model) {
-	    String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/post/");
-	    String filePath = null;
+	public String freewrite(HttpSession session, Post post, Model model) {
+	   
+		// 0.제목 확인
+	    if (post.getPostTitle() == null || post.getPostTitle().isEmpty()) {
+	        model.addAttribute("errorMessage", "제목을 입력해주세요.");
+	        return "post/freePostWriter";
+	    }
+		
+		// 1. 로그인 사용자 정보 확인
+	    User loginUser = (User) session.getAttribute("loginUser");
+	    if (loginUser == null) {
+	        model.addAttribute("errorMessage", "로그인이 필요합니다.");
+	        return "redirect:/user/login.do"; // 로그인 페이지로 리다이렉트
+	    }
 
+	    // 2. 작성자 정보 설정
+	    post.setUserKey(loginUser.getUserKey());
+	    post.setUserNm(loginUser.getUserNm());
+
+	    // 3. 게시글 저장
 	    try {
-	        // 디렉토리가 존재하지 않을 경우 생성
-	        File directory = new File(savePath);
-	        if (!directory.exists()) {
-	            directory.mkdirs();
-	        }
-
-	        if (file != null && !file.isEmpty()) {
-	            String originalFileName = file.getOriginalFilename();
-	            String fileName = originalFileName.substring(0, originalFileName.lastIndexOf("."));
-	            String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
-	            String toDay = new SimpleDateFormat("yyyyMMdd").format(new Date());
-	            int ranNum = new Random().nextInt(10000) + 1;
-	            filePath = fileName + "_" + toDay + "_" + ranNum + extension;
-	            String fullSavePath = savePath + filePath;
-
-	            // 파일 저장
-	            try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(fullSavePath)))) {
-	                byte[] bytes = file.getBytes();
-	                bos.write(bytes);
-	            }
-
-	            // 파일 정보를 PostFile 객체에 설정
-	            PostFile postFile = new PostFile();
-	            postFile.setPostFileNm(originalFileName);
-	            postFile.setPostFilePath(filePath);
-
-	            ArrayList<PostFile> fileList = new ArrayList<>();
-	            fileList.add(postFile);
-	            service.insertPost(post, fileList);
+	        int result = service.insertPost(post);
+	        if (result > 0) {
+	            return "redirect:/post/getList.do?reqPage=1"; // 성공 시 목록 페이지로 리다이렉트
 	        } else {
-	            service.insertPost(post, null); // 파일 없이 게시글 등록
+	            model.addAttribute("errorMessage", "게시글 등록 중 오류가 발생했습니다.");
+	            return "post/freePostWriter"; // 실패 시 작성 페이지로 복귀
 	        }
-
-	        return "redirect:/post/getList.do?reqPage=1";
-
 	    } catch (Exception e) {
-	        e.printStackTrace(); // 디버깅용 로그
-	        model.addAttribute("errorMessage", "게시글 등록에 실패했습니다.");
-	        model.addAttribute("post", post); // 기존 입력 내용을 다시 전달
-	        return "post/freePostWriter"; // 작성 페이지로 다시 이동
+	        e.printStackTrace();
+	        model.addAttribute("errorMessage", "게시글 등록 중 예외가 발생했습니다.");
+	        return "post/freePostWriter"; // 예외 발생 시 작성 페이지로 복귀
 	    }
 	}
-	*/
 }

@@ -86,22 +86,11 @@ insert into tbl_post_type values ( 1, '공지사항' );
 insert into tbl_post_type values ( 2, '자유게시판' );
 insert into tbl_post_type values ( 3, '후기' );
 
-
-create table tbl_post_file (
-   post_file_key  char(12) primary key,
-   post_key       char(12) not null references tbl_post ( post_key ) on delete cascade,
-   post_file_nm   varchar2(400) not null,
-   post_file_path varchar2(100) not null
-);
-
---'pi' || lpad(seq_product_category.nextval, 4, '0')
-create sequence seq_post_file maxvalue 9999 cycle;
-
 create table tbl_post (
    post_key      char(12) primary key,
    post_cd       number not null references tbl_post_type ( post_cd ) on delete cascade,
    user_key      char(12) not null references tbl_user ( user_key ) on delete set null,
-   post_content  varchar2(2000) not null,
+   post_content  CLOB not null, -- CLOB 사용으로 HTML 및 이미지 정보 저장
    post_title    varchar2(225) not null,
    post_date     date default sysdate,
    post_view     number default 0,

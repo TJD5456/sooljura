@@ -37,8 +37,5 @@ public class PostDao {
 		return sqlSession.insert("post.insertPost",post);
 	}
 
-	public int insertPostFile(PostFile file) {
-		return sqlSession.insert("post.insertPostFile",file);
-	}
 }
 

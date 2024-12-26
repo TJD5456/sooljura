@@ -46,50 +46,29 @@
 			select seq_post.nextval from dual
 	</select>
     
-    <insert id="insertPost" parameterType="post">
+   <insert id="insertPost" parameterType="Post">
     INSERT INTO tbl_post (
-        post_key, 
-        post_cd, 
-        user_key, 
-        post_content, 
-        post_title, 
-        post_date, 
-        post_view, 
-        confirm_yn, 
-        delete_yn, 
-        delete_reason
+        post_key,
+        post_cd,
+        user_key,
+        post_title,
+        post_content,
+        post_date,
+        post_view,
+        confirm_yn,
+        delete_yn
     ) VALUES (
         'po' || LPAD(seq_post.NEXTVAL, 4, '0'),
-        #{postCd}, 
-        #{userKey}, 
-        #{postContent}, 
-        #{postTitle}, 
-        SYSDATE, 
-        #{postViews}, 
-        #{confirmYn}, 
-        #{deleteYn}, 
-        #{deleteReason}
+        #{postCd},
+        #{userKey},
+        #{postTitle},
+        #{postContent},
+        SYSDATE,
+        0,
+        'N',
+        'N'
     )
 </insert>
-    
- <insert id="insertPostFile" parameterType="postFile">
-    INSERT INTO tbl_post_file (
-        post_file_key,
-        post_key,
-        post_file_nm,
-        post_file_path
-    ) VALUES (
-        'pf' || LPAD(seq_post_file.NEXTVAL, 4, '0'),
-        #{postKey},
-        #{postFileNm},
-        #{postFilePath}
-    )
-</insert>
-    
-    
-    
-    
-    
 </mapper>
 
 

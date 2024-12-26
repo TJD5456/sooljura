@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.khedu.sooljura.post.model.dao.PostDao;
 import com.khedu.sooljura.post.model.vo.Post;
+import com.khedu.sooljura.post.model.vo.PostFile;
 import com.khedu.sooljura.post.model.vo.PostPageData;
 
 @Service("postService")
@@ -19,74 +20,79 @@ public class PostService {
 	private PostDao dao;
 
 	public PostPageData selectPostList(int reqPage) {
-		int viewNoticeCnt = 5;
+	    int viewNoticeCnt = 5; // 한 페이지당 표시할 게시글 수
 
-		int end = reqPage * viewNoticeCnt;
-		int start = end - viewNoticeCnt + 1;
+	    // 페이징 시작 및 끝 계산
+	    int end = reqPage * viewNoticeCnt;
+	    int start = end - viewNoticeCnt + 1;
 
-		HashMap<String, Integer> map = new HashMap<>();
-		map.put("start", start);
-		map.put("end", end);
+	    HashMap<String, Integer> map = new HashMap<>();
+	    map.put("start", start);
+	    map.put("end", end);
 
-		// 게시글 리스트
-		ArrayList<Post> list = (ArrayList<Post>) dao.selectPostList(map);
+	    // 게시글 리스트 가져오기
+	    ArrayList<Post> list = (ArrayList<Post>) dao.selectPostList(map);
 
-		// 전체 게시글 수
-		int totCnt = dao.selectPostCount();
+	    // 게시글의 카테고리 이름 설정
+	    for (Post post : list) {
+	        post.setCategoryName(getCategoryName(post.getPostCd())); // 카테고리 이름 추가
+	    }
 
-		// 전체 페이지 수
-		int totPage = (totCnt % viewNoticeCnt > 0) ? (totCnt / viewNoticeCnt + 1) : (totCnt / viewNoticeCnt);
+	    // 전체 게시글 수 가져오기
+	    int totCnt = dao.selectPostCount();
 
-		// 페이지 네비게이션 크기
-		int pageNaviSize = 3;
+	    // 전체 페이지 수 계산
+	    int totPage = (totCnt % viewNoticeCnt > 0) ? (totCnt / viewNoticeCnt + 1) : (totCnt / viewNoticeCnt);
 
-		// 페이지 네비게이션 시작 번호
-		int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;
+	    // 페이지 네비게이션 설정
+	    int pageNaviSize = 3; // 한 번에 보여줄 페이지 네비게이션 크기
+	    int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1; // 페이지 네비게이션 시작 번호
+	    StringBuilder pageNavi = new StringBuilder();
 
-		// 페이지 네비게이션 HTML
-		StringBuilder pageNavi = new StringBuilder();
+	    // 이전 버튼
+	    if (pageNo != 1) {
+	        pageNavi.append("<a href='/post/getList.do?reqPage=").append(pageNo - 1).append("'> 이전 </a>");
+	    }
 
-		// 이전 버튼
-		if (pageNo != 1) {
-			pageNavi.append("<a href='/post/getList.do?reqPage=").append(pageNo - 1).append("'> 이전 </a>");
-		}
+	    // 페이지 번호
+	    for (int i = 0; i < pageNaviSize; i++) {
+	        if (pageNo == reqPage) {
+	            pageNavi.append("<span>").append(pageNo).append("</span>");
+	        } else {
+	            pageNavi.append("<a href='/post/getList.do?reqPage=").append(pageNo).append("'>").append(pageNo)
+	                    .append("</a>");
+	        }
+	        pageNo++;
+	        if (pageNo > totPage) {
+	            break;
+	        }
+	    }
 
-		// 페이지 번호
-		for (int i = 0; i < pageNaviSize; i++) {
-			if (pageNo == reqPage) {
-				pageNavi.append("<span>").append(pageNo).append("</span>");
-			} else {
-				pageNavi.append("<a href='/post/getList.do?reqPage=").append(pageNo).append("'>").append(pageNo)
-						.append("</a>");
-			}
-			pageNo++;
+	    // 다음 버튼
+	    if (pageNo <= totPage) {
+	        pageNavi.append("<a href='/post/getList.do?reqPage=").append(pageNo).append("'> 다음 </a>");
+	    }
 
-			if (pageNo > totPage) {
-				break;
-			}
-		}
-
-		// 다음 버튼
-		if (pageNo <= totPage) {
-			pageNavi.append("<a href='/post/getList.do?reqPage=").append(pageNo).append("'> 다음 </a>");
-		}
-		return new PostPageData(list, pageNavi.toString());
+	    // PostPageData 객체 생성 후 반환
+	    return new PostPageData(list, pageNavi.toString());
 	}
 
-	/*
-	public int insertPost(Post post, ArrayList<PostFile> fileList) {
-		// 1. 게시글 저장
-		int postResult = dao.insertPost(post);
-
-		// 2. 파일 저장
-		int fileResult = 0;
-		if (fileList != null && !fileList.isEmpty()) {
-			PostFile file = fileList.get(0); // 단일 파일이므로 첫 번째 요소만 처리
-			file.setPostKey(post.getPostKey()); // 게시글 키 설정
-			fileResult = dao.insertPostFile(file);
-		}
-
-		return postResult > 0 && fileResult > 0 ? 1 : 0;
+	public int insertPost(Post post) {
+	    return dao.insertPost(post);
 	}
-*/
+	
+	public String getCategoryName(int postCd) {
+	    switch (postCd) {
+	        case 1:
+	            return "일상";
+	        case 2:
+	            return "질문";
+	        case 3:
+	            return "정보 나눔";
+	        case 4:
+	            return "공지사항";
+	        default:
+	            return "알 수 없음";
+	    }
+	}
 }

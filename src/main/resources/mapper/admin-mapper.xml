@@ -41,7 +41,7 @@
                 #{prodCnt},
                 #{prodVol},
                 #{prodProof},
-                #{isTrading},
+                #{tradingYn},
                 #{categoryKey},
                 sysdate)
     </insert>

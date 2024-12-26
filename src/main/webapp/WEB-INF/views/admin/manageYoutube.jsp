@@ -29,7 +29,8 @@
                 <table>
                     <tr>
                         <th><label for="urlInput">유튜브 URL</label></th>
-                        <td><input type="text" name="youtubeUrl" id="urlInput"></td>
+                        <td><textarea type="text" name="youtubeUrl" id="iframeInput" rows="8" cols="50"
+                                      placeholder="YouTube -> Share -> Embed 에서 값을 가져오시오" required></textarea></td>
                     </tr>
                     <tr>
                         <th><label for="contentInput">제품 설명</label></th>
@@ -60,7 +61,10 @@
                         </td>
                     </tr>
                     <tr>
-                        <th colspan="2"><input type="submit" value="YouTube 등록"></th>
+                        <th colspan="2">
+                            <input type="submit" value="YouTube 등록">
+                            <input type="button" onclick="extractSrc()" value="src 추출하기">
+                        </th>
                     </tr>
                 </table>
             </form>
@@ -126,15 +130,29 @@
             }
         });
 
-        function insertKeyToInput(obj, inputId) {
-            let prodKey = obj.name;
-            let prodName = obj.value;
+        // for iframe
+        function extractSrc() {
+            // Check if the textarea is not empty before proceeding
+            // 1. Get the full iframe HTML from the textarea
+            const iframeCode = document.getElementById('iframeInput').value;
+            console.log("Full iframe code:", iframeCode);
 
-            console.log("product key: " + prodKey);
-            console.log("product name: " + prodName);
+            // 2. Use a RegExp to find the src attribute
+            const pattern = /src="([^"]+)"/;
+            console.log("Regex pattern:", pattern);
 
-            document.getElementById(inputId).value = prodName;
-            document.getElementsByName(inputId)[0].value = prodKey;
+            const match = iframeCode.match(pattern);
+            console.log("Regex match result:", match);
+
+            // 3. Display the src value (if found) and log it
+            if (match) {
+                const extractedSrc = match[1];
+                console.log("Extracted src:", extractedSrc);
+                document.getElementById('result').textContent = extractedSrc;
+            } else {
+                console.log("No src found.");
+                document.getElementById('result').textContent = 'No src found.';
+            }
         }
     </script>
 </main>

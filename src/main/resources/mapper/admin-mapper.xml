@@ -74,7 +74,7 @@
     <select id="getAllProductsInfo" resultType="product">
         select prod_key     as prodKey,
                prod_nm      as prodNm,
-               prod_price   as prodPricem,
+               prod_price   as prodPrice,
                prod_maker   as prodMaker,
                prod_origin  as prodOrigin,
                prod_intro   as prodIntro,

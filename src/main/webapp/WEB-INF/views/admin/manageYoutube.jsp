@@ -64,6 +64,7 @@
                     </tr>
                 </table>
             </form>
+            <jsp:include page="/WEB-INF/views/common/youtube.jsp"/>
         </div>
         <jsp:include page="/WEB-INF/views/common/remote.jsp"/>
     </div>
@@ -126,19 +127,13 @@
         });
 
         function insertKeyToInput(obj, inputId) {
-            // obj.name  : prodKey
-            // obj.value : prodNm
             let prodKey = obj.name;
             let prodName = obj.value;
 
             console.log("product key: " + prodKey);
             console.log("product name: " + prodName);
 
-            // 1) 검색창(텍스트 필드)에 prodNm(상품명) 표시
             document.getElementById(inputId).value = prodName;
-
-            // 2) 폼 전송용 숨긴 필드(또는 별도의 input)에 prodKey(상품키) 세팅
-            //    name 속성이 inputId와 같은 요소가 존재한다고 가정
             document.getElementsByName(inputId)[0].value = prodKey;
         }
     </script>

@@ -156,7 +156,11 @@ button:hover {
     box-shadow: 1px 1px 1px 1px var(--button-background);
 }
 
-/* 테이블 스타일 */
+.title {
+    text-align: center;
+    margin: 0 auto 30px;
+}
+
 table {
     width: 80%;
     max-width: 1000px;

@@ -21,7 +21,7 @@
     <div class="wrapper">
         <div class="content">
             <div class="title">
-                <h1>상품 관리 페이지</h1>
+                <h1>상품 관리</h1>
             </div>
             <form action="${pageContext.request.contextPath}/admin/uploadProduct.do" method="post"
                   enctype="multipart/form-data" id="uploadForm">
@@ -146,6 +146,7 @@
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </main>
+
 <script>
     function manageCategoryFrm() {
         window.location.href = '/admin/manageCategoryFrm.do';

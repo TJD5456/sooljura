@@ -139,9 +139,9 @@
 
     <select id="searchProductName" resultType="product">
         select prod_key  as prodKey,
-               prod_name as prodName,
+               prod_name as prodName
         from tbl_product
-        where prod_key = #{_currentInputvalue}
+        where prod_name like CONCAT('%', #{_currentInputValue}, '%')
     </select>
 
 </mapper>

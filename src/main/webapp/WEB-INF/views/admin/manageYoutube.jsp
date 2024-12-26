@@ -50,7 +50,7 @@
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
     
     <script>
-        $(".searchProductName").on("keydown", function () {
+        $(".searchProductName").on("keyup", function () {
             const currentInputId = $(this).attr("id");
             let currentInputValue = $(this).val();
 

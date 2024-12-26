@@ -15,8 +15,8 @@ public class Product {
     private String prodCnt;
 
     private String tradingYn; // 0 == 거래중지, 1 == 거래중
-    private String prodVol;   //용량  							
-    private String prodProof; //알콜도수  							
+    private String prodVol;   //용량
+    private String prodProof; //알콜도수
 
     private String categoryKey;
 
@@ -29,9 +29,7 @@ public class Product {
         super();
     }
 
-    public Product(String prodName, String prodPrice, String prodMaker, String prodOrigin, String prodIntro,
-                   String prodCnt, String tradingYn, String prodVol, String prodProof, String categoryKey,
-                   ArrayList<ProductImage> productImages, String detailImgLoc, String detailImgNm) {
+    public Product(String prodName, String prodPrice, String prodMaker, String prodOrigin, String prodIntro, String prodCnt, String tradingYn, String prodVol, String prodProof, String categoryKey, ArrayList<ProductImage> productImages, String detailImgLoc, String detailImgNm) {
         super();
         this.prodName = prodName;
         this.prodPrice = prodPrice;
@@ -154,11 +152,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product [prodName=" + prodName + ", prodPrice=" + prodPrice + ", prodMaker=" + prodMaker
-                + ", prodOrigin=" + prodOrigin + ", prodIntro=" + prodIntro + ", prodCnt=" + prodCnt + ", isTrading="
-                + tradingYn + ", prodVol=" + prodVol + ", prodProof=" + prodProof + ", categoryKey=" + categoryKey
-                + ", productImages=" + productImages + ", detailImgLoc=" + detailImgLoc + ", detailImgNm=" + detailImgNm
-                + "]";
+        return "Product [prodName=" + prodName + ", prodPrice=" + prodPrice + ", prodMaker=" + prodMaker + ", prodOrigin=" + prodOrigin + ", prodIntro=" + prodIntro + ", prodCnt=" + prodCnt + ", isTrading=" + tradingYn + ", prodVol=" + prodVol + ", prodProof=" + prodProof + ", categoryKey=" + categoryKey + ", productImages=" + productImages + ", detailImgLoc=" + detailImgLoc + ", detailImgNm=" + detailImgNm + "]";
     }
 
 

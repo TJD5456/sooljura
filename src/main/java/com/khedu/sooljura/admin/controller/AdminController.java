@@ -196,9 +196,6 @@ public class AdminController {
 
         ArrayList<Product> productList = service.searchProductName(currentInputValue);
 
-        System.out.println("=== from admin con ===");
-        System.out.println(productList.toString());
-
         Gson gson = new Gson();
 
         return gson.toJson(productList);

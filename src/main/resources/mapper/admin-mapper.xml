@@ -21,7 +21,7 @@
 
     <insert id="uploadProduct" parameterType="product">
         insert into tbl_product (prod_key,
-                                 prod_name,
+                                 prod_nm,
                                  prod_price,
                                  prod_maker,
                                  prod_origin,
@@ -33,7 +33,7 @@
                                  category_key,
                                  upload_date)
         values (#{prodKey},
-                #{prodName},
+                #{prodNm},
                 #{prodPrice},
                 #{prodMaker},
                 #{prodOrigin},
@@ -73,8 +73,8 @@
 
     <select id="getAllProductsInfo" resultType="product">
         select prod_key     as prodKey,
-               prod_name    as prodName,
-               prod_price   as prodPricem,
+               prod_nm      as prodNm,
+               prod_price   as prodPrice,
                prod_maker   as prodMaker,
                prod_origin  as prodOrigin,
                prod_intro   as prodIntro,
@@ -138,10 +138,10 @@
     </select>
 
     <select id="searchProductName" resultType="product">
-        select prod_key  as prodKey,
-               prod_name as prodName
+        select prod_key as prodKey,
+               prod_nm  as prodNm
         from tbl_product
-        where prod_name like CONCAT('%', #{_currentInputValue}, '%')
+        where prod_nm like '%' || #{_currentInputValue} || '%'
     </select>
 
 </mapper>

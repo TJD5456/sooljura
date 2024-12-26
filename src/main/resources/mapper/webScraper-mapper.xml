@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="webScraper">
-	<insert id="insProd" parameterType = "com.khedu.sooljura.webscraper.model.vo.Product">
+	<insert id="insProd" parameterType = "product">
 		 insert 
 		   into tbl_product 
 		        (
@@ -20,7 +20,7 @@
 		        )
          values (
          		'pr' || to_char(sysdate, 'yymmdd') || lpad(seq_product.nextval, 4, '0'),
-                #{prodName},
+                #{prodNm},
                 #{prodPrice},
                 #{prodMaker},
                 #{prodOrigin},
@@ -51,11 +51,11 @@
     <select id="selProdKey" parameterType = "String" resultType="String">
     	select prod_key
     	  from tbl_product
-    	 where prod_name = #{prodName}
+    	 where prod_name = #{prodNm}
     </select>
      <select id="selDuplNmCnt" parameterType = "String" resultType="java.lang.Integer">
     	select count(*)
     	  from tbl_product
-    	 where prod_name = #{prodName}
+    	 where prod_name = #{prodNm}
     </select>
 </mapper>

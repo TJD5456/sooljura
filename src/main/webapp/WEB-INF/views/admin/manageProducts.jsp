@@ -171,6 +171,21 @@
     $('.categoryLevel1 input[type="radio"]').on('change', function () {
         if ($(this).is(':checked')) {
 
+            let higherCategoryKey = $(this).val();
+
+            $.ajax({
+                url: '/admin/selectLowerCategoryLevel.do',
+                type: 'get',
+                data: {
+                    "higherCategoryKey": higherCategoryKey
+                },
+                success: function (result) {
+                    console.log(result);
+                },
+                error: function () {
+                    console.log("ajax error");
+                }
+            })
         } else {
 
         }

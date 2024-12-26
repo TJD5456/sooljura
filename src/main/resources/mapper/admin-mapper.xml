@@ -128,4 +128,13 @@
         )
     </insert>
 
+    <select id="selectLowerCategoryLevel" resultType="productCategory">
+        select category_key    as categoryKey,
+               category_level  as categoryLevel,
+               category_nm     as categoryNm,
+               higher_category as higherCategory
+        from tbl_product_category
+        where higher_category = #{_hihgercategorykey}
+    </select>
+
 </mapper>

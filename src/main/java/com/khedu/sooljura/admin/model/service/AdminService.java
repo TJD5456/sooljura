@@ -72,4 +72,7 @@ public class AdminService {
         return dao.uploadYoutube(youtube);
     }
 
+    public ArrayList<ProductCategory> selectLowerCategoryLevel(String higherCategoryKey) {
+        return (ArrayList<ProductCategory>) dao.selectLowerCategoryLevel(higherCategoryKey);
+    }
 }

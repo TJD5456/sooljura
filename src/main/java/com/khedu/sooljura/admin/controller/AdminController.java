@@ -178,9 +178,9 @@ public class AdminController {
     @ResponseBody
     public String selectLowerCategoryLevel(String higherCategoryKey) {
         ArrayList<ProductCategory> lowerCategories = service.selectLowerCategoryLevel(higherCategoryKey);
-    
+
         Gson gson = new Gson();
-    
+
         return gson.toJson(lowerCategories);
     }
 

@@ -5,8 +5,8 @@
 <head>
     <title>manageProducts.jsp</title>
     <style>
-        .categoryLevel1, .categoryLevel2 {
-            border-bottom: var(--table-border) 1px solid;
+        .categoryLevel2, .categoryLevel3 {
+            border-top: var(--table-border) 1px solid;
         }
 
         .second-table {
@@ -79,28 +79,6 @@
                                     </c:if>
                                 </c:forEach>
                             </div>
-                            <div class="categoryLevel2">
-                                <c:forEach var="category" items="${categoryList}">
-                                    <c:if test="${category.categoryLevel == 2}">
-                                        <span>
-                                            <input type="radio" value="${category.categoryKey}"
-                                                   id="${category.categoryNm}" name="categoryLevel2" required>
-                                            <label for="${category.categoryNm}">${category.categoryNm}</label>
-                                        </span>
-                                    </c:if>
-                                </c:forEach>
-                            </div>
-                            <div class="categoryLevel3">
-                                <c:forEach var="category" items="${categoryList}">
-                                    <c:if test="${category.categoryLevel == 3}">
-                                        <span>
-                                            <input type="radio" value="${category.categoryKey}"
-                                                   id="${category.categoryNm}" name="categoryKey" required>
-                                            <label for="${category.categoryNm}">${category.categoryNm}</label>
-                                        </span>
-                                    </c:if>
-                                </c:forEach>
-                            </div>
                         </td>
                     <tr>
                         <th><label for="cntInput">수량</label></th>
@@ -167,7 +145,6 @@
         }
     });
 
-    // TODO: 상위 카테고리를 클릭하면 다음이 보이게 하기
     $('.categoryLevel1 input[type="radio"]').on('change', function () {
         if ($(this).is(':checked')) {
 
@@ -180,14 +157,48 @@
                     "higherCategoryKey": higherCategoryKey
                 },
                 success: function (result) {
-                    console.log(result);
+                    const categoryLevel1Div = document.querySelector('.categoryLevel1');
+                    const existingCategoryLevel2Div = document.querySelector('.categoryLevel2');
+                    if (existingCategoryLevel2Div) {
+                        existingCategoryLevel2Div.remove();
+                    }
+
+                    const divEl = document.createElement("div");
+                    divEl.classList.add("categoryLevel2");
+
+                    for (let i = 0; i < result.length; i++) {
+                        let categoryKey = result[i].categoryKey;
+                        let categoryLevel = result[i].categoryLevel;
+                        let categoryNm = result[i].categoryNm;
+                        let higherCategory = result[i].higherCategory;
+
+                        const spanEl = document.createElement("span");
+
+                        const inputEl = document.createElement("input");
+                        inputEl.setAttribute("type", "radio");
+                        inputEl.setAttribute("value", categoryKey);
+                        inputEl.setAttribute("id", categoryNm);
+                        inputEl.setAttribute("name", "categoryLevel2");
+                        inputEl.setAttribute("required", "");
+
+                        const labelEl = document.createElement("label");
+                        labelEl.setAttribute("for", categoryNm);
+                        labelEl.innerText = categoryNm;
+
+                        spanEl.appendChild(inputEl);
+                        spanEl.appendChild(labelEl);
+
+                        divEl.appendChild(spanEl);
+                    }
+
+                    if (categoryLevel1Div) {
+                        categoryLevel1Div.insertAdjacentElement('afterend', divEl);
+                    }
                 },
                 error: function () {
                     console.log("ajax error");
                 }
             })
-        } else {
-
         }
     });
 </script>

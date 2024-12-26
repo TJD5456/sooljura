@@ -1,4 +1,4 @@
-package com.khedu.sooljura.history.model.vo;
+package com.khedu.sooljura.product.model.vo;
 
 public class ProductHistory {
 	private String impUid;

@@ -190,4 +190,13 @@ public class AdminController {
         return "forward:/admin/adminPage.do?uploadYoutubeResult=" + result;
     }
 
+    @GetMapping(value = "searchProductName", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public String searchProductName(String currentInputValue) {
+
+        ArrayList<Product> productList = service.searchProductName(currentInputValue);
+
+        return null;
+    }
+
 }

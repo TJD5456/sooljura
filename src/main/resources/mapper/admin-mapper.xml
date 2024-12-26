@@ -137,4 +137,11 @@
         where higher_category = #{_hihgercategorykey}
     </select>
 
+    <select id="searchProductName" resultType="product">
+        select prod_key  as prodKey,
+               prod_name as prodName,
+        from tbl_product
+        where prod_key = #{_currentInputvalue}
+    </select>
+
 </mapper>

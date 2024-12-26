@@ -75,4 +75,8 @@ public class AdminService {
     public ArrayList<ProductCategory> selectLowerCategoryLevel(String higherCategoryKey) {
         return (ArrayList<ProductCategory>) dao.selectLowerCategoryLevel(higherCategoryKey);
     }
+
+    public ArrayList<Product> searchProductName(String currentInputValue) {
+        return (ArrayList<Product>) dao.searchProductName(currentInputValue);
+    }
 }

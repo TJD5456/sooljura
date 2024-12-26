@@ -79,4 +79,5 @@ public class AdminService {
     public ArrayList<Product> searchProductName(String currentInputValue) {
         return (ArrayList<Product>) dao.searchProductName(currentInputValue);
     }
+
 }

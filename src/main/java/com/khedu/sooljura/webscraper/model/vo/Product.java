@@ -1,27 +1,35 @@
 package com.khedu.sooljura.webscraper.model.vo;
-//임시로 쓰고있음. 추후 admin/model/vo/Product로 사용예정
+// 임시로 쓰고있음. 추후 admin.model.vo.Product 로 사용예정
 
+import com.khedu.sooljura.admin.model.vo.ProductImage;
+
+import java.util.ArrayList;
 
 public class Product {
-    private String prodName;   //제품명
-    private String prodPrice;  //제품가격
-    private String prodMaker;  //제조사
-    private String prodOrigin; //원산지
-    private String prodIntro;  //제품 소개
-    private String prodCnt;    //제품 개수
+    private String prodKey;
+    private String prodName;
+    private String prodPrice;
+    private String prodMaker;
+    private String prodOrigin;
+    private String prodIntro;
+    private String prodCnt;
 
-    private String isTrading; //is_trading  거래중? 1=거래중 0=거래중지 	// tbl_prod 컬럼 추가 예정
-    private String prodVol;   //용량  									//tbl_prod 컬럼 추가 예정
-    private String prodProof; //알콜도수  								//tbl_prod 컬럼 추가 예정
+    private String tradingYn; // 0 == 거래중지, 1 == 거래중
+    private String prodVol;   //용량
+    private String prodProof; //알콜도수
 
     private String categoryKey;
+
+    private ArrayList<ProductImage> productImages;
+
+    private String detailImgLoc;
+    private String detailImgNm;
 
     public Product() {
         super();
     }
 
-    public Product(String prodName, String prodPrice, String prodMaker, String prodOrigin, String prodIntro,
-                   String prodCnt, String isTrading, String prodVol, String prodProof, String categoryKey) {
+    public Product(String prodName, String prodPrice, String prodMaker, String prodOrigin, String prodIntro, String prodCnt, String tradingYn, String prodVol, String prodProof, String categoryKey, ArrayList<ProductImage> productImages, String detailImgLoc, String detailImgNm) {
         super();
         this.prodName = prodName;
         this.prodPrice = prodPrice;
@@ -29,10 +37,13 @@ public class Product {
         this.prodOrigin = prodOrigin;
         this.prodIntro = prodIntro;
         this.prodCnt = prodCnt;
-        this.isTrading = isTrading;
+        this.tradingYn = tradingYn;
         this.prodVol = prodVol;
         this.prodProof = prodProof;
         this.categoryKey = categoryKey;
+        this.productImages = productImages;
+        this.detailImgLoc = detailImgLoc;
+        this.detailImgNm = detailImgNm;
     }
 
     public String getProdName() {
@@ -83,12 +94,12 @@ public class Product {
         this.prodCnt = prodCnt;
     }
 
-    public String getIsTrading() {
-        return isTrading;
+    public String getTradingYn() {
+        return tradingYn;
     }
 
-    public void setIsTrading(String isTrading) {
-        this.isTrading = isTrading;
+    public void setTradingYn(String tradingYn) {
+        this.tradingYn = tradingYn;
     }
 
     public String getProdVol() {
@@ -115,12 +126,34 @@ public class Product {
         this.categoryKey = categoryKey;
     }
 
+    public ArrayList<ProductImage> getProductImages() {
+        return productImages;
+    }
+
+    public void setProductImages(ArrayList<ProductImage> productImages) {
+        this.productImages = productImages;
+    }
+
+    public String getDetailImgLoc() {
+        return detailImgLoc;
+    }
+
+    public void setDetailImgLoc(String detailImgLoc) {
+        this.detailImgLoc = detailImgLoc;
+    }
+
+    public String getDetailImgNm() {
+        return detailImgNm;
+    }
+
+    public void setDetailImgNm(String detailImgNm) {
+        this.detailImgNm = detailImgNm;
+    }
+
     @Override
     public String toString() {
-        return "Product [prodName=" + prodName + ", prodPrice=" + prodPrice + ", prodMaker=" + prodMaker
-            + ", prodOrigin=" + prodOrigin + ", prodIntro=" + prodIntro + ", prodCnt=" + prodCnt + ", isTrading="
-            + isTrading + ", prodVol=" + prodVol + ", prodProof=" + prodProof + ", categoryKey=" + categoryKey
-            + "]";
+        return "Product [prodName=" + prodName + ", prodPrice=" + prodPrice + ", prodMaker=" + prodMaker + ", prodOrigin=" + prodOrigin + ", prodIntro=" + prodIntro + ", prodCnt=" + prodCnt + ", isTrading=" + tradingYn + ", prodVol=" + prodVol + ", prodProof=" + prodProof + ", categoryKey=" + categoryKey + ", productImages=" + productImages + ", detailImgLoc=" + detailImgLoc + ", detailImgNm=" + detailImgNm + "]";
     }
+
 
 }

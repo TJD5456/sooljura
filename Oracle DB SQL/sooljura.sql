@@ -185,17 +185,17 @@ insert into tbl_product_category values ( 'c' || lpad( seq_product_category.next
 
 create table tbl_product (
    prod_key     char(12) primary key,
-   prod_name    varchar2(100) not null,
+   prod_nm    varchar2(400) not null,
    prod_price   number not null,
-   prod_maker   varchar2(100),
-   prod_origin  varchar2(100),
+   prod_maker   varchar2(400),
+   prod_origin  varchar2(400),
    prod_intro   varchar2(4000),
    prod_cnt     number not null,
-   upload_date  date default sysdate,
    prod_vol     varchar2(30),
    prod_proof   varchar2(30),
-   is_trading   number default 0,
-   category_key char(5) references tbl_product_category ( category_key )
+   trading_yn   number default 0,
+   category_key char(5) references tbl_product_category ( category_key ),
+   upload_date  date default sysdate
 );
 
 -- 'pr' || to_char(sysdate, 'yymmdd') || lpad(seq_product.nextval, 4, '0')

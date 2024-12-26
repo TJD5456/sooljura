@@ -5,12 +5,16 @@
 <head>
     <title>manageProducts.jsp</title>
     <style>
-        .categoryLevel1, .categoryLevel2 {
-            border-bottom: var(--table-border) 1px solid;
+        .categoryLevel2, .categoryLevel3 {
+            border-top: var(--table-border) 1px solid;
         }
 
-        .categoryLevel2, .categoryLevel3 {
-            display: none;
+        .second-table {
+            margin-top: 50px;
+        }
+
+        span {
+            display: inline-block;
         }
     </style>
 </head>
@@ -21,7 +25,7 @@
     <div class="wrapper">
         <div class="content">
             <div class="title">
-                <h1>상품 관리 페이지</h1>
+                <h1>상품 관리</h1>
             </div>
             <form action="${pageContext.request.contextPath}/admin/uploadProduct.do" method="post"
                   enctype="multipart/form-data" id="uploadForm">
@@ -53,6 +57,18 @@
                                       maxlength="4000" wrap="hard" style="resize: none" required></textarea>
                         </td>
                     </tr>
+                    <tr>
+                        <th><label for="volInput">용량</label></th>
+                        <td><input type="text" id="volInput" name="prodVol" required></td>
+                    </tr>
+                    <tr>
+                        <th><label for="proofInput">도수</label></th>
+                        <td><input type="text" id="proofInput" name="prodProof" required></td>
+                    </tr>
+                    <tr>
+                        <th><label for="tradeYnInput">거래여부</label></th>
+                        <td><input type="text" id="tradeYnInput" name="tradingYn"></td>
+                    </tr>
                     <tr class="categoryRow">
                         <th>카테고리</th>
                         <td>
@@ -61,7 +77,7 @@
                                     <c:if test="${category.categoryLevel == 1}">
                                         <span>
                                             <input type="radio" value="${category.categoryKey}"
-                                                   id="${category.categoryNm}" name="level1" required>
+                                                   id="${category.categoryNm}" name="categoryLevel1" required>
                                             <label for="${category.categoryNm}">${category.categoryNm}</label>
                                         </span>
                                     </c:if>
@@ -81,45 +97,43 @@
                 </table>
             </form>
 
-            <div class="product-header">
-                <span>제품키</span>
-                <span>카테고리</span>
-                <span>이름</span>
-                <span>가격</span>
-                <span>원산지</span>
-                <span>제조사</span>
-                <span>사진</span>
-                <span>수량</span>
-            </div>
-
-            <div class="show-products">
+            <table class="second-table">
+                <thead>
+                <tr>
+                    <th>제품키</th>
+                    <th>카테고리</th>
+                    <th>이름</th>
+                    <th>가격</th>
+                    <th>사진</th>
+                    <th>수량</th>
+                </tr>
+                </thead>
+                <tbody>
                 <c:forEach var="product" items="${products}">
-                    <div class="product-each">
+                    <tr class="product-each">
                             <%-- TODO: 제품을 클릭하면 제품 상세 페이지로 이동하도록 할것 --%>
-                        <span>${product.prodKey}</span>
-                        <span>${product.productCategory.categoryNm}</span>
-                        <span>${product.prodName}</span>
-                        <span>${product.prodPrice}</span>
-                        <span>${product.prodOrigin}</span>
-                        <span>${product.prodMaker}</span>
-                        <span><img src="/resources/upload/product_images/${product.productImages[0].imgPath}"
-                                   alt="${product.productImages[0].imgNm}" style="height: 100px"></span>
-                        <span>${product.prodCnt}</span>
-                    </div>
+                        <td>${product.prodKey}</td>
+                        <td>${product.productCategory.categoryNm}</td>
+                        <td>${product.prodName}</td>
+                        <td>${product.prodPrice}</td>
+                        <td><img src="/resources/upload/product_images/${product.productImages[0].imgPath}"
+                                 alt="${product.productImages[0].imgNm}" style="height: 100px"></td>
+                        <td>${product.prodCnt}</td>
+                    </tr>
                 </c:forEach>
-            </div>
-
+                </tbody>
+            </table>
         </div>
         <jsp:include page="/WEB-INF/views/common/remote.jsp"/>
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </main>
+
 <script>
     function manageCategoryFrm() {
         window.location.href = '/admin/manageCategoryFrm.do';
     }
 
-    // TODO: 상품, 카테고리 등록하고 돌아오면 알림 뜨게 하기
     $(function () {
         let uploadProductResult = "${uploadProductResult}";
         let manageCategoryResult = "${manageCategoryResult}";
@@ -137,32 +151,108 @@
 
     $('.categoryLevel1 input[type="radio"]').on('change', function () {
         if ($(this).is(':checked')) {
-            selectLowerCategory($(this).val());
-            // TODO: element 를 만들어서 추가
-        } else {
+
+            let higherCategoryKey = $(this).val();
+
+            $.ajax({
+                url: '/admin/selectLowerCategoryLevel.do',
+                type: 'get',
+                data: {
+                    "higherCategoryKey": higherCategoryKey
+                },
+                success: function (result) {
+                    const categoryLevel1Div = $(".categoryLevel1");
+
+                    const existingCategoryLevel2Div = $(".categoryLevel2");
+                    if (existingCategoryLevel2Div) {
+                        existingCategoryLevel2Div.remove();
+                    }
+
+                    const divEl = document.createElement("div");
+                    divEl.classList.add("categoryLevel2");
+
+                    for (let i = 0; i < result.length; i++) {
+                        let categoryKey = result[i].categoryKey;
+                        let categoryNm = result[i].categoryNm;
+
+                        const spanEl = document.createElement("span");
+
+                        const inputEl = document.createElement("input");
+                        inputEl.setAttribute("type", "radio");
+                        inputEl.setAttribute("value", categoryKey);
+                        inputEl.setAttribute("id", categoryNm);
+                        inputEl.setAttribute("name", "categoryLevel2");
+                        inputEl.setAttribute("required", "");
+
+                        const labelEl = document.createElement("label");
+                        labelEl.setAttribute("for", categoryNm);
+                        labelEl.innerText = categoryNm;
+
+                        spanEl.appendChild(inputEl);
+                        spanEl.appendChild(labelEl);
+
+                        divEl.appendChild(spanEl);
+                    }
+
+                    categoryLevel1Div.after(divEl);
+                },
+                error: function () {
+                    console.log("ajax error");
+                }
+            })
         }
     });
 
-    $('.categoryLevel2 input[type="radio"]').on('change', function () {
+    // Use "document" or another static parent for event delegation
+    $(document).on('change', '.categoryLevel2 input[type="radio"]', function () {
         if ($(this).is(':checked')) {
-            selectLowerCategory($(this).val());
-        } else {
+            let higherCategoryKey = $(this).val();
+
+            $.ajax({
+                url: '/admin/selectLowerCategoryLevel.do',
+                type: 'get',
+                data: { "higherCategoryKey": higherCategoryKey },
+                success: function (result) {
+                    const categoryLevel2Div = $(".categoryLevel2");
+
+                    const existingCategoryLevel3Div = $(".categoryLevel3");
+                    if (existingCategoryLevel3Div) {
+                        existingCategoryLevel3Div.remove();
+                    }
+
+                    const divEl = document.createElement("div");
+                    divEl.classList.add("categoryLevel3");
+
+                    for (let i = 0; i < result.length; i++) {
+                        let categoryKey = result[i].categoryKey;
+                        let categoryNm = result[i].categoryNm;
+
+                        const spanEl = document.createElement("span");
+
+                        const inputEl = document.createElement("input");
+                        inputEl.setAttribute("type", "radio");
+                        inputEl.setAttribute("value", categoryKey);
+                        inputEl.setAttribute("id", categoryNm);
+                        inputEl.setAttribute("name", "categoryKey");
+                        inputEl.setAttribute("required", "");
+
+                        const labelEl = document.createElement("label");
+                        labelEl.setAttribute("for", categoryNm);
+                        labelEl.innerText = categoryNm;
+
+                        spanEl.appendChild(inputEl);
+                        spanEl.appendChild(labelEl);
+                        divEl.appendChild(spanEl);
+                    }
+
+                    categoryLevel2Div.after(divEl);
+                },
+                error: function () {
+                    console.log("ajax error");
+                }
+            });
         }
     });
-
-    function selectLowerCategory(obj) {
-        $.ajax({
-            type: 'GET',
-            url: '/admin/selectLowerCategory.do',
-            data: {currentCategoryKey: obj},
-            success: function (res) {
-                console.log(res);
-            },
-            error: function () {
-                console.log("ajax error while retrieving lower categories");
-            }
-        })
-    }
 </script>
 </body>
 </html>

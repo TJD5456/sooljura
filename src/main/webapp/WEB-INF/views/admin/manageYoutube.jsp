@@ -14,11 +14,6 @@
             <div class="title">
                 <h1>유튜브관리 페이지</h1>
             </div>
-
-            https://www.youtube.com/watch?v=fnlJw9H0xAM&pp=ygUCbmY%3D
-            <br>
-            pr2412230001
-
             <form action="${pageContext.request.contextPath}/admin/uploadYoutube.do" method="get">
                 <table>
                     <tr>
@@ -34,15 +29,15 @@
                     </tr>
                     <tr>
                         <th><label for="prodKeyInput1">제품 1 등록</label></th>
-                        <td><input type="text" name="prodKey1" id="prodKeyInput1"></td>
+                        <td><input type="text" name="prodKey1" class="searchProductName" id="prodKeyInput1"></td>
                     </tr>
                     <tr>
                         <th><label for="prodKeyInput2">제품 2 등록</label></th>
-                        <td><input type="text" name="prodKey2" id="prodKeyInput2"></td>
+                        <td><input type="text" name="prodKey2" class="searchProductName" id="prodKeyInput2"></td>
                     </tr>
                     <tr>
                         <th><label for="prodKeyInput3">제품 3 등록</label></th>
-                        <td><input type="text" name="prodKey3" id="prodKeyInput3"></td>
+                        <td><input type="text" name="prodKey3" class="searchProductName" id="prodKeyInput3"></td>
                     </tr>
                     <tr>
                         <th colspan="2"><input type="submit" value="YouTube 등록"></th>
@@ -53,9 +48,30 @@
         <jsp:include page="/WEB-INF/views/common/remote.jsp"/>
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
-</main>
-<script>
-    // TODO: youtube 정보 입력 성공하고서 페이지 다시 띄어질때 알림 보이게하기
+    
+    <script>
+        $(".searchProductName").on("keyup", function () {
+            const currentInputId = $(this).attr("id");
+            let currentInputValue = $(this).val();
 
-</script>
+            $.ajax({
+                url: "/admin/searchProductName.do",
+                type: "get",
+                data:{
+                    "currentInputValue": currentInputValue
+                },
+                success: function (result) {
+                    console.log(result);
+                },
+                error: function (e) {
+                    console.log("ajax error");
+                },
+
+
+            })
+
+            console.log(currentInputValue);
+        })
+    </script>
+</main>
 </html>

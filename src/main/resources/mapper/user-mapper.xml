@@ -57,4 +57,9 @@
 	<select id="chkNickname" parameterType="string" resultType="_int">
 		select count(*) from tbl_user where user_nicknm = #{userNicknm}
 	</select>
+	
+	<!-- 회원가입시 주소지에 값을 넣기 위한 userKey 찾기 -->
+	<select id="findUserKey" parameterType="user" resultType="string">
+		select user_key as userKey from tbl_user where user_id = #{userId}
+	</select>
 </mapper>

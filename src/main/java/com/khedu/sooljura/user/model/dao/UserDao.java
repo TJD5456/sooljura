@@ -65,4 +65,14 @@ public class UserDao {
 	public int setDefaultYn(UserAddr userAddr) {
 		return sessionTemplate.update("addr.setDefaultYn", userAddr);
 	}
+
+	//회원가입시 주소지에 값을 넣기 위한 userKey 찾기
+	public String findUserKey(String userId) {
+		return sessionTemplate.selectOne("user.findUserKey", userId);
+	}
+
+	//회원가입시 주소지 입력한 경우 주소지 DB에 넣기
+	public int joinAddr(UserAddr userAddr) {
+		return sessionTemplate.insert("addr.joinAddr", userAddr);
+	}	
 }

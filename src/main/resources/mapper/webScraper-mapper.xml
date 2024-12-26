@@ -15,7 +15,7 @@
 		        upload_date,
 		        prod_vol,
 		        prod_proof, 
-		        is_trading,
+		        trading_yn,
 		        category_key
 		        )
          values (
@@ -29,7 +29,7 @@
                 sysdate,
                 #{prodVol},
    				#{prodProof},
-   				#{isTrading},
+   				#{tradingYn},
                 #{categoryKey}
                 )
 	</insert> 
@@ -50,6 +50,11 @@
     </insert>
     <select id="selProdKey" parameterType = "String" resultType="String">
     	select prod_key
+    	  from tbl_product
+    	 where prod_name = #{prodName}
+    </select>
+     <select id="selDuplNmCnt" parameterType = "String" resultType="java.lang.Integer">
+    	select count(*)
     	  from tbl_product
     	 where prod_name = #{prodName}
     </select>

@@ -72,9 +72,43 @@ public class UserController {
 	
 	//회원가입
 	@PostMapping("join.do")
-	public void join(User user, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void join(User user,String addrCd, String addr, String addrDetail, String addrRef, 
+			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int result = service.join(user);
+		
+/*
+	주소지 입력란 null이 아닐 시 회원가입을 진행한 후 
+	user.userId 추출해서 DB에 들어간 user.userKey 조회
+	조회한 userKey로 tbl_user_addr에 입력한 주소지 넣기
+*/
+		
 		if(result == 1) {
+			//회원가입 완료 후 주소지 DB에 넣기 1 - userId로 DB에 들어간 userKey 가져오기
+			if(addrCd != null) {
+				String userKey = service.findUserKey(user.getUserId());
+				
+				UserAddr userAddr = new UserAddr();
+				userAddr.setUserKey(userKey);
+				userAddr.setAddrNm(user.getUserNm());
+				userAddr.setAddrCd(addrCd);
+				userAddr.setAddr(addr);
+				userAddr.setAddrDetail(addrDetail);
+				userAddr.setAddrRef(addrRef);
+				userAddr.setRcptNm(user.getUserNm());
+				userAddr.setRcptPhone(user.getUserPhone());
+				userAddr.setDefaultYn(1);
+				
+				int insertAddr = service.joinAddr(userAddr);
+				
+				//주소 정상적으로 안들어갔을때
+				if(insertAddr < 1) {
+					request.setAttribute("title", "알림");
+					request.setAttribute("msg", "주소입력 중 오류가 발생했습니다");
+					request.setAttribute("icon", "error");
+					request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
+				}
+			}
+			
 			request.setAttribute("title", "알림");
 			request.setAttribute("msg", "회원가입이 완료되었습니다. 로그인 페이지로 이동합니다");
 			request.setAttribute("icon", "success");
@@ -140,20 +174,13 @@ public class UserController {
 	@ResponseBody
 	public String addAddr(UserAddr userAddr) {
 		int result = service.addAddr(userAddr);
-		System.out.println("userKey : " + userAddr.getUserKey());
-		System.out.println("addrNm : " + userAddr.getAddrNm());
-		System.out.println("addrCd : " + userAddr.getAddrCd());
-		System.out.println("addr : " + userAddr.getAddr());
-		System.out.println("addrDetail : " + userAddr.getAddrDetail());
-		System.out.println("addrRef : " + userAddr.getAddrRef());
-		System.out.println("rcptNm : " + userAddr.getRcptNm());
-		System.out.println("rcptPhone : " + userAddr.getRcptPhone());
 		
 		return String.valueOf(result);
 	}
 	
 	//주소지 삭제
 	@GetMapping("delAddr.do")
+	@ResponseBody
 	public String delAddr(String addrKey) {
 		int result = service.delAddr(addrKey);
 		return String.valueOf(result);
@@ -165,17 +192,22 @@ public class UserController {
 		UserAddr userAddr = service.userAddr(addrKey);
 		
 		model.addAttribute("addrInfo", userAddr);
-		return "user/updAddr";
+		return "/user/updAddr";
 	}
 	
 	//주소지 수정
 	@PostMapping("updAddr.do")
+	@ResponseBody
 	public String updAddr(UserAddr userAddr) {
 		//주소지 변경
 		int result = 0;
 		//기본주소지 변경 체크박스 체크 시 기존에 기본주소지로 세팅되어있는 주소 defaultYn 0으로 변경
 		int defaultYnChk = 0;
-		
+/*
+		jsp에서 기본배송지가 아닌 경우만 defaultYn 체크박스 체크 가능
+		defaultYn이 체크되어 있으면 1이 반환되고 1이 반환되면 기존 기본배송지의 defaultYn을 0으로 변경 후 주소지 변경(1 = 기본배송지, 0 = 배송지)
+		defaultYn이 체크되어있지 않으면 0이니까 그냥 변경만
+*/
 		if(userAddr.getDefaultYn() == 1) {
 			defaultYnChk = service.setDefaultYn(userAddr);
 			result = service.updAddr(userAddr);			
@@ -183,6 +215,7 @@ public class UserController {
 			result = service.updAddr(userAddr);			
 		}
 		int complete = result + defaultYnChk;
+		System.out.println("complete : " + complete);
 		
 		return String.valueOf(complete);
 	}

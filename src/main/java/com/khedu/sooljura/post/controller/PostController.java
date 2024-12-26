@@ -11,6 +11,7 @@ import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +23,6 @@ import com.khedu.sooljura.post.model.service.PostService;
 import com.khedu.sooljura.post.model.vo.Post;
 import com.khedu.sooljura.post.model.vo.PostFile;
 import com.khedu.sooljura.post.model.vo.PostPageData;
-
-import org.springframework.beans.factory.annotation.Qualifier;
 
 @Controller
 @RequestMapping("/post/")
@@ -39,21 +38,25 @@ public class PostController {
 	}
 
 	@GetMapping("detailReviewPost.do")
+
 	public String detailReviewPost() {
 		return "post/detailReviewPost";
 	}
 
 	@GetMapping("reviewListPost.do")
+
 	public String reviewListPost() {
 		return "post/reviewListPost";
 	}
 
 	@GetMapping("freePostWriter.do")
+
 	public String freePostWirter() {
 		return "post/freePostWriter";
 	}
 
 	@GetMapping("webPageInfo.do")
+
 	public String webPageInfo() {
 		return "post/webPageInfo";
 	}
@@ -69,6 +72,8 @@ public class PostController {
 		return "post/freePost";
 	}
 
+	
+	/*
 	@PostMapping("freewrite.do")
 	public String freewrite(HttpServletRequest request, MultipartFile file, Post post, Model model) {
 	    String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/post/");
@@ -117,4 +122,5 @@ public class PostController {
 	        return "post/freePostWriter"; // 작성 페이지로 다시 이동
 	    }
 	}
+	*/
 }

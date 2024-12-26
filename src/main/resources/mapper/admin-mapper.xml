@@ -20,8 +20,18 @@
     </select>
 
     <insert id="uploadProduct" parameterType="product">
-        insert into tbl_product (prod_key, prod_name, prod_price, prod_maker, prod_origin, prod_intro, prod_cnt,
-                                 upload_date, category_key)
+        insert into tbl_product (prod_key,
+                                 prod_name,
+                                 prod_price,
+                                 prod_maker,
+                                 prod_origin,
+                                 prod_intro,
+                                 prod_cnt,
+                                 prod_vol,
+                                 prod_proof,
+                                 trading_yn,
+                                 category_key,
+                                 upload_date)
         values (#{prodKey},
                 #{prodName},
                 #{prodPrice},
@@ -29,8 +39,19 @@
                 #{prodOrigin},
                 #{prodIntro},
                 #{prodCnt},
-                sysdate,
-                #{categoryKey})
+                #{prodVol},
+                #{prodProof},
+                #{tradingYn},
+                #{categoryKey},
+                sysdate)
+    </insert>
+
+    <insert id="uploadProdImg" parameterType="productImage">
+        insert into tbl_product_image (img_key, img_nm, img_path, prod_key)
+        values ('im' || to_char(sysdate, 'yymmdd') || lpad(seq_product_image.nextval, 4, '0'),
+                #{imgNm},
+                #{imgPath},
+                #{prodKey})
     </insert>
 
     <select id="selectLowerCategory" parameterType="string" resultType="productCategory">
@@ -41,14 +62,6 @@
         from tbl_product_category
         where higher_category = #{_currentCategoryKey}
     </select>
-
-    <insert id="uploadProdImg" parameterType="productImage">
-        insert into tbl_product_image (img_key, img_nm, img_path, prod_key)
-        values ('im' || to_char(sysdate, 'yymmdd') || lpad(seq_product_image.nextval, 4, '0'),
-                #{imgNm},
-                #{imgPath},
-                #{prodKey})
-    </insert>
 
     <insert id="createCategory" parameterType="productCategory">
         insert into tbl_product_category (category_key, category_level, category_nm, higher_category)
@@ -78,7 +91,7 @@
                category_nm     as categoryNm,
                higher_category as higherCategory
         from tbl_product_category
-        where category_key = #{categoryKey}
+        where category_key = #{_categoryKey}
     </select>
 
     <select id="getAllCategoryInfos" resultType="productCategory">
@@ -114,5 +127,21 @@
         <if test="prodKey3 != null">, #{prodKey3}</if>
         )
     </insert>
+
+    <select id="selectLowerCategoryLevel" resultType="productCategory">
+        select category_key    as categoryKey,
+               category_level  as categoryLevel,
+               category_nm     as categoryNm,
+               higher_category as higherCategory
+        from tbl_product_category
+        where higher_category = #{_hihgercategorykey}
+    </select>
+
+    <select id="searchProductName" resultType="product">
+        select prod_key  as prodKey,
+               prod_name as prodName
+        from tbl_product
+        where prod_name like CONCAT('%', #{_currentInputValue}, '%')
+    </select>
 
 </mapper>

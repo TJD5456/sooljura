@@ -4,7 +4,6 @@ import com.khedu.sooljura.admin.model.vo.Product;
 import com.khedu.sooljura.admin.model.vo.ProductCategory;
 import com.khedu.sooljura.admin.model.vo.ProductImage;
 import com.khedu.sooljura.admin.model.vo.Youtube;
-import jdk.jfr.Category;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -40,10 +39,6 @@ public class AdminDao {
         return template.insert("admin.uploadProdImg", img);
     }
 
-    public List<Category> selectLowerCategory(String currentCategoryKey) {
-        return template.selectList("admin.selectLowerCategory", currentCategoryKey);
-    }
-
     public int createCategory(ProductCategory category) {
         return template.insert("admin.createCategory", category);
     }
@@ -66,5 +61,13 @@ public class AdminDao {
 
     public List<ProductImage> getProductImages(String prodKey) {
         return template.selectList("admin.getProductImages", prodKey);
+    }
+
+    public List<ProductCategory> selectLowerCategoryLevel(String higherCategoryKey) {
+        return template.selectList("admin.selectLowerCategoryLevel", higherCategoryKey);
+    }
+
+    public List<Product> searchProductName(String currentInputValue) {
+        return template.selectList("admin.searchProductName", currentInputValue);
     }
 }

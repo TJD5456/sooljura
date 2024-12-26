@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
 import com.khedu.sooljura.post.model.dao.PostDao;
 import com.khedu.sooljura.post.model.vo.Post;
-import com.khedu.sooljura.post.model.vo.PostFile;
 import com.khedu.sooljura.post.model.vo.PostPageData;
-
-import org.springframework.beans.factory.annotation.Qualifier;
 
 @Service("postService")
 public class PostService {
@@ -74,6 +73,7 @@ public class PostService {
 		return new PostPageData(list, pageNavi.toString());
 	}
 
+	/*
 	public int insertPost(Post post, ArrayList<PostFile> fileList) {
 		// 1. 게시글 저장
 		int postResult = dao.insertPost(post);
@@ -88,5 +88,5 @@ public class PostService {
 
 		return postResult > 0 && fileResult > 0 ? 1 : 0;
 	}
-
+*/
 }

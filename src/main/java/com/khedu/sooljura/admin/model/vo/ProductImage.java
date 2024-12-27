@@ -48,4 +48,5 @@ public class ProductImage {
     public void setProdKey(String prodKey) {
         this.prodKey = prodKey;
     }
+
 }

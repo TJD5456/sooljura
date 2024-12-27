@@ -8,12 +8,6 @@
         .currentYoutube {
             display: block;
         }
-
-        [type="button"] {
-            display: block;
-            margin: 3px auto;
-            width: 28%;
-        }
     </style>
 </head>
 <body>
@@ -23,7 +17,7 @@
     <div class="wrapper">
         <div class="content">
             <div class="title">
-                <h1>유튜브관리 페이지</h1>
+                <h1>유튜브 관리 페이지</h1>
             </div>
             <form action="${pageContext.request.contextPath}/admin/uploadYoutube.do" method="get">
                 <table>

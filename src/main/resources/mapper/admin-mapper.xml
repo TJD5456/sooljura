@@ -153,4 +153,20 @@
         from tbl_youtube
     </select>
 
+    <select id="selectProductImageInfo" parameterType="string" resultType="productImage">
+        select img_key  as imgKey,
+               img_nm   as imgNm,
+               img_path as imgPath,
+               prod_key as prodKey
+        from (select img_key,
+                     img_nm,
+                     img_path,
+                     prod_key
+              from tbl_product_image
+              where prod_key = #{_prodKey}
+              order by img_key
+             )
+        where rownum = 1
+    </select>
+
 </mapper>

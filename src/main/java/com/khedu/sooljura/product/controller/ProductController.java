@@ -23,6 +23,8 @@ import com.khedu.sooljura.product.model.service.ProductService;
 import com.khedu.sooljura.product.model.vo.Basket;
 import com.khedu.sooljura.product.model.vo.ProductHistory;
 import com.khedu.sooljura.product.model.vo.ProductListData;
+import com.khedu.sooljura.user.controller.UserController;
+import com.khedu.sooljura.user.model.vo.UserAddr;
 
 @Controller
 @RequestMapping("/product/")
@@ -53,11 +55,25 @@ public class ProductController {
 	    }
 	    return "product/expPurchase";
 	}
-	
+
+/*
+	필요한 값 
+	- prodKey -> 여러개 존재(basketKey로 조회? or 페이지에서 받아오기?)
+	- basketCnt -> prodCnt - basketCnt 할 때 필요
+	- userNo -> 주문내역에 넣어줄 때 필요함
+	- prodPrice -> 장바구니 페이지에서 계산해서 받아오기
+	- basketKey -> 결제 완료 시 basketKey 삭제해줘야함
+*/
 	//결제 페이지로 이동
 	@GetMapping("productBuyFrm.do")
-	public String productBuyFrm(Model model ,Product product){
-		model.addAttribute(product);
+	public String productBuyFrm(Model model ,Product product, HttpSession session){
+		//기본 주소지 정보 가져오기. 회원정보는 loginUser로 session에 들어가있어서 필요 x
+		String userKey = (String) session.getAttribute("userKey");
+		UserController userController = new UserController();
+		UserAddr defaultAddr = userController.getDefaultAddr(userKey);
+		
+		model.addAttribute("addr", defaultAddr);
+		model.addAttribute("product", product);
 		return "product/productBuy";
 	}
 	

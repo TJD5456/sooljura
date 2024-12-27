@@ -227,4 +227,10 @@ public class UserController {
 		
 		return "redirect:/";
 	}
+
+	//결제를 위한 defaultAddr 가져오기
+	public UserAddr getDefaultAddr(String userKey) {
+		UserAddr userAddr = service.getDefaultAddr(userKey);
+		return userAddr;
+	}
 }

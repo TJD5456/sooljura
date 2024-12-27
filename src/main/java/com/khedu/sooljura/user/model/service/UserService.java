@@ -99,5 +99,10 @@ public class UserService {
 	//회원가입시 주소지 입력한 경우 주소지 DB에 넣기
 	public int joinAddr(UserAddr userAddr) {
 		return dao.joinAddr(userAddr);
+	}
+
+	//결제를 위한 defaultAddr 값 가져오기
+	public UserAddr getDefaultAddr(String userKey) {
+		return dao.getDefaultAddr(userKey);
 	}	
 }

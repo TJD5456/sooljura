@@ -53,11 +53,11 @@
           let basketCnt = Number($(btn).parent().find("#basketCnt").html());
 
           if (oper === "-" && basketCnt < 2) {
-            alert("최소 1개의 수량은 구매하셔야 합니다.");
-            return;
+	            alert("최소 1개의 수량은 구매하셔야 합니다.");
+	            return;
           } else if (oper === "+" && basketCnt > 9) {
-            alert("최대 10개 수량만 주문 가능합니다.");
-            return;
+	            alert("최대 10개 수량만 주문 가능합니다.");
+	            return;
           }
 
           oper = oper + "1";

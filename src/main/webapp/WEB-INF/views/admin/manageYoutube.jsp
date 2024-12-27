@@ -24,7 +24,7 @@
                     <tr>
                         <th><label for="iframeInput">유튜브 URL</label></th>
                         <td>
-                            <textarea type="text" id="iframeInput" rows="8" cols="50"
+                            <textarea id="iframeInput" rows="8" cols="50"
                                       placeholder="YouTube -> Share -> Embed 에서 값을 가져오시오" required></textarea>
                             <input type="hidden" name="youtubeUrl" id="youtubeUrl">
                         </td>

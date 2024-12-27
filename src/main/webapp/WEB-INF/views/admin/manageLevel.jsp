@@ -11,7 +11,12 @@
     <jsp:include page="/WEB-INF/views/common/header.jsp"/>
     <div class="wrapper">
         <div class="content">
-            <h1>회원 레벨 관리 페이지</h1>
+            <div class="title">
+                <h1>회원 레벨 관리 페이지</h1>
+            </div>
+
+            
+
         </div>
         <jsp:include page="/WEB-INF/views/common/remote.jsp"/>
     </div>

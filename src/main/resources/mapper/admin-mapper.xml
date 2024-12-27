@@ -144,8 +144,12 @@
         where prod_nm like '%' || #{_currentInputValue} || '%'
     </select>
 
-    <select id="selectYoutubeUrl" resultType="string">
-        select youtube_url as youtubeUrl
+    <select id="selectYoutubeUrl" resultType="youtube">
+        select youtube_url as youtubeUrl,
+               content     as content,
+               prod_key1   as prodKey1,
+               prod_key2   as prodKey2,
+               prod_key3   as prodKey3
         from tbl_youtube
     </select>
 

@@ -80,7 +80,7 @@ public class AdminService {
         return (ArrayList<Product>) dao.searchProductName(currentInputValue);
     }
 
-    public String selectYoutubeUrl() {
+    public Youtube selectYoutubeUrl() {
         return dao.selectYoutubeUrl();
     }
 }

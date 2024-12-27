@@ -65,8 +65,7 @@
                     </tr>
                     <tr>
                         <th colspan="2">
-                            <input type="submit" value="YouTube 등록">
-                            <input type="button" onclick="extractIframeSrc()" value="src 추출하기">
+                            <input type="submit" onclick="extractIframeSrc()" value="YouTube 등록">
                         </th>
                     </tr>
                 </table>

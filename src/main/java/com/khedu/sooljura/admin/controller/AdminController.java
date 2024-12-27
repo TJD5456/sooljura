@@ -74,7 +74,7 @@ public class AdminController {
             model.addAttribute("uploadYoutubeResult", uploadYoutubeResult);
         }
 
-        model.addAttribute("youtubeUrl", service.selectYoutubeUrl());
+        model.addAttribute("youtube", service.selectYoutubeUrl());
         return "/admin/manageYoutube";
     }
 

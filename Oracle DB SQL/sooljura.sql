@@ -1,36 +1,38 @@
 -- user: sooljura
 -- password: 1234
 
-drop table tbl_user_type        cascade constraint;
-drop table tbl_user             cascade constraint;
-drop table tbl_user_addr        cascade constraint;
-drop table tbl_post_type        cascade constraint;
-drop table tbl_post             cascade constraint;
-drop table tbl_comment          cascade constraint;
-drop table tbl_chat             cascade constraint;
-drop table tbl_product_category cascade constraint;
-drop table tbl_product          cascade constraint;
-drop table tbl_product_image    cascade constraint;
-drop table tbl_youtube          cascade constraint;
-drop table tbl_discount_info    cascade constraint;
-drop table tbl_discount_history cascade constraint;
-drop table tbl_basket_type      cascade constraint;
-drop table tbl_basket           cascade constraint;
-drop table tbl_order_history    cascade constraint;
+-- Step 1: 기존 테이블 및 시퀀스 삭제 (외래 키 관계를 고려한 삭제 순서)
 
-drop sequence seq_user;               -- us
-drop sequence seq_addr;               -- ad
-drop sequence seq_post;               -- po
-drop sequence seq_comment;            -- cm
-drop sequence seq_chat;               -- ch
-drop sequence seq_product_category;   -- c
-drop sequence seq_product;            -- pr
-drop sequence seq_product_image;      -- im
-drop sequence seq_discount_info;      -- di
-drop sequence seq_discount_history;   -- dh
-drop sequence seq_basket;             -- bk
-drop sequence seq_order_history;      -- oh
-drop sequence seq_refund_key;         -- rf
+DROP TABLE tbl_basket           CASCADE CONSTRAINT;
+DROP TABLE tbl_order_history    CASCADE CONSTRAINT;
+DROP TABLE tbl_basket_type      CASCADE CONSTRAINT;
+DROP TABLE tbl_discount_history CASCADE CONSTRAINT;
+DROP TABLE tbl_discount_info    CASCADE CONSTRAINT;
+DROP TABLE tbl_youtube          CASCADE CONSTRAINT;
+DROP TABLE tbl_product_image    CASCADE CONSTRAINT;
+DROP TABLE tbl_product          CASCADE CONSTRAINT;
+DROP TABLE tbl_product_category CASCADE CONSTRAINT;
+DROP TABLE tbl_chat             CASCADE CONSTRAINT;
+DROP TABLE tbl_comment          CASCADE CONSTRAINT;
+DROP TABLE tbl_post             CASCADE CONSTRAINT;
+DROP TABLE tbl_post_type        CASCADE CONSTRAINT;
+DROP TABLE tbl_user_addr        CASCADE CONSTRAINT;
+DROP TABLE tbl_user             CASCADE CONSTRAINT;
+DROP TABLE tbl_user_type        CASCADE CONSTRAINT;
+
+DROP SEQUENCE seq_user;
+DROP SEQUENCE seq_addr;
+DROP SEQUENCE seq_post;
+DROP SEQUENCE seq_comment;
+DROP SEQUENCE seq_chat;
+DROP SEQUENCE seq_product_category;
+DROP SEQUENCE seq_product;
+DROP SEQUENCE seq_product_image;
+DROP SEQUENCE seq_discount_info;
+DROP SEQUENCE seq_discount_history;
+DROP SEQUENCE seq_basket;
+DROP SEQUENCE seq_order_history;
+DROP SEQUENCE seq_refund_key;
 
 create table tbl_user_type (
    user_cd number primary key,
@@ -86,32 +88,32 @@ insert into tbl_post_type values ( 1, '공지사항' );
 insert into tbl_post_type values ( 2, '자유게시판' );
 insert into tbl_post_type values ( 3, '후기' );
 
-create table tbl_post (
-   post_key      char(12) primary key,
-   post_cd       number not null references tbl_post_type ( post_cd ) on delete cascade,
-   user_key      char(12) not null references tbl_user ( user_key ) on delete set null,
-   post_content  varchar2(2000) not null,
-   post_title    varchar2(225) not null,
-   post_date     date default sysdate,
-   post_view     number default 0,
-   confirm_yn    number default 0,
-   delete_yn     number default 0,
-   delete_reason varchar2(200)
+CREATE TABLE tbl_post (
+    post_key      CHAR(12) PRIMARY KEY,
+    post_cd       NUMBER NOT NULL REFERENCES tbl_post_type (post_cd) ON DELETE CASCADE,
+    user_key      CHAR(12) NOT NULL REFERENCES tbl_user (user_key) ON DELETE SET NULL,
+    post_content  CLOB NOT NULL,
+    post_title    VARCHAR2(225) NOT NULL,
+    post_date     DATE DEFAULT SYSDATE,
+    post_view     NUMBER DEFAULT 0,
+    confirm_yn    NUMBER DEFAULT 0,
+    delete_yn     NUMBER DEFAULT 0,
+    delete_reason VARCHAR2(200)
 );
 
 -- 'po' || lpad(seq_post .nextval, 4, '0')
-create sequence seq_post maxvalue 9999 cycle;
+CREATE SEQUENCE seq_post MAXVALUE 9999 CYCLE;
 
-create table tbl_comment (
-   comment_key     char(12) primary key,
-   post_key        char(12) not null references tbl_post ( post_key ) on delete cascade,
-   user_key        char(12) not null references tbl_user ( user_key ) on delete set null,
-   comment_content varchar2(2000) not null,
-   comment_date    date default sysdate
+CREATE TABLE tbl_comment (
+    comment_key     CHAR(12) PRIMARY KEY,
+    post_key        CHAR(12) NOT NULL REFERENCES tbl_post (post_key) ON DELETE CASCADE,
+    user_key        CHAR(12) NOT NULL REFERENCES tbl_user (user_key) ON DELETE SET NULL,
+    comment_content VARCHAR2(2000) NOT NULL,
+    comment_date    DATE DEFAULT SYSDATE
 );
 
 -- 'cm' || lpad(seq_comment.nextval, 4, '0')
-create sequence seq_comment maxvalue 9999 cycle;
+CREATE SEQUENCE seq_comment MAXVALUE 9999 CYCLE;
 
 create table tbl_chat (
    chat_key      char(12) primary key,

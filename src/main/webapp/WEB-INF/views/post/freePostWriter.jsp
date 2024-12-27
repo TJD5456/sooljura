@@ -153,7 +153,6 @@ body {
                         <option value="1">일상</option>
                         <option value="2">질문</option>
                         <option value="3">정보 나눔</option>
-                        <option value="4">공지사항</option>
                     </select>
                 </div>
 

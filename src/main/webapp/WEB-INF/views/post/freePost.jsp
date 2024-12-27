@@ -134,7 +134,7 @@ tr.empty-row td {
                 <c:forEach var="post" items="${list}">
                     <tr>
                         <td>${post.categoryName}</td>
-                        <td>${post.postTitle}</td>
+                        <td>$<a href="//">{post.postTitle}</td>
                         <td>${post.userNickname}</td>
                         <td>${post.postDate}</td>
                     </tr>

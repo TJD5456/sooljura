@@ -41,33 +41,34 @@
     </select>
     
     
-    <select id="selectPosetKey"
+    <select id="selectPostKey"
 			resultType="string">
 			select seq_post.nextval from dual
 	</select>
     
    <insert id="insertPost" parameterType="Post">
-    INSERT INTO tbl_post (
-        post_key,
-        post_cd,
-        user_key,
-        post_title,
-        post_content,
-        post_date,
-        post_view,
-        confirm_yn,
-        delete_yn
-    ) VALUES (
-        'po' || LPAD(seq_post.NEXTVAL, 4, '0'),
-        #{postCd},
-        #{userKey},
-        #{postTitle},
-        #{postContent},
-        SYSDATE,
-        0,
-        'N',
-        'N'
-    )
+   INSERT INTO tbl_post (
+    post_key,
+    post_cd,
+    user_key,
+    post_title,
+    post_content,
+    post_date,
+    post_view,
+    confirm_yn,
+    delete_yn
+) VALUES (
+    'po' || LPAD(seq_post.NEXTVAL, 4, '0'),
+    #{postCd},
+    #{userKey},
+    #{postTitle},
+    #{postContent},
+    SYSDATE,
+    0,
+    0,
+    0
+)
+
 </insert>
 </mapper>
 

@@ -4,6 +4,7 @@ import com.khedu.sooljura.admin.model.vo.Product;
 import com.khedu.sooljura.admin.model.vo.ProductCategory;
 import com.khedu.sooljura.admin.model.vo.ProductImage;
 import com.khedu.sooljura.admin.model.vo.Youtube;
+import com.khedu.sooljura.user.model.vo.User;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -77,5 +78,13 @@ public class AdminDao {
 
     public ProductImage selectProductImageInfo(String prodKey) {
         return template.selectOne("admin.selectProductImageInfo", prodKey);
+    }
+
+    public List<User> selectAllUserForLevelChange() {
+        return template.selectList("admin.selectAllUserForLevelChange");
+    }
+
+    public int selectUserPostCnt(String userKey) {
+        return template.selectOne("admin.selectUserPostCnt", userKey);
     }
 }

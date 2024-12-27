@@ -1,16 +1,17 @@
 package com.khedu.sooljura.admin.controller;
 
+import com.google.gson.Gson;
 import com.khedu.sooljura.admin.model.service.AdminService;
 import com.khedu.sooljura.admin.model.vo.Product;
 import com.khedu.sooljura.admin.model.vo.ProductCategory;
 import com.khedu.sooljura.admin.model.vo.ProductImage;
 import com.khedu.sooljura.admin.model.vo.Youtube;
+import com.khedu.sooljura.user.model.vo.User;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import com.google.gson.Gson;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -105,7 +106,14 @@ public class AdminController {
     }
 
     @GetMapping("manageLevel.do")
-    public String manageLevel() {
+    public String manageLevel(Model model) {
+        ArrayList<User> userList = service.selectAllUserForLevelChange();
+
+        for(int i = 0; userList != null && i < userList.size(); i++) {
+           userList.get(i).setPostCnt(service.selectUserPostCnt(userList.get(i).getUserKey()));
+        }
+
+        model.addAttribute("userList", userList);
         return "/admin/manageLevel";
     }
 

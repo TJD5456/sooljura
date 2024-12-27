@@ -68,6 +68,18 @@ public class UserController {
       return "user/join";
    }
    
+ //본인인증
+ 	@PostMapping("idVerif.do")
+ 	@ResponseBody
+ 	public String idVerif(String impUid, String success) {
+ 		System.out.println("impUid : "+impUid);//사용자 impUid == 사용자 정보 조회 요청에 필요
+ 		System.out.println("success : "+success);//인증 완료 여부
+ 		//HashMap map = new HashMap<>();
+ 		//map = service.chkInfo();
+ 		//map.get("");
+ 		return "redirect:joinFrm.do";
+ 	}
+   
    //회원가입
    @PostMapping("join.do")
    public void join(User user,String addrCd, String addr, String addrDetail, String addrRef, 

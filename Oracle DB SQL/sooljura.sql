@@ -276,7 +276,6 @@ select * from tbl_product;
 select * from tbl_product_image;
 
 select * from tbl_youtube;
-delete from tbl_youtube where content = 'nf';
 
 select * from tbl_user;
 select * from tbl_user_addr;

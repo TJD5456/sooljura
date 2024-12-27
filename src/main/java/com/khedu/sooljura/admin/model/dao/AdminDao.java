@@ -71,4 +71,7 @@ public class AdminDao {
         return template.selectList("admin.searchProductName", currentInputValue);
     }
 
+    public String selectYoutubeUrl() {
+        return template.selectOne("admin.selectYoutubeUrl");
+    }
 }

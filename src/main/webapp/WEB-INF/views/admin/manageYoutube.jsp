@@ -131,6 +131,14 @@
             }
         });
 
+        function insertKeyToInput(obj, inputId) {
+            let prodKey = obj.name;
+            let prodName = obj.value;
+
+            $('#' + inputId).val(prodName);
+            $('input[name="' + inputId + '"]').val(prodKey);
+        }
+
         function extractIframeSrc() {
             const iframeCode = document.getElementById('iframeInput').value;
             const pattern = /src="([^"]+)"/;
@@ -140,6 +148,8 @@
                 const extractedSrc = match[1];
                 console.log("Extracted src:", extractedSrc);
 
+                $("#youtubeUrl").val(extractedSrc);
+
                 const resultEl = document.getElementById('result');
                 if (resultEl) {
                     resultEl.textContent = extractedSrc;
@@ -147,7 +157,7 @@
             } else {
                 console.log("No src found.");
 
-                const resultEl = document.getElementById('result');
+                const resultEl = $('#result');
                 if (resultEl) {
                     resultEl.textContent = 'No src found.';
                 }

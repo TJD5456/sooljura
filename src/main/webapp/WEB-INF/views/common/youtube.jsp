@@ -48,12 +48,10 @@
         color: #555;
     }
 
-    .related-products div {
-        background: #f1f1f1;
-        padding: 8px 12px;
-        border-radius: 4px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    .related-products div img {
+        width: 50px;
     }
+
 </style>
 
 <div class="youtube">
@@ -68,13 +66,26 @@
             ${youtube.content}
         </div>
 
+        <%-- TODO: href 를 제품키를 이용한 주소로 만들것 --%>
         <div class="related-products">
-            <div><img src="/resources/upload/product_images/${prod1.imgPath}" alt="${prod1.imgNm}"></div>
+            <div>
+                <a href="${prod1.prodKey}">
+                    <img src="/resources/upload/product_images/${prod1.imgPath}" alt="${prod1.imgNm}">
+                </a>
+            </div>
             <c:if test="${youtube.prodKey2 != null}">
-                <div><img src="/resources/upload/product_images/${prod2.imgPath}" alt="${prod2.imgNm}"></div>
+                <div>
+                    <a href="${prod2.prodKey}">
+                        <img src="/resources/upload/product_images/${prod2.imgPath}" alt="${prod2.imgNm}">
+                    </a>
+                </div>
             </c:if>
             <c:if test="${youtube.prodKey3 != null}">
-                <div><img src="/resources/upload/product_images/${prod3.imgPath}" alt="${prod3.imgNm}"></div>
+                <div>
+                    <a href="${prod3.prodKey}">
+                        <img src="/resources/upload/product_images/${prod3.imgPath}" alt="${prod3.imgNm}">
+                    </a>
+                </div>
             </c:if>
         </div>
     </div>

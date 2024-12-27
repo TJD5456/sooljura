@@ -90,7 +90,7 @@ create table tbl_post (
    post_key      char(12) primary key,
    post_cd       number not null references tbl_post_type ( post_cd ) on delete cascade,
    user_key      char(12) not null references tbl_user ( user_key ) on delete set null,
-   post_content  CLOB not null, -- CLOB 사용으로 HTML 및 이미지 정보 저장
+   post_content  varchar2(2000) not null,
    post_title    varchar2(225) not null,
    post_date     date default sysdate,
    post_view     number default 0,
@@ -98,7 +98,6 @@ create table tbl_post (
    delete_yn     number default 0,
    delete_reason varchar2(200)
 );
--- post_content comment_content로 되어있었어서 수정.
 
 -- 'po' || lpad(seq_post .nextval, 4, '0')
 create sequence seq_post maxvalue 9999 cycle;

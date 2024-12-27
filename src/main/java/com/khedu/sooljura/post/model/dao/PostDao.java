@@ -36,5 +36,9 @@ public class PostDao {
 		return sqlSession.insert("post.insertPost",post);
 	}
 
+	public Post selectOnePost(String postKey) {
+		return sqlSession.selectOne("post.selectOnePost", postKey);
+	}
+
 }
 

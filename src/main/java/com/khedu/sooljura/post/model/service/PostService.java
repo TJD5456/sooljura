@@ -94,4 +94,19 @@ public class PostService {
 	            return "알 수 없음";
 	    }
 	}
+
+	public Post selectOnePost(String postKey) {
+	    System.out.println(postKey);
+		
+		Post post = dao.selectOnePost(postKey);
+	    System.out.println(post.getPostKey());
+	    // post가 null인지 확인
+	    if (post == null) {
+	        // 필요한 경우 추가 작업
+//	        System.out.println("Post 조회 완료: " + post.getPostTitle());
+	    	System.out.println("1231231231"); 
+	    }
+
+		return post;
+	}
 }

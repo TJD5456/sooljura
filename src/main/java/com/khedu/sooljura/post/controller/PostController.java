@@ -98,4 +98,17 @@ public class PostController {
 	        return "post/freePostWriter"; // 예외 발생 시 작성 페이지로 복귀
 	    }
 	}
+	
+	@GetMapping("freePostDetail.do")
+	public String freePostDetail (String postKey, Model model){
+		
+		Post post = service.selectOnePost(postKey);
+		
+		model.addAttribute("post",post);
+		
+		return "post/freePostDetail";
+	}
+		
+	
+	
 }

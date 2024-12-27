@@ -12,7 +12,7 @@
             p.post_key AS postKey,
             p.post_cd AS postCd,
             p.user_key AS userKey,
-            u.user_nicknm AS userNickname,
+            u.user_nicknm AS userNickNm,
             p.post_title AS postTitle,
             p.post_content AS postContent,
             p.post_view AS postViews,
@@ -70,6 +70,17 @@
 )
 
 </insert>
+
+<select id="selectOnePost" parameterType="String" resultType="com.khedu.sooljura.post.model.vo.Post">
+    SELECT 
+        *
+    FROM tbl_post 
+    WHERE post_key = #{postKey}
+</select>
+
+
+
+  
 </mapper>
 
 

@@ -5,11 +5,13 @@ import com.khedu.sooljura.admin.model.vo.Product;
 import com.khedu.sooljura.admin.model.vo.ProductCategory;
 import com.khedu.sooljura.admin.model.vo.ProductImage;
 import com.khedu.sooljura.admin.model.vo.Youtube;
+import com.khedu.sooljura.user.model.vo.User;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @Service("adminService")
 public class AdminService {
@@ -86,5 +88,36 @@ public class AdminService {
 
     public ProductImage selectProductImageInfo(String prodKey) {
         return dao.selectProductImageInfo(prodKey);
+    }
+
+    public ArrayList<User> selectAllUserForLevelChange() {
+        return (ArrayList<User>) dao.selectAllUserForLevelChange();
+    }
+
+    public int selectUserPostCnt(String userKey) {
+        return dao.selectUserPostCnt(userKey);
+    }
+
+    @Transactional
+    public int changeUserLevel(String[] userKeyArr, String[] userCdArr) {
+        if (userKeyArr == null || userCdArr == null) {
+            throw new IllegalArgumentException("Input arrays cannot be null");
+        }
+
+        int result = 0;
+
+        HashMap<String, String> keyAndCd = new HashMap<>();
+        for(int i = 0; userKeyArr.length > i; i++) {
+            keyAndCd.put("userKey", userKeyArr[i]);
+            keyAndCd.put("userCd", userCdArr[i]);
+
+            result = dao.changeUserLevel(keyAndCd);
+
+            if (result == 0) {
+                return 0;
+            }
+        }
+
+        return result;
     }
 }

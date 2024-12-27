@@ -29,6 +29,11 @@
                         <div>
                             <a><input type="text" id="prodNm" value="${product.prodNm}" readonly></a><br>
                             <input type="text" id="prodPrice" value="${product.prodPrice}" readonly>
+                            <span>수량
+					          <span id="basketCnt">1</span>
+					          <button onclick="fn.buyCntCalc('-', this)">-</button>
+					          <button onclick="fn.buyCntCalc('+', this)">+</button>
+        					</span>
                         </div>
                         <div>
                             <input type="button" onclick="delBasket(this)" value="삭제하기">
@@ -41,5 +46,24 @@
         </form>
     </c:if>
 </main>
+<script>
+	let fn = {
+        buyCntCalc: function (oper, btn) {
+          let buyCntObj = $(btn).parent().find("#basketCnt");
+          let basketCnt = Number($(btn).parent().find("#basketCnt").html());
+
+          if (oper === "-" && basketCnt < 2) {
+	            alert("최소 1개의 수량은 구매하셔야 합니다.");
+	            return;
+          } else if (oper === "+" && basketCnt > 9) {
+	            alert("최대 10개 수량만 주문 가능합니다.");
+	            return;
+          }
+
+          oper = oper + "1";
+
+          buyCntObj.html(eval(buyCnt + oper));
+    }
+</script>
 </body>
 </html>

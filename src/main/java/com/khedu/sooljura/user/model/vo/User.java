@@ -8,7 +8,7 @@ public class User {
     private String userEmail;
     private String userNm;
     private String userPhone;
-    private String userNicknm;
+    private String userNickNm;
     private int userPoint;
     private int adultChk;
     private String enrollDate;
@@ -18,7 +18,7 @@ public class User {
     }
 
     public User(String userKey, int userCd, String userId, String userPw, String userEmail, String userNm,
-                String userPhone, String userNicknm, int userPoint, int adultChk, String enrollDate) {
+                String userPhone, String userNickNm, int userPoint, int adultChk, String enrollDate) {
         super();
         this.userKey = userKey;
         this.userCd = userCd;
@@ -27,7 +27,7 @@ public class User {
         this.userEmail = userEmail;
         this.userNm = userNm;
         this.userPhone = userPhone;
-        this.userNicknm = userNicknm;
+        this.userNickNm = userNickNm;
         this.userPoint = userPoint;
         this.adultChk = adultChk;
         this.enrollDate = enrollDate;
@@ -89,12 +89,12 @@ public class User {
         this.userPhone = userPhone;
     }
 
-    public String getUserNicknm() {
-        return userNicknm;
+    public String getUserNickNm() {
+        return userNickNm;
     }
 
-    public void setUserNicknm(String userNicknm) {
-        this.userNicknm = userNicknm;
+    public void setUserNickNm(String userNickNm) {
+        this.userNickNm = userNickNm;
     }
 
     public int getUserPoint() {
@@ -124,8 +124,8 @@ public class User {
     @Override
     public String toString() {
         return "User [userKey=" + userKey + ", userCd=" + userCd + ", userId=" + userId + ", userPw=" + userPw
-            + ", userEmail=" + userEmail + ", userNm=" + userNm + ", userPhone=" + userPhone + ", userNicknm="
-            + userNicknm + ", userPoint=" + userPoint + ", adultChk=" + adultChk + ", enrollDate=" + enrollDate
+            + ", userEmail=" + userEmail + ", userNm=" + userNm + ", userPhone=" + userPhone + ", userNickNm="
+            + userNickNm + ", userPoint=" + userPoint + ", adultChk=" + adultChk + ", enrollDate=" + enrollDate
             + "]";
     }
 

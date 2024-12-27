@@ -11,7 +11,7 @@
 			user_email as userEmail,
 			user_nm as userNm,
 			user_phone as userPhone,
-			user_nicknm as userNicknm,
+			user_nicknm as userNickNm,
 			user_point as userPoint,
 			adult_chk as adultChk,
 			enroll_date as enrollDate
@@ -41,7 +41,7 @@
 			#{userEmail},
 			#{userNm},
 			#{userPhone},
-			#{userNicknm},
+			#{userNickNm},
 			0,
 			0,
 			sysdate	
@@ -54,8 +54,8 @@
 	</select>
 	
 	<!-- 회원가입 : 닉네임 중복 체크 -->
-	<select id="chkNickname" parameterType="string" resultType="_int">
-		select count(*) from tbl_user where user_nicknm = #{userNicknm}
+	<select id="chkNickName" parameterType="string" resultType="_int">
+		select count(*) from tbl_user where user_nicknm = #{userNickNm}
 	</select>
 	
 	<!-- 회원가입시 주소지에 값을 넣기 위한 userKey 찾기 -->

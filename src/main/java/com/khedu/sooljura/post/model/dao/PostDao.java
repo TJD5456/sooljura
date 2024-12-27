@@ -3,7 +3,6 @@ package com.khedu.sooljura.post.model.dao;
 import org.springframework.stereotype.Repository;
 
 import com.khedu.sooljura.post.model.vo.Post;
-import com.khedu.sooljura.post.model.vo.PostFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +34,10 @@ public class PostDao {
 
 	public int insertPost(Post post) {
 		return sqlSession.insert("post.insertPost",post);
+	}
+
+	public Post selectOnePost(String postKey) {
+		return sqlSession.selectOne("post.selectOnePost", postKey);
 	}
 
 }

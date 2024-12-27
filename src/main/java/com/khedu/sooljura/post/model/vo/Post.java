@@ -5,29 +5,28 @@ public class Post {
 	private String postKey;      // 게시글 키
     private int postCd;          // 게시글 코드 (1=일상, 2=질문, 3=정보 나눔, 4=공지사항)
     private String userKey;      // 작성자 키
-    private String userNickname; // 작성자 닉네임
+    private String userNickNm; // 작성자 닉네임
     private String userNm;       // 작성자 이름 (추가)
     private String postTitle;    // 게시글 제목
     private String postContent;  // 게시글 내용
-    private int postViews = 0;   // 조회수
+    private int postViews;   // 조회수
     private String postDate;     // 작성일
     private String confirmYn = "N";    // 승인 여부
     private String deleteYn = "N";     // 삭제 여부
     private String deleteReason; // 삭제 사유
     private String categoryName; // 카테고리 이름 (JSP에서 사용)
-    
-   
 	public Post() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
-	public Post(String postKey, int postCd, String userKey, String userNickname, String userNm, String postTitle,
+	public Post(String postKey, int postCd, String userKey, String userNickNm, String userNm, String postTitle,
 			String postContent, int postViews, String postDate, String confirmYn, String deleteYn, String deleteReason,
 			String categoryName) {
 		super();
 		this.postKey = postKey;
 		this.postCd = postCd;
 		this.userKey = userKey;
-		this.userNickname = userNickname;
+		this.userNickNm = userNickNm;
 		this.userNm = userNm;
 		this.postTitle = postTitle;
 		this.postContent = postContent;
@@ -56,11 +55,11 @@ public class Post {
 	public void setUserKey(String userKey) {
 		this.userKey = userKey;
 	}
-	public String getUserNickname() {
-		return userNickname;
+	public String getUserNickNm() {
+		return userNickNm;
 	}
-	public void setUserNickname(String userNickname) {
-		this.userNickname = userNickname;
+	public void setUserNickNm(String userNickNm) {
+		this.userNickNm = userNickNm;
 	}
 	public String getUserNm() {
 		return userNm;
@@ -118,11 +117,12 @@ public class Post {
 	}
 	@Override
 	public String toString() {
-		return "Post [postKey=" + postKey + ", postCd=" + postCd + ", userKey=" + userKey + ", userNickname="
-				+ userNickname + ", userNm=" + userNm + ", postTitle=" + postTitle + ", postContent=" + postContent
-				+ ", postViews=" + postViews + ", postDate=" + postDate + ", confirmYn=" + confirmYn + ", deleteYn="
-				+ deleteYn + ", deleteReason=" + deleteReason + ", categoryName=" + categoryName + "]";
+		return "Post [postKey=" + postKey + ", postCd=" + postCd + ", userKey=" + userKey + ", userNickNm=" + userNickNm
+				+ ", userNm=" + userNm + ", postTitle=" + postTitle + ", postContent=" + postContent + ", postViews="
+				+ postViews + ", postDate=" + postDate + ", confirmYn=" + confirmYn + ", deleteYn=" + deleteYn
+				+ ", deleteReason=" + deleteReason + ", categoryName=" + categoryName + "]";
 	}
-	
+    
+   
     
 }

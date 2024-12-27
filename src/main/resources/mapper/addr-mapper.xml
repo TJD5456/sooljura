@@ -114,4 +114,21 @@
 			#{defaultYn}
 		)
 	</insert>
+	
+	<!-- 결제를 위한 defaultAddr 가져오기 -->
+	<select id="getDefaultAddr" parameterType="string" resultType="addr">
+		select 
+			addr_key as addrKey,
+			user_key as userKey,
+			addr_nm as addrNm,
+			addr_cd as addrCd,
+			addr as addr,
+			addr_detail as addrDetail,
+			addr_ref as addrRef,
+			rcpt_nm as rcptNm,
+			rcpt_phone as rcptPhone,
+			default_yn as defaultYn
+		from tbl_user_addr
+		where user_key = #{userKey} and default_yn = 1
+	</select>
 </mapper>

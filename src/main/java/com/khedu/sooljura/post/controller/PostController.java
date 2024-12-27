@@ -1,14 +1,5 @@
 package com.khedu.sooljura.post.controller;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Random;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.khedu.sooljura.post.model.service.PostService;
 import com.khedu.sooljura.post.model.vo.Post;
-import com.khedu.sooljura.post.model.vo.PostFile;
 import com.khedu.sooljura.post.model.vo.PostPageData;
 import com.khedu.sooljura.user.model.vo.User;
 
@@ -109,4 +98,17 @@ public class PostController {
 	        return "post/freePostWriter"; // 예외 발생 시 작성 페이지로 복귀
 	    }
 	}
+	
+	@GetMapping("freePostDetail.do")
+	public String freePostDetail (String postKey, Model model){
+		
+		Post post = service.selectOnePost(postKey);
+		
+		model.addAttribute("post",post);
+		
+		return "post/freePostDetail";
+	}
+		
+	
+	
 }

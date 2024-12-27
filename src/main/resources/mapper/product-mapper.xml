@@ -1,5 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="product">
+  <!-- 결제 API에 주문번호를 보내기 위한 주문번호 제작 -->
+  <insert id="makeOrderNo" parameterType="history">
+  	insert into tbl_order_history (
+		order_no,
+		prod_key,  		
+  		user_key,
+  		addr_key
+  	)values(
+  		'oh' || to_char(sysdate, 'yymmdd') || lpad(seq_order_history.nextval, 4, '0')
+  		#{prodKey},
+  		#{userKey},
+  		#{addrKey}
+  	)
+  	returning order_no into #{orderNo}
+  </insert>
   
+  <!-- 받아온 결제 API 정보를 주문번호에 넣기 -->
+  <insert id="insertHistory" parameterType="map">
+    insert into tbl_order_history (
+        imp_uid,
+        order_no,
+        prod_key,
+        user_key,
+        addr_key,
+        card_company,
+        order_price,
+        order_cnt,
+        ordered_date
+    ) values
+    <foreach collection="orderDetail" item="item" separator=",">
+        (
+            #{item.impUid},
+            #{orderNo},
+            #{item.prodKey},
+            #{item.userKey},
+            #{item.addrKey},
+            #{item.cardCompany},
+            #{item.orderPrice},
+            #{item.orderCnt},
+            sysdate
+        )
+    </foreach>
+  </insert>
+  
+  <!-- 주문번호 제작용도의 컬럼 제거 -->
+  <delete id="delOrderNo" parameterType="history">
+  	delete tbl_order_history where order_no = #{orderNo} and imp_uid is null
+  </delete>
+  
+  <!-- 장바구니에 넣은 productKey 조회 -->
+  <select id="findProdKey" parameterType="string" resultType="basket">
+	select 
+		basket_key as basketKey,
+		basket_cd as basketCd,
+		prod_key as prodKey,
+		user_key as userKey,
+		basket_cnt as basketCnt
+	from tbl_basket
+	where user_key = #{userKey} and basket_cd = 1
+  </select>
+  
+  <!-- productKey로 제품 정보 조회 -->
+  <select id="selProdInfo" parameterType="string" resultType="product">
+  	select
+  		prod_key as prodKey,
+  		prod_nm as prodNm,
+  		prod_price as prodPrice,
+  		prod_cnt as prodCnt
+  	from tbl_product
+  	where prod_key as #{prodKey}
+  </select>
+  
+  <!-- 장바구니에 제품 넣기 -->
+  <insert id="insertBasket" parameterType="basket">
+  	insert into tbl_basket (
+  		basket_key,
+  		basket_cd,
+  		prod_key,
+  		user_key,
+  		basket_cnt
+  	) values (
+  		'bk' || to_char(sysdate, 'yymmdd') || lpad(seq_basket.nextval, 4, '0'),
+  		#{basketCd},
+  		#{prodKey},
+  		#{userKey},
+  		#{basketCnt}
+  	)
+  </insert>
 </mapper>

@@ -1,36 +1,36 @@
 -- user: sooljura
 -- password: 1234
 
-drop table tbl_user_type        cascade constraint;
-drop table tbl_user             cascade constraint;
-drop table tbl_user_addr        cascade constraint;
-drop table tbl_post_type        cascade constraint;
-drop table tbl_post             cascade constraint;
-drop table tbl_comment          cascade constraint;
-drop table tbl_chat             cascade constraint;
-drop table tbl_product_category cascade constraint;
-drop table tbl_product          cascade constraint;
-drop table tbl_product_image    cascade constraint;
-drop table tbl_youtube          cascade constraint;
-drop table tbl_discount_info    cascade constraint;
-drop table tbl_discount_history cascade constraint;
-drop table tbl_basket_type      cascade constraint;
-drop table tbl_basket           cascade constraint;
-drop table tbl_order_history    cascade constraint;
+drop table tbl_basket;
+drop table tbl_order_history;
+drop table tbl_basket_type;
+drop table tbl_discount_history;
+drop table tbl_discount_info;
+drop table tbl_youtube;
+drop table tbl_product_image;
+drop table tbl_product;
+drop table tbl_product_category ;
+drop table tbl_chat;
+drop table tbl_comment;
+drop table tbl_post;
+drop table tbl_post_type;
+drop table tbl_user_addr;
+drop table tbl_user;
+drop table tbl_user_type;
 
-drop sequence seq_user;               -- us
-drop sequence seq_addr;               -- ad
-drop sequence seq_post;               -- po
-drop sequence seq_comment;            -- cm
-drop sequence seq_chat;               -- ch
-drop sequence seq_product_category;   -- c
-drop sequence seq_product;            -- pr
-drop sequence seq_product_image;      -- im
-drop sequence seq_discount_info;      -- di
-drop sequence seq_discount_history;   -- dh
-drop sequence seq_basket;             -- bk
-drop sequence seq_order_history;      -- oh
-drop sequence seq_refund_key;         -- rf
+drop sequence seq_user;
+drop sequence seq_addr;
+drop sequence seq_post;
+drop sequence seq_comment;
+drop sequence seq_chat;
+drop sequence seq_product_category;
+drop sequence seq_product;
+drop sequence seq_product_image;
+drop sequence seq_discount_info;
+drop sequence seq_discount_history;
+drop sequence seq_basket;
+drop sequence seq_order_history;
+drop sequence seq_refund_key;
 
 create table tbl_user_type (
    user_cd number primary key,
@@ -87,27 +87,27 @@ insert into tbl_post_type values ( 2, '자유게시판' );
 insert into tbl_post_type values ( 3, '후기' );
 
 create table tbl_post (
-   post_key      char(12) primary key,
-   post_cd       number not null references tbl_post_type ( post_cd ) on delete cascade,
-   user_key      char(12) not null references tbl_user ( user_key ) on delete set null,
-   post_content  varchar2(2000) not null,
-   post_title    varchar2(225) not null,
-   post_date     date default sysdate,
-   post_view     number default 0,
-   confirm_yn    number default 0,
-   delete_yn     number default 0,
-   delete_reason varchar2(200)
+    post_key      char(12) primary key,
+    post_cd       number not null references tbl_post_type (post_cd) on delete cascade,
+    user_key      char(12) not null references tbl_user (user_key) on delete set null,
+    post_content  clob not null,
+    post_title    varchar2(225) not null,
+    post_date     date default sysdate,
+    post_view     number default 0,
+    confirm_yn    number default 0,
+    delete_yn     number default 0,
+    delete_reason varchar2(200)
 );
 
 -- 'po' || lpad(seq_post .nextval, 4, '0')
 create sequence seq_post maxvalue 9999 cycle;
 
 create table tbl_comment (
-   comment_key     char(12) primary key,
-   post_key        char(12) not null references tbl_post ( post_key ) on delete cascade,
-   user_key        char(12) not null references tbl_user ( user_key ) on delete set null,
-   comment_content varchar2(2000) not null,
-   comment_date    date default sysdate
+    comment_key     char(12) primary key,
+    post_key        char(12) not null references tbl_post (post_key) on delete cascade,
+    user_key        char(12) not null references tbl_user (user_key) on delete set null,
+    comment_content varchar2(2000) not null,
+    comment_date    date default sysdate
 );
 
 -- 'cm' || lpad(seq_comment.nextval, 4, '0')
@@ -276,7 +276,6 @@ select * from tbl_product;
 select * from tbl_product_image;
 
 select * from tbl_youtube;
-delete from tbl_youtube where content = 'a';
 
 select * from tbl_user;
 select * from tbl_user_addr;

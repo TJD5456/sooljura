@@ -1,22 +1,22 @@
 -- user: sooljura
 -- password: 1234
 
-drop table tbl_basket           cascade constraint;
-drop table tbl_order_history    cascade constraint;
-drop table tbl_basket_type      cascade constraint;
-drop table tbl_discount_history cascade constraint;
-drop table tbl_discount_info    cascade constraint;
-drop table tbl_youtube          cascade constraint;
-drop table tbl_product_image    cascade constraint;
-drop table tbl_product          cascade constraint;
-drop table tbl_product_category cascade constraint;
-drop table tbl_chat             cascade constraint;
-drop table tbl_comment          cascade constraint;
-drop table tbl_post             cascade constraint;
-drop table tbl_post_type        cascade constraint;
-drop table tbl_user_addr        cascade constraint;
-drop table tbl_user             cascade constraint;
-drop table tbl_user_type        cascade constraint;
+drop table tbl_basket;
+drop table tbl_order_history;
+drop table tbl_basket_type;
+drop table tbl_discount_history;
+drop table tbl_discount_info;
+drop table tbl_youtube;
+drop table tbl_product_image;
+drop table tbl_product;
+drop table tbl_product_category ;
+drop table tbl_chat;
+drop table tbl_comment;
+drop table tbl_post;
+drop table tbl_post_type;
+drop table tbl_user_addr;
+drop table tbl_user;
+drop table tbl_user_type;
 
 drop sequence seq_user;
 drop sequence seq_addr;

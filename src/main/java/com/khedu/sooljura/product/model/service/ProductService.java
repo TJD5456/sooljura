@@ -50,4 +50,9 @@ public class ProductService {
 	    prodInfo.setProductList(productArrayList);
 	    return prodInfo;
 	}
+
+	//제품 장바구니에 넣기
+	public int insertBasket(Basket basket) {
+		return dao.insertBasket(basket);
+	}
 }

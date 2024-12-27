@@ -8,7 +8,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -99,24 +98,26 @@ public class ProductController {
 		int insertHistory = service.insertHistory(prodHistory, orderDetail);
 		
 		if(insertHistory > 0) {
-			//정상적으로 넣으면 1 반환
-			return "1";
-		}else {
-			//정상적으로 못넣으면 0반환
-			return "0";
+			//정상적으로 넣으면 1 반환 오류 발생시 다른 숫자 반환
+			//int result -> 정상적으로 결제 완료 시 위에서 만든 주문번호 제작용 컬럼 삭제
+			int result = service.delOrderNo(prodHistory);
+			return String.valueOf(result);
 		}
+		//오류 발생 시 0 반환
+		return "0";
 	}
 	
-	//주문번호 제작용도의 컬럼 제거
-	public String delOrderNo(ProductHistory prodHistory) {
-		int result = service.delOrderNo(prodHistory);
-		
-		if(result > 0) {
-			//정상적으로 삭제 시 1반환
-			return "1";
-		}else {
-			//삭제 실패시 0 반환
-			return "0";
-		}
+	//제품 장바구니에 넣기
+	public String insertBasket(Basket basket) {
+		basket.setBasketCd(1);
+		int insertBasket = service.insertBasket(basket);
+		return String.valueOf(insertBasket);
+	}
+	
+	//제품 찜하기
+	public String insertLike(Basket basket) {
+		basket.setBasketCd(2);
+		int insertLike = service.insertBasket(basket);
+		return String.valueOf(insertLike);
 	}
 }

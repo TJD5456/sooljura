@@ -72,4 +72,21 @@
   	from tbl_product
   	where prod_key as #{prodKey}
   </select>
+  
+  <!-- 장바구니에 제품 넣기 -->
+  <insert id="insertBasket" parameterType="basket">
+  	insert into tbl_basket (
+  		basket_key,
+  		basket_cd,
+  		prod_key,
+  		user_key,
+  		basket_cnt
+  	) values (
+  		'bk' || to_char(sysdate, 'yymmdd') || lpad(seq_basket.nextval, 4, '0'),
+  		#{basketCd},
+  		#{prodKey},
+  		#{userKey},
+  		#{basketCnt}
+  	)
+  </insert>
 </mapper>

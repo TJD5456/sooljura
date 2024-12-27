@@ -49,4 +49,9 @@ public class ProductDao {
 	public List<Product> selProdInfo(String prodKey) {
 	    return sessionTemplate.selectList("product.selProdInfo", prodKey);
 	}
+
+	//장바구니에 제품 넣기
+	public int insertBasket(Basket basket) {
+		return sessionTemplate.insert("product.insertBasket", basket);
+	}
 }

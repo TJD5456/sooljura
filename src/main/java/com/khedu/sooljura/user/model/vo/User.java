@@ -13,13 +13,14 @@ public class User {
     private int adultChk;
     private String enrollDate;
 
+    // 회원 관리 부분에서 보여주기 위해서 추가
+    private int postCnt;
+
     public User() {
         super();
     }
 
-    public User(String userKey, int userCd, String userId, String userPw, String userEmail, String userNm,
-                String userPhone, String userNickNm, int userPoint, int adultChk, String enrollDate) {
-        super();
+    public User(String userKey, int userCd, String userId, String userPw, String userEmail, String userNm, String userPhone, String userNickNm, int userPoint, int adultChk, String enrollDate, int postCnt) {
         this.userKey = userKey;
         this.userCd = userCd;
         this.userId = userId;
@@ -31,6 +32,7 @@ public class User {
         this.userPoint = userPoint;
         this.adultChk = adultChk;
         this.enrollDate = enrollDate;
+        this.postCnt = postCnt;
     }
 
     public String getUserKey() {
@@ -121,12 +123,11 @@ public class User {
         this.enrollDate = enrollDate;
     }
 
-    @Override
-    public String toString() {
-        return "User [userKey=" + userKey + ", userCd=" + userCd + ", userId=" + userId + ", userPw=" + userPw
-            + ", userEmail=" + userEmail + ", userNm=" + userNm + ", userPhone=" + userPhone + ", userNickNm="
-            + userNickNm + ", userPoint=" + userPoint + ", adultChk=" + adultChk + ", enrollDate=" + enrollDate
-            + "]";
+    public int getPostCnt() {
+        return postCnt;
     }
 
+    public void setPostCnt(int postCnt) {
+        this.postCnt = postCnt;
+    }
 }

@@ -1,16 +1,15 @@
 package com.khedu.sooljura.user.model.service;
 
-import java.util.ArrayList;
-
+import com.khedu.sooljura.user.model.dao.UserDao;
+import com.khedu.sooljura.user.model.vo.AddrListData;
+import com.khedu.sooljura.user.model.vo.User;
+import com.khedu.sooljura.user.model.vo.UserAddr;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.khedu.sooljura.user.model.dao.UserDao;
-import com.khedu.sooljura.user.model.vo.AddrListData;
-import com.khedu.sooljura.user.model.vo.User;
-import com.khedu.sooljura.user.model.vo.UserAddr;
+import java.util.ArrayList;
 
 @Service("userService")
 public class UserService {
@@ -53,8 +52,8 @@ public class UserService {
 	}
 
 	//닉네임 중복체크
-	public int chkNickname(String userNicknm) {
-		return dao.chkNickname(userNicknm);
+	public int chkNickname(String userNickNm) {
+		return dao.chkNickname(userNickNm);
 	}
 
 	//주소지 추가

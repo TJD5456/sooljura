@@ -125,7 +125,7 @@ input[type="button"] {
 	                    <input type="password" class="insertInfo" id="userPwChk" name="userPwChk" placeholder="비밀번호 확인">
 	                </div>
 	                <div class="form-group">
-	                    <input type="text" class="insertInfo" id="userNicknm" name="userNicknm" placeholder="닉네임 : 영어,숫자,한글 6~10글자">
+	                    <input type="text" class="insertInfo" id="userNickNm" name="userNickNm" placeholder="닉네임 : 영어,숫자,한글 6~10글자">
 	                    <input type="button" id="chkNickname" name="chkNickname" value="중복체크">
 	                </div>
 	                <div class="form-group">
@@ -162,8 +162,8 @@ input[type="button"] {
 			"idChkBtn" : false,
 			"userPw" : false,
 			"userPwChk" : false,
-			"userNicknm" : false,
-			"userNicknmBtn" : false,
+			"userNickNm" : false,
+			"userNickNmBtn" : false,
 			"userNm" : false,
 			"userEmail" : false,
 			"userPhone" : false
@@ -202,23 +202,23 @@ input[type="button"] {
 	
 	//닉네임 유효성 체크
 	$('#chkNickname').on('click', function(){
-		const nicknameVal = $('#userNicknm').val();
+		const nicknameVal = $('#userNickNm').val();
 		const regExp = /^[a-zA-Z가-힇0-9]{6,10}$/;
 		
 		if(!regExp.test(nicknameVal)){
 			msg('알림','영어,숫자,한글 6~10글자로 입력해주세요', 'error');
 			return;
 		}else{
-			chkInfo.userNicknm = true;
+			chkInfo.userNickNm = true;
 			$.ajax({
 				url : "/user/chkNickname.do",
-				data : {userNicknm : nicknameVal},
+				data : {userNickNm : nicknameVal},
 				type : "GET",
 				success : function(res){
 					//닉네임 중복체크
 					if(res == "0"){
 						msg('알림', '사용 가능한 닉네임입니다', 'success');
-						chkInfo.userNicknmBtn = true;
+						chkInfo.userNickNmBtn = true;
 					}else{
 						msg('알림', '중복된 닉네임입니다', 'error');
 					}
@@ -292,10 +292,10 @@ input[type="button"] {
 	                case "userPwChk": 
 	                    str = "비밀번호 확인 값이 일치하지 않습니다."; 
 	                    break;
-	                case "userNicknm": 
+	                case "userNickNm":
 	                    str = "닉네임 형식이 유효하지 않습니다."; 
 	                    break;
-	                case "userNicknmBtn": 
+	                case "userNickNmBtn":
 	                    str = "닉네임 중복 체크를 진행하세요."; 
 	                    break;
 	                case "userNm": 

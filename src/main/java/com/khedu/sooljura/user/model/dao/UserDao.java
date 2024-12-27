@@ -1,14 +1,13 @@
 package com.khedu.sooljura.user.model.dao;
 
-import java.util.List;
-
+import com.khedu.sooljura.user.model.vo.User;
+import com.khedu.sooljura.user.model.vo.UserAddr;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import com.khedu.sooljura.user.model.vo.User;
-import com.khedu.sooljura.user.model.vo.UserAddr;
+import java.util.List;
 
 @Repository("userDao")
 public class UserDao {
@@ -32,8 +31,8 @@ public class UserDao {
 	}
 
 	//닉네임 중복체크
-	public int chkNickname(String userNicknm) {
-		return sessionTemplate.selectOne("user.chkNickname", userNicknm);
+	public int chkNickname(String userNickNm) {
+		return sessionTemplate.selectOne("user.chkNickName", userNickNm);
 	}
 
 	//주소지 추가

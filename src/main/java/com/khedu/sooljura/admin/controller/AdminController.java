@@ -74,6 +74,23 @@ public class AdminController {
             model.addAttribute("uploadYoutubeResult", uploadYoutubeResult);
         }
 
+        Youtube youtube = service.selectYoutubeUrl();
+
+        ProductImage prod1 = service.selectProductImageInfo(youtube.getProdKey1());
+        model.addAttribute("prod1", prod1);
+
+        if (youtube.getProdKey2() != null) {
+            ProductImage prod2 = service.selectProductImageInfo(youtube.getProdKey2());
+            model.addAttribute("prod2", prod2);
+        }
+
+        if (youtube.getProdKey3() != null) {
+            ProductImage prod3 = service.selectProductImageInfo(youtube.getProdKey3());
+            model.addAttribute("prod3", prod3);
+        }
+
+        model.addAttribute("youtube", youtube);
+
         return "/admin/manageYoutube";
     }
 

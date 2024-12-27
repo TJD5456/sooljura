@@ -71,4 +71,11 @@ public class AdminDao {
         return template.selectList("admin.searchProductName", currentInputValue);
     }
 
+    public Youtube selectYoutubeUrl() {
+        return template.selectOne("admin.selectYoutubeUrl");
+    }
+
+    public ProductImage selectProductImageInfo(String prodKey) {
+        return template.selectOne("admin.selectProductImageInfo", prodKey);
+    }
 }

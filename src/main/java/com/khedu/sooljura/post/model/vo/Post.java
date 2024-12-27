@@ -19,7 +19,6 @@ public class Post {
    
 	public Post() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public Post(String postKey, int postCd, String userKey, String userNickname, String userNm, String postTitle,
 			String postContent, int postViews, String postDate, String confirmYn, String deleteYn, String deleteReason,

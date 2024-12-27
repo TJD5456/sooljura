@@ -80,4 +80,11 @@ public class AdminService {
         return (ArrayList<Product>) dao.searchProductName(currentInputValue);
     }
 
+    public Youtube selectYoutubeUrl() {
+        return dao.selectYoutubeUrl();
+    }
+
+    public ProductImage selectProductImageInfo(String prodKey) {
+        return dao.selectProductImageInfo(prodKey);
+    }
 }

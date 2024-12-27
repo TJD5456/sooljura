@@ -25,52 +25,51 @@
             <div class="title">
                 <h1>유튜브관리 페이지</h1>
             </div>
-            <%--            <iframe width="560" height="315" src="https://www.youtube.com/embed/fnlJw9H0xAM?si=ioNSNdNTxcArs6IN"--%>
-            <%--                    title="YouTube video player" frameborder="0"--%>
-            <%--                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"--%>
-            <%--                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>--%>
-            <%--            <form action="${pageContext.request.contextPath}/admin/uploadYoutube.do" method="get">--%>
-            <table>
-                <tr>
-                    <th><label for="iframeInput">유튜브 URL</label></th>
-                    <td><textarea type="text" name="youtubeUrl" id="iframeInput" rows="8" cols="50"
-                                  placeholder="YouTube -> Share -> Embed 에서 값을 가져오시오" required></textarea></td>
-                </tr>
-                <tr>
-                    <th><label for="contentInput">제품 설명</label></th>
-                    <td>
+            <form action="${pageContext.request.contextPath}/admin/uploadYoutube.do" method="get">
+                <table>
+                    <tr>
+                        <th><label for="iframeInput">유튜브 URL</label></th>
+                        <td>
+                            <textarea type="text" id="iframeInput" rows="8" cols="50"
+                                      placeholder="YouTube -> Share -> Embed 에서 값을 가져오시오" required></textarea>
+                            <input type="hidden" name="youtubeUrl" id="youtubeUrl">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label for="contentInput">제품 설명</label></th>
+                        <td>
                             <textarea id="contentInput" name="content" rows="6" cols="50" placeholder="유튜브 소개 작성 ..."
                                       maxlength="4000" wrap="hard" style="resize: none" required></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <th><label for="prodKey1">제품 1 등록</label></th>
-                    <td>
-                        <input type="text" class="searchProductName" id="prodKey1">
-                        <input type="hidden" name="prodKey1">
-                    </td>
-                </tr>
-                <tr>
-                    <th><label for="prodKey2">제품 2 등록</label></th>
-                    <td>
-                        <input type="text" class="searchProductName" id="prodKey2">
-                        <input type="hidden" name="prodKey2">
-                    </td>
-                </tr>
-                <tr>
-                    <th><label for="prodKey3">제품 3 등록</label></th>
-                    <td>
-                        <input type="text" class="searchProductName" id="prodKey3">
-                        <input type="hidden" name="prodKey3">
-                    </td>
-                </tr>
-                <tr>
-                    <th colspan="2">
-                        <input type="submit" value="YouTube 등록">
-                        <input type="button" onclick="extractSrc()" value="src 추출하기">
-                    </th>
-                </tr>
-            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label for="prodKey1">제품 1 등록</label></th>
+                        <td>
+                            <input type="text" class="searchProductName" id="prodKey1">
+                            <input type="hidden" name="prodKey1">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label for="prodKey2">제품 2 등록</label></th>
+                        <td>
+                            <input type="text" class="searchProductName" id="prodKey2">
+                            <input type="hidden" name="prodKey2">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label for="prodKey3">제품 3 등록</label></th>
+                        <td>
+                            <input type="text" class="searchProductName" id="prodKey3">
+                            <input type="hidden" name="prodKey3">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">
+                            <input type="submit" value="YouTube 등록">
+                            <input type="button" onclick="extractIframeSrc()" value="src 추출하기">
+                        </th>
+                    </tr>
+                </table>
             </form>
             <jsp:include page="/WEB-INF/views/common/youtube.jsp"/>
         </div>
@@ -132,28 +131,26 @@
             }
         });
 
-        // for iframe
-        function extractSrc() {
-            // Check if the textarea is not empty before proceeding
-            // 1. Get the full iframe HTML from the textarea
+        function extractIframeSrc() {
             const iframeCode = document.getElementById('iframeInput').value;
-            console.log("Full iframe code:", iframeCode);
-
-            // 2. Use a RegExp to find the src attribute
             const pattern = /src="([^"]+)"/;
-            console.log("Regex pattern:", pattern);
-
             const match = iframeCode.match(pattern);
-            console.log("Regex match result:", match);
 
-            // 3. Display the src value (if found) and log it
             if (match) {
                 const extractedSrc = match[1];
                 console.log("Extracted src:", extractedSrc);
-                document.getElementById('result').textContent = extractedSrc;
+
+                const resultEl = document.getElementById('result');
+                if (resultEl) {
+                    resultEl.textContent = extractedSrc;
+                }
             } else {
                 console.log("No src found.");
-                document.getElementById('result').textContent = 'No src found.';
+
+                const resultEl = document.getElementById('result');
+                if (resultEl) {
+                    resultEl.textContent = 'No src found.';
+                }
             }
         }
     </script>

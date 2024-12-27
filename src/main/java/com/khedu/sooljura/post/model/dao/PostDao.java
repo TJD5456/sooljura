@@ -3,7 +3,6 @@ package com.khedu.sooljura.post.model.dao;
 import org.springframework.stereotype.Repository;
 
 import com.khedu.sooljura.post.model.vo.Post;
-import com.khedu.sooljura.post.model.vo.PostFile;
 
 import java.util.HashMap;
 import java.util.List;

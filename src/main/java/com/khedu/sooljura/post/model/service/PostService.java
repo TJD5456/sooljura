@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.khedu.sooljura.post.model.dao.PostDao;
 import com.khedu.sooljura.post.model.vo.Post;
-import com.khedu.sooljura.post.model.vo.PostFile;
 import com.khedu.sooljura.post.model.vo.PostPageData;
 
 @Service("postService")

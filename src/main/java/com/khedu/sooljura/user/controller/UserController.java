@@ -2,6 +2,8 @@ package com.khedu.sooljura.user.controller;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -68,6 +70,16 @@ public class UserController {
 	@GetMapping("joinFrm.do")
 	public String joinFrm() {
 		return "user/join";
+	}
+	
+	//본인인증
+	@PostMapping("idVerif.do")
+	@ResponseBody
+	public String idVerif(String impUid, String success) {
+		Map map = new HashMap<>();
+		map = service.chkInfo(impUid);
+		//map.get("");
+		return "redirect:joinFrm.do";
 	}
 	
 	//회원가입

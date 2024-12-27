@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>sooljura</title>
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <style>
 /* 기본 스타일 초기화 */
 * {
@@ -78,7 +79,9 @@ button >.submit {
     margin-top: 20px; /* 위 요소와 간격 */
     align-self: center; /* 부모 컨테이너에서 중앙 정렬 */
 }
-
+.idVerif{
+	justify-content: center;
+}
 /* 개별 입력 그룹 간 간격 */
 .form-group {
     width: 100%; /* 각 그룹의 너비를 부모 기준 100%로 설정 */
@@ -114,6 +117,9 @@ input[type="button"] {
 		<div class="insert-wrap">
 	        <div class="insert">
 	            <form action="/user/join.do" method="post">
+	            	<div class="form-group idVerif">
+	            		<button id="idVerif" type="button">간편인증</button>
+	            	</div>
 	                <div class="form-group">
 	                    <input type="text" class="insertInfo" id="userId" name="userId" placeholder="아이디 : 영어,숫자 8~12글자">
 	                    <input type="button" id="chkId" name="chkId" value="중복체크">
@@ -148,6 +154,7 @@ input[type="button"] {
 	                	<input type="text" class="insertInfo" id="addrDetail" name="addrDetail" placeholder="상세주소">
 	                	<input type="text" class="insertInfo" id="addrRef" name="addrRef" placeholder="참고주소" readonly>
 	                </div>
+	                 <%--<input type="hidden" name="adultChk" value=""> --%>
 	                <input type="button" onclick="insertBtn()" value="회원가입">
 	            </form>
 	        </div>
@@ -156,6 +163,45 @@ input[type="button"] {
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
+
+$('#idVerif').click(function(){
+	console.log("1231231231");
+	//가맹점 식별코드 세팅(계정별 고유 Key)
+	IMP.init("imp33782182");// 결제 연동 - 연동 정보 - 식별코드 . API Keys 탭
+	// IMP.certification(param, callback) 호출
+	IMP.certification(
+  	{
+    	// param
+    	channelKey: "channel-key-460e5d65-a6eb-4c56-a371-431d22098b12",
+    	merchant_uid: "ORD20180131-0000011", // 주문 번호
+    	m_redirect_url: "/user/idVerif.do", // 모바일환경에서 popup:false(기본값) 인 경우 필수, 예: https://www.myservice.com/payments/complete/mobile
+    	popup: true, // PC환경에서는 popup 파라미터가 무시되고 항상 true 로 적용됨
+  	},
+  	function (rsp) {
+    	// callback
+    	if (rsp.success) {
+      		// 인증 성공 시 로직
+      		console.log(rsp.imp_uid);
+      		console.log(rsp.success);
+      		 // jQuery로 HTTP 요청
+            $.ajax({
+              url: "/user/idVerif.do",
+              method: "POST",
+              //headers: { "Content-Type": "application/json" },
+              data: { 
+            	  impUid: rsp.imp_uid,
+            	  success: rsp.success
+            	  }
+            });
+			}else {
+			      alert("인증에 실패하였습니다. 에러 내용: " + rsp.error_msg);
+		    }
+  		}
+	);
+	
+	
+});
+
 	//유효성 검사
 	const chkInfo = {
 			"userId" : false,

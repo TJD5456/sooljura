@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @Service("adminService")
 public class AdminService {
@@ -95,5 +96,28 @@ public class AdminService {
 
     public int selectUserPostCnt(String userKey) {
         return dao.selectUserPostCnt(userKey);
+    }
+
+    @Transactional
+    public int changeUserLevel(String[] userKeyArr, String[] userCdArr) {
+        if (userKeyArr == null || userCdArr == null) {
+            throw new IllegalArgumentException("Input arrays cannot be null");
+        }
+
+        int result = 0;
+
+        HashMap<String, String> keyAndCd = new HashMap<>();
+        for(int i = 0; userKeyArr.length > i; i++) {
+            keyAndCd.put("userKey", userKeyArr[i]);
+            keyAndCd.put("userCd", userCdArr[i]);
+
+            result = dao.changeUserLevel(keyAndCd);
+
+            if (result == 0) {
+                return 0;
+            }
+        }
+
+        return result;
     }
 }

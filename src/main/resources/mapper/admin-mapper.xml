@@ -188,4 +188,10 @@
           and delete_yn = 0
     </select>
 
+    <update id="changeUserLevel" parameterType="hashmap">
+        update tbl_user
+        set user_cd = #{userCd}
+        where user_key = #{userKey}
+    </update>
+
 </mapper>

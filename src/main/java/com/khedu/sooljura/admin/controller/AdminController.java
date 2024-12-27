@@ -109,8 +109,8 @@ public class AdminController {
     public String manageLevel(Model model) {
         ArrayList<User> userList = service.selectAllUserForLevelChange();
 
-        for(int i = 0; userList != null && i < userList.size(); i++) {
-           userList.get(i).setPostCnt(service.selectUserPostCnt(userList.get(i).getUserKey()));
+        for (int i = 0; userList != null && i < userList.size(); i++) {
+            userList.get(i).setPostCnt(service.selectUserPostCnt(userList.get(i).getUserKey()));
         }
 
         model.addAttribute("userList", userList);
@@ -224,6 +224,16 @@ public class AdminController {
         Gson gson = new Gson();
 
         return gson.toJson(productList);
+    }
+
+    @GetMapping("changeUserLevel")
+    @ResponseBody
+    public int changeUserLevel(String userKeyString, String userCdString) {
+
+        String[] userKeyArr = userKeyString.split(",");
+        String[] userCdArr = userCdString.split(",");
+
+        return service.changeUserLevel(userKeyArr, userCdArr);
     }
 
 }

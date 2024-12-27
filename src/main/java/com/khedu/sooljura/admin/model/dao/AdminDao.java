@@ -9,6 +9,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Repository("adminDao")
@@ -86,5 +87,9 @@ public class AdminDao {
 
     public int selectUserPostCnt(String userKey) {
         return template.selectOne("admin.selectUserPostCnt", userKey);
+    }
+
+    public int changeUserLevel(HashMap<String, String> keyAndCd) {
+        return template.update("admin.changeUserLevel", keyAndCd);
     }
 }

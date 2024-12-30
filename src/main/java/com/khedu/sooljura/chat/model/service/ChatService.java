@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @Service("chatService")
 public class ChatService {
@@ -36,18 +34,18 @@ public class ChatService {
         String roomId = dao.getRoomId(); //방 번호 조회
 
         Room room = new Room();
-        room.setRoomId(roomId);
-        room.setRoomName(roomName);
-        room.setCreateId(createId);
+        room.setRoomKey(roomId);
+        room.setRoomTitle(roomName);
+        room.setUserId(createId);
 
         //채팅방 개설
         if (dao.insertRoom(room) > 0) {
             members += "," + createId;
-            List<String> memberList = Arrays.asList(members.split(","));
+            String[] memberList = members.split(",");
 
             //채티방 참여자 관리 정보 등록
-            for (int i = 0; i < memberList.size(); i++) {
-                room.setCreateId(memberList.get(i));
+            for (String s : memberList) {
+                room.setUserId(s);
                 dao.insertChatMember(room);
             }
 

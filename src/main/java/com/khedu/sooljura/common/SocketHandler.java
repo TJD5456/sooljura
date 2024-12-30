@@ -16,7 +16,6 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Set;
 
 @Component("socketHandler") // applicationContext.xml 에 등록한 handler 이름
@@ -26,12 +25,12 @@ public class SocketHandler extends TextWebSocketHandler {
     @Qualifier("chatService")
     private ChatService service;
 
-    private ArrayList<WebSocketSession> members;
+    private ArrayList<WebSocketSession> user;
     private HashMap<String, WebSocketSession> map;
     private HashMap<String, HashMap<String, WebSocketSession>> roomMap;
 
     public SocketHandler() {
-        members = new ArrayList<WebSocketSession>();
+        user = new ArrayList<WebSocketSession>();
         roomMap = new HashMap<String, HashMap<String, WebSocketSession>>();
     }
 
@@ -39,7 +38,7 @@ public class SocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         System.out.println("연결 성공");
-        members.add(session); // 신규 접속자 정보 저장
+        user.add(session); // 신규 접속자 정보 저장
     }
 
     // 메세지를 송신 시 동작하는 메소드
@@ -81,12 +80,9 @@ public class SocketHandler extends TextWebSocketHandler {
             String filePath = jsonObj.get("filePath") != null ? jsonObj.get("filePath").getAsString() : null;
 
             Chat chat = new Chat();
-            chat.setRoomId(roomId);
-            chat.setMemberId(memberId);
+            chat.setRoomKey(roomId);
+            chat.setSenderId(memberId);
             chat.setMsg(msg);
-            chat.setMsgGb(filePath != null ? "1" : "0");
-            chat.setFileName(fileName);
-            chat.setFilePath(filePath);
 
             // DB 등록
             int result = service.insertChat(chat);
@@ -111,8 +107,8 @@ public class SocketHandler extends TextWebSocketHandler {
                 map.remove(memberId);
 
                 Chat chat = new Chat();
-                chat.setRoomId(roomId);
-                chat.setMemberId(memberId);
+                chat.setRoomKey(roomId);
+                chat.setSenderId(memberId);
                 service.deleteRoom(chat);
 
                 // 방에서 나간 뒤, 아무도 없으면 방 관리 Map 에서도 삭제.
@@ -128,10 +124,8 @@ public class SocketHandler extends TextWebSocketHandler {
         map = roomMap.get(roomId);
 
         Set<String> set = map.keySet();
-        Iterator<String> keys = set.iterator();
 
-        while (keys.hasNext()) {
-            String key = keys.next();
+        for (String key : set) {
             WebSocketSession ws = map.get(key);
 
             if (ws != null) {
@@ -148,7 +142,7 @@ public class SocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         System.out.println("연결 종료");
-        members.remove(session);
+        user.remove(session);
     }
 
 }

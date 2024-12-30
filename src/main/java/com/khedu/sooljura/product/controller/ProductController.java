@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.khedu.sooljura.admin.model.vo.Product;
 import com.khedu.sooljura.product.model.service.ProductService;
@@ -65,20 +66,35 @@ public class ProductController {
 	- basketKey -> 결제 완료 시 basketKey 삭제해줘야함
 */
 	//결제 페이지로 이동
+	//제품 여러개일 수도 있으니까 반복문 걸기
 	@GetMapping("productBuyFrm.do")
-	public String productBuyFrm(Model model ,Product product, HttpSession session){
-		//기본 주소지 정보 가져오기. 회원정보는 loginUser로 session에 들어가있어서 필요 x
-		String userKey = (String) session.getAttribute("userKey");
+	@ResponseBody
+	public String productBuyFrm(Model model ,List<String> prodKeys, String userKey){
+		//userKey로 기본배송지 가져오기
 		UserController userController = new UserController();
 		UserAddr defaultAddr = userController.getDefaultAddr(userKey);
 		
+		//product 가져오기
+        List<ProductListData> productList = new ArrayList<>();
+        for (String prodKey : prodKeys) {
+        	ProductListData prodInfo = service.prodInfo(prodKey);
+        	productList.add(prodInfo);
+        }
+			
+		//기본 주소지
 		model.addAttribute("addr", defaultAddr);
-		model.addAttribute("product", product);
+		//제품 정보 리스트
+		model.addAttribute("productList", productList);
+		
+		//장바구니 정보
+		
+		
 		return "product/productBuy";
 	}
 	
 	//결제 API에 주문번호 보내는 용도
 	@PostMapping("makeOrderNo.do")
+	@ResponseBody
 	public String makeOrderNo(HttpSession session, String userKey, String prodKey, String addrKey){
 		//결제 API에 orderNo 보내줘야함
 		ProductHistory prodHistory = new ProductHistory();
@@ -101,6 +117,7 @@ public class ProductController {
 	
 	//결제 API로 값 받아오고 삽입
 	@PostMapping("productBuy.do")
+	@ResponseBody
 	public String productBuy(@RequestParam("prodKey") List<String> prodKeys,
 		    @RequestParam("orderCnt") List<Integer> orderCnts,
 		    @ModelAttribute ProductHistory prodHistory) {
@@ -135,5 +152,16 @@ public class ProductController {
 		basket.setBasketCd(2);
 		int insertLike = service.insertBasket(basket);
 		return String.valueOf(insertLike);
+	}
+	
+	//장바구니에서 제품 삭제
+	@GetMapping("delBasket.do")
+	public String delBasket(String userKey, String prodKey) {
+		Basket basket = new Basket();
+		basket.setUserKey(userKey);
+		basket.setProdKey(prodKey);
+		
+		int result = service.delBasket(basket);
+		return String.valueOf(result);
 	}
 }

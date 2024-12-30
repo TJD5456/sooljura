@@ -24,6 +24,14 @@
     </repositories>
 
     <dependencies>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-websocket/5.0.6.RELEASE -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-websocket</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+
     	<!-- jsoup -->
     	<dependency>
    			<groupId>org.jsoup</groupId>

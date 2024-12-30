@@ -22,6 +22,11 @@
             </a>
         </li>
         <li>
+            <a href="/admin/chat.do">
+                <img src="" alt="chat">
+            </a>
+        </li>
+        <li>
             <a href="#bottom">
                 <img src="/resources/icons/arrow_화살표하_7411288_45px.png" alt="화살표하">
             </a>

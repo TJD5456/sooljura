@@ -1,9 +1,7 @@
 package com.khedu.sooljura.chat.controller;
 
 import com.khedu.sooljura.chat.model.service.ChatService;
-import com.khedu.sooljura.chat.model.vo.Chat;
 import com.khedu.sooljura.chat.model.vo.Room;
-import com.khedu.sooljura.user.model.service.UserService;
 import com.khedu.sooljura.user.model.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -40,8 +38,8 @@ public class ChatController {
         User loginUser = (User) session.getAttribute("loginUser");
         String userId = loginUser.getUserId();
 
-        ArrayList<Chat> chatList = service.selectChatList(userId);
-        model.addAttribute("chatList", chatList);
+//        ArrayList<Chat> chatList = service.selectChatList(userId);
+//        model.addAttribute("chatList", chatList);
 
         return "chat/chatList";
     }

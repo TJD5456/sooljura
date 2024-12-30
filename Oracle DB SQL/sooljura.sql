@@ -282,3 +282,6 @@ create table tbl_chat (
 create sequence seq_chat_key maxvalue 9999 cycle;
 
 commit;
+
+select * from tbl_user;
+select * from tbl_user_addr;

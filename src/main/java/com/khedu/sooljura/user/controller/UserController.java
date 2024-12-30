@@ -114,10 +114,10 @@ public class UserController {
 		if (age < 20) {
 			// 만나이 20세 보다 적을때
 			System.out.println("오긴하는데...");
-			
+
 			return null;
 		}else {
-			
+
 			return user;
 		}
 	}
@@ -284,4 +284,88 @@ public class UserController {
 		UserAddr userAddr = service.getDefaultAddr(userKey);
 		return userAddr;
 	}
+
+	@PostMapping("createTestAccount.do")
+	public String createTestAccount(int testAccount) {
+
+        User u = new User();
+        UserAddr a = new UserAddr();
+
+		switch (testAccount) {
+			case 0:
+                u.setUserKey("us0000000000");
+                u.setUserCd(0);
+                u.setUserId("admin999");
+                u.setUserPw("admin999@");
+                u.setUserEmail("blackeagle10@icloud.com");
+                u.setUserNm("관리자");
+                u.setUserNickNm("관리자관리자");
+                u.setUserPhone("01086455542");
+                u.setUserPoint(0);
+                u.setAdultChk(1);
+                a.setAddrKey("ad0000000000");
+                a.setUserKey("us0000000000");
+                a.setAddrNm("관리자");
+                a.setAddrCd("17097");
+                a.setAddr("경기 용인시 기흥구 덕영대로1967번길 38-12");
+                a.setAddrDetail("12호");
+                a.setAddrRef("하갈동");
+                a.setRcptNm("관리자");
+                a.setRcptPhone("01086455542");
+                a.setDefaultYn(1);
+				break;
+			case 1:
+                u.setUserKey("us0000000001");
+                u.setUserCd(1);
+                u.setUserId("user111");
+                u.setUserPw("user111@");
+                u.setUserEmail("blackeagle10@icloud.com");
+                u.setUserNm("레벨1");
+                u.setUserNickNm("레벨1레벨1");
+                u.setUserPhone("01086455542");
+                u.setUserPoint(100);
+                u.setAdultChk(1);
+                a.setAddrKey("ad0000000001");
+                a.setUserKey("us0000000001");
+                a.setAddrNm("유저1");
+                a.setAddrCd("17097");
+                a.setAddr("경기 용인시 기흥구 덕영대로1967번길 38-1");
+                a.setAddrDetail("1호");
+                a.setAddrRef("하갈동");
+                a.setRcptNm("레벨1");
+                a.setRcptPhone("01086455542");
+                a.setDefaultYn(1);
+				break;
+			case -1:
+                u.setUserKey("us0000000005");
+                u.setUserCd(-1);
+                u.setUserId("user555");
+                u.setUserPw("user555@");
+                u.setUserEmail("blackeagle10@icloud.com");
+                u.setUserNm("레벨5");
+                u.setUserNickNm("레벨5레벨5");
+                u.setUserPhone("01086455542");
+                u.setUserPoint(0);
+                u.setAdultChk(0);
+                a.setAddrKey("ad0000000005");
+                a.setUserKey("us0000000005");
+                a.setAddrNm("유저5");
+                a.setAddrCd("17097");
+                a.setAddr("경기 용인시 기흥구 덕영대로1967번길 38-5");
+                a.setAddrDetail("5호");
+                a.setAddrRef("하갈동");
+                a.setRcptNm("레벨5");
+                a.setRcptPhone("01086455542");
+                a.setDefaultYn(1);
+				break;
+		}
+
+    int result = service.insertTestAccount(u);
+		if(result == 1){
+			result = service.joinAddr(a);
+		}
+
+		return "redirect:/";
+	}
+
 }

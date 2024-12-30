@@ -30,8 +30,8 @@ public class SocketHandler extends TextWebSocketHandler {
     private HashMap<String, HashMap<String, WebSocketSession>> roomMap;
 
     public SocketHandler() {
-        user = new ArrayList<WebSocketSession>();
-        roomMap = new HashMap<String, HashMap<String, WebSocketSession>>();
+        user = new ArrayList<>();
+        roomMap = new HashMap<>();
     }
 
     // 소켓이 생성되어 연결되었을 때 실행되는 메소드

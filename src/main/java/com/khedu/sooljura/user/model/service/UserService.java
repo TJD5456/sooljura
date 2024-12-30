@@ -226,4 +226,11 @@ public class UserService {
 	public UserAddr getDefaultAddr(String userKey) {
 		return dao.getDefaultAddr(userKey);
 	}
+
+	public int insertTestAccount(User u) {
+		String userPw = BCrypt.hashpw(u.getUserPw(), BCrypt.gensalt());
+		u.setUserPw(userPw);
+		return dao.insertTestAccount(u);
+	}
+
 }

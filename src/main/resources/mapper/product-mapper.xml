@@ -89,4 +89,34 @@
   		#{basketCnt}
   	)
   </insert>
+  
+  <!-- 장바구니에서 제품 삭제 -->
+  <delete id="delBasketProduct" parameterType="basket">
+  	delete tbl_basket where user_key = #{userKey} and prod_key = #{prodKey}
+  </delete>
+  
+  <!-- 구매목록 가져오기 -->
+  <select id="orderList" parameterType="hashmap" resultType="history">
+  	select 
+  		order_no as orderNo,
+  		prod_key as prodKey,
+  		addr_key as addrKey,
+  		order_price as orderPrice,
+  		order_cnt as orderCnt,
+  		order_date as orderDate
+  	from (
+  		select rownum rnum, a.* from(
+		            select a.*
+		            from tbl_order_history a
+		            order by order_date desc
+			) a
+  	) a
+  	where user_key = #{userKey} and rnum between #{start} and #{end}
+  </select>
+   
+  <!-- 구매목록 pageNavi(갯수 count) --> 
+  <select id="orderHistoryPageNavi" resultType="_int">
+  	select count(*) from tbl_order_history where user_key = #{userKey}
+  </select>
+  
 </mapper>

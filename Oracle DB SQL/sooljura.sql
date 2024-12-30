@@ -11,6 +11,7 @@ drop table tbl_product_image;
 drop table tbl_product;
 drop table tbl_product_category ;
 drop table tbl_chat;
+drop table tbl_room;
 drop table tbl_comment;
 drop table tbl_post;
 drop table tbl_post_type;
@@ -18,19 +19,20 @@ drop table tbl_user_addr;
 drop table tbl_user;
 drop table tbl_user_type;
 
-drop sequence seq_user;
-drop sequence seq_addr;
-drop sequence seq_post;
-drop sequence seq_comment;
-drop sequence seq_chat;
-drop sequence seq_product_category;
-drop sequence seq_product;
-drop sequence seq_product_image;
-drop sequence seq_discount_info;
-drop sequence seq_discount_history;
-drop sequence seq_basket;
-drop sequence seq_order_history;
-drop sequence seq_refund_key;
+drop sequence seq_user;             -- us
+drop sequence seq_addr;             -- ad
+drop sequence seq_post;             -- po
+drop sequence seq_comment;          -- cm
+drop sequence seq_product_category; -- c
+drop sequence seq_product;          -- pr
+drop sequence seq_product_image;    -- im
+drop sequence seq_discount_info;    -- di
+drop sequence seq_discount_history; -- dh
+drop sequence seq_basket;           -- bk
+drop sequence seq_order_history;    -- oh
+drop sequence seq_refund_key;       -- rf
+drop sequence seq_room_key;         -- ro
+drop sequence seq_chat_key;         -- ch
 
 create table tbl_user_type (
    user_cd number primary key,
@@ -112,19 +114,6 @@ create table tbl_comment (
 
 -- 'cm' || lpad(seq_comment.nextval, 4, '0')
 create sequence seq_comment maxvalue 9999 cycle;
-
-create table tbl_chat (
-   chat_key      char(12) primary key,
-   chat_room_key char(12) not null,
-   sender        char(12) not null references tbl_user ( user_key ) on delete set null,
-   receiver      char(12) not null references tbl_user ( user_key ) on delete set null,
-   chat_content  varchar2(1000) not null,
-   sent_date     date default sysdate,
-   check_yn      number default 0
-);
-
--- 'ch' || lpad(seq_chat.nextval, 4, '0')
-create sequence seq_chat maxvalue 9999 cycle;
 
 create table tbl_product_category (
    category_key   char(5) primary key,
@@ -269,13 +258,30 @@ create sequence seq_order_history maxvalue 9999 cycle;
 -- 'rf' || lpad(seq_refund_key.nextval, 4, '0')
 create sequence seq_refund_key maxvalue 9999 cycle;
 
+
+create table tbl_room (
+   room_key char(12) primary key,
+   room_title varchar2(200) not null,
+   userId char(12) references tbl_user ( user_key ) on delete set null,
+   create_date date default sysdate,
+   read_yn number default 0
+);
+
+-- 'ro' || lpad(seq_room_key.nextval, 4, '0')
+create sequence seq_room_key maxvalue 9999 cycle;
+
+create table tbl_chat (
+   chat_key char(12) primary key,
+   room_key char(12) references tbl_room ( room_key ) on delete cascade,
+   sender_id char(12) references tbl_user ( user_key ) on delete set null,
+   msg varchar2(1000) not null,
+   sent_date date default sysdate
+);
+
+-- 'ch' || lpad(seq_chat.nextval, 4, '0')
+create sequence seq_chat_key maxvalue 9999 cycle;
+
 commit;
-
-select * from tbl_product_category;
-select * from tbl_product;
-select * from tbl_product_image;
-
-select * from tbl_youtube;
 
 select * from tbl_user;
 select * from tbl_user_addr;

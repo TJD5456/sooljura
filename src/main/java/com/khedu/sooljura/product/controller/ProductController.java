@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,11 +18,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.khedu.sooljura.admin.model.vo.Product;
 import com.khedu.sooljura.product.model.service.ProductService;
 import com.khedu.sooljura.product.model.vo.Basket;
-import com.khedu.sooljura.product.model.vo.ProductHistory;
+import com.khedu.sooljura.product.model.vo.OrderHistory;
 import com.khedu.sooljura.product.model.vo.ProductListData;
 import com.khedu.sooljura.user.controller.UserController;
 import com.khedu.sooljura.user.model.vo.UserAddr;
@@ -65,32 +67,47 @@ public class ProductController {
 	- basketKey -> 결제 완료 시 basketKey 삭제해줘야함
 */
 	//결제 페이지로 이동
+	//제품 여러개일 수도 있으니까 반복문 걸기
 	@GetMapping("productBuyFrm.do")
-	public String productBuyFrm(Model model ,Product product, HttpSession session){
-		//기본 주소지 정보 가져오기. 회원정보는 loginUser로 session에 들어가있어서 필요 x
-		String userKey = (String) session.getAttribute("userKey");
+	@ResponseBody
+	public String productBuyFrm(Model model ,List<String> prodKeys, String userKey){
+		//userKey로 기본배송지 가져오기
 		UserController userController = new UserController();
 		UserAddr defaultAddr = userController.getDefaultAddr(userKey);
 		
+		//product 가져오기
+        List<ProductListData> productList = new ArrayList<>();
+        for (String prodKey : prodKeys) {
+        	ProductListData prodInfo = service.prodInfo(prodKey);
+        	productList.add(prodInfo);
+        }
+			
+		//기본 주소지
 		model.addAttribute("addr", defaultAddr);
-		model.addAttribute("product", product);
+		//제품 정보 리스트
+		model.addAttribute("productList", productList);
+		
+		//장바구니 정보
+		
+		
 		return "product/productBuy";
 	}
 	
 	//결제 API에 주문번호 보내는 용도
 	@PostMapping("makeOrderNo.do")
+	@ResponseBody
 	public String makeOrderNo(HttpSession session, String userKey, String prodKey, String addrKey){
 		//결제 API에 orderNo 보내줘야함
-		ProductHistory prodHistory = new ProductHistory();
-		prodHistory.setUserKey(userKey);
-		prodHistory.setProdKey(prodKey);
-		prodHistory.setAddrKey(addrKey);
+		OrderHistory orderHistory = new OrderHistory();
+		orderHistory.setUserKey(userKey);
+		orderHistory.setProdKey(prodKey);
+		orderHistory.setAddrKey(addrKey);
 		
 		//orderNo 생성 및 Product.java에 orderNo 집어넣음
-		int makeOrderNo = service.makeOrderNo(prodHistory);
+		int makeOrderNo = service.makeOrderNo(orderHistory);
 
 		if(makeOrderNo > 0) {
-			String orderNo = prodHistory.getOrderNo();
+			String orderNo = orderHistory.getOrderNo();
 			//정상적으로 넣으면 orderNo 반환
 			return orderNo;
 		}else {		
@@ -101,9 +118,10 @@ public class ProductController {
 	
 	//결제 API로 값 받아오고 삽입
 	@PostMapping("productBuy.do")
+	@ResponseBody
 	public String productBuy(@RequestParam("prodKey") List<String> prodKeys,
 		    @RequestParam("orderCnt") List<Integer> orderCnts,
-		    @ModelAttribute ProductHistory prodHistory) {
+		    @ModelAttribute OrderHistory orderHistory) {
 		
 		Map<String, Integer> orderDetail = new HashMap<>();
 	    for (int i = 0; i < prodKeys.size(); i++) {
@@ -111,12 +129,13 @@ public class ProductController {
 	    }
 	    
 		//제품 구매내역 DB에 넣기
-		int insertHistory = service.insertHistory(prodHistory, orderDetail);
+		int insertHistory = service.insertHistory(orderHistory, orderDetail);
 		
 		if(insertHistory > 0) {
 			//정상적으로 넣으면 1 반환 오류 발생시 다른 숫자 반환
 			//int result -> 정상적으로 결제 완료 시 위에서 만든 주문번호 제작용 컬럼 삭제
-			int result = service.delOrderNo(prodHistory);
+			int result = service.delOrderNo(orderHistory);
+			
 			return String.valueOf(result);
 		}
 		//오류 발생 시 0 반환
@@ -135,5 +154,42 @@ public class ProductController {
 		basket.setBasketCd(2);
 		int insertLike = service.insertBasket(basket);
 		return String.valueOf(insertLike);
+	}
+	
+	//장바구니에서 제품 삭제
+	@GetMapping("delBasket.do")
+	public String delBasket(String userKey, String prodKey) {
+		Basket basket = new Basket();
+		basket.setUserKey(userKey);
+		basket.setProdKey(prodKey);
+		
+		int result = service.delBasket(basket);
+		return String.valueOf(result);
+	}
+	
+	//구매내역 페이지로 이동
+	@GetMapping("buyList.do")
+	public String buyList(HttpSession session, int reqPage, Model model) {
+		String userKey = (String) session.getAttribute("userKey"); 
+		//userKey로 구매내역 가져오기
+		ProductListData orderHistory = service.orderList(userKey, reqPage);
+		
+		//구매 내역에서 prodKey 리스트 추출
+	    List<String> prodKey = orderHistory.getOrderHistory().stream()
+	                                        .map(OrderHistory::getProdKey) // OrderHistory 객체의 prodKey 추출
+	                                        .collect(Collectors.toList());
+
+	    //prodKey를 사용해 추가 데이터 가져오기
+	    if (!prodKey.isEmpty()) {
+	        List<Product> product = service.getProdInfo(prodKey);
+	        model.addAttribute("product", product);
+	    }else {
+	    	model.addAttribute("product", Collections.emptyList());//구매내역 없을 때 c:if로 보여주기 위한 용도
+	    }
+	    
+		model.addAttribute("orderHistory", orderHistory.getOrderHistory());
+		model.addAttribute("pageNavi", orderHistory.getPageNavi());
+		
+		return "product/buyList";
 	}
 }

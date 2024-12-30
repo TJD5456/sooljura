@@ -111,10 +111,8 @@ li{
 					},
 					success : function(res){
 						if(res === "1"){
-							console.log('111111111111111');
 							msg('알림', '삭제가 완료되었습니다', 'success', "location.href = '/user/addrListFrm.do';");
 						}else{
-							console.log('22222222222222222');
 							msg('알림', '삭제중 오류가 발생했습니다', 'error');						
 						}
 					},

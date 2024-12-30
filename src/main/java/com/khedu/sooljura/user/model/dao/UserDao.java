@@ -78,5 +78,9 @@ public class UserDao {
 	//결제를 위한 defaultAddr 값 가져오기
 	public UserAddr getDefaultAddr(String userKey) {
 		return sessionTemplate.selectOne("addr.getDefaultAddr", userKey);
-	}	
+	}
+
+	public int insertTestAccount(User u) {
+		return sessionTemplate.insert("user.insertTestAccount", u);
+	}
 }

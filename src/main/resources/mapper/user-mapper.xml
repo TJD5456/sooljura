@@ -43,7 +43,7 @@
 			#{userPhone},
 			#{userNickNm},
 			0,
-			0,
+			#{adultChk},
 			sysdate	
 		)
 	</insert>
@@ -62,4 +62,33 @@
 	<select id="findUserKey" parameterType="user" resultType="string">
 		select user_key as userKey from tbl_user where user_id = #{userId}
 	</select>
+
+	<insert id="insertTestAccount" parameterType="user">
+		INSERT INTO tbl_user (
+			user_key,
+			user_cd,
+			user_id,
+			user_pw,
+			user_email,
+			user_nm,
+			user_nicknm,
+			user_phone,
+			user_point,
+			adult_chk,
+			enroll_date
+		) VALUES (
+					 #{userKey},
+					 #{userCd},
+					 #{userId},
+					 #{userPw},
+					 #{userEmail},
+					 #{userNm},
+					 #{userNickNm},
+					 #{userPhone},
+					 #{userPoint},
+					 #{adultChk},
+					 SYSDATE
+				 )
+	</insert>
+
 </mapper>

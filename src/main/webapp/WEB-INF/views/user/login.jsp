@@ -96,6 +96,10 @@ a {
                 <button type="button" id="login" onclick="loginBtn()">로그인</button>
             </form>
         </div>
+<%--        Test--%>
+        <input type="button" onclick="autoLogin(0)" value="관리자 로그인" style="width: 100px">
+        <input type="button" onclick="autoLogin(1)" value="레벨 1 로그인" style="width: 100px">
+        <input type="button" onclick="autoLogin(-1)" value="레벨 -1 로그인" style="width: 100px">
     </div>
 <script>
 <%--
@@ -121,6 +125,23 @@ a {
 			}
 		})
 	}
+
+    function autoLogin(i){
+        if(i == 0){
+            $('#userId').val('admin999');
+            $('#userPw').val('admin999@');
+            loginBtn();
+        } else if(i == 1){
+            $('#userId').val('user111');
+            $('#userPw').val('user111@');
+            loginBtn();
+        } else if(i == -1){
+            $('#userId').val('user555');
+            $('#userPw').val('user555@');
+            loginBtn();
+        }
+    }
+
 </script>
 </body>
 </html>

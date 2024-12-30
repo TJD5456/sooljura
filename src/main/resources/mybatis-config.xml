@@ -6,28 +6,16 @@
 		<setting name="jdbcTypeForNull" value="NULL" />
 	</settings>
 
-	<typeAliases>
-		<typeAlias type="com.khedu.sooljura.user.model.vo.User"
-			alias="user" />
-		<typeAlias type="com.khedu.sooljura.user.model.vo.UserAddr"
-			alias="addr" />
-		<typeAlias type="com.khedu.sooljura.admin.model.vo.Product"
-			alias="product" />
-		<typeAlias
-			type="com.khedu.sooljura.admin.model.vo.ProductImage"
-			alias="productImage" />
-		<typeAlias
-			type="com.khedu.sooljura.admin.model.vo.ProductCategory"
-			alias="productCategory" />
-		<typeAlias type="com.khedu.sooljura.admin.model.vo.Youtube"
-			alias="youtube" />
-		<typeAlias type="com.khedu.sooljura.post.model.vo.Post"
-			alias="post" />
-		<typeAlias
-			type="com.khedu.sooljura.product.model.vo.ProductHistory"
-			alias="history" />
-		<typeAlias type="com.khedu.sooljura.product.model.vo.Basket"
-			alias="basket" />
-			
-	</typeAliases>
+    <typeAliases>
+        <typeAlias type="com.khedu.sooljura.user.model.vo.User" alias="user"/>
+        <typeAlias type="com.khedu.sooljura.user.model.vo.UserAddr" alias="addr"/>
+        <typeAlias type="com.khedu.sooljura.admin.model.vo.Product" alias="product"/>
+        <typeAlias type="com.khedu.sooljura.admin.model.vo.ProductImage" alias="productImage"/>
+        <typeAlias type="com.khedu.sooljura.admin.model.vo.ProductCategory" alias="productCategory"/>
+        <typeAlias type="com.khedu.sooljura.admin.model.vo.Youtube" alias="youtube"/>
+        <typeAlias type="com.khedu.sooljura.post.model.vo.Post" alias="post"/>
+        <typeAlias type="com.khedu.sooljura.product.model.vo.OrderHistory" alias="history"/>
+        <typeAlias type="com.khedu.sooljura.product.model.vo.Basket" alias="basket"/>
+    </typeAliases>
+
 </configuration>

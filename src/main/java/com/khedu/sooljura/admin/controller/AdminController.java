@@ -236,4 +236,9 @@ public class AdminController {
         return service.changeUserLevel(userKeyArr, userCdArr);
     }
 
+    @GetMapping("startChat")
+    public String startChat() {
+        return "";
+    }
+
 }

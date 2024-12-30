@@ -39,20 +39,9 @@ public class ChatController {
         return "chat/roomList";
     }
 
-    //현재 방 기존 채팅 정보
-    @GetMapping(value = "/getChatList.do")
-    public String goChat(Model model, String roomId) {
-        ArrayList<Chat> chatList = service.getChatList(roomId);
-
-        model.addAttribute("roomId", roomId);
-        model.addAttribute("chatList", chatList);
-
-        return "chat/chat";
-    }
-
-    @GetMapping("/chatList.do")
+    @GetMapping("/getChatList.do")
     public String createRoomFrm(HttpSession session, Model model) {
-        User loginUser = (User) session.getAttribute("loginMember");
+        User loginUser = (User) session.getAttribute("loginUser");
         String userId = loginUser.getUserId();
 
         ArrayList<Chat> chatList = userService.selectChatList(userId);
@@ -65,7 +54,7 @@ public class ChatController {
     @GetMapping("/createRoom.do")
     @ResponseBody
     public String createRoom(HttpSession session, String roomName, String members) {
-        User loginUser = (User) session.getAttribute("loginMember");
+        User loginUser = (User) session.getAttribute("loginUser");
 
         return service.createRoom(roomName, loginUser.getUserId(), members);
     }

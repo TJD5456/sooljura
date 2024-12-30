@@ -7,8 +7,7 @@
         <li><a href="/"><img src="/resources/icons/bags_쇼핑백_1413928_45px.png" alt="쇼핑백"></a></li>
         <li><a href="/"><img src="/resources/icons/heart_찜하기_5303390_45px.png" alt="찜하기"></a></li>
         <c:if test="${not empty loginUser}">
-            <li><a href="javascript:void(0);"><img src="/resources/icons/message-icon.png" onclick="fn.createRoom();"
-                                                   style="width: 45px" alt="chat"></a></li>
+            <li><a href="javascript:void(0);"><img src="/resources/icons/message-icon.png" onclick="fn.createRoom();" style="width: 45px" alt="chat"></a></li>
         </c:if>
         <li><a href="#bottom"><img src="/resources/icons/arrow_화살표하_7411288_45px.png" alt="화살표하"></a></li>
     </ul>
@@ -18,7 +17,7 @@
         createRoom: function () {
             let top = (window.innerHeight - 300) / 2 + window.screenY;
             let left = (window.innerWidth - 200) / 2 + window.screenX;
-            window.open("/chat/chatList.do", "creatRoom", "width=" + 450 + ", height=" + 700 + ", top=" + top + ", left=" + left);
+            window.open("/chat/getChatList.do", "creatRoom", "width=" + 450 + ", height=" + 700 + ", top=" + top + ", left=" + left);
         }
     };
 </script>

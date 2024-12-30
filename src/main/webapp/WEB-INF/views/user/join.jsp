@@ -79,8 +79,17 @@ button >.submit {
     margin-top: 20px; /* 위 요소와 간격 */
     align-self: center; /* 부모 컨테이너에서 중앙 정렬 */
 }
+
 .idVerif{
 	justify-content: center;
+}
+#idVerif{
+	width: 100%;
+	height: 20px;
+	border-radius: 5px;
+	border: none; /* 테두리 제거 */
+	box-shadow: none;
+
 }
 /* 개별 입력 그룹 간 간격 */
 .form-group {
@@ -103,6 +112,10 @@ input[type="button"] {
     height: 37px; /*중복 체크 버튼 높이 조정*/
 }
 
+input[type="button"]:hover{
+    background-color: #f5afa5;
+}
+
 .insert-wrap{
 	display:flex;
 	justify-content: center;
@@ -117,9 +130,6 @@ input[type="button"] {
 		<div class="insert-wrap">
 	        <div class="insert">
 	            <form action="/user/join.do" method="post">
-	            	<div class="form-group idVerif">
-	            		<button id="idVerif" type="button">간편인증</button>
-	            	</div>
 	                <div class="form-group">
 	                    <input type="text" class="insertInfo" id="userId" name="userId" placeholder="아이디 : 영어,숫자 8~12글자">
 	                    <input type="button" id="chkId" name="chkId" value="중복체크">
@@ -134,14 +144,18 @@ input[type="button"] {
 	                    <input type="text" class="insertInfo" id="userNickNm" name="userNickNm" placeholder="닉네임 : 영어,숫자,한글 6~10글자">
 	                    <input type="button" id="chkNickname" name="chkNickname" value="중복체크">
 	                </div>
-	                <div class="form-group">
-	                    <input type="text" class="insertInfo" id="userNm" name="userNm" placeholder="이름">
+	                <div class="form-group idVerif">
+	            		<button id="idVerif" type="button">본인인증</button>
+	            		<input type="hidden" name="adultChk" id="adultChk" value="">
+	            	</div>
+	                <div class="form-group userNm">
+	                    <input type="text" class="insertInfo" id="userNm" name="userNm" placeholder="이름" value="">
 	                </div>
 	                <div class="form-group">
 	                    <input type="text" class="insertInfo" id="userEmail" name="userEmail" placeholder="이메일">
 	                </div>
-	                <div class="form-group">
-	                    <input type="text" class="insertInfo" id="userPhone" name="userPhone" placeholder="전화번호(-제외하고 입력)">
+	                <div class="form-group userPhone">
+	                    <input type="text" class="insertInfo" id="userPhone" name="userPhone" placeholder="전화번호(-제외하고 입력)" value="">
 	                </div>
 	                <div class="form-group">
 	                    <input type="text" class="insertInfo" id="addrCd" name="addrCd" placeholder="우편번호" readonly>
@@ -165,13 +179,11 @@ input[type="button"] {
 <script>
 
 $('#idVerif').click(function(){
-	console.log("1231231231");
 	//가맹점 식별코드 세팅(계정별 고유 Key)
 	IMP.init("imp33782182");// 결제 연동 - 연동 정보 - 식별코드 . API Keys 탭
 	// IMP.certification(param, callback) 호출
 	IMP.certification(
-  	{
-    	// param
+  	{   // param
     	channelKey: "channel-key-460e5d65-a6eb-4c56-a371-431d22098b12",
     	merchant_uid: "ORD20180131-0000011", // 주문 번호
     	m_redirect_url: "/user/idVerif.do", // 모바일환경에서 popup:false(기본값) 인 경우 필수, 예: https://www.myservice.com/payments/complete/mobile
@@ -191,10 +203,39 @@ $('#idVerif').click(function(){
               data: { 
             	  impUid: rsp.imp_uid,
             	  success: rsp.success
-            	  }
+            	  },
+              success : function(res){
+            	  console.log(res.userNm);
+            	  console.log(res.userPhone);
+            	  console.log(res.adultChk);
+				  if(!res){
+					  setTimeout(function() {
+			                location.href = "/";
+			            }, 2000); // 2초 후 리다이렉트
+					  msg('알림', '만 20세 이상만 회원가입 할 수 있습니다.', 'error');
+				  }
+				  $('#idVerif').empty();
+				  $('#idVerif').html('<p id="idVerifConfirm">본인인증 완료<p>');
+				  
+            	  $('.userNm').empty();
+				  $('.userNm').html('<input type="text" class="insertInfo" id="userNm" name="userNm" placeholder="이름" value="'+res.userNm+'">');
+            	  
+				  $('.userPhone').empty();
+            	  $('.userPhone').html('<input type="text" class="insertInfo" id="userPhone" name="userPhone" placeholder="전화번호(-제외하고 입력)" value="'+res.userPhone+'">');
+
+            	  $('.idVerif').empty();
+            	  $('.idVerif').html('<input type="hidden" name="adultChk" id="adultChk" value="'+res.adultChk+'">');
+              	
+            	  setTimeout(function() {
+            	        $('#adultChk').trigger('change');
+            	    }, 10);
+              },
+              error : function(){
+            	  msg('알림', '성인', 'error');
+              }
             });
 			}else {
-			      alert("인증에 실패하였습니다. 에러 내용: " + rsp.error_msg);
+			      //alert("인증에 실패하였습니다. 에러 내용: " + rsp.error_msg);
 		    }
   		}
 	);
@@ -210,12 +251,12 @@ $('#idVerif').click(function(){
 			"userPwChk" : false,
 			"userNickNm" : false,
 			"userNickNmBtn" : false,
-			"userNm" : false,
 			"userEmail" : false,
-			"userPhone" : false
-	}
-	
-	
+			"addrCd" : false,
+			"adultChk" : false
+			//"userNm" : false,
+			//"userPhone" : false,
+ 	}
 	//아이디 유효성 체크
 	$('#chkId').on('click', function(){
 		const idVal = $('#userId').val();
@@ -275,23 +316,14 @@ $('#idVerif').click(function(){
 			});
 		}
 	});
-		
-	//전화번호 유효성 체크
-	$('#userPhone').on('input', function(){
-		const userPhoneVal = $('#userPhone').val();
-		const regExp = /^[0-9]{11}$/;
-		
-		chkInfo.userPhone = regExp.test(userPhoneVal);
-		console.log('chkInfo.userPhone:', chkInfo.userPhone);
-	});
-		
+	
 	//이메일 유효성 체크
 	$('#userEmail').on('input', function(){
 		const userEmailVal = $('#userEmail').val();
 		const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{3}$/;
 		
 		chkInfo.userEmail = regExp.test(userEmailVal);
-		console.log('chkInfo.userEmail:', chkInfo.userEmail);
+		console.log('chkInfo.userEmail:'+ chkInfo.userEmail);
 	});
 	
 	//비밀번호 유효성 체크
@@ -309,16 +341,52 @@ $('#idVerif').click(function(){
 	
 	    chkInfo.userPwChk = (userPwVal === userPwChkVal);
 	});
-	
+	/*
 	//이름 체크(null만 아니면 가능하게 + 영어,한글만 가능)
 	$('#userNm').on('input', function(){
 	    const userNmVal = $('#userNm').val();
 		const regExp = /^[a-zA-Z가-힇]{1,20}$/;
-	    
 	    chkInfo.userNm = regExp.test(userNmVal);
 	    console.log('chkInfo.userNm:', chkInfo.userNm);
 	});
+		
+	//전화번호 유효성 체크
+	$('#userPhone').on('input', function(){
+		const userPhoneVal = $('#userPhone').val();
+		const regExp = /^[0-9]{11}$/;
+		
+		chkInfo.userPhone = regExp.test(userPhoneVal);
+		console.log('chkInfo.userPhone:', chkInfo.userPhone);
+	});
+		
+	$('#addrCd').on('change', function(){
+	    const addrCdVal = $('#addrCd').val();
+	    if(addrCdVal != null){
+	    	chkInfo.addrCd = true;
+	    }
+	    console.log('chkInfo.addrCd:'+ chkInfo.addrCd + " | " + addrCdVal);
+	});
 	
+	if ($('#adultChk').val() == 1) {
+	    chkInfo.adultChk = true;
+	}
+	*/
+	$('#addrCd').on('change', function() {
+	    const addrCdVal = $(this).val().trim();
+	    if (addrCdVal != '') {
+	        chkInfo.addrCd = true;
+	        console.log('chkInfo.addrCd set to true | Value: ' + addrCdVal);
+	    }
+	});
+	$(document).on('change', '#adultChk', function() {
+	    const adultChkVal = $(this).val();
+	    if (adultChkVal === "1" || adultChkVal == 1) {
+	        chkInfo.adultChk = true;
+	    } else {
+	        chkInfo.adultChk = false;
+	    }
+	    console.log('chkInfo.adultChk: ', chkInfo.adultChk);
+	});
 	function insertBtn(){
 		let str = "";
 		console.log(chkInfo);
@@ -352,6 +420,12 @@ $('#idVerif').click(function(){
 	                    break;
 	                case "userPhone": 
 	                    str = "전화번호 형식이 유효하지 않습니다."; 
+	                    break;
+	                case "addrCd": 
+	                    str = "주소지 형식이 유효하지 않습니다."; 
+	                    break;
+	                case "adultChk": 
+	                    str = "본인인증이 완료되지 않았습니다."; 
 	                    break;
 	            }
 
@@ -409,6 +483,11 @@ $('#idVerif').click(function(){
                document.getElementById("addr").value = addr;
                // 커서를 상세주소 필드로 이동한다.
                document.getElementById("addrDetail").focus();
+               
+               //function 완료시 JavaScript로 직접 변경되므로
+               //사용자 이벤트로 트리거된 변경이 아니기 때문에 change 이벤트가 발생하지 않음
+               //
+               $('#addrCd').trigger('change');
             }
         }).open();
     }

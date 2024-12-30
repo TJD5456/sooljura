@@ -22,8 +22,8 @@
             </a>
         </li>
         <li>
-            <a href="/admin/chat.do">
-                <img src="" alt="chat">
+            <a href="/admin/startChat.do">
+                <img src="/resources/icons/message-icon.png" style="width: 45px" alt="chat">
             </a>
         </li>
         <li>

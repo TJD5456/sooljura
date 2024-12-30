@@ -92,4 +92,5 @@ public class AdminDao {
     public int changeUserLevel(HashMap<String, String> keyAndCd) {
         return template.update("admin.changeUserLevel", keyAndCd);
     }
+
 }

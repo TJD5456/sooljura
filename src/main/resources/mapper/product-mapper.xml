@@ -89,4 +89,9 @@
   		#{basketCnt}
   	)
   </insert>
+  
+  <!-- 장바구니에서 제품 삭제 -->
+  <delete id="delBasketProduct" parameterType="basket">
+  	delete tbl_basket where user_key = #{userKey} and prod_key = #{prodKey}
+  </delete>
 </mapper>

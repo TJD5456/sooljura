@@ -55,4 +55,9 @@ public class ProductService {
 	public int insertBasket(Basket basket) {
 		return dao.insertBasket(basket);
 	}
+
+	//장바구니 제품 삭제
+	public int delBasket(Basket basket) {
+		return dao.delBasket(basket);
+	}
 }

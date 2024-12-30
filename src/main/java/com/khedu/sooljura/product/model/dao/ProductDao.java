@@ -54,4 +54,9 @@ public class ProductDao {
 	public int insertBasket(Basket basket) {
 		return sessionTemplate.insert("product.insertBasket", basket);
 	}
+
+	//장바구니 제품 삭제
+	public int delBasket(Basket basket) {
+		return sessionTemplate.delete("product.delBasketProduct", basket);
+	}
 }

@@ -22,8 +22,8 @@
             </a>
         </li>
         <li>
-            <a href="/admin/startChat.do">
-                <img src="/resources/icons/message-icon.png" style="width: 45px" alt="chat">
+            <a href="javascript:void(0);">
+                <img src="/resources/icons/message-icon.png" onclick="fn.createRoom();" style="width: 45px" alt="chat">
             </a>
         </li>
         <li>
@@ -33,3 +33,12 @@
         </li>
     </ul>
 </div>
+<script>
+    let fn = {
+        createRoom: function () {
+            let top = (window.innerHeight - 300) / 2 + window.screenY;
+            let left = (window.innerWidth - 200) / 2 + window.screenX;
+            window.open("/chat/createRoomFrm.do", "creatRoom", "width=" + 450 + ", height=" + 700 + ", top=" + top + ", left=" + left);
+        }
+    };
+</script>

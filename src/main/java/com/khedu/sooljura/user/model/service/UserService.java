@@ -3,7 +3,6 @@ package com.khedu.sooljura.user.model.service;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.khedu.sooljura.chat.model.vo.Chat;
 import com.khedu.sooljura.user.model.dao.UserDao;
 import com.khedu.sooljura.user.model.vo.AddrListData;
 import com.khedu.sooljura.user.model.vo.User;
@@ -183,11 +182,6 @@ public class UserService {
     //결제를 위한 defaultAddr 값 가져오기
     public UserAddr getDefaultAddr(String userKey) {
         return dao.getDefaultAddr(userKey);
-    }
-
-    public ArrayList<Chat> selectChatList(String userId) {
-
-        return null;
     }
 
 }

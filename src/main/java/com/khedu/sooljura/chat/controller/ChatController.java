@@ -24,10 +24,6 @@ public class ChatController {
     @Qualifier("chatService")
     private ChatService service;
 
-    @Autowired
-    @Qualifier("userService")
-    private UserService userService;
-
     //채팅방 목록 조회
     @GetMapping("/getRoomList.do")
     public String getRoomList(Model model, HttpSession session) {
@@ -44,7 +40,7 @@ public class ChatController {
         User loginUser = (User) session.getAttribute("loginUser");
         String userId = loginUser.getUserId();
 
-        ArrayList<Chat> chatList = userService.selectChatList(userId);
+        ArrayList<Chat> chatList = service.selectChatList(userId);
         model.addAttribute("chatList", chatList);
 
         return "chat/chatList";

@@ -43,4 +43,5 @@ public class ChatDao {
     public int deleteRoom(Chat chat) {
         return sqlSession.update("chat.deleteRoom", chat);
     }
+
 }

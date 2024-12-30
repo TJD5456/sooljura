@@ -1,6 +1,6 @@
 package com.khedu.sooljura.product.model.vo;
 
-public class ProductHistory {
+public class OrderHistory {
 	private String impUid;
 	private String orderNo;
 	private String prodKey;
@@ -15,11 +15,11 @@ public class ProductHistory {
 	private String refundKey;
 	private String refundDate;
 	
-	public ProductHistory() {
+	public OrderHistory() {
 		super();
 	}
 
-	public ProductHistory(String impUid, String orderNo, String prodKey, String userKey, String addrKey,
+	public OrderHistory(String impUid, String orderNo, String prodKey, String userKey, String addrKey,
 			String cardCompany, int orderPrice, int orderCnt, String orderDate, int refundYn, String refundReason,
 			String refundKey, String refundDate) {
 		super();

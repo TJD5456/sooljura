@@ -8,9 +8,14 @@
 <title>sooljura</title>
 </head>
 <body>
-	<main>
+	<header>
 		<jsp:include page="/WEB-INF/views/common/header.jsp" />
+	</header>
+	<main>
 		<h2>구매내역</h2>
+		<c:forEach var="orderHistory" items="${orderHistory}">
+		
+		</c:forEach>
 	</main>
 </body>
 </html>

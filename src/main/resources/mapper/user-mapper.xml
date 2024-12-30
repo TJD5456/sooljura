@@ -43,7 +43,7 @@
 			#{userPhone},
 			#{userNickNm},
 			0,
-			0,
+			#{adultChk},
 			sysdate	
 		)
 	</insert>

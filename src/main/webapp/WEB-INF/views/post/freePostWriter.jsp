@@ -145,15 +145,11 @@ body {
 
             <!-- 글쓰기 폼 시작 -->
             <form action="/post/freewrite.do" method="post">
-                <!-- 카테고리 선택 -->
+                <!-- 카테고리 -->
                 <div class="form-group">
-                    <label for="postCategory">카테고리</label>
-                    <select id="postCategory" name="postCd" required>
-                        <option value="" disabled selected>카테고리를 선택하세요</option>
-                        <option value="1">일상</option>
-                        <option value="2">질문</option>
-                        <option value="3">정보 나눔</option>
-                    </select>
+                    <label for="postCategory">게시판 종류 </label>
+                    <input type= "text" value="자유게시판"  readonly="readonly">
+                   
                 </div>
 
                 <!-- 글쓴이 표시 -->

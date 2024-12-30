@@ -121,6 +121,10 @@ tr.empty-row td {
 
 	<!-- 사이드바 -->
 	<jsp:include page="/WEB-INF/views/common/sidebar.jsp" />
+	<!-- 리모콘 -->
+	<div class="remote-controller">
+		<jsp:include page="/WEB-INF/views/common/remote.jsp" />
+	</div>
 
 	<!-- 메인 레이아웃 -->
 	<div class="main-container">
@@ -132,7 +136,8 @@ tr.empty-row td {
 		<!-- 콘텐츠 영역 -->
 		<div class="content">
 			<h1>자유게시판</h1>
-			<div style="display: flex; justify-content: space-between; align-items: center; width: 80%; margin: 0 auto;">
+			<div
+				style="display: flex; justify-content: space-between; align-items: center; width: 80%; margin: 0 auto;">
 				<h2 style="margin: 0;">목록</h2>
 				<!-- 로그인 세션이 있을 때만 작성하기 버튼 표시 -->
 				<c:if test="${not empty sessionScope.loginUser}">
@@ -143,7 +148,7 @@ tr.empty-row td {
 			<table>
 				<thead>
 					<tr>
-						<th>카테고리</th>
+
 						<th>제목</th>
 						<th>작성자</th>
 						<th>작성일</th>
@@ -152,7 +157,6 @@ tr.empty-row td {
 				<tbody>
 					<c:forEach var="post" items="${list}">
 						<tr>
-							<td>${post.categoryName}</td>
 							<td><a href="/post/freePostDetail.do?postKey=${post.postKey}">${post.postTitle}</a></td>
 							<td>${post.userNickNm}</td>
 							<td>${post.postDate}</td>

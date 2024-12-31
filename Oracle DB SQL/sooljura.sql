@@ -277,7 +277,7 @@ create table tbl_chat (
    sent_date date default sysdate
 );
 
--- 'ch' || lpad(seq_chat.nextval, 4, '0')
+-- 'ch' || lpad(seq_chat_key.nextval, 4, '0')
 create sequence seq_chat_key maxvalue 9999 cycle;
 
 commit;

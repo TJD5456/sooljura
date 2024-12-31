@@ -16,7 +16,7 @@
         }
 
         #msgInput, #roomTitleInput,[type="submit"] {
-            padding: 5px;
+            padding: 4px;
         }
     </style>
 </head>

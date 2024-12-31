@@ -16,4 +16,13 @@
                 0)
     </insert>
 
+    <insert id="insertChat" parameterType="chat">
+        insert into tbl_chat(chat_key, room_key, sender_id, msg, sent_date)
+        values ('ch' || lpad(seq_chat_key.nextval, 4, '0'),
+                #{roomKey},
+                #{senderId},
+                #{msg},
+                sysdate)
+    </insert>
+
 </mapper>

@@ -36,10 +36,17 @@ public class ChatController {
     @ResponseBody
     public String createChat(Room room, Chat chat) {
 
-        int createRoomResult = service.createRoom(room);
+        String roomKey = service.createRoom(room);
 
-        return "";
+        if(!roomKey.equals("foobar")){
+            chat.setRoomKey(roomKey);
+            int insertChatResult = service.insertChat(chat);
+        }
+
+        return "chat/chattingPage";
     }
+
+    //    by UnEmotioneD
 
     //채팅방 목록 조회
     @GetMapping("/getRoomList.do")

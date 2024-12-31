@@ -24,16 +24,18 @@ public class ChatDao {
         return template.insert("chat.createRoom", room);
     }
 
+    public int insertChat(Chat chat) {
+        return template.insert("chat.insertChat", chat);
+    }
+
+//    by UnEmotioneD
+
     public List<Room> getRoomList(String memberId) {
         return template.selectList("chat.getRoomList", memberId);
     }
 
     public List<Chat> getChatList(String roomId) {
         return template.selectList("chat.getChatList", roomId);
-    }
-
-    public int insertChat(Chat chat) {
-        return template.insert("chat.insertChat", chat);
     }
 
     public int insertChatMember(Room room) {

@@ -119,4 +119,31 @@
   	select count(*) from tbl_order_history where user_key = #{userKey}
   </select>
   
+  
+  <select id="selOneProduct" parameterType="String" resultType="product">
+  	select 
+  		   	PROD_KEY as prodKey,
+		   	PROD_NM as prodNm,
+			PROD_PRICE as prodPrice,
+			PROD_MAKER as prodMaker, 
+			PROD_ORIGIN as prodOrigin,
+			PROD_INTRO as prodIntro,
+			PROD_CNT as prodCnt,
+			PROD_VOL as prodVol,
+			PROD_PROOF as prodProof,
+			TRADING_YN as tradingYn,
+			CATEGORY_KEY as categoryKey,
+			UPLOAD_DATE as uploadDate
+      from 	tbl_product 
+     where 	prod_key = #{prodKey}
+  </select>
+  <select id="selOneProdImg" resultType="productImage">
+  		select 
+  				IMG_KEY as imgKey,
+				IMG_NM as imgNm,
+				IMG_PATH as imgPath,
+				PROD_KEY as prodKey
+  		  from 	tbl_product_image 
+  		 where 	prod_key = #{prodKey}
+  </select>
 </mapper>

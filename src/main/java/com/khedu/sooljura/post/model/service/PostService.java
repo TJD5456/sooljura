@@ -112,7 +112,9 @@ public class PostService {
     public int updateComment(String commentKey, String userKey, String commentContent) {
         return dao.updateComment(commentKey, userKey, commentContent);
     }
-	
+    public String getPostKeyByCommentKey(String commentKey) {
+        return dao.selectPostKeyByCommentKey(commentKey);
+    }
 	
 	
 }

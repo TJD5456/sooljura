@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -9,6 +10,7 @@
 <title>자유게시판 - 게시글 상세보기</title>
 <link rel="stylesheet" href="/resources/css/styles.css">
 <style>
+/* 기존 스타일 유지 */
 body {
 	margin: 0;
 	font-family: Arial, sans-serif;
@@ -17,13 +19,11 @@ body {
 	height: 100vh;
 }
 
-/* 레이아웃 구조 */
 .layout {
 	display: flex;
 	flex: 1;
 }
 
-/* 사이드바 */
 .sidebar {
 	width: 250px;
 	height: 100vh;
@@ -37,14 +37,12 @@ body {
 	z-index: 10;
 }
 
-/* 리모콘 */
 .remote-controller {
 	position: fixed;
 	top: 20px;
 	right: 20px;
 }
 
-/* 컨텐츠 영역 */
 .content {
 	flex: 1;
 	padding: 20px;
@@ -52,14 +50,14 @@ body {
 }
 
 .container {
-	width: 90%; /* 화면의 90% 사용 */
-	max-width: 1200px; /* 최대 너비는 1200px로 제한 */
+	width: 90%;
+	max-width: 1200px;
 	margin: 0 auto;
 	padding: 20px;
 	background-color: #ffffff;
 	border: 1px solid #ddd;
 	border-radius: 5px;
-	box-sizing: border-box; /* 패딩을 포함한 크기 계산 */
+	box-sizing: border-box;
 }
 
 .post-title {
@@ -80,7 +78,13 @@ body {
 	line-height: 1.5;
 }
 
-/* 댓글 섹션 */
+textarea {
+	resize: none; /* 사용자가 크기 변경 불가 */
+	border: 1px solid #ddd;
+	padding: 10px;
+	border-radius: 5px;
+}
+
 .comments {
 	margin-top: 40px;
 }
@@ -91,10 +95,14 @@ body {
 }
 
 .comment {
+	margin-bottom: 20px;
 	padding: 10px;
 	border: 1px solid #ddd;
 	border-radius: 5px;
-	margin-bottom: 15px;
+}
+
+.comment .content {
+	margin-top: 10px;
 }
 
 .comment .author {
@@ -107,7 +115,6 @@ body {
 	margin-bottom: 5px;
 }
 
-/* 댓글 작성 폼 */
 .comment-form {
 	margin-top: 30px;
 }
@@ -136,7 +143,6 @@ body {
 	background-color: #0056b3;
 }
 
-/* 목록 버튼 */
 .back-button {
 	margin-top: 20px;
 	text-align: right;
@@ -182,60 +188,74 @@ body {
 				<br> <br>
 				<c:forEach var="comment" items="${comments}">
 					<div class="comment">
-						<div>
-							<!-- 댓글 작성자 닉네임 및 수정/삭제 버튼 -->
-							<span class="author">${comment.userNickNm}</span>
-							<c:if
-								test="${not empty loginUser && comment.userKey == loginUser.userKey}">
-								<!-- 삭제 버튼 -->
-								<form action="/post/deleteComment.do" method="post"
-									style="display: inline;">
-									<input type="hidden" name="commentKey"
-										value="${comment.commentKey}" /> <input type="hidden"
-										name="userKey" value="${loginUser.userKey}" />
-									<button type="submit"
-										style="border: none; background: none; color: red; cursor: pointer;">삭제</button>
-								</form>
-								<!-- 수정 버튼 -->
-								<button type="button"
-									style="border: none; background: none; color: blue; cursor: pointer;"
-									onclick="editComment('${comment.commentKey}', '${comment.commentContent}');">수정</button>
-							</c:if>
-						</div>
+						<!-- 댓글 작성자 -->
+						<!-- 수정 및 삭제 버튼 (작성자만 표시) -->
+						<c:forEach var="comment" items="${comments}">
+							<div class="comment" id="comment-${comment.commentKey}">
+								<div>
+									<span class="author">${comment.userNickNm}</span>
+									<c:if
+										test="${not empty loginUser && comment.userKey == loginUser.userKey}">
+										<!-- 삭제 버튼 -->
+										<form action="/post/deleteComment.do" method="post"
+											onsubmit="return confirm('정말 삭제하시겠습니까?');"
+											style="display: inline;">
+											<input type="hidden" name="commentKey"
+												value="${comment.commentKey}" />
+											<button type="submit"
+												style="border: none; background: none; color: red; cursor: pointer;">삭제</button>
+										</form>
+
+										<!-- 수정 버튼 -->
+										<button type="button"
+											onclick="editComment('${comment.commentKey}', '${fn:escapeXml(comment.commentContent)}');">수정</button>
+									</c:if>
+								</div>
+								<div class="date">${comment.commentDate}</div>
+								<div class="content" id="comment-content-${comment.commentKey}">${fn:escapeXml(comment.commentContent)}</div>
+							</div>
+						</c:forEach>
+
+
+						<!-- 댓글 작성 날짜 -->
 						<div class="date">${comment.commentDate}</div>
+
+						<!-- 댓글 내용 -->
 						<div class="content" id="comment-content-${comment.commentKey}">${comment.commentContent}</div>
 					</div>
 				</c:forEach>
-
-				<!-- 댓글 작성 폼 -->
-				<div class="comment-form">
-					<c:choose>
-						<c:when test="${not empty loginUser}">
-							<form action="/post/addComment.do" method="post">
-								<textarea name="commentContent" placeholder="댓글 내용을 입력하세요"
-									required></textarea>
-								<input type="hidden" name="postKey" value="${post.postKey}" />
-								<button type="submit">댓글 등록</button>
-							</form>
-						</c:when>
-
-						<c:otherwise>
-							<p>댓글을 작성하려면 로그인이 필요합니다.</p>
-							<form action="/user/loginFrm.do" method="get">
-								<button type="submit"
-									style="color: white; background-color: blue; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
-									로그인</button>
-							</form>
-						</c:otherwise>
-					</c:choose>
-				</div>
 			</div>
 
+			<!-- 댓글 작성 폼 -->
+			<div class="comment-form">
+				<c:choose>
+					<c:when test="${not empty loginUser}">
+						<form action="/post/addComment.do" method="post">
+							<textarea name="commentContent" placeholder="댓글 내용을 입력하세요"
+								required></textarea>
+							<input type="hidden" name="postKey" value="${post.postKey}" />
+							<button type="submit">댓글 등록</button>
+						</form>
+					</c:when>
 
-			<!-- 목록 버튼 -->
-			<div class="back-button">
-				<a href="/post/list.do">목록</a>
+					<c:otherwise>
+						<p>댓글을 작성하려면 로그인이 필요합니다.</p>
+						<form action="/user/loginFrm.do" method="get">
+							<button type="submit"
+								style="color: white; background-color: blue; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+								로그인</button>
+						</form>
+					</c:otherwise>
+				</c:choose>
 			</div>
+		</div>
+
+
+		<div class="back-button">
+			<!-- 뒤로가기 버튼 -->
+			<button onclick="history.back();"
+				style="border: none; background-color: #555; color: white; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+				뒤로가기</button>
 		</div>
 		<!-- 리모콘 -->
 		<div class="remote-controller">
@@ -246,29 +266,73 @@ body {
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>
 
-
 <script>
-    // 댓글 수정 버튼 클릭 시 수정 폼 표시
-    function editComment(commentKey, commentContent) {
-    const contentDiv = document.getElementById(`comment-content-${commentKey}`);
-    if (!contentDiv) {
-        console.error(`Element with id comment-content-${commentKey} not found`);
-        return;
-    }
-    contentDiv.innerHTML = `
-        <form action="/post/updateComment.do" method="post">
-            <textarea name="commentContent" required>${commentContent}</textarea>
-            <input type="hidden" name="commentKey" value="${commentKey}" />
-            <button type="submit">수정 완료</button>
-            <button type="button" onclick="cancelEdit('${commentKey}', '${commentContent}');">취소</button>
-        </form>
-    `;
-}
+	function editComment(commentKey, commentContent) {
+		// DOM 요소 찾기
+		const parentDiv = document.getElementById(`comment-${commentKey}`);
+		const contentDiv = document
+				.getElementById(`comment-content-${commentKey}`);
 
-    // 수정 취소 시 원래 내용 복원
-    function cancelEdit(commentKey, commentContent) {
-        const contentDiv = document.getElementById(`comment-content-${commentKey}`);
-        contentDiv.innerHTML = commentContent;
-    }
+		// 요소 존재 여부 확인
+		if (!parentDiv || !contentDiv) {
+			console
+					.error(`Element with id comment-${commentKey} or comment-content-${commentKey} not found`);
+			return;
+		}
+
+		// 기존 내용 숨기기
+		contentDiv.style.display = 'none';
+
+		// 수정 폼 생성
+		const form = document.createElement('form');
+		form.action = '/post/updateComment.do';
+		form.method = 'post';
+
+		const textarea = document.createElement('textarea');
+		textarea.name = 'commentContent';
+		textarea.textContent = commentContent;
+		textarea.style.width = '100%';
+		textarea.style.height = '100px';
+		form.appendChild(textarea);
+
+		const hiddenInput = document.createElement('input');
+		hiddenInput.type = 'hidden';
+		hiddenInput.name = 'commentKey';
+		hiddenInput.value = commentKey;
+		form.appendChild(hiddenInput);
+
+		const submitButton = document.createElement('button');
+		submitButton.type = 'submit';
+		submitButton.textContent = '수정 완료';
+		form.appendChild(submitButton);
+
+		const cancelButton = document.createElement('button');
+		cancelButton.type = 'button';
+		cancelButton.textContent = '취소';
+		cancelButton.onclick = function() {
+			cancelEdit(commentKey, commentContent);
+		};
+		form.appendChild(cancelButton);
+
+		parentDiv.appendChild(form);
+	}
+
+	function cancelEdit(commentKey, commentContent) {
+		const parentDiv = document.getElementById(`comment-${commentKey}`);
+		const contentDiv = document
+				.getElementById(`comment-content-${commentKey}`);
+
+		if (!parentDiv || !contentDiv) {
+			console
+					.error(`Element with id comment-${commentKey} or comment-content-${commentKey} not found`);
+			return;
+		}
+
+		contentDiv.style.display = 'block';
+		const form = parentDiv.querySelector('form');
+		if (form) {
+			parentDiv.removeChild(form);
+		}
+	}
 </script>
 </html>

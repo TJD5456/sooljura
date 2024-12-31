@@ -68,5 +68,9 @@ public class PostDao {
         params.put("commentContent", commentContent);
         return sqlSession.update("post.updateComment", params);
     }
+
+    public String selectPostKeyByCommentKey(String commentKey) {
+        return sqlSession.selectOne("post.selectPostKeyByCommentKey", commentKey);
+    }
 }
 

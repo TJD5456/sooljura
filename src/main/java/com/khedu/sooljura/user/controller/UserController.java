@@ -41,6 +41,7 @@ public class UserController {
 
 	// 로그인
 	@PostMapping("login.do")
+	@ResponseBody
 	public void login(User user, HttpSession session, HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		User login = service.login(user);
@@ -51,7 +52,7 @@ public class UserController {
 
 			// 아이디 저장 체크버튼
 			Cookie cookie = new Cookie("saveId", user.getUserId());
-			if (request.getParameter("saveId") != null) {
+			if ("chk".equals(request.getParameter("saveId"))) {
 				cookie.setMaxAge(60 * 60 * 24 * 30);// 30일
 			} else {
 				cookie.setMaxAge(0);

@@ -52,7 +52,7 @@ public class SocketHandler extends TextWebSocketHandler {
         String type = jsonObj.get("type").getAsString();
 
         if (type.equals("connect")) {
-            //최초 연결 시, 연결 정보 등록
+            // 최초 연결 시, 연결 정보 등록
             String memberId = jsonObj.get("memberId").getAsString();
             String roomId = jsonObj.get("roomId").getAsString();
 

@@ -21,16 +21,15 @@
 </div>
 
 <label for="chatMsg">메시지 : </label><input type="text" id="chatMsg">
-<button onclick="fn.sendValidate()">전송</button>
-<input type="file" name="uploadFile"> <br>
-<button onclick="fn.deleteChat()">방 나가기</button>
+<button onclick="fn.sendValidate()">보내기</button>
+<button onclick="fn.deleteChat()">나가기</button>
 <button onclick="fn.returnList()">목록으로</button>
 
 </body>
 <script>
     let ws;
-    let memberId = '${sessionScope.loginMember.memberId}';
-    let roomId = '${roomId}';
+    let userKey = '${sessionScope.loginMember.userKey}';
+    let roomKey = '${sessionScope.loginMember.roomKey}';
 
     let fn = {
         init: function () {
@@ -41,8 +40,8 @@
             ws.onopen = function () {
                 let msg = {
                     type: "connect",
-                    roomId: roomId,
-                    memberId: memberId
+                    roomId: roomKey,
+                    memberId: userKey
                 };
                 ws.send(JSON.stringify(msg));
             };
@@ -68,7 +67,7 @@
 
                 const formData = new FormData();
                 formData.append("file", file);
-                formData.append("memberId", memberId);
+                formData.append("memberId", userKey);
 
                 // 서버 파일 업로드 처리
                 $.ajax({
@@ -81,7 +80,7 @@
                         fn.sendChat(obj); // DB에 등록하기 위한 값 (fileName, filePath)
                     },
                     error: function () {
-                        alert("파일 업로드 실패: " + error);
+                        alert("파일 업로드 실패");
                     }
                 });
             } else {
@@ -92,14 +91,14 @@
         sendChat: function (sendObj) {
 
             sendObj.type = "chat";
-            sendObj.roomId = roomId;
-            sendObj.memberId = memberId;
+            sendObj.roomKey = roomKey;
+            sendObj.userKey = userKey;
             sendObj.msg = $("#chatMsg").val();
 
             ws.send(JSON.stringify(sendObj));
 
             // 기존 입력값 초기화
-            $("#chatMsg").val("");
+            $('#chatMsg').val("");
             $('input[type=file]').val("");
 
         },
@@ -107,20 +106,13 @@
             // 방 나가기 == 삭제
             let sendObj = {};
             sendObj.type = "delete";
-            sendObj.roomId = roomId;
-            sendObj.memberId = memberId;
+            sendObj.roomKey = roomKey;
+            sendObj.userKey = userKey;
 
             ws.send(JSON.stringify(sendObj));
         },
         returnList: function () {
-            location.href = "/chat/getRoomList.do";
-
-        },
-        chatFileDown: function (fileName, filePath) {
-            fileName = encodeURIComponent(fileName);
-            filePath = encodeURIComponent(filePath);
-
-            location.href = "/chat/fileDown.do?fileName=" + fileName + "&filePath=" + filePath;
+            location.href = "/chat/chatFrm.do";
         }
     };
 

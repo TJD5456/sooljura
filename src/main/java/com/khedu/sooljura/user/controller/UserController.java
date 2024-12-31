@@ -25,6 +25,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 
 @Controller
 @RequestMapping("/user/")
@@ -38,7 +39,49 @@ public class UserController {
 	public String loginFrm() {
 		return "user/login";
 	}
-
+	
+	//아이디 찾기 페이지 이동
+	@GetMapping("idFindFrm.do")
+	public String idFindFrm(Model model) {
+		model.addAttribute("idOrPW", "1");
+		return "user/idPwFind";
+	}
+	//아이디 찾기
+	@PostMapping("idFind.do")
+	public String idFind(String name, String phone, Model model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("name : "+name + " | phone : " + phone);
+		int isIdNull = service.intIdFind(name, phone); 
+		
+		if(isIdNull>0) {
+			String id = service.idFind(name, phone);
+			String idChk = id.substring(0, 2);
+			for (int i = 2; i < id.length()-2; i++) {
+				idChk +="*";
+			}
+			idChk +=id.substring(id.length()-2, id.length());
+			
+			model.addAttribute("res", "3");
+			model.addAttribute("idFind", idChk);
+			return "user/idPwFind";
+		}else {
+			request.setAttribute("title", "알림");
+			request.setAttribute("msg", "성함 혹은 전화번호가 일치하지 않습니다.");
+			request.setAttribute("icon", "error");
+			request.setAttribute("loc", "idFindFrm.do");
+			request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
+			return "user/idPwFind";
+		}
+		
+	}
+	/*
+	보류
+	//비밀번호 찾기
+	@GetMapping("pwFindFrm.do")
+	public String pwFindFrm(Model model) {
+		model.addAttribute("idOrPW", "2");
+		return "user/idPwFind";
+	}
+	*/
 	// 로그인
 	@PostMapping("login.do")
 	@ResponseBody
@@ -72,7 +115,7 @@ public class UserController {
 	public String joinFrm() {
 		return "user/join";
 	}
-
+	
 	// 본인인증
 	@PostMapping("idVerif.do")
 	@ResponseBody

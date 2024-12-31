@@ -2,16 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="chat">
 
+    <select id="getRoomList" parameterType="string" resultType="room">
+        select room_key    as roomKey,
+               room_title  as roomTitle,
+               user_key     as userKey,
+               create_date as createDate,
+               read_yn     as readYn
+        from tbl_room
+        where user_key = #{_userKey}
+    </select>
+
     <select id="selectRoomKey" resultType="string">
         select 'ro' || to_char(sysdate, 'yymmdd') || lpad(seq_room_key.nextval, 4, '0')
         from dual
     </select>
 
     <insert id="createRoom" parameterType="room">
-        insert into tbl_room (room_key, room_title, userid, create_date, read_yn)
+        insert into tbl_room (room_key, room_title, user_key, create_date, read_yn)
         values (#{roomKey},
                 #{roomTitle},
-                #{userId},
+                #{userKey},
                 sysdate,
                 0)
     </insert>

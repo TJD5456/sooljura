@@ -17,7 +17,7 @@
         startChat: function () {
             let top = (window.innerHeight - 300) / 2 + window.screenY;
             let left = (window.innerWidth - 200) / 2 + window.screenX;
-            window.open("/chat/startChat.do", "creatRoom", "width=" + 450 + ", height=" + 700 + ", top=" + top + ", left=" + left);
+            window.open("/chat/chatFrm.do", "creatRoom", "width=" + 450 + ", height=" + 700 + ", top=" + top + ", left=" + left);
         }
     };
 </script>

@@ -28,8 +28,8 @@
                 <h1>1:1 질문</h1>
             </div>
             <form action="${pageContext.request.contextPath}/chat/createChat.do" method="post">
-                <input type="hidden" name="userId" value="${senderId}">
-                <input type="hidden" name="senderId" value="${senderId}">
+                <input type="hidden" name="userKey" value="${userKey}">
+                <input type="hidden" name="senderKey" value="${userKey}">
                 <label for="roomTitleInput"></label><input type="text" name="roomTitle" id="roomTitleInput" placeholder="제목">
                 <br>
                 <label for="msgInput"></label><textarea name="msg" id="msgInput" rows="10" cols="50" maxlength="1000" wrap="soft" style="resize: none" placeholder="질문"></textarea>

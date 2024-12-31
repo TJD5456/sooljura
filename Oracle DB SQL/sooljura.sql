@@ -261,7 +261,7 @@ create sequence seq_refund_key maxvalue 9999 cycle;
 create table tbl_room (
    room_key char(12) primary key,
    room_title varchar2(200) not null,
-   userId char(12) references tbl_user ( user_key ) on delete set null,
+   user_key char(12) references tbl_user ( user_key ) on delete set null,
    create_date date default sysdate,
    read_yn number default 0
 );
@@ -287,3 +287,7 @@ select * from tbl_user_addr;
 
 select * from tbl_room;
 select * from tbl_chat;
+
+insert into tbl_room values ( 'ro' || lpad(seq_room_key.nextval, 4, '0'), '시험질문1', 'us0000000001', sysdate, 0 );
+insert into tbl_room values ( 'ro' || lpad(seq_room_key.nextval, 4, '0'), '시험질문2', 'us0000000001', sysdate, 0 );
+commit;

@@ -3,7 +3,7 @@ package com.khedu.sooljura.chat.model.vo;
 public class Room {
     private String roomKey;
     private String roomTitle;
-    private String userId;
+    private String userKey;
     private String createDate;
     private String readYn;
 
@@ -11,10 +11,10 @@ public class Room {
         super();
     }
 
-    public Room(String roomKey, String roomTitle, String userId, String createDate, String readYn) {
+    public Room(String roomKey, String roomTitle, String userKey, String createDate, String readYn) {
         this.roomKey = roomKey;
         this.roomTitle = roomTitle;
-        this.userId = userId;
+        this.userKey = userKey;
         this.createDate = createDate;
         this.readYn = readYn;
     }
@@ -35,12 +35,12 @@ public class Room {
         this.roomTitle = roomTitle;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUserKey() {
+        return userKey;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserKey(String userKey) {
+        this.userKey = userKey;
     }
 
     public String getCreateDate() {

@@ -4,7 +4,6 @@ import com.khedu.sooljura.chat.model.service.ChatService;
 import com.khedu.sooljura.chat.model.vo.Chat;
 import com.khedu.sooljura.chat.model.vo.Room;
 import com.khedu.sooljura.user.model.vo.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,33 +19,55 @@ import java.util.ArrayList;
 @RequestMapping("/chat")
 public class ChatController {
 
-    @Autowired
-    @Qualifier("chatService")
-    private ChatService service;
+    private final ChatService service;
+
+    public ChatController(@Qualifier("chatService") ChatService service) {
+        this.service = service;
+    }
+
+    @GetMapping("chatFrm")
+    public String chatFrm(HttpSession session, Model model) {
+        User loginUser = (User) session.getAttribute("loginUser");
+        model.addAttribute("userKey", loginUser.getUserKey());
+
+        String userKey = loginUser.getUserKey();
+        ArrayList<Room> roomList = service.getRoomList(userKey);
+
+        if(roomList != null) {
+            model.addAttribute("roomList", roomList);
+            return null;
+        } else{
+            return "redirect:/chat/startChat.do";
+        }
+    }
 
     @GetMapping("/startChat.do")
     public String startChat(HttpSession session, Model model) {
         User loginUser = (User) session.getAttribute("loginUser");
-        String userId = loginUser.getUserId();
-        model.addAttribute("userId", userId);
+        model.addAttribute("userKey", loginUser.getUserKey());
+
         return "chat/startChat";
     }
 
     @PostMapping("/createChat.do")
     @ResponseBody
     public String createChat(Room room, Chat chat) {
-
         String roomKey = service.createRoom(room);
+        int insertChatResult = 0;
 
-        if(!roomKey.equals("foobar")){
+        if (!roomKey.equals("foobar")) {
             chat.setRoomKey(roomKey);
-            int insertChatResult = service.insertChat(chat);
+            insertChatResult = service.insertChat(chat);
         }
 
-        return "chat/chattingPage";
+        if (insertChatResult > 0) {
+            return "chat/chattingPage";
+        } else {
+            return "";
+        }
     }
 
-    //    by UnEmotioneD
+    // separator
 
     //채팅방 목록 조회
     @GetMapping("/getRoomList.do")

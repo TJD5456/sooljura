@@ -25,9 +25,9 @@ public class SocketHandler extends TextWebSocketHandler {
     @Qualifier("chatService")
     private ChatService service;
 
-    private ArrayList<WebSocketSession> user;
+    private final ArrayList<WebSocketSession> user;
     private HashMap<String, WebSocketSession> map;
-    private HashMap<String, HashMap<String, WebSocketSession>> roomMap;
+    private final HashMap<String, HashMap<String, WebSocketSession>> roomMap;
 
     public SocketHandler() {
         user = new ArrayList<>();

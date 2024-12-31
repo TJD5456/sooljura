@@ -87,9 +87,9 @@ a {
                     <label for="saveId">아이디 저장</label>
                 </div>   
                 <br>
-                <a href="#">비밀번호 찾기</a> |
-                <a href="#">아이디 찾기</a> |
-                <a href="#">회원 가입</a>
+                <%--<a href="/user/pwFindFrm.do">비밀번호 찾기</a> | --%>
+                <a href="/user/idFindFrm.do">아이디 찾기</a> |
+                <a href="/user/provisionFrm.do">회원 가입</a>
 
                 <hr>
 

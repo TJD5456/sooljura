@@ -233,4 +233,20 @@ public class UserService {
 		return dao.insertTestAccount(u);
 	}
 
+	public String idFind(String name, String phone) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("name", name);
+		map.put("phone", phone);
+		
+		return dao.idFind(map);
+	}
+
+	public int intIdFind(String name, String phone) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("name", name);
+		map.put("phone", phone);
+		
+		return dao.intIdFind(map);
+	}
+
 }

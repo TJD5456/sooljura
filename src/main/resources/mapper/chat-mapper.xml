@@ -5,7 +5,7 @@
     <select id="numberOfUnCheckedChats" resultType="int">
         select count(*)
         from tbl_room
-        where read_yn = 0
+        where admin_key is null
     </select>
 
     <select id="getRoomList" parameterType="room" resultType="room">

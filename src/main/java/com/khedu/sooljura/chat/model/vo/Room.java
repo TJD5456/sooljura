@@ -4,6 +4,7 @@ public class Room {
     private String roomKey;
     private String roomTitle;
     private String userKey;
+    private String adminKey;
     private String createDate;
     private String readYn;
 
@@ -11,10 +12,11 @@ public class Room {
         super();
     }
 
-    public Room(String roomKey, String roomTitle, String userKey, String createDate, String readYn) {
+    public Room(String roomKey, String roomTitle, String userKey, String adminKey, String createDate, String readYn) {
         this.roomKey = roomKey;
         this.roomTitle = roomTitle;
         this.userKey = userKey;
+        this.adminKey = adminKey;
         this.createDate = createDate;
         this.readYn = readYn;
     }
@@ -41,6 +43,15 @@ public class Room {
 
     public void setUserKey(String userKey) {
         this.userKey = userKey;
+    }
+
+
+    public String getAdminKey() {
+        return adminKey;
+    }
+
+    public void setAdminKey(String adminKey) {
+        this.adminKey = adminKey;
     }
 
     public String getCreateDate() {

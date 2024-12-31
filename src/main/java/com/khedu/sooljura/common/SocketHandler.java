@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.khedu.sooljura.chat.model.service.ChatService;
 import com.khedu.sooljura.chat.model.vo.Chat;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
@@ -18,20 +17,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-@Component("socketHandler") // applicationContext.xml 에 등록한 handler 이름
+// applicationContext.xml 에 등록한 handler 이름
+@Component("socketHandler")
 public class SocketHandler extends TextWebSocketHandler {
 
-    @Autowired
-    @Qualifier("chatService")
-    private ChatService service;
-
     private final ArrayList<WebSocketSession> user;
-    private HashMap<String, WebSocketSession> map;
     private final HashMap<String, HashMap<String, WebSocketSession>> roomMap;
 
-    public SocketHandler() {
+    private final ChatService service;
+    private HashMap<String, WebSocketSession> map;
+
+    public SocketHandler(@Qualifier("chatService") ChatService service) {
         user = new ArrayList<>();
         roomMap = new HashMap<>();
+        this.service = service;
     }
 
     // 소켓이 생성되어 연결되었을 때 실행되는 메소드

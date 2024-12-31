@@ -258,7 +258,6 @@ create sequence seq_order_history maxvalue 9999 cycle;
 -- 'rf' || lpad(seq_refund_key.nextval, 4, '0')
 create sequence seq_refund_key maxvalue 9999 cycle;
 
-
 create table tbl_room (
    room_key char(12) primary key,
    room_title varchar2(200) not null,
@@ -285,3 +284,6 @@ commit;
 
 select * from tbl_user;
 select * from tbl_user_addr;
+
+select * from tbl_room;
+select * from tbl_chat;

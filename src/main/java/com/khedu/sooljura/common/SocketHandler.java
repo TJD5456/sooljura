@@ -81,7 +81,7 @@ public class SocketHandler extends TextWebSocketHandler {
 
             Chat chat = new Chat();
             chat.setRoomKey(roomId);
-            chat.setSenderId(memberId);
+            chat.setSenderKey(memberId);
             chat.setMsg(msg);
 
             // DB 등록
@@ -108,7 +108,7 @@ public class SocketHandler extends TextWebSocketHandler {
 
                 Chat chat = new Chat();
                 chat.setRoomKey(roomId);
-                chat.setSenderId(memberId);
+                chat.setSenderKey(memberId);
                 service.deleteRoom(chat);
 
                 // 방에서 나간 뒤, 아무도 없으면 방 관리 Map 에서도 삭제.

@@ -38,7 +38,7 @@
     <select id="getChatList" resultType="chat">
         select chat_key  as chatKey,
                room_key  as roomKey,
-               sender_id as senderId,
+               sender_key as senderKey,
                msg       as msg,
                sent_date as sentDate
         from tbl_chat

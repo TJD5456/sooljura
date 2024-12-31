@@ -68,9 +68,9 @@ public class ChatController {
     }
 
     @GetMapping("chatRoom")
-    public String chatRoom(String roomKey) {
+    public String chatRoom(Model model, String roomKey) {
         ArrayList<Chat> chatList = service.getChatList(roomKey);
-
+        model.addAttribute("chatList", chatList);
         return "/chat/chatRoom";
     }
 

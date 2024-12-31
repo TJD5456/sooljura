@@ -6,6 +6,8 @@ import com.khedu.sooljura.admin.model.vo.Product;
 import com.khedu.sooljura.admin.model.vo.ProductCategory;
 import com.khedu.sooljura.admin.model.vo.ProductImage;
 import com.khedu.sooljura.admin.model.vo.Youtube;
+import com.khedu.sooljura.chat.model.service.ChatService;
+import com.khedu.sooljura.chat.model.vo.Room;
 import com.khedu.sooljura.user.model.vo.User;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -30,19 +32,24 @@ import java.util.Random;
 @RequestMapping("/admin/")
 public class AdminController {
 
-    private final AdminService service;
+    private final AdminService adminService;
+    private final ChatService chatService;
 
-    public AdminController(@Qualifier("adminService") AdminService service) {
-        this.service = service;
+    public AdminController(@Qualifier("adminService") AdminService adminService, @Qualifier("chatService") ChatService chatService) {
+        this.adminService = adminService;
+        this.chatService = chatService;
     }
 
     @GetMapping("adminPage.do")
     public String adminPage(Model model, String uploadYoutubeResult) {
-        int numberOfUnCheckedPost = service.numberOfUnCheckedPost();
+        int numberOfUnCheckedPost = adminService.numberOfUnCheckedPost();
         model.addAttribute("numberOfUnCheckedPost", numberOfUnCheckedPost);
 
-        int numberOfUnCheckedNewUser = service.numberOfUnCheckedNewUser();
+        int numberOfUnCheckedNewUser = adminService.numberOfUnCheckedNewUser();
         model.addAttribute("numberOfUnCheckedNewUser", numberOfUnCheckedNewUser);
+
+        int numberOfUnCheckedChats = chatService.numberOfUnCheckedChats();
+        model.addAttribute("numberOfUnCheckedChats", numberOfUnCheckedChats);
 
         if (uploadYoutubeResult != null) {
             model.addAttribute("uploadYoutubeResult", uploadYoutubeResult);
@@ -59,10 +66,10 @@ public class AdminController {
             model.addAttribute("manageCategoryResult", manageCategoryResult);
         }
 
-        ArrayList<Product> products = service.getAllProductsInfo();
+        ArrayList<Product> products = adminService.getAllProductsInfo();
         model.addAttribute("products", products);
 
-        ArrayList<ProductCategory> categoryList = service.getAllCategoryInfos();
+        ArrayList<ProductCategory> categoryList = adminService.getAllCategoryInfos();
         model.addAttribute("categoryList", categoryList);
 
         return "/admin/manageProducts";
@@ -75,18 +82,18 @@ public class AdminController {
             model.addAttribute("uploadYoutubeResult", uploadYoutubeResult);
         }
 
-        Youtube youtube = service.selectYoutubeUrl();
+        Youtube youtube = adminService.selectYoutubeUrl();
 
-        ProductImage prod1 = service.selectProductImageInfo(youtube.getProdKey1());
+        ProductImage prod1 = adminService.selectProductImageInfo(youtube.getProdKey1());
         model.addAttribute("prod1", prod1);
 
         if (youtube.getProdKey2() != null) {
-            ProductImage prod2 = service.selectProductImageInfo(youtube.getProdKey2());
+            ProductImage prod2 = adminService.selectProductImageInfo(youtube.getProdKey2());
             model.addAttribute("prod2", prod2);
         }
 
         if (youtube.getProdKey3() != null) {
-            ProductImage prod3 = service.selectProductImageInfo(youtube.getProdKey3());
+            ProductImage prod3 = adminService.selectProductImageInfo(youtube.getProdKey3());
             model.addAttribute("prod3", prod3);
         }
 
@@ -102,15 +109,20 @@ public class AdminController {
 
     @GetMapping("manageChats.do")
     public String manageChats() {
+        Room room = new Room();
+        room.setUserKey("admin");
+        ArrayList<Room> roomList = chatService.getRoomList(room);
+        System.out.println(roomList.size());
+
         return "/admin/manageChats";
     }
 
     @GetMapping("manageLevel.do")
     public String manageLevel(Model model) {
-        ArrayList<User> userList = service.selectAllUserForLevelChange();
+        ArrayList<User> userList = adminService.selectAllUserForLevelChange();
 
         for (int i = 0; userList != null && i < userList.size(); i++) {
-            userList.get(i).setPostCnt(service.selectUserPostCnt(userList.get(i).getUserKey()));
+            userList.get(i).setPostCnt(adminService.selectUserPostCnt(userList.get(i).getUserKey()));
         }
 
         model.addAttribute("userList", userList);
@@ -179,7 +191,7 @@ public class AdminController {
                 }
             }
         }
-        int uploadProductResult = service.uploadProduct(product, imageList);
+        int uploadProductResult = adminService.uploadProduct(product, imageList);
 
         if (uploadProductResult > 0) {
             return "redirect:/admin/manageProducts.do";
@@ -195,14 +207,14 @@ public class AdminController {
 
     @GetMapping("manageCategory")
     public String manageCategory(ProductCategory category) {
-        int manageCategoryResult = service.createCategory(category);
+        int manageCategoryResult = adminService.createCategory(category);
         return "redirect:/admin/manageProducts.do?manageCategoryResult=" + manageCategoryResult;
     }
 
     @GetMapping(value = "selectLowerCategoryLevel", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public String selectLowerCategoryLevel(String higherCategoryKey) {
-        ArrayList<ProductCategory> lowerCategories = service.selectLowerCategoryLevel(higherCategoryKey);
+        ArrayList<ProductCategory> lowerCategories = adminService.selectLowerCategoryLevel(higherCategoryKey);
 
         Gson gson = new Gson();
 
@@ -211,7 +223,7 @@ public class AdminController {
 
     @GetMapping("uploadYoutube")
     public String uploadYoutube(Youtube youtube) {
-        int result = service.uploadYoutube(youtube);
+        int result = adminService.uploadYoutube(youtube);
         return "forward:/admin/adminPage.do?uploadYoutubeResult=" + result;
     }
 
@@ -219,7 +231,7 @@ public class AdminController {
     @ResponseBody
     public String searchProductName(String currentInputValue) {
 
-        ArrayList<Product> productList = service.searchProductName(currentInputValue);
+        ArrayList<Product> productList = adminService.searchProductName(currentInputValue);
 
         Gson gson = new Gson();
 
@@ -233,12 +245,7 @@ public class AdminController {
         String[] userKeyArr = userKeyString.split(",");
         String[] userCdArr = userCdString.split(",");
 
-        return service.changeUserLevel(userKeyArr, userCdArr);
-    }
-
-    @GetMapping("startChat")
-    public String startChat() {
-        return "";
+        return adminService.changeUserLevel(userKeyArr, userCdArr);
     }
 
 }

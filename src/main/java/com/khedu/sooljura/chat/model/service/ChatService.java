@@ -17,8 +17,13 @@ public class ChatService {
         this.dao = dao;
     }
 
-    public ArrayList<Room> getRoomList(String userKey) {
-        return (ArrayList<Room>) dao.getRoomList(userKey);
+
+    public int numberOfUnCheckedChats() {
+        return dao.numberOfUnCheckedChats();
+    }
+
+    public ArrayList<Room> getRoomList(Room room) {
+        return (ArrayList<Room>) dao.getRoomList(room);
     }
 
     public String createRoom(Room room) {

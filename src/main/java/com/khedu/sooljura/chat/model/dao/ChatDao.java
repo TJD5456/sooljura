@@ -17,8 +17,12 @@ public class ChatDao {
         this.template = template;
     }
 
-    public List<Room> getRoomList(String userKey) {
-        return template.selectList("chat.getRoomList", userKey);
+    public int numberOfUnCheckedChats() {
+        return template.selectOne("chat.numberOfUnCheckedChats");
+    }
+
+    public List<Room> getRoomList(Room room) {
+        return template.selectList("chat.getRoomList", room);
     }
 
     public String selectRoomKey() {

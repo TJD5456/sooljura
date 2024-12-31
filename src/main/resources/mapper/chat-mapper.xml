@@ -2,14 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="chat">
 
-    <select id="getRoomList" parameterType="string" resultType="room">
-        select room_key    as roomKey,
-               room_title  as roomTitle,
-               user_key    as userKey,
-               create_date as createDate,
-               read_yn     as readYn
+    <select id="numberOfUnCheckedChats" resultType="int">
+        select count(*)
         from tbl_room
-        where user_key = #{_userKey}
+        where read_yn = 0
+    </select>
+
+    <select id="getRoomList" parameterType="room" resultType="room">
+        select room_key as roomKey,
+        room_title as roomTitle,
+        user_key as userKey,
+        create_date as createDate,
+        read_yn as readYn
+        from tbl_room
+        <if test="userKey != 'admin'">
+            where user_key = #{userKey}
+        </if>
+        <if test="userKey == 'admin'">
+            where read_yn = 0
+        </if>
+
     </select>
 
     <select id="selectRoomKey" resultType="string">
@@ -36,11 +48,11 @@
     </insert>
 
     <select id="getChatList" resultType="chat">
-        select chat_key  as chatKey,
-               room_key  as roomKey,
+        select chat_key   as chatKey,
+               room_key   as roomKey,
                sender_key as senderKey,
-               msg       as msg,
-               sent_date as sentDate
+               msg        as msg,
+               sent_date  as sentDate
         from tbl_chat
         where room_key = #{_roomKey}
     </select>

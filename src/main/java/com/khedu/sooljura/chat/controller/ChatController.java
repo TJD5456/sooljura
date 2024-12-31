@@ -30,7 +30,9 @@ public class ChatController {
         model.addAttribute("userKey", loginUser.getUserKey());
 
         String userKey = loginUser.getUserKey();
-        ArrayList<Room> roomList = service.getRoomList(userKey);
+        Room room = new Room();
+        room.setUserKey(userKey);
+        ArrayList<Room> roomList = service.getRoomList(room);
 
         if (roomList != null) {
             model.addAttribute("roomList", roomList);

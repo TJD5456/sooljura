@@ -107,7 +107,7 @@ public class AdminService {
         int result = 0;
 
         HashMap<String, String> keyAndCd = new HashMap<>();
-        for(int i = 0; userKeyArr.length > i; i++) {
+        for (int i = 0; userKeyArr.length > i; i++) {
             keyAndCd.put("userKey", userKeyArr[i]);
             keyAndCd.put("userCd", userCdArr[i]);
 

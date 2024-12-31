@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.khedu.sooljura.admin.model.vo.Product;
+import com.khedu.sooljura.admin.model.vo.ProductImage;
 import com.khedu.sooljura.product.model.dao.ProductDao;
 import com.khedu.sooljura.product.model.vo.Basket;
 import com.khedu.sooljura.product.model.vo.OrderHistory;
@@ -121,5 +122,13 @@ public class ProductService {
 
 	public List<Product> getProdInfo(List<String> prodKey) {
 		return dao.getProdInfo(prodKey);
+	}
+
+	public Product selOneProduct(String prodKey) {
+		return dao.selOneProduct(prodKey);
+	}
+
+	public ProductImage selOneProdImg(String prodKey) {
+		return dao.selOneProdImg(prodKey);
 	}
 }

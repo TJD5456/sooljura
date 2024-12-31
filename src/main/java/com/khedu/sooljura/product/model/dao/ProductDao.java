@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.khedu.sooljura.admin.model.vo.Product;
+import com.khedu.sooljura.admin.model.vo.ProductImage;
 import com.khedu.sooljura.product.model.vo.Basket;
 import com.khedu.sooljura.product.model.vo.OrderHistory;
 
@@ -73,6 +74,14 @@ public class ProductDao {
 	//prodKey로 제품정보 조회(장바구니용으로 사용한 쿼리문 재사용)
 	public List<Product> getProdInfo(List<String> prodKey) {
 		return sessionTemplate.selectList("product.selProdInfo", prodKey);
+	}
+
+	public Product selOneProduct(String prodKey) {
+		return sessionTemplate.selectOne("product.selOneProduct", prodKey);
+	}
+
+	public ProductImage selOneProdImg(String prodKey) {
+		return sessionTemplate.selectOne("product.selOneProdImg", prodKey);
 	}
 
 

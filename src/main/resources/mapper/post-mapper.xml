@@ -36,15 +36,18 @@
         WHERE rnum BETWEEN #{start} AND #{end}
     </select>
 
+
     <!-- 전체 게시글 수 조회 -->
     <select id="selectPostCount" resultType="int">
         SELECT COUNT(*) FROM tbl_post WHERE delete_yn = 0
     </select>
 
+
     <!-- 게시글 시퀀스 키 가져오기 -->
     <select id="selectPostKey" resultType="string">
         SELECT seq_post.nextval FROM dual
     </select>
+
 
     <!-- 게시글 삽입 -->
     <insert id="insertfreePost" parameterType="post">
@@ -129,6 +132,7 @@
       AND user_key = #{userKey}
 </delete>
 
+<!-- 댓글 수정 -->
 <update id="updateComment" parameterType="map">
     UPDATE tbl_comment
     SET comment_content = #{commentContent},
@@ -138,7 +142,11 @@
 </update>
 
 
-
-
+<!-- 댓글에 연결된 게시글 키 가져오기 -->
+<select id="selectPostKeyByCommentKey" parameterType="string" resultType="string">
+    SELECT post_key
+    FROM tbl_comment
+    WHERE comment_key = #{commentKey}
+</select>
 
 </mapper>

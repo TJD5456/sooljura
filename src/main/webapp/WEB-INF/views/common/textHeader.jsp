@@ -72,7 +72,7 @@ main{
 	margin: 0 auto;
 }
 img{
-	margin-left: 300px;
+	margin-left: 25%;
 }
 
 </style>
@@ -82,7 +82,7 @@ img{
     <div id="top"></div>
 
     <div class="headDiv">
-        <img src="/resources/icons/text_logo.png" alt="">
+        <a href="/"><img src="/resources/icons/text_logo.png" alt=""></a>
     </div>
 </header>
 

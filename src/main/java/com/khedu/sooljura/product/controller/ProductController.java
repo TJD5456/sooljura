@@ -1,5 +1,6 @@
 package com.khedu.sooljura.product.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -7,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.khedu.sooljura.admin.model.vo.Product;
+import com.khedu.sooljura.admin.model.vo.ProductImage;
 import com.khedu.sooljura.product.model.service.ProductService;
 import com.khedu.sooljura.product.model.vo.Basket;
 import com.khedu.sooljura.product.model.vo.OrderHistory;
@@ -34,6 +39,30 @@ public class ProductController {
 	@Autowired
 	@Qualifier("productService")
 	private ProductService service;
+	
+	
+	@GetMapping("prodDetail.do")
+	public String prodDetail(String prodKey, Model model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Product prod = service.selOneProduct(prodKey);
+		if(prod.getTradingYn() < 1) {
+			System.out.println("access denied");
+			request.setAttribute("title", "알림");
+			request.setAttribute("msg", "access denied");
+			request.setAttribute("icon", "error");
+			request.setAttribute("loc", "/");
+			request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
+		}
+		ProductImage prodImg = service.selOneProdImg(prodKey);
+		
+		
+		int price = prod.getProdPrice();
+		String priceWithComma = String.format("%,d", price);
+		
+		model.addAttribute("prodImg", prodImg);
+		model.addAttribute("prod", prod);
+		model.addAttribute("priceWithComma", priceWithComma);
+		return "product/prodDetail";
+	}
 	
 	//장바구니 페이지로 이동
 	@GetMapping("expPurchaseFrm.do")

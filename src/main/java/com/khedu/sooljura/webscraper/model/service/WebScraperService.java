@@ -367,11 +367,11 @@ public class WebScraperService {
 			prodImgList.add(prodImg);
 			
 			// prod객체에 각 값 전달
-			prod.setProdOrigin(productOrigin);
-			prod.setProdMaker(productMaker);
-			prod.setProdVol(productVol);
-			prod.setProdProof(productProof);
-			prod.setProdVol(productVol);
+			prod.setProdOrigin(productOrigin.replace("원산지 : ", ""));
+			
+			prod.setProdMaker(productMaker.replace("제조사 : ", ""));
+			prod.setProdVol(productVol.replace("용량 : ", ""));
+			prod.setProdProof(productProof.replace("알콜도수 : ", ""));
 			prod.setProdIntro(productIntro);
 			prod.setTradingYn(1);
 			prod.setProdCnt(productCnt);

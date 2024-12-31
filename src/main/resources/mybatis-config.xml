@@ -2,9 +2,9 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
 
-    <settings>
-        <setting name="jdbcTypeForNull" value="NULL"/>
-    </settings>
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
 
     <typeAliases>
         <typeAlias type="com.khedu.sooljura.user.model.vo.User" alias="user"/>
@@ -14,8 +14,8 @@
         <typeAlias type="com.khedu.sooljura.admin.model.vo.ProductCategory" alias="productCategory"/>
         <typeAlias type="com.khedu.sooljura.admin.model.vo.Youtube" alias="youtube"/>
         <typeAlias type="com.khedu.sooljura.post.model.vo.Post" alias="post"/>
-        <typeAlias type="com.khedu.sooljura.post.model.vo.PostFile" alias="postFile"/>
         <typeAlias type="com.khedu.sooljura.product.model.vo.OrderHistory" alias="history"/>
         <typeAlias type="com.khedu.sooljura.product.model.vo.Basket" alias="basket"/>
     </typeAliases>
+
 </configuration>

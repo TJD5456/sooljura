@@ -2,12 +2,14 @@ package com.khedu.sooljura.post.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.khedu.sooljura.post.model.dao.PostDao;
+import com.khedu.sooljura.post.model.vo.Comment;
 import com.khedu.sooljura.post.model.vo.Post;
 import com.khedu.sooljura.post.model.vo.PostPageData;
 
@@ -31,11 +33,6 @@ public class PostService {
 
 	    // 게시글 리스트 가져오기
 	    ArrayList<Post> list = (ArrayList<Post>) dao.selectPostList(map);
-
-	    // 게시글의 카테고리 이름 설정
-	    for (Post post : list) {
-	        post.setCategoryName(getCategoryName(post.getPostCd())); // 카테고리 이름 추가
-	    }
 
 	    // 전체 게시글 수 가져오기
 	    int totCnt = dao.selectPostCount();
@@ -71,42 +68,51 @@ public class PostService {
 	    if (pageNo <= totPage) {
 	        pageNavi.append("<a href='/post/getList.do?reqPage=").append(pageNo).append("'> 다음 </a>");
 	    }
-
+	    
 	    // PostPageData 객체 생성 후 반환
 	    return new PostPageData(list, pageNavi.toString());
 	}
 
-	public int insertPost(Post post) {
-	    return dao.insertPost(post);
+	public int insertfreePost(Post post) {
+	    return dao.insertfreePost(post);
 	}
 	
-	public String getCategoryName(int postCd) {
-	    switch (postCd) {
-	        case 1:
-	            return "일상";
-	        case 2:
-	            return "질문";
-	        case 3:
-	            return "정보 나눔";
-	        case 4:
-	            return "공지사항";
-	        default:
-	            return "알 수 없음";
-	    }
-	}
 
 	public Post selectOnePost(String postKey) {
-	    System.out.println(postKey);
-		
-		Post post = dao.selectOnePost(postKey);
-	    System.out.println(post.getPostKey());
-	    // post가 null인지 확인
-	    if (post == null) {
-	        // 필요한 경우 추가 작업
-//	        System.out.println("Post 조회 완료: " + post.getPostTitle());
-	    	System.out.println("1231231231"); 
+	    // postKey가 null인지 확인
+	    if (postKey == null || postKey.isEmpty()) {
+	        return null; // 혹은 예외 처리
 	    }
 
-		return post;
+	    // DAO에서 post 조회
+	    Post post = dao.selectOnePost(postKey);
+
+	    // post가 null인지 확인
+	    if (post == null) {
+	        System.out.println("postKey에 해당하는 게시글을 찾을 수 없습니다: " + postKey);
+	        return null;
+	    }
+
+	    return post;
 	}
+	
+	
+	public int insertComment(Comment comment) {
+        return dao.insertComment(comment);
+    }
+
+    public List<Comment> selectCommentsByPostKey(String postKey) {
+        return dao.selectCommentsByPostKey(postKey);
+    }
+	
+    public int deleteComment(String commentKey, String userKey) {
+        return dao.deleteComment(commentKey, userKey);
+    }
+
+    public int updateComment(String commentKey, String userKey, String commentContent) {
+        return dao.updateComment(commentKey, userKey, commentContent);
+    }
+	
+	
+	
 }

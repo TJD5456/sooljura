@@ -34,7 +34,6 @@
                 </tr>
                 </tbody>
             </table>
-
         </div>
         <jsp:include page="/WEB-INF/views/common/remote.jsp"/>
     </div>

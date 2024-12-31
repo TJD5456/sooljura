@@ -8,6 +8,11 @@
         .title {
             margin: 0 auto;
         }
+
+        .goToRoom:hover {
+            background-color: var(--footer-background);
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -23,19 +28,16 @@
                 <thead>
                 <tr>
                     <th>제목</th>
+                    <th>회원이름</th>
                     <th>날짜</th>
-                    <th>확인여부</th>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach var="room" items="${roomList}">
                     <tr class="goToRoom" onclick="goToRoom('${room.roomKey}')">
                         <td>${room.roomTitle}</td>
+                        <td>${room.userKey}</td>
                         <td>${room.createDate}</td>
-                        <td>
-                            <c:if test="${room.readYn == 0}">X</c:if>
-                            <c:if test="${room.readYn == 1}">O</c:if>
-                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -45,5 +47,10 @@
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </main>
+<script>
+    function goToRoom(roomKey) {
+        window.location = "/chat/chatRoom.do?roomKey=" + roomKey;
+    }
+</script>
 </body>
 </html>

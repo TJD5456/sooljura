@@ -262,7 +262,6 @@ create table tbl_room (
    room_key    char(12) primary key,
    room_title  varchar2(200) not null,
    user_key    char(12) references tbl_user ( user_key ) on delete set null,
-   admin_key  char(12) references tbl_user ( user_key ) on delete set null,
    create_date date default sysdate,
    read_yn     number default 0
 );

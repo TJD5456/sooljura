@@ -108,12 +108,11 @@ public class AdminController {
     }
 
     @GetMapping("manageChats.do")
-    public String manageChats() {
+    public String manageChats(Model model) {
         Room room = new Room();
         room.setUserKey("admin");
         ArrayList<Room> roomList = chatService.getRoomList(room);
-        System.out.println(roomList.size());
-
+        model.addAttribute("roomList", roomList);
         return "/admin/manageChats";
     }
 

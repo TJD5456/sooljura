@@ -5,7 +5,7 @@
     <select id="getRoomList" parameterType="string" resultType="room">
         select room_key    as roomKey,
                room_title  as roomTitle,
-               user_key     as userKey,
+               user_key    as userKey,
                create_date as createDate,
                read_yn     as readYn
         from tbl_room
@@ -34,5 +34,15 @@
                 #{msg},
                 sysdate)
     </insert>
+
+    <select id="getChatList" resultType="chat">
+        select chat_key  as chatKey,
+               room_key  as roomKey,
+               sender_id as senderId,
+               msg       as msg,
+               sent_date as sentDate
+        from tbl_chat
+        where room_key = #{_roomKey}
+    </select>
 
 </mapper>

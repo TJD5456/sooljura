@@ -33,11 +33,11 @@ public class ChatDao {
         return template.insert("chat.insertChat", chat);
     }
 
-// separater
-
     public List<Chat> getChatList(String roomId) {
         return template.selectList("chat.getChatList", roomId);
     }
+
+// separator
 
     public int insertChatMember(Room room) {
         return template.insert("chat.insertChatMember", room);

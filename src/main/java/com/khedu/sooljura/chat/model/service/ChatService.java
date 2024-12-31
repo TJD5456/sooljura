@@ -38,11 +38,11 @@ public class ChatService {
         return dao.insertChat(chat);
     }
 
-// separater
-
     public ArrayList<Chat> getChatList(String roomId) {
         return (ArrayList<Chat>) dao.getChatList(roomId);
     }
+
+// separator
 
     public int deleteRoom(Chat chat) {
         return dao.deleteRoom(chat);

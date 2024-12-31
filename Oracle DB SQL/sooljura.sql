@@ -272,7 +272,7 @@ create sequence seq_room_key maxvalue 9999 cycle;
 create table tbl_chat (
    chat_key char(12) primary key,
    room_key char(12) references tbl_room ( room_key ) on delete cascade,
-   sender_id char(12) references tbl_user ( user_key ) on delete set null,
+   sender_key char(12) references tbl_user ( user_key ) on delete set null,
    msg varchar2(1000) not null,
    sent_date date default sysdate
 );

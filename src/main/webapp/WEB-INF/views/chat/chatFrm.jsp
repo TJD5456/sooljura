@@ -49,7 +49,7 @@
 
 <script>
     function goToRoom(roomKey) {
-        console.log(roomKey);
+        window.location = "/chat/chatRoom.do?roomKey=" + roomKey;
     }
 </script>
 </body>

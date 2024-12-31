@@ -33,10 +33,10 @@ public class ChatController {
         String userKey = loginUser.getUserKey();
         ArrayList<Room> roomList = service.getRoomList(userKey);
 
-        if(roomList != null) {
+        if (roomList != null) {
             model.addAttribute("roomList", roomList);
             return null;
-        } else{
+        } else {
             return "redirect:/chat/startChat.do";
         }
     }
@@ -67,17 +67,11 @@ public class ChatController {
         }
     }
 
-    // separator
+    @GetMapping("chatRoom")
+    public String chatRoom(String roomKey) {
+        ArrayList<Chat> chatList = service.getChatList(roomKey);
 
-    //채팅방 목록 조회
-    @GetMapping("/getRoomList.do")
-    public String getRoomList(Model model, HttpSession session) {
-        User loginUser = (User) session.getAttribute("loginMember");
-
-        ArrayList<Room> roomList = service.getRoomList(loginUser.getUserId());
-        model.addAttribute("roomList", roomList);
-
-        return "chat/roomList";
+        return "/chat/chatRoom";
     }
 
 }

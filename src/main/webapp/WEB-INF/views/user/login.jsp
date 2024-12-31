@@ -163,15 +163,15 @@ input[type = submit] : hover{
         if (i === 0) {
             $('#userId').val('admin999');
             $('#userPw').val('admin999@');
-            loginBtn();
+            loginBtn(event);
         } else if (i === 1) {
             $('#userId').val('user111');
             $('#userPw').val('user111@');
-            loginBtn();
+            loginBtn(event);
         } else if (i === -1) {
             $('#userId').val('user555');
             $('#userPw').val('user555@');
-            loginBtn();
+            loginBtn(event);
         }
     }
 </script>

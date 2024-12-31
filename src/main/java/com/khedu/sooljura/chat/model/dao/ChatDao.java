@@ -14,34 +14,33 @@ public class ChatDao {
 
     @Autowired
     @Qualifier("sqlSessionTemplate")
-    private SqlSessionTemplate sqlSession;
+    private SqlSessionTemplate template;
+
+    public String selectRoomKey() {
+        return template.selectOne("chat.selectRoomKey");
+    }
+
+    public int createRoom(Room room) {
+        return template.insert("chat.createRoom", room);
+    }
 
     public List<Room> getRoomList(String memberId) {
-        return sqlSession.selectList("chat.getRoomList", memberId);
+        return template.selectList("chat.getRoomList", memberId);
     }
 
     public List<Chat> getChatList(String roomId) {
-        return sqlSession.selectList("chat.getChatList", roomId);
+        return template.selectList("chat.getChatList", roomId);
     }
 
     public int insertChat(Chat chat) {
-        return sqlSession.insert("chat.insertChat", chat);
-    }
-
-    public String getRoomId() {
-        return sqlSession.selectOne("chat.getRoomId");
-    }
-
-    public int insertRoom(Room room) {
-        return sqlSession.insert("chat.insertRoom", room);
+        return template.insert("chat.insertChat", chat);
     }
 
     public int insertChatMember(Room room) {
-        return sqlSession.insert("chat.insertChatMember", room);
+        return template.insert("chat.insertChatMember", room);
     }
 
     public int deleteRoom(Chat chat) {
-        return sqlSession.update("chat.deleteRoom", chat);
+        return template.update("chat.deleteRoom", chat);
     }
-
 }

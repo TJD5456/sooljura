@@ -7,4 +7,13 @@
         from dual
     </select>
 
+    <insert id="createRoom" parameterType="room">
+        insert into tbl_room (room_key, room_title, userid, create_date, read_yn)
+        values (#{roomKey},
+                #{roomTitle},
+                #{userId},
+                sysdate,
+                0)
+    </insert>
+
 </mapper>

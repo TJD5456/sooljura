@@ -30,29 +30,13 @@ public class ChatService {
     }
 
     @Transactional
-    public String createRoom(String roomName, String createId, String members) {
-        String roomId = dao.getRoomId(); //방 번호 조회
+    public int createRoom(Room room) {
+        String roomKey = dao.selectRoomKey(); //방 번호 조회
+        room.setRoomKey(roomKey);
 
-        Room room = new Room();
-        room.setRoomKey(roomId);
-        room.setRoomTitle(roomName);
-        room.setUserId(createId);
+        int createRoomResult = dao.createRoom(room);
 
-        //채팅방 개설
-        if (dao.insertRoom(room) > 0) {
-            members += "," + createId;
-            String[] memberList = members.split(",");
-
-            //채티방 참여자 관리 정보 등록
-            for (String s : memberList) {
-                room.setUserId(s);
-                dao.insertChatMember(room);
-            }
-
-            return roomId;
-        } else {
-            return null;
-        }
+        return 0;
     }
 
     public int deleteRoom(Chat chat) {

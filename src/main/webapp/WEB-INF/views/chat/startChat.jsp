@@ -15,7 +15,7 @@
             margin-bottom: 16px;
         }
 
-        #msgInput, #roomTitleInput,[type="submit"] {
+        #msgInput, #roomTitleInput, [type="submit"] {
             padding: 4px;
         }
     </style>
@@ -30,9 +30,11 @@
             <form action="${pageContext.request.contextPath}/chat/createChat.do" method="post">
                 <input type="hidden" name="userKey" value="${userKey}">
                 <input type="hidden" name="senderKey" value="${userKey}">
-                <label for="roomTitleInput"></label><input type="text" name="roomTitle" id="roomTitleInput" placeholder="제목">
+                <label for="roomTitleInput"></label><input type="text" name="roomTitle" id="roomTitleInput"
+                                                           placeholder="제목">
                 <br>
-                <label for="msgInput"></label><textarea name="msg" id="msgInput" rows="10" cols="50" maxlength="1000" wrap="soft" style="resize: none" placeholder="질문"></textarea>
+                <label for="msgInput"></label><textarea name="msg" id="msgInput" rows="10" cols="50" maxlength="1000"
+                                                        wrap="soft" style="resize: none" placeholder="질문"></textarea>
                 <br>
                 <input type="submit" value="만들기">
             </form>

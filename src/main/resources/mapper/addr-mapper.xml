@@ -1,134 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="addr">
-	<!-- 주소지 추가 -->
-	<insert id="addAddrInfo" parameterType="addr">
-		insert into tbl_user_addr(
-			addr_key,
-			user_key,
-			addr_nm,
-			addr_cd,
-			addr,
-			addr_detail,
-			addr_ref,
-			rcpt_nm,
-			rcpt_phone,
-			default_yn
-		)values(
-			'ad' || to_char(sysdate, 'YYMMDD') || lpad (seq_addr.nextval, 4, '0'),
-			#{userKey},
-			#{addrNm},
-			#{addrCd},
-			#{addr},
-			#{addrDetail},
-			#{addrRef},
-			#{rcptNm},
-			#{rcptPhone},
-			0
-		)
-	</insert>
-	
-	<!-- 주소지 목록 조회 -->
-	<select id="userAddrList" parameterType="string" resultType="addr">
-		select 
-			addr_key as addrKey,
-			user_key as userKey,
-			addr_nm as addrNm,
-			addr_cd as addrCd,
-			addr as addr,
-			addr_detail as addrDetail,
-			addr_ref as addrRef,
-			rcpt_nm as rcptNm,
-			rcpt_phone as rcptPhone,
-			default_yn as defaultYn
-		from tbl_user_addr
-		where user_key = #{userKey}
-	</select>
-	
-	<!-- 주소지 삭제 -->
-	<delete id="deleteAddr" parameterType="string">
-		delete from tbl_user_addr where addr_key = #{addrKey}
-	</delete>
-	
-	<!-- 주소지 정보 조회(1개) -->
-	<select id="addrInfo" parameterType="string" resultType="addr">
-		select
-			addr_key as addrKey,
-			user_key as userKey,
-			addr_nm as addrNm,
-			addr_cd as addrCd,
-			addr as addr,
-			addr_detail as addrDetail,
-			addr_ref as addrRef,
-			rcpt_nm as rcptNm,
-			rcpt_phone as rcptPhone,
-			default_yn as defaultYn
-		from tbl_user_addr
-		where addr_key = #{addrKey}			
-	</select>
-	
-	<!-- 주소지 수정 -->
-	<update id="updAddr" parameterType="addr">
-		update tbl_user_addr set
-			addr_nm = #{addrNm},
-			addr_cd = #{addrCd},
-			addr = #{addr},
-			addr_detail = #{addrDetail},
-			addr_ref = #{addrRef},
-			rcpt_nm = #{rcptNm},
-			rcpt_phone = #{rcptPhone},
-			default_yn = #{defaultYn}
-		where addr_key = #{addrKey}
-	</update>
-	
-	<!-- 기본배송지 변경시 기존 기본배송지 변경 -->
-	<update id="setDefaultYn" parameterType="addr">
-		update tbl_user_addr set
-			default_yn = 0
-		where default_yn = 1 and user_key = #{userKey}
-	</update>
-	
-	<!-- 회원가입시 주소지 입력한 경우 주소지 DB에 넣기 -->
-	<insert id="joinAddr" parameterType="addr">
-		insert into tbl_user_addr(
-			addr_key,
-			user_key,
-			addr_nm,
-			addr_cd,
-			addr,
-			addr_detail,
-			addr_ref,
-			rcpt_nm,
-			rcpt_phone,
-			default_yn
-		)values(
-			'ad' || to_char(sysdate, 'YYMMDD') || lpad (seq_addr.nextval, 4, '0'),
-			#{userKey},
-			#{addrNm},
-			#{addrCd},
-			#{addr},
-			#{addrDetail},
-			#{addrRef},
-			#{rcptNm},
-			#{rcptPhone},
-			#{defaultYn}
-		)
-	</insert>
-	
-	<!-- 결제를 위한 defaultAddr 가져오기 -->
-	<select id="getDefaultAddr" parameterType="string" resultType="addr">
-		select 
-			addr_key as addrKey,
-			user_key as userKey,
-			addr_nm as addrNm,
-			addr_cd as addrCd,
-			addr as addr,
-			addr_detail as addrDetail,
-			addr_ref as addrRef,
-			rcpt_nm as rcptNm,
-			rcpt_phone as rcptPhone,
-			default_yn as defaultYn
-		from tbl_user_addr
-		where user_key = #{userKey} and default_yn = 1
-	</select>
+    <!-- 주소지 추가 -->
+    <insert id="addAddrInfo" parameterType="addr">
+        insert into tbl_user_addr(addr_key,
+                                  user_key,
+                                  addr_nm,
+                                  addr_cd,
+                                  addr,
+                                  addr_detail,
+                                  addr_ref,
+                                  rcpt_nm,
+                                  rcpt_phone,
+                                  default_yn)
+        values ('ad' || to_char(sysdate, 'YYMMDD') || lpad(seq_addr.nextval, 4, '0'),
+                #{userKey},
+                #{addrNm},
+                #{addrCd},
+                #{addr},
+                #{addrDetail},
+                #{addrRef},
+                #{rcptNm},
+                #{rcptPhone},
+                0)
+    </insert>
+
+    <!-- 주소지 목록 조회 -->
+    <select id="userAddrList" parameterType="string" resultType="addr">
+        select addr_key    as addrKey,
+               user_key    as userKey,
+               addr_nm     as addrNm,
+               addr_cd     as addrCd,
+               addr        as addr,
+               addr_detail as addrDetail,
+               addr_ref    as addrRef,
+               rcpt_nm     as rcptNm,
+               rcpt_phone  as rcptPhone,
+               default_yn  as defaultYn
+        from tbl_user_addr
+        where user_key = #{userKey}
+    </select>
+
+    <!-- 주소지 삭제 -->
+    <delete id="deleteAddr" parameterType="string">
+        delete
+        from tbl_user_addr
+        where addr_key = #{addrKey}
+    </delete>
+
+    <!-- 주소지 정보 조회(1개) -->
+    <select id="addrInfo" parameterType="string" resultType="addr">
+        select addr_key    as addrKey,
+               user_key    as userKey,
+               addr_nm     as addrNm,
+               addr_cd     as addrCd,
+               addr        as addr,
+               addr_detail as addrDetail,
+               addr_ref    as addrRef,
+               rcpt_nm     as rcptNm,
+               rcpt_phone  as rcptPhone,
+               default_yn  as defaultYn
+        from tbl_user_addr
+        where addr_key = #{addrKey}
+    </select>
+
+    <!-- 주소지 수정 -->
+    <update id="updAddr" parameterType="addr">
+        update tbl_user_addr
+        set addr_nm     = #{addrNm},
+            addr_cd     = #{addrCd},
+            addr        = #{addr},
+            addr_detail = #{addrDetail},
+            addr_ref    = #{addrRef},
+            rcpt_nm     = #{rcptNm},
+            rcpt_phone  = #{rcptPhone},
+            default_yn  = #{defaultYn}
+        where addr_key = #{addrKey}
+    </update>
+
+    <!-- 기본배송지 변경시 기존 기본배송지 변경 -->
+    <update id="setDefaultYn" parameterType="addr">
+        update tbl_user_addr
+        set default_yn = 0
+        where default_yn = 1
+          and user_key = #{userKey}
+    </update>
+
+    <!-- 회원가입시 주소지 입력한 경우 주소지 DB에 넣기 -->
+    <insert id="joinAddr" parameterType="addr">
+        insert into tbl_user_addr(addr_key,
+                                  user_key,
+                                  addr_nm,
+                                  addr_cd,
+                                  addr,
+                                  addr_detail,
+                                  addr_ref,
+                                  rcpt_nm,
+                                  rcpt_phone,
+                                  default_yn)
+        values ('ad' || to_char(sysdate, 'YYMMDD') || lpad(seq_addr.nextval, 4, '0'),
+                #{userKey},
+                #{addrNm},
+                #{addrCd},
+                #{addr},
+                #{addrDetail},
+                #{addrRef},
+                #{rcptNm},
+                #{rcptPhone},
+                #{defaultYn})
+    </insert>
+
+    <!-- 결제를 위한 defaultAddr 가져오기 -->
+    <select id="getDefaultAddr" parameterType="string" resultType="addr">
+        select addr_key    as addrKey,
+               user_key    as userKey,
+               addr_nm     as addrNm,
+               addr_cd     as addrCd,
+               addr        as addr,
+               addr_detail as addrDetail,
+               addr_ref    as addrRef,
+               rcpt_nm     as rcptNm,
+               rcpt_phone  as rcptPhone,
+               default_yn  as defaultYn
+        from tbl_user_addr
+        where user_key = #{userKey}
+          and default_yn = 1
+    </select>
 </mapper>

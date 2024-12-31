@@ -12,9 +12,9 @@
     <div class="wrapper">
         <div class="content">
 
-    <div class="title">
-        <h1>게시글 관리 페이지</h1>
-    </div>
+            <div class="title">
+                <h1>게시글 관리 페이지</h1>
+            </div>
         </div>
         <jsp:include page="/WEB-INF/views/common/remote.jsp"/>
     </div>

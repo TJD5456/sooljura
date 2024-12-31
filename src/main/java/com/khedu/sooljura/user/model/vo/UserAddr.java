@@ -114,8 +114,8 @@ public class UserAddr {
     @Override
     public String toString() {
         return "UserAddr [addrKey=" + addrKey + ", userKey=" + userKey + ", addrNm=" + addrNm + ", addrCd=" + addrCd
-            + ", addr=" + addr + ", addrDetail=" + addrDetail + ", addrRef=" + addrRef + ", rcptNm=" + rcptNm
-            + ", rcptPhone=" + rcptPhone + ", defaultYn=" + defaultYn + "]";
+                + ", addr=" + addr + ", addrDetail=" + addrDetail + ", addrRef=" + addrRef + ", rcptNm=" + rcptNm
+                + ", rcptPhone=" + rcptPhone + ", defaultYn=" + defaultYn + "]";
     }
 
 }

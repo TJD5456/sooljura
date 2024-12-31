@@ -1,12 +1,11 @@
 package com.khedu.sooljura.webscraper.controller;
 
+import com.khedu.sooljura.webscraper.model.service.WebScraperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.khedu.sooljura.webscraper.model.service.WebScraperService;
 
 @Controller
 @RequestMapping("/webScraping")
@@ -17,22 +16,22 @@ public class WebScraperController {
 	가자주류 웹 사케 카테고리 포맷이 다른 주류의 그것과 다름, 필요시 수정예정  
 	*/
 
-	@Autowired
-	@Qualifier("webScraperService")
-	private WebScraperService service;
-	
-	@GetMapping("webScraper.do")
-	public String movePage() {
-		return "/common/webScraper";
-	}
-	
-	//가자주류 웹 스크래퍼 - 전체 리스트
-	@GetMapping(value = "/scrapingTest.do")
-	private String scrapper() {
-		service.doScraper();
-		return null;
+    @Autowired
+    @Qualifier("webScraperService")
+    private WebScraperService service;
 
-	}
-	
-	
+    @GetMapping("webScraper.do")
+    public String movePage() {
+        return "/common/webScraper";
+    }
+
+    //가자주류 웹 스크래퍼 - 전체 리스트
+    @GetMapping(value = "/scrapingTest.do")
+    private String scrapper() {
+        service.doScraper();
+        return null;
+
+    }
+
+
 }

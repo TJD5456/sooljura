@@ -1,17 +1,15 @@
 package com.khedu.sooljura.post.model.dao;
 
-import org.springframework.stereotype.Repository;
-
 import com.khedu.sooljura.post.model.vo.Comment;
 import com.khedu.sooljura.post.model.vo.Post;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 
 @Repository("postDao")
@@ -23,28 +21,28 @@ public class PostDao {
 
     public List<Post> selectPostList(HashMap<String, Integer> map) {
         return sqlSession.selectList("post.selectPostList", map);
-        
+
     }
 
     public int selectPostCount() {
         return sqlSession.selectOne("post.selectPostCount");
     }
 
-	public String selectPostKey() {
-		return sqlSession.selectOne("post.selectPostKey");
-	}
+    public String selectPostKey() {
+        return sqlSession.selectOne("post.selectPostKey");
+    }
 
-	public int insertfreePost(Post post) {
-		return sqlSession.insert("post.insertfreePost",post);
-	}
+    public int insertfreePost(Post post) {
+        return sqlSession.insert("post.insertfreePost", post);
+    }
 
-	public Post selectOnePost(String postKey) {
-	    Post result = sqlSession.selectOne("post.selectOnePost", postKey);
-	    return result;
-	}
-	
-	
-	  // 댓글 등록
+    public Post selectOnePost(String postKey) {
+        Post result = sqlSession.selectOne("post.selectOnePost", postKey);
+        return result;
+    }
+
+
+    // 댓글 등록
     public int insertComment(Comment comment) {
         return sqlSession.insert("post.insertComment", comment);
     }

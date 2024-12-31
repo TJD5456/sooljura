@@ -26,7 +26,6 @@
                 </tr>
                 <tr>
                     <th><a href="${pageContext.request.contextPath}/admin/manageChats.do">1대1 채팅</a></th>
-                    <%-- TODO: 채팅창 부분도 하기 --%>
                     <td>${numberOfUnCheckedChats}</td>
                 </tr>
                 <tr>

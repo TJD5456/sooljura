@@ -8,7 +8,7 @@
     <c:choose>
         <c:when test="${not empty loginUser}">
             <c:if test="${loginUser.userCd == 0}">
-                <a href="/admin/adminPage.do">To admin page</a><!-- CD == 0 -->
+                <a href="/admin/adminPage.do">Admin page</a>
             </c:if>
             <a href="/user/logout.do">
                 <img src="/resources/icons/logout_fix_45px.png" alt="로그아웃"><!-- 로그아웃 조건 추가 -->
@@ -23,9 +23,6 @@
             </a>
         </c:when>
         <c:otherwise>
-            <%--	로그인 하지 않고 테스트 할 수 있도록 일단 추가		--%>
-            <a href="/admin/adminPage.do">To admin page</a>
-
             <a href="/userMyPage/userMyPage.do">my page -test</a><!-- 지울예정 -->
             <a href="/webScraping/webScraper.do">web scraping -test</a><!-- 태호형이 처리할 예정 -->
             <a href="/user/provisionFrm.do">

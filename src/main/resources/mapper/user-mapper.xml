@@ -90,5 +90,16 @@
 					 SYSDATE
 				 )
 	</insert>
-
+	<select id="idFind" parameterType="map" resultType="String">
+        SELECT user_id 
+          FROM tbl_user
+         WHERE user_nm = #{name}
+           AND user_phone = #{phone}
+    </select>
+    <select id="intIdFind" parameterType="map" resultType="_int">
+        SELECT count(*)
+          FROM tbl_user
+         WHERE user_nm = #{name}
+           AND user_phone = #{phone}
+    </select>
 </mapper>

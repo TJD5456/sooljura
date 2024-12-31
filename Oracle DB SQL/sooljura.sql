@@ -259,22 +259,22 @@ create sequence seq_order_history maxvalue 9999 cycle;
 create sequence seq_refund_key maxvalue 9999 cycle;
 
 create table tbl_room (
-   room_key char(12) primary key,
-   room_title varchar2(200) not null,
-   user_key char(12) references tbl_user ( user_key ) on delete set null,
+   room_key    char(12) primary key,
+   room_title  varchar2(200) not null,
+   user_key    char(12) references tbl_user ( user_key ) on delete set null,
    create_date date default sysdate,
-   read_yn number default 0
+   read_yn     number default 0
 );
 
 -- 'ro' || lpad(seq_room_key.nextval, 4, '0')
 create sequence seq_room_key maxvalue 9999 cycle;
 
 create table tbl_chat (
-   chat_key char(12) primary key,
-   room_key char(12) references tbl_room ( room_key ) on delete cascade,
+   chat_key   char(12) primary key,
+   room_key   char(12) references tbl_room ( room_key ) on delete cascade,
    sender_key char(12) references tbl_user ( user_key ) on delete set null,
-   msg varchar2(1000) not null,
-   sent_date date default sysdate
+   msg        varchar2(1000) not null,
+   sent_date  date default sysdate
 );
 
 -- 'ch' || lpad(seq_chat_key.nextval, 4, '0')
@@ -290,4 +290,5 @@ select * from tbl_chat;
 
 insert into tbl_room values ( 'ro' || lpad(seq_room_key.nextval, 4, '0'), '시험질문1', 'us0000000001', sysdate, 0 );
 insert into tbl_room values ( 'ro' || lpad(seq_room_key.nextval, 4, '0'), '시험질문2', 'us0000000001', sysdate, 0 );
+
 commit;

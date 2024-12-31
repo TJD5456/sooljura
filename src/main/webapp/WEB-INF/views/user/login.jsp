@@ -116,9 +116,9 @@ input[type = submit] : hover{
 	            </div>
 	            <br>
 	            <div id="specialWrap">
-		            <a href="#">비밀번호 찾기</a> |
-		            <a href="#">아이디 찾기</a> |
-		            <a href="#">회원 가입</a>
+		             <%--<a href="/user/pwFindFrm.do">비밀번호 찾기</a> | --%>
+		            <a href="/user/idFindFrm.do">아이디 찾기</a> |
+		            <a href="/user/provisionFrm.do">회원 가입</a>
 				</div>
 	            <hr>
 	

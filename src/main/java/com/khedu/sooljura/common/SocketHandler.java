@@ -97,8 +97,8 @@ public class SocketHandler extends TextWebSocketHandler {
                 this.sendMsg(roomKey, msg);
             }
         } else if (type.equals("delete")) {
-            String userKey = jsonObj.get("userKey").getAsString();
             String roomKey = jsonObj.get("roomKey").getAsString();
+            String userKey = jsonObj.get("userKey").getAsString();
 
             map = roomMap.get(roomKey);
 

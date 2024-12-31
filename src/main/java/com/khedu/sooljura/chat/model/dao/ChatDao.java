@@ -37,13 +37,8 @@ public class ChatDao {
         return template.selectList("chat.getChatList", roomId);
     }
 
-// separator
-
-    public int insertChatMember(Room room) {
-        return template.insert("chat.insertChatMember", room);
+    public void deleteRoom(Chat chat) {
+        template.delete("chat.deleteRoom", chat);
     }
 
-    public int deleteRoom(Chat chat) {
-        return template.update("chat.deleteRoom", chat);
-    }
 }

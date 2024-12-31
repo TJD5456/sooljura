@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -49,7 +48,6 @@ public class ChatController {
     }
 
     @PostMapping("/createChat.do")
-    @ResponseBody
     public String createChat(Room room, Chat chat) {
         String roomKey = service.createRoom(room);
         int insertChatResult = 0;
@@ -60,7 +58,7 @@ public class ChatController {
         }
 
         if (insertChatResult > 0) {
-            return "chat/chattingPage";
+            return "redirect:/chat/chatRoom.do?roomKey=" + roomKey;
         } else {
             return "";
         }

@@ -42,10 +42,8 @@ public class ChatService {
         return (ArrayList<Chat>) dao.getChatList(roomId);
     }
 
-// separator
-
-    public int deleteRoom(Chat chat) {
-        return dao.deleteRoom(chat);
+    public void deleteRoom(Chat chat) {
+        dao.deleteRoom(chat);
     }
 
 }

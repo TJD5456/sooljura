@@ -12,14 +12,7 @@
 <%-- 기존 메시지 출력 --%>
 <div id="msgArea" style="border : 1px solid black; height : 500px; overflow : scroll;">
     <c:forEach var="chat" items="${chatList}">
-        <h4>${chat.userKey} :
-            <c:if test="${chat.msgGb eq 1}">
-                <a href="javascript:void(0)"
-                   onclick="fn.chatFileDown('${chat.fileName}', '${chat.filePath}')">${chat.fileName}</a>
-            </c:if>
-                ${chat.msg}
-            [${chat.msgDate}]
-        </h4>
+        <h4>${chat.senderKey}: ${chat.msg}[${chat.sentDate}]</h4>
     </c:forEach>
 </div>
 
@@ -65,7 +58,6 @@
             fn.sendChat(obj);
         },
         sendChat: function (sendObj) {
-
             sendObj.type = "chat";
             sendObj.roomKey = roomKey;
             sendObj.userKey = userKey;
@@ -74,9 +66,7 @@
             ws.send(JSON.stringify(sendObj));
 
             // 기존 입력값 초기화
-            $("#chatMsg").val("");
-            $('input[type=file]').val("");
-
+            $('#chatMsg').val("");
         },
         deleteChat: function () {
             // 방 나가기 == 삭제
@@ -89,12 +79,6 @@
         },
         returnList: function () {
             location.href = "/chat/chatFrm.do";
-        },
-        chatFileDown: function (fileName, filePath) {
-            fileName = encodeURIComponent(fileName);
-            filePath = encodeURIComponent(filePath);
-
-            location.href = "/chat/fileDown.do?fileName=" + fileName + "&filePath=" + filePath;
         }
     };
 

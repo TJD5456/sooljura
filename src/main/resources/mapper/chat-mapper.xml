@@ -45,4 +45,10 @@
         where room_key = #{_roomKey}
     </select>
 
+    <delete id="deleteRoom" parameterType="chat">
+        delete
+        from tbl_room
+        where room_key = #{roomKey}
+    </delete>
+
 </mapper>

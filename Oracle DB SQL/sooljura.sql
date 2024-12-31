@@ -287,8 +287,3 @@ select * from tbl_user_addr;
 
 select * from tbl_room;
 select * from tbl_chat;
-
-insert into tbl_room values ( 'ro' || lpad(seq_room_key.nextval, 4, '0'), '시험질문1', 'us0000000001', sysdate, 0 );
-insert into tbl_room values ( 'ro' || lpad(seq_room_key.nextval, 4, '0'), '시험질문2', 'us0000000001', sysdate, 0 );
-
-commit;

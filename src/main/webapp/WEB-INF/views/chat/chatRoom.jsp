@@ -1,15 +1,18 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>chatRoom.jsp</title>
-    <script src="${pageContext.request.contextPath}/resources/jquery/jquery-3.7.1.min.js"></script>
+    <meta charset="UTF-8">
+    <title>chat.jsp</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
+
 <%-- 기존 메시지 출력 --%>
 <div id="msgArea" style="border : 1px solid black; height : 500px; overflow : scroll;">
     <c:forEach var="chat" items="${chatList}">
-        <h4>${chat.memberId} :
+        <h4>${chat.userKey} :
             <c:if test="${chat.msgGb eq 1}">
                 <a href="javascript:void(0)"
                    onclick="fn.chatFileDown('${chat.fileName}', '${chat.filePath}')">${chat.fileName}</a>
@@ -23,13 +26,12 @@
 <label for="chatMsg">메시지 : </label><input type="text" id="chatMsg">
 <button onclick="fn.sendValidate()">보내기</button>
 <button onclick="fn.deleteChat()">나가기</button>
-<button onclick="fn.returnList()">목록으로</button>
+<button onclick="fn.returnList()">목록</button>
 
-</body>
 <script>
     let ws;
-    let userKey = '${sessionScope.loginMember.userKey}';
-    let roomKey = '${sessionScope.loginMember.roomKey}';
+    let userKey = '${userKey}';
+    let roomKey = '${roomKey}';
 
     let fn = {
         init: function () {
@@ -40,8 +42,8 @@
             ws.onopen = function () {
                 let msg = {
                     type: "connect",
-                    roomId: roomKey,
-                    memberId: userKey
+                    roomKey: roomKey,
+                    userKey: userKey
                 };
                 ws.send(JSON.stringify(msg));
             };
@@ -59,34 +61,8 @@
             };
         },
         sendValidate: function () {
-            // 파일 서버 업로드 -> 메시지 전송
-            let file = $('input[type=file]')[0].files;
-
-            if (file.length > 0) {
-                file = file[0];
-
-                const formData = new FormData();
-                formData.append("file", file);
-                formData.append("memberId", userKey);
-
-                // 서버 파일 업로드 처리
-                $.ajax({
-                    url: "/chat/fileUpload.do",
-                    type: "post",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (obj) {
-                        fn.sendChat(obj); // DB에 등록하기 위한 값 (fileName, filePath)
-                    },
-                    error: function () {
-                        alert("파일 업로드 실패");
-                    }
-                });
-            } else {
-                let obj = {};
-                fn.sendChat(obj);
-            }
+            let obj = {};
+            fn.sendChat(obj);
         },
         sendChat: function (sendObj) {
 
@@ -98,7 +74,7 @@
             ws.send(JSON.stringify(sendObj));
 
             // 기존 입력값 초기화
-            $('#chatMsg').val("");
+            $("#chatMsg").val("");
             $('input[type=file]').val("");
 
         },
@@ -113,6 +89,12 @@
         },
         returnList: function () {
             location.href = "/chat/chatFrm.do";
+        },
+        chatFileDown: function (fileName, filePath) {
+            fileName = encodeURIComponent(fileName);
+            filePath = encodeURIComponent(filePath);
+
+            location.href = "/chat/fileDown.do?fileName=" + fileName + "&filePath=" + filePath;
         }
     };
 
@@ -121,4 +103,5 @@
         fn.init();
     });
 </script>
+</body>
 </html>

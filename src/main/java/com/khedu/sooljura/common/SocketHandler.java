@@ -53,35 +53,35 @@ public class SocketHandler extends TextWebSocketHandler {
 
         if (type.equals("connect")) {
             // 최초 연결 시, 연결 정보 등록
-            String memberId = jsonObj.get("memberId").getAsString();
-            String roomId = jsonObj.get("roomId").getAsString();
+            String userKey = jsonObj.get("userKey").getAsString();
+            String roomKey = jsonObj.get("roomKey").getAsString();
 
             /*
              * 메세지 전송 시, 연결되어 있는 모든 세션에 메시지를 전송함.
              * 현재 방에 접속한 세션들에게만 메시지를 전송해야 하므로,
              * 방별로 세션 정보들을 관리
              */
-            if (roomMap.containsKey(roomId)) {
-                map = roomMap.get(roomId);
+            if (roomMap.containsKey(roomKey)) {
+                map = roomMap.get(roomKey);
 
-                map.put(memberId, session);
+                map.put(userKey, session);
             } else {
-                map = new HashMap<String, WebSocketSession>();
-                map.put(memberId, session);
-                roomMap.put(roomId, map);
+                map = new HashMap<>();
+                map.put(userKey, session);
+                roomMap.put(roomKey, map);
             }
 
         } else if (type.equals("chat")) {
             // 메시지 송신
-            String roomId = jsonObj.get("roomId").getAsString();
-            String memberId = jsonObj.get("memberId").getAsString();
+            String roomKey = jsonObj.get("roomKey").getAsString();
+            String userKey = jsonObj.get("userKey").getAsString();
             String msg = jsonObj.get("msg").getAsString();
             String fileName = jsonObj.get("fileName") != null ? jsonObj.get("fileName").getAsString() : null;
             String filePath = jsonObj.get("filePath") != null ? jsonObj.get("filePath").getAsString() : null;
 
             Chat chat = new Chat();
-            chat.setRoomKey(roomId);
-            chat.setSenderKey(memberId);
+            chat.setRoomKey(roomKey);
+            chat.setSenderKey(userKey);
             chat.setMsg(msg);
 
             // DB 등록
@@ -93,35 +93,35 @@ public class SocketHandler extends TextWebSocketHandler {
                     msg = "<a href='javascript:void(0)' onclick='fn.chatFileDown(\"" + fileName + "\", \"" + filePath + "\")'>" + fileName + "</a> " + msg;
                 }
 
-                msg = memberId + " : " + msg;
-                this.sendMsg(roomId, msg);
+                msg = userKey + " : " + msg;
+                this.sendMsg(roomKey, msg);
             }
         } else if (type.equals("delete")) {
-            String memberId = jsonObj.get("memberId").getAsString();
-            String roomId = jsonObj.get("roomId").getAsString();
+            String userKey = jsonObj.get("userKey").getAsString();
+            String roomKey = jsonObj.get("roomKey").getAsString();
 
-            map = roomMap.get(roomId);
+            map = roomMap.get(roomKey);
 
-            if (map.containsKey(memberId)) {
+            if (map.containsKey(userKey)) {
                 // 현재 방에서 나가기
-                map.remove(memberId);
+                map.remove(userKey);
 
                 Chat chat = new Chat();
-                chat.setRoomKey(roomId);
-                chat.setSenderKey(memberId);
+                chat.setRoomKey(roomKey);
+                chat.setSenderKey(userKey);
                 service.deleteRoom(chat);
 
                 // 방에서 나간 뒤, 아무도 없으면 방 관리 Map 에서도 삭제.
                 if (map.isEmpty()) {
-                    roomMap.remove(roomId);
+                    roomMap.remove(roomKey);
                 }
             }
         }
     }
 
     // 연결된 사용자들에게 메세지 전송
-    public void sendMsg(String roomId, String msg) {
-        map = roomMap.get(roomId);
+    public void sendMsg(String roomKey, String msg) {
+        map = roomMap.get(roomKey);
 
         Set<String> set = map.keySet();
 

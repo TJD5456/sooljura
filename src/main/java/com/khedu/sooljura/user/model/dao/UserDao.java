@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Repository("userDao")
@@ -82,5 +83,13 @@ public class UserDao {
 
 	public int insertTestAccount(User u) {
 		return sessionTemplate.insert("user.insertTestAccount", u);
+	}
+	
+	public String idFind(HashMap<String, String> map) {
+		return sessionTemplate.selectOne("user.idFind", map);
+	}
+
+	public int intIdFind(HashMap<String, String> map) {
+		return sessionTemplate.selectOne("user.intIdFind", map);
 	}
 }

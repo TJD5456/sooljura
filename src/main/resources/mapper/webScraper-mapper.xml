@@ -6,7 +6,7 @@
 		   into tbl_product 
 		        (
 		        prod_key, 
-		        prod_name, 
+		        prod_nm, 
 		        prod_price, 
 		        prod_maker, 
 		        prod_origin, 
@@ -51,11 +51,11 @@
     <select id="selProdKey" parameterType = "String" resultType="String">
     	select prod_key
     	  from tbl_product
-    	 where prod_name = #{prodNm}
+    	 where prod_nm = #{prodNm}
     </select>
      <select id="selDuplNmCnt" parameterType = "String" resultType="java.lang.Integer">
     	select count(*)
     	  from tbl_product
-    	 where prod_name = #{prodNm}
+    	 where prod_nm = #{prodNm}
     </select>
 </mapper>

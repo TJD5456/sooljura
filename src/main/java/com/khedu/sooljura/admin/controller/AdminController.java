@@ -150,7 +150,6 @@ public class AdminController {
         if (!dir.exists()) {
             dir.mkdirs();
         }
-
         return savePath;
     }
 
@@ -173,7 +172,6 @@ public class AdminController {
                     filePath = fileName + "_" + toDay + "_" + ranNum + extension;
                     savePath += filePath;
                 }
-
                 BufferedOutputStream bos = null;
 
                 try {
@@ -225,27 +223,21 @@ public class AdminController {
     @ResponseBody
     public String selectLowerCategoryLevel(String higherCategoryKey) {
         ArrayList<ProductCategory> lowerCategories = adminService.selectLowerCategoryLevel(higherCategoryKey);
-
         Gson gson = new Gson();
-
         return gson.toJson(lowerCategories);
     }
 
     @GetMapping(value = "searchProductName", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public String searchProductName(String currentInputValue) {
-
         ArrayList<Product> productList = adminService.searchProductName(currentInputValue);
-
         Gson gson = new Gson();
-
         return gson.toJson(productList);
     }
 
     @GetMapping("changeUserLevel")
     @ResponseBody
     public int changeUserLevel(String userKeyString, String userCdString) {
-
         String[] userKeyArr = userKeyString.split(",");
         String[] userCdArr = userCdString.split(",");
 

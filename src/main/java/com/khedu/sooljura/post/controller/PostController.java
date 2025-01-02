@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
@@ -25,6 +26,7 @@ public class PostController {
     @Qualifier("postService")
     private PostService service;
 
+    
     @GetMapping("notePost.do")
     public String notePost() {
         return "post/notePost";
@@ -97,57 +99,47 @@ public class PostController {
             return "post/freePostWriter"; // 예외 발생 시 작성 페이지로 복귀
         }
     }
-
-    @GetMapping("freePostDetail.do")
-    public String freePostDetail(String postKey, Model model) {
+    @RequestMapping("/freePostDetail.do")
+    public String freePostDetail(@RequestParam(value = "postKey", required = true) String postKey, Model model) {
         if (postKey == null || postKey.isEmpty()) {
-            model.addAttribute("errorMessage", "postKey가 누락되었습니다.");
-            return "errorPage";
+            model.addAttribute("errorMessage", "게시글 키가 유효하지 않습니다.");
+            return "errorPage"; // 에러 페이지로 이동
         }
 
         Post post = service.selectOnePost(postKey);
-        if (post == null) {
-            model.addAttribute("errorMessage", "해당 게시글을 찾을 수 없습니다.");
-            return "errorPage";
-        }
-
-        // 댓글 목록 조회
-        List<Comment> comments = service.selectCommentsByPostKey(postKey);
+        List<Comment> comments = service.selectCommentsByPostKey(postKey); 
         model.addAttribute("post", post);
         model.addAttribute("comments", comments);
-
         return "post/freePostDetail";
     }
 
-    // 댓글 작성
+    //댓글작성 or 댓글이 없는 경우 에러메세지를 추가
     @PostMapping("/addComment.do")
     public String addComment(HttpSession session, Comment comment, RedirectAttributes redirectAttributes) {
-        // 1. 로그인 여부 확인
         User loginUser = (User) session.getAttribute("loginUser");
         if (loginUser == null) {
             redirectAttributes.addFlashAttribute("errorMessage", "로그인이 필요합니다. 로그인 후 댓글을 작성해주세요.");
-            return "redirect:/user/login.do"; // 로그인 페이지로 리다이렉트
+            return "redirect:/user/login.do";
         }
 
-        // 2. 로그인 사용자 정보 설정
         comment.setUserKey(loginUser.getUserKey());
         comment.setUserNickNm(loginUser.getUserNickNm());
 
-        // 3. 댓글 저장
         try {
             int result = service.insertComment(comment);
             if (result > 0) {
                 return "redirect:/post/freePostDetail.do?postKey=" + comment.getPostKey();
             } else {
                 redirectAttributes.addFlashAttribute("errorMessage", "댓글 등록에 실패했습니다.");
-                return "redirect:/post/freePostDetail.do?postKey=" + comment.getPostKey();
             }
         } catch (Exception e) {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("errorMessage", "댓글 등록 중 오류가 발생했습니다.");
-            return "redirect:/post/freePostDetail.do?postKey=" + comment.getPostKey();
         }
+
+        return "redirect:/post/freePostDetail.do?postKey=" + comment.getPostKey();
     }
+
 
     @PostMapping("deleteComment.do")
     public String deleteComment(String commentKey, HttpSession session, RedirectAttributes redirectAttributes) {
@@ -175,32 +167,31 @@ public class PostController {
             return "redirect:/post/freePostDetail.do";
         }
     }
-
-    @PostMapping("updateComment.do")
-    public String updateComment(String commentKey, String commentContent, HttpSession session, RedirectAttributes redirectAttributes) {
-        // 로그인 확인
-        User loginUser = (User) session.getAttribute("loginUser");
-        if (loginUser == null) {
-            redirectAttributes.addFlashAttribute("errorMessage", "로그인이 필요합니다.");
-            return "redirect:/user/login.do";
-        }
+    
+    @PostMapping("/editComment.do")
+    public String editComment(@RequestParam("commentKey") String commentKey,
+                              @RequestParam("commentContent") String commentContent,
+                              RedirectAttributes redirectAttributes) {
+        Comment comment = new Comment();
+        comment.setCommentKey(commentKey);
+        comment.setCommentContent(commentContent);
 
         try {
-            // 서비스 호출
-            int result = service.updateComment(commentKey, loginUser.getUserKey(), commentContent);
+            int result = service.updateComment(comment);
             if (result > 0) {
-                redirectAttributes.addFlashAttribute("successMessage", "댓글이 수정되었습니다.");
+                redirectAttributes.addFlashAttribute("msg", "댓글이 수정되었습니다.");
             } else {
-                redirectAttributes.addFlashAttribute("errorMessage", "댓글 수정 권한이 없습니다.");
+                redirectAttributes.addFlashAttribute("msg", "댓글 수정에 실패했습니다.");
             }
+
+            // 댓글이 속한 게시글의 postKey를 가져와 리다이렉트
+            String postKey = service.getPostKeyByCommentKey(commentKey);
+            return "redirect:/post/freePostDetail.do?postKey=" + postKey;
         } catch (Exception e) {
             e.printStackTrace();
-            redirectAttributes.addFlashAttribute("errorMessage", "댓글 수정 중 오류가 발생했습니다.");
+            redirectAttributes.addFlashAttribute("msg", "댓글 수정 중 오류가 발생했습니다.");
+            return "redirect:/post/freePostDetail.do";
         }
-
-        // 수정 후 게시글 상세 페이지로 리다이렉트
-        String postKey = service.getPostKeyByCommentKey(commentKey);
-        return "redirect:/post/freePostDetail.do?postKey=" + postKey;
     }
 
 }

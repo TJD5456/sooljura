@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -41,14 +42,21 @@ public class AdminController {
     }
 
     @GetMapping("adminPage.do")
-    public String adminPage(Model model, String uploadYoutubeResult) {
+    public String adminPage(HttpSession session, Model model, String uploadYoutubeResult) {
         int numberOfUnCheckedPost = adminService.numberOfUnCheckedPost();
         model.addAttribute("numberOfUnCheckedPost", numberOfUnCheckedPost);
 
         int numberOfUnCheckedNewUser = adminService.numberOfUnCheckedNewUser();
         model.addAttribute("numberOfUnCheckedNewUser", numberOfUnCheckedNewUser);
 
-        int numberOfUnCheckedChats = chatService.numberOfUnCheckedChats();
+        int selectChatsWithNoAdmin = chatService.selectChatsWithNoAdmin();
+
+        User loginAdmin = (User) session.getAttribute("loginUser");
+        String adminKey = loginAdmin.getUserKey();
+        int selectUnreadChats = chatService.selectUnreadChats(adminKey);
+
+        int numberOfUnCheckedChats = selectUnreadChats + selectChatsWithNoAdmin;
+
         model.addAttribute("numberOfUnCheckedChats", numberOfUnCheckedChats);
 
         if (uploadYoutubeResult != null) {

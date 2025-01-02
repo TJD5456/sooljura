@@ -17,8 +17,12 @@ public class ChatDao {
         this.template = template;
     }
 
-    public int numberOfUnCheckedChats() {
-        return template.selectOne("chat.numberOfUnCheckedChats");
+    public int selectChatsWithNoAdmin() {
+        return template.selectOne("chat.selectChatsWithNoAdmin");
+    }
+
+    public int selectUnreadChats(String adminKey) {
+        return template.selectOne("chat.selectUnreadChats", adminKey);
     }
 
     public List<Room> getRoomList(Room room) {

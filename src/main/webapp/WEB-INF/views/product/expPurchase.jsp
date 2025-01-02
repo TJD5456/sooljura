@@ -6,10 +6,62 @@
 <head>
     <meta charset="UTF-8">
     <title>sooljura</title>
+<style>
+main {
+	background-color: #EFECE5;
+}
+.div-wrap{
+	margin: 0 auto;
+    width: 60%;
+    display: flex;
+    border: 1px solid gray;
+    height: 100px;
+    margin-top: 10px;
+    background-color: #EFECE5;
+}
+.center-div-items{
+	padding: 25px;
+}
+.center-div-items > button{
+	width: 30px;
+	height: 15px;
+}
+.fixed-div{
+	position: fixed;
+	display: flex;
+	width: 100%;
+	height: 70px;
+	justify-content: center;
+	border-top: 1px solid gray;
+	bottom: 0;
+	background-color: #EFECE5;
+}
+#prodNm, #prodPrice{
+	font-size: 20px;
+	font-weight: bold;
+	margin-top: 10px;
+	border: none;
+	background-color: #EFECE5;
+}
+.center-div-items > input[type="button"]{
+	border: none;
+    border-radius: 15px;
+    color: #efece5;
+    background-color: #fc8173;
+    box-shadow: 1px 1px 1px 1px var(--button-shadow);
+    height: 25px;
+    width: 60px;
+}
+.center-div-items > input[type="button"] : hover{
+	background-color: #f5afa5;
+    box-shadow: 1px 1px 1px 1px var(--button-background);
+}
+</style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <main>
+	<jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
     <h1>장바구니</h1>
     <br>
     <hr>
@@ -23,32 +75,36 @@
     <!-- 장바구니에 제품이 있는 경우 -->
     <c:if test="${not empty basketList}">
         <form action="/product/productBuyFrm.do" id="basketForm" method="get">
-            <c:forEach var="product" items="${basketList}">
-                <div>
-                    <input type="checkbox" id="selProduct" onchange="selProduct(this)">
-                    <div>
-                        <input type="hidden" id="prodKey" value="${product.prodKey}">
-                        <input type="hidden" id="userKey" value="${loginUser.userKey}">
-                        <input type="hidden" id="prodCnt" value="${product.prodCnt}">
-                        <div>
-                                <%-- 이름 클릭하면 해당 제품 상세 페이지로 이동 --%>
-                            <a><input type="text" id="prodNm" value="${product.prodNm}" readonly></a><br>
+            <c:forEach var="productData" items="${basketList}">
+	            <c:forEach var="product" items="${productData.productList}">
+                    <input type="hidden" id="prodKey" value="${product.prodKey}">
+                    <input type="hidden" id="userKey" value="${loginUser.userKey}">
+                    <input type="hidden" id="prodCnt" value="${product.prodCnt}">
+	                <div class="div-wrap">
+	                	<div class="center-div-items" style="width: 10px; padding:35px;">
+	                    	<input type="checkbox" id="selProduct" onchange="selProduct(this)">
+	                    </div>
+	                    <div class="div-items" style="width: 50%;">
+                            <a href="#" style="cursor: pointer;"><input type="text" id="prodNm" value="${product.prodNm}" readonly></a><br>
                             <input type="text" id="prodPrice" value="${product.prodPrice}" readonly>
-                            <span>수량
-					          <span id="basketCnt">1</span>
+	                    </div>
+                        <div class="center-div-items" style="width: 10%;"><%-- 이름 클릭하면 해당 제품 상세 페이지로 이동 --%>
+                            <%-- productData로 가져온 구매 갯수 넣어줘야함 --%>
+					          <span id="basketCnt">1</span><br>
 					          <button onclick="fn.buyCntCalc('-', this)">-</button>
 					          <button onclick="fn.buyCntCalc('+', this)">+</button>
-        					</span>
                         </div>
-                        <div>
-                            <input type="button" onclick="delBasket(this)" value="삭제하기">
-                            <input type="button" onclick="buyBasket(this)" value="구매하기">
+                        <div class="center-div-items" style="width: 10%; justify-items: center;">
+                            <input type="button" onclick="delBasket()" value="삭제하기"><br>
+                            <input type="button" onclick="buyBasket()" value="구매하기" style="margin-top: 5px;">
                         </div>
-                    </div>
-                </div>
+	                </div>
+	            </c:forEach>
             </c:forEach>
-            <span id="orderSummary">총 0건의 주문금액 0원</span>
-            <button type="submit">선택한 제품 구매하기</button>
+            <div class="fixed-div">
+	            <span id="orderSummary" style="font-size: 30px; margin-top: 10px;">총 0건의 주문금액 0원</span>
+	            <input type="submit" style="border-radius: 10px; height: 50px; margin-top: 10px;" value="선택한 제품 구매하기">
+            </div>
         </form>
     </c:if>
 </main>
@@ -98,11 +154,7 @@
     $('#basketForm input[type="checkbox"]').on('change', updateOrderSummary);
 
     //단일 제품 삭제
-    function delBasket(
-
-    this
-    )
-    {
+    function delBasket(){
         $.ajax({
             url: "/product/delBasket.do",
             type: "GET",

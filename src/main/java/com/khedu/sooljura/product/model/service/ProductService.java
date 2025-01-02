@@ -37,14 +37,15 @@ public class ProductService {
     }
 
     // 장바구니 제품 정보를 조회하기 위한 제품 키 조회
-    public List<Basket> findProdKey(String userKey) {
-        return dao.findProdKey(userKey); // List<Basket> 반환
+    public ArrayList<Basket> findProdKey(String userKey) {
+        return (ArrayList<Basket>)dao.findProdKey(userKey); // List<Basket> 반환
     }
 
     // 단일 prodKey로 제품 정보 조회
     public ProductListData prodInfo(String prodKey) {
         List<Product> prodInfoList = dao.selProdInfo(prodKey);
 
+        //Product에만 넣기 위한 선언
         ArrayList<Product> productArrayList = new ArrayList<>(prodInfoList);
 
         ProductListData prodInfo = new ProductListData();

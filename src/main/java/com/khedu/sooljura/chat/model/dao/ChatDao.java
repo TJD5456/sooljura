@@ -2,6 +2,7 @@ package com.khedu.sooljura.chat.model.dao;
 
 import com.khedu.sooljura.chat.model.vo.Chat;
 import com.khedu.sooljura.chat.model.vo.Room;
+import com.khedu.sooljura.user.model.vo.User;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -25,8 +26,8 @@ public class ChatDao {
         return template.selectOne("chat.selectUnreadChats", adminKey);
     }
 
-    public List<Room> getRoomList(Room room) {
-        return template.selectList("chat.getRoomList", room);
+    public List<Room> getRoomList(User user) {
+        return template.selectList("chat.getRoomList", user);
     }
 
     public String selectRoomKey() {

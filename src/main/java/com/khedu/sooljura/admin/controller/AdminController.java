@@ -60,7 +60,6 @@ public class AdminController {
         if (uploadYoutubeResult != null) {
             model.addAttribute("uploadYoutubeResult", uploadYoutubeResult);
         }
-
         return "/admin/adminPage";
     }
 
@@ -121,10 +120,9 @@ public class AdminController {
     }
 
     @GetMapping("manageChats.do")
-    public String manageChats(Model model) {
-        Room room = new Room();
-        room.setUserKey("admin");
-        ArrayList<Room> roomList = chatService.getRoomList(room);
+    public String manageChats(HttpSession session, Model model) {
+        User loginAdmin = (User) session.getAttribute("loginUser");
+        ArrayList<Room> roomList = chatService.getRoomList(loginAdmin);
         model.addAttribute("roomList", roomList);
         return "/admin/manageChats";
     }

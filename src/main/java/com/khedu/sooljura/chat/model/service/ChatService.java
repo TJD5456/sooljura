@@ -3,6 +3,7 @@ package com.khedu.sooljura.chat.model.service;
 import com.khedu.sooljura.chat.model.dao.ChatDao;
 import com.khedu.sooljura.chat.model.vo.Chat;
 import com.khedu.sooljura.chat.model.vo.Room;
+import com.khedu.sooljura.user.model.vo.User;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +26,8 @@ public class ChatService {
         return dao.selectUnreadChats(adminKey);
     }
 
-    public ArrayList<Room> getRoomList(Room room) {
-        return (ArrayList<Room>) dao.getRoomList(room);
+    public ArrayList<Room> getRoomList(User user) {
+        return (ArrayList<Room>) dao.getRoomList(user);
     }
 
     public String createRoom(Room room) {

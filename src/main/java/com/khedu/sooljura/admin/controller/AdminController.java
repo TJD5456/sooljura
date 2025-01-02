@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -41,20 +42,24 @@ public class AdminController {
     }
 
     @GetMapping("adminPage.do")
-    public String adminPage(Model model, String uploadYoutubeResult) {
+    public String adminPage(HttpSession session, Model model, String uploadYoutubeResult) {
         int numberOfUnCheckedPost = adminService.numberOfUnCheckedPost();
         model.addAttribute("numberOfUnCheckedPost", numberOfUnCheckedPost);
 
         int numberOfUnCheckedNewUser = adminService.numberOfUnCheckedNewUser();
         model.addAttribute("numberOfUnCheckedNewUser", numberOfUnCheckedNewUser);
 
-        int numberOfUnCheckedChats = chatService.numberOfUnCheckedChats();
+        User loginAdmin = (User) session.getAttribute("loginUser");
+        String adminKey = loginAdmin.getUserKey();
+        int selectUnreadChats = chatService.selectUnreadChats(adminKey);
+        int selectChatsWithNoAdmin = chatService.selectChatsWithNoAdmin();
+
+        int numberOfUnCheckedChats = selectUnreadChats + selectChatsWithNoAdmin;
         model.addAttribute("numberOfUnCheckedChats", numberOfUnCheckedChats);
 
         if (uploadYoutubeResult != null) {
             model.addAttribute("uploadYoutubeResult", uploadYoutubeResult);
         }
-
         return "/admin/adminPage";
     }
 
@@ -83,23 +88,30 @@ public class AdminController {
         }
 
         Youtube youtube = adminService.selectYoutubeUrl();
+        if (youtube != null) {
+            model.addAttribute("youtube", youtube);
 
-        ProductImage prod1 = adminService.selectProductImageInfo(youtube.getProdKey1());
-        model.addAttribute("prod1", prod1);
+            ProductImage prod1 = adminService.selectProductImageInfo(youtube.getProdKey1());
+            model.addAttribute("prod1", prod1);
 
-        if (youtube.getProdKey2() != null) {
-            ProductImage prod2 = adminService.selectProductImageInfo(youtube.getProdKey2());
-            model.addAttribute("prod2", prod2);
+            if (youtube.getProdKey2() != null) {
+                ProductImage prod2 = adminService.selectProductImageInfo(youtube.getProdKey2());
+                model.addAttribute("prod2", prod2);
+            }
+
+            if (youtube.getProdKey3() != null) {
+                ProductImage prod3 = adminService.selectProductImageInfo(youtube.getProdKey3());
+                model.addAttribute("prod3", prod3);
+            }
         }
-
-        if (youtube.getProdKey3() != null) {
-            ProductImage prod3 = adminService.selectProductImageInfo(youtube.getProdKey3());
-            model.addAttribute("prod3", prod3);
-        }
-
-        model.addAttribute("youtube", youtube);
 
         return "/admin/manageYoutube";
+    }
+
+    @GetMapping("uploadYoutube")
+    public String uploadYoutube(Youtube youtube) {
+        int result = adminService.uploadYoutube(youtube);
+        return "forward:/admin/adminPage.do?uploadYoutubeResult=" + result;
     }
 
     @GetMapping("managePosts.do")
@@ -108,10 +120,9 @@ public class AdminController {
     }
 
     @GetMapping("manageChats.do")
-    public String manageChats(Model model) {
-        Room room = new Room();
-        room.setUserKey("admin");
-        ArrayList<Room> roomList = chatService.getRoomList(room);
+    public String manageChats(HttpSession session, Model model) {
+        User loginAdmin = (User) session.getAttribute("loginUser");
+        ArrayList<Room> roomList = chatService.getRoomList(loginAdmin);
         model.addAttribute("roomList", roomList);
         return "/admin/manageChats";
     }
@@ -218,12 +229,6 @@ public class AdminController {
         Gson gson = new Gson();
 
         return gson.toJson(lowerCategories);
-    }
-
-    @GetMapping("uploadYoutube")
-    public String uploadYoutube(Youtube youtube) {
-        int result = adminService.uploadYoutube(youtube);
-        return "forward:/admin/adminPage.do?uploadYoutubeResult=" + result;
     }
 
     @GetMapping(value = "searchProductName", produces = "application/json; charset=UTF-8")

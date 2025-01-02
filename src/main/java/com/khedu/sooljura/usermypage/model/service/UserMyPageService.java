@@ -9,17 +9,17 @@ import org.springframework.stereotype.Service;
 @Service("userMyPageService")
 public class UserMyPageService {
 
-	@Autowired
+    @Autowired
     @Qualifier("userMyPageDao")
     private UserMyPageDao userMyPageDao;
 
-	//비밀번호 변경
-	public int pwChg(User user) {
-		return userMyPageDao.pwChg(user);
-	}
+    //비밀번호 변경
+    public int pwChg(User user) {
+        return userMyPageDao.pwChg(user);
+    }
 
-	//회원탈퇴
-	public int delUser(String userKey) {
-		return userMyPageDao.delUser(userKey);
-	}
+    //회원탈퇴
+    public int delUser(String userKey) {
+        return userMyPageDao.delUser(userKey);
+    }
 }

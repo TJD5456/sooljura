@@ -1,105 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="user">
-	<!-- 로그인 -->
-	<select id="userLogin" parameterType="user" resultType="user">
-		select
-			user_key as userKey,
-			user_cd as userCd,
-			user_id as userId,
-			user_pw as userPw,
-			user_email as userEmail,
-			user_nm as userNm,
-			user_phone as userPhone,
-			user_nicknm as userNickNm,
-			user_point as userPoint,
-			adult_chk as adultChk,
-			enroll_date as enrollDate
-		from tbl_user
-		where user_id = #{userId} 
-	</select>
+    <!-- 로그인 -->
+    <select id="userLogin" parameterType="user" resultType="user">
+        select user_key    as userKey,
+               user_cd     as userCd,
+               user_id     as userId,
+               user_pw     as userPw,
+               user_email  as userEmail,
+               user_nm     as userNm,
+               user_phone  as userPhone,
+               user_nicknm as userNickNm,
+               user_point  as userPoint,
+               adult_chk   as adultChk,
+               enroll_date as enrollDate
+        from tbl_user
+        where user_id = #{userId}
+    </select>
 
-	<!-- 회원가입 -->
-	<insert id="userJoin" parameterType="user">
-		insert into tbl_user(
-			user_key,
-			user_cd,
-			user_id,
-			user_pw,
-			user_email,
-			user_nm,
-			user_phone,
-			user_nicknm,
-			user_point,
-			adult_chk,
-			enroll_date 
-		)values(
-			'us'||to_char(sysdate,'YYMMDD')||lpad(seq_user.nextval,4,'0'),
-			1,
-			#{userId},
-			#{userPw},
-			#{userEmail},
-			#{userNm},
-			#{userPhone},
-			#{userNickNm},
-			0,
-			#{adultChk},
-			sysdate	
-		)
-	</insert>
-	
-	<!-- 회원가입 : 아이디 중복 체크 -->
-	<select id="chkId" parameterType="string" resultType="_int">
-		select count(*) from tbl_user where user_id = #{userId}
-	</select>
-	
-	<!-- 회원가입 : 닉네임 중복 체크 -->
-	<select id="chkNickName" parameterType="string" resultType="_int">
-		select count(*) from tbl_user where user_nicknm = #{userNickNm}
-	</select>
-	
-	<!-- 회원가입시 주소지에 값을 넣기 위한 userKey 찾기 -->
-	<select id="findUserKey" parameterType="user" resultType="string">
-		select user_key as userKey from tbl_user where user_id = #{userId}
-	</select>
+    <!-- 회원가입 -->
+    <insert id="userJoin" parameterType="user">
+        insert into tbl_user(user_key,
+                             user_cd,
+                             user_id,
+                             user_pw,
+                             user_email,
+                             user_nm,
+                             user_phone,
+                             user_nicknm,
+                             user_point,
+                             adult_chk,
+                             enroll_date)
+        values ('us' || to_char(sysdate, 'YYMMDD') || lpad(seq_user.nextval, 4, '0'),
+                1,
+                #{userId},
+                #{userPw},
+                #{userEmail},
+                #{userNm},
+                #{userPhone},
+                #{userNickNm},
+                0,
+                #{adultChk},
+                sysdate)
+    </insert>
 
-	<insert id="insertTestAccount" parameterType="user">
-		INSERT INTO tbl_user (
-			user_key,
-			user_cd,
-			user_id,
-			user_pw,
-			user_email,
-			user_nm,
-			user_nicknm,
-			user_phone,
-			user_point,
-			adult_chk,
-			enroll_date
-		) VALUES (
-					 #{userKey},
-					 #{userCd},
-					 #{userId},
-					 #{userPw},
-					 #{userEmail},
-					 #{userNm},
-					 #{userNickNm},
-					 #{userPhone},
-					 #{userPoint},
-					 #{adultChk},
-					 SYSDATE
-				 )
-	</insert>
-	<select id="idFind" parameterType="map" resultType="String">
-        SELECT user_id 
-          FROM tbl_user
-         WHERE user_nm = #{name}
-           AND user_phone = #{phone}
+    <!-- 회원가입 : 아이디 중복 체크 -->
+    <select id="chkId" parameterType="string" resultType="_int">
+        select count(*)
+        from tbl_user
+        where user_id = #{userId}
+    </select>
+
+    <!-- 회원가입 : 닉네임 중복 체크 -->
+    <select id="chkNickName" parameterType="string" resultType="_int">
+        select count(*)
+        from tbl_user
+        where user_nicknm = #{userNickNm}
+    </select>
+
+    <!-- 회원가입시 주소지에 값을 넣기 위한 userKey 찾기 -->
+    <select id="findUserKey" parameterType="user" resultType="string">
+        select user_key as userKey
+        from tbl_user
+        where user_id = #{userId}
+    </select>
+
+    <insert id="insertTestAccount" parameterType="user">
+        INSERT INTO tbl_user (user_key,
+                              user_cd,
+                              user_id,
+                              user_pw,
+                              user_email,
+                              user_nm,
+                              user_nicknm,
+                              user_phone,
+                              user_point,
+                              adult_chk,
+                              enroll_date)
+        VALUES (#{userKey},
+                #{userCd},
+                #{userId},
+                #{userPw},
+                #{userEmail},
+                #{userNm},
+                #{userNickNm},
+                #{userPhone},
+                #{userPoint},
+                #{adultChk},
+                SYSDATE)
+    </insert>
+    <select id="idFind" parameterType="map" resultType="String">
+        SELECT user_id
+        FROM tbl_user
+        WHERE user_nm = #{name}
+          AND user_phone = #{phone}
     </select>
     <select id="intIdFind" parameterType="map" resultType="_int">
         SELECT count(*)
-          FROM tbl_user
-         WHERE user_nm = #{name}
-           AND user_phone = #{phone}
+        FROM tbl_user
+        WHERE user_nm = #{name}
+          AND user_phone = #{phone}
     </select>
 </mapper>

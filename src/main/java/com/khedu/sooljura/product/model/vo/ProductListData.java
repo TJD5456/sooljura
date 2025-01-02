@@ -1,65 +1,65 @@
 package com.khedu.sooljura.product.model.vo;
 
-import java.util.ArrayList;
-
 import com.khedu.sooljura.admin.model.vo.Product;
 
+import java.util.ArrayList;
+
 public class ProductListData {
-	private ArrayList<Basket> basketList;
-	private ArrayList<Product> productList;
-	private ArrayList<OrderHistory> orderHistory;
-	private String pageNavi;
-	
-	public ProductListData() {
-		super();
-	}
+    private ArrayList<Basket> basketList;
+    private ArrayList<Product> productList;
+    private ArrayList<OrderHistory> orderHistory;
+    private String pageNavi;
 
-	public ProductListData(ArrayList<Basket> basketList, ArrayList<Product> productList,
-			ArrayList<OrderHistory> orderHistory, String pageNavi) {
-		super();
-		this.basketList = basketList;
-		this.productList = productList;
-		this.orderHistory = orderHistory;
-		this.pageNavi = pageNavi;
-	}
+    public ProductListData() {
+        super();
+    }
 
-	public ArrayList<Basket> getBasketList() {
-		return basketList;
-	}
+    public ProductListData(ArrayList<Basket> basketList, ArrayList<Product> productList,
+                           ArrayList<OrderHistory> orderHistory, String pageNavi) {
+        super();
+        this.basketList = basketList;
+        this.productList = productList;
+        this.orderHistory = orderHistory;
+        this.pageNavi = pageNavi;
+    }
 
-	public void setBasketList(ArrayList<Basket> basketList) {
-		this.basketList = basketList;
-	}
+    public ArrayList<Basket> getBasketList() {
+        return basketList;
+    }
 
-	public ArrayList<Product> getProductList() {
-		return productList;
-	}
+    public void setBasketList(ArrayList<Basket> basketList) {
+        this.basketList = basketList;
+    }
 
-	public void setProductList(ArrayList<Product> productList) {
-		this.productList = productList;
-	}
+    public ArrayList<Product> getProductList() {
+        return productList;
+    }
 
-	public ArrayList<OrderHistory> getOrderHistory() {
-		return orderHistory;
-	}
+    public void setProductList(ArrayList<Product> productList) {
+        this.productList = productList;
+    }
 
-	public void setOrderHistory(ArrayList<OrderHistory> orderHistory) {
-		this.orderHistory = orderHistory;
-	}
+    public ArrayList<OrderHistory> getOrderHistory() {
+        return orderHistory;
+    }
 
-	public String getPageNavi() {
-		return pageNavi;
-	}
+    public void setOrderHistory(ArrayList<OrderHistory> orderHistory) {
+        this.orderHistory = orderHistory;
+    }
 
-	public void setPageNavi(String pageNavi) {
-		this.pageNavi = pageNavi;
-	}
+    public String getPageNavi() {
+        return pageNavi;
+    }
 
-	@Override
-	public String toString() {
-		return "ProductListData [basketList=" + basketList + ", productList=" + productList + ", orderHistory="
-				+ orderHistory + ", pageNavi=" + pageNavi + "]";
-	}
-	
-	
+    public void setPageNavi(String pageNavi) {
+        this.pageNavi = pageNavi;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductListData [basketList=" + basketList + ", productList=" + productList + ", orderHistory="
+                + orderHistory + ", pageNavi=" + pageNavi + "]";
+    }
+
+
 }

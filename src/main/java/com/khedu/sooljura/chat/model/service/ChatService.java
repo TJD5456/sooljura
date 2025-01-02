@@ -3,60 +3,67 @@ package com.khedu.sooljura.chat.model.service;
 import com.khedu.sooljura.chat.model.dao.ChatDao;
 import com.khedu.sooljura.chat.model.vo.Chat;
 import com.khedu.sooljura.chat.model.vo.Room;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.khedu.sooljura.user.model.vo.User;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @Service("chatService")
 public class ChatService {
 
-    @Autowired
-    @Qualifier("chatDao")
-    private ChatDao dao;
+    private final ChatDao dao;
 
-    public ArrayList<Room> getRoomList(String memberId) {
-        return (ArrayList<Room>) dao.getRoomList(memberId);
+    public ChatService(@Qualifier("chatDao") ChatDao dao) {
+        this.dao = dao;
     }
 
-    public ArrayList<Chat> getChatList(String roomId) {
-        return (ArrayList<Chat>) dao.getChatList(roomId);
+    public int selectChatsWithNoAdmin() {
+        return dao.selectChatsWithNoAdmin();
+    }
+
+    public int selectUnreadChats(String adminKey) {
+        return dao.selectUnreadChats(adminKey);
+    }
+
+    public ArrayList<Room> getRoomList(User user) {
+        return (ArrayList<Room>) dao.getRoomList(user);
+    }
+
+    public String createRoom(Room room) {
+        String roomKey = dao.selectRoomKey(); //방 번호 조회
+        room.setRoomKey(roomKey);
+
+        int createRoomResult = dao.createRoom(room);
+
+        if (createRoomResult > 0) {
+            return roomKey;
+        } else {
+            return "foobar";
+        }
     }
 
     public int insertChat(Chat chat) {
         return dao.insertChat(chat);
     }
 
-    @Transactional
-    public String createRoom(String roomName, String createId, String members) {
-        String roomId = dao.getRoomId(); //방 번호 조회
-
-        Room room = new Room();
-        room.setRoomKey(roomId);
-        room.setRoomTitle(roomName);
-        room.setUserId(createId);
-
-        //채팅방 개설
-        if (dao.insertRoom(room) > 0) {
-            members += "," + createId;
-            String[] memberList = members.split(",");
-
-            //채티방 참여자 관리 정보 등록
-            for (String s : memberList) {
-                room.setUserId(s);
-                dao.insertChatMember(room);
-            }
-
-            return roomId;
-        } else {
-            return null;
-        }
+    public User checkAdminPresence(String roomKey) {
+        return (User) dao.checkAdminPresence(roomKey);
     }
 
-    public int deleteRoom(Chat chat) {
-        return dao.deleteRoom(chat);
+    public int insertAdmin(String roomKey, String userKey) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("roomKey", roomKey);
+        map.put("userKey", userKey);
+        return dao.insertAdmin(map);
     }
 
+    public ArrayList<Chat> getChatList(String roomId) {
+        return (ArrayList<Chat>) dao.getChatList(roomId);
+    }
+
+    public void deleteRoom(Chat chat) {
+        dao.deleteRoom(chat);
+    }
 }

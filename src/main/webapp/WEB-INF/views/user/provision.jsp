@@ -1,71 +1,78 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>sooljura</title>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<style>
-*{
-    margin: 0;
-    padding: 0;
-}
-/*body태그 바로 밑에 main들어가야 한단다 용운용운아..*/
-main{
-	padding: 0;
-}
-body {
-    background-color: #EFECE5;
-    display: flex; /* 화면 중앙 정렬을 위해 플렉스 박스 사용 */
-    justify-content: center; /* 수평 가운데 정렬 */
-    height: 100vh; /* 화면 높이를 100%로 설정 */
-    margin: 0;
-}
-.submit-wrap{
-    width: 80%;
-    padding: 150px;
-}
-form{
-    float: left;
-    margin-left: 20px;
+    <meta charset="UTF-8">
+    <title>sooljura</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
 
-}
-textarea{
-    width: 1500px;
-    height: 200px;
-    resize: none;
-}
-.btn-group{
-    display: flex;
-    justify-content: center;
-}
-input[type="button"]{
-    display: block;
-    margin: 15px;
-    margin-top: 20px; /* 위 요소와 간격 */
-    text-align: center;
-    height: 40px;
-    width: 150px;
-    background-color: #FC8173;
-    color: #EFECE5;
-    border-radius: 20px;
-    border: none;
-    cursor: pointer;
-}
-input[id="previous"]{
-    background-color: gray;
-}
+        /*body태그 바로 밑에 main들어가야 한단다 용운용운아..*/
+        main {
+            padding: 0;
+        }
+
+        body {
+            background-color: #EFECE5;
+            display: flex; /* 화면 중앙 정렬을 위해 플렉스 박스 사용 */
+            justify-content: center; /* 수평 가운데 정렬 */
+            height: 100vh; /* 화면 높이를 100%로 설정 */
+            margin: 0;
+        }
+
+        .submit-wrap {
+            width: 80%;
+            padding: 150px;
+        }
+
+        form {
+            float: left;
+            margin-left: 20px;
+
+        }
+
+        textarea {
+            width: 1500px;
+            height: 200px;
+            resize: none;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+        }
+
+        input[type="button"] {
+            display: block;
+            margin: 15px;
+            margin-top: 20px; /* 위 요소와 간격 */
+            text-align: center;
+            height: 40px;
+            width: 150px;
+            background-color: #FC8173;
+            color: #EFECE5;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[id="previous"] {
+            background-color: gray;
+        }
 
 
-
-</style>
+    </style>
 </head>
 <body>
-	<%-- body태그 바로 밑에 main 태그 들어가야 함. 지금 css가 그럼. 전체적으로 보기 간단하게 만들고 있고, index.jsp에 꾸준히 업데이트 중이니 확인 바람 --%>
-	<main>
-	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-	<div class="submit-wrap">
+<%-- body태그 바로 밑에 main 태그 들어가야 함. 지금 css가 그럼. 전체적으로 보기 간단하게 만들고 있고, index.jsp에 꾸준히 업데이트 중이니 확인 바람 --%>
+<main>
+    <jsp:include page="/WEB-INF/views/common/header.jsp"/>
+    <div class="submit-wrap">
         <h2>약관동의</h2>
         <br>
         <hr>
@@ -421,31 +428,31 @@ input[id="previous"]{
             </div>
         </form>
     </div>
-    </main>
+</main>
 <script>
-	function previousBtn(){
-		window.opener.location.href="/";
-	}
-	
-	function nextBtn(){
-		const chkUseSite = document.getElementById('useSite').checked
-		const chkUseInfo = document.getElementById('useInfo').checked
-		
-		if(chkUseSite && chkUseInfo){
-			document.getElementById('provision').submit();
-		}else{
-			msg('알림', '모든 약관에 동의해주세요', 'error');
-		}
-	}
-	
-	function toggleChkbox(){
-		const allChecked = document.getElementById('chkAll').checked;
-		const checkboxes = document.querySelectorAll('input[name="useSite"], input[name="useInfo"]');
-         
-		checkboxes.forEach(function(checkbox) {
-		    checkbox.checked = allChecked;
-		});
-	}
+    function previousBtn() {
+        window.opener.location.href = "/";
+    }
+
+    function nextBtn() {
+        const chkUseSite = document.getElementById('useSite').checked
+        const chkUseInfo = document.getElementById('useInfo').checked
+
+        if (chkUseSite && chkUseInfo) {
+            document.getElementById('provision').submit();
+        } else {
+            msg('알림', '모든 약관에 동의해주세요', 'error');
+        }
+    }
+
+    function toggleChkbox() {
+        const allChecked = document.getElementById('chkAll').checked;
+        const checkboxes = document.querySelectorAll('input[name="useSite"], input[name="useInfo"]');
+
+        checkboxes.forEach(function (checkbox) {
+            checkbox.checked = allChecked;
+        });
+    }
 </script>
 </body>
 </html>

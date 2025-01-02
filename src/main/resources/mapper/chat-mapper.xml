@@ -2,4 +2,86 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="chat">
 
+    <select id="selectChatsWithNoAdmin" resultType="int">
+        select count(*)
+        from tbl_room
+        where admin_key is null
+    </select>
+
+    <select id="selectUnreadChats" parameterType="string" resultType="int">
+        select count(*)
+        from tbl_room
+        where admin_key = #{_adminKey}
+        and read_yn = 0
+    </select>
+
+    <select id="getRoomList" parameterType="user" resultType="room">
+        select
+        room_key as roomKey,
+        room_title as roomTitle,
+        user_key as userKey,
+        admin_key as adminKey,
+        create_date as createDate,
+        read_yn as readYn
+        from tbl_room
+        <if test="userCd != 0">
+            where user_key = #{userKey}
+        </if>
+        <if test="userCd == 0">
+            where admin_key = #{userKey}
+            or admin_key is null
+        </if>
+    </select>
+
+    <select id="selectRoomKey" resultType="string">
+        select 'ro' || to_char(sysdate, 'yymmdd') || lpad(seq_room_key.nextval, 4, '0')
+        from dual
+    </select>
+
+    <insert id="createRoom" parameterType="room">
+        insert into tbl_room (room_key, room_title, user_key, create_date, read_yn)
+        values (#{roomKey},
+                #{roomTitle},
+                #{userKey},
+                sysdate,
+                0)
+    </insert>
+
+    <insert id="insertChat" parameterType="chat">
+        insert into tbl_chat(chat_key, room_key, sender_key, msg, sent_date)
+        values ('ch' || to_char(sysdate, 'yymmdd') || lpad(seq_chat_key.nextval, 4, '0'),
+                #{roomKey},
+                #{senderKey},
+                #{msg},
+                sysdate)
+    </insert>
+
+    <select id="checkAdminPresence" parameterType="string" resultType="room">
+        select admin_key as adminKey
+        from tbl_room
+        where room_key = #{_roomKey}
+    </select>
+
+    <insert id="insertAdmin" parameterType="hashmap">
+        update tbl_room
+        set admin_key = #{userKey}
+        where room_key = #{roomKey}
+    </insert>
+
+    <select id="getChatList" resultType="chat">
+        select chat_key   as chatKey,
+               room_key   as roomKey,
+               sender_key as senderKey,
+               msg        as msg,
+               sent_date  as sentDate
+        from tbl_chat
+        where room_key = #{_roomKey}
+    </select>
+
+    <delete id="deleteRoom" parameterType="chat">
+        delete
+        from tbl_room
+        where room_key = #{roomKey}
+    </delete>
+
 </mapper>

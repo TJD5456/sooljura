@@ -1,15 +1,15 @@
 package com.khedu.sooljura.chat.controller;
 
 import com.khedu.sooljura.chat.model.service.ChatService;
+import com.khedu.sooljura.chat.model.vo.Chat;
 import com.khedu.sooljura.chat.model.vo.Room;
 import com.khedu.sooljura.user.model.vo.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -18,39 +18,64 @@ import java.util.ArrayList;
 @RequestMapping("/chat")
 public class ChatController {
 
-    @Autowired
-    @Qualifier("chatService")
-    private ChatService service;
+    private final ChatService service;
 
-    //채팅방 목록 조회
-    @GetMapping("/getRoomList.do")
-    public String getRoomList(Model model, HttpSession session) {
-        User loginUser = (User) session.getAttribute("loginMember");
-
-        ArrayList<Room> roomList = service.getRoomList(loginUser.getUserId());
-        model.addAttribute("roomList", roomList);
-
-        return "chat/roomList";
+    public ChatController(@Qualifier("chatService") ChatService service) {
+        this.service = service;
     }
 
-    @GetMapping("/getChatList.do")
-    public String createRoomFrm(HttpSession session, Model model) {
+    @GetMapping("chatFrm")
+    public String chatFrm(HttpSession session, Model model) {
         User loginUser = (User) session.getAttribute("loginUser");
-        String userId = loginUser.getUserId();
+        model.addAttribute("userKey", loginUser.getUserKey());
 
-//        ArrayList<Chat> chatList = service.selectChatList(userId);
-//        model.addAttribute("chatList", chatList);
+        ArrayList<Room> roomList = service.getRoomList(loginUser);
 
-        return "chat/chatList";
+        if (roomList != null) {
+            model.addAttribute("roomList", roomList);
+            return null;
+        } else {
+            return "redirect:/chat/startChat.do";
+        }
     }
 
-    //방 만들기
-    @GetMapping("/createRoom.do")
-    @ResponseBody
-    public String createRoom(HttpSession session, String roomName, String members) {
+    @GetMapping("/startChat.do")
+    public String startChat(HttpSession session, Model model) {
         User loginUser = (User) session.getAttribute("loginUser");
+        model.addAttribute("userKey", loginUser.getUserKey());
+        return "chat/startChat";
+    }
 
-        return service.createRoom(roomName, loginUser.getUserId(), members);
+    @PostMapping("/createChat.do")
+    public String createChat(Room room, Chat chat) {
+        String roomKey = service.createRoom(room);
+        int insertChatResult = 0;
+
+        if (!roomKey.equals("foobar")) {
+            chat.setRoomKey(roomKey);
+            insertChatResult = service.insertChat(chat);
+        }
+
+        if (insertChatResult > 0) {
+            return "redirect:/chat/chatRoom.do?roomKey=" + roomKey;
+        } else {
+            return "";
+        }
+    }
+
+    @GetMapping("chatRoom")
+    public String chatRoom(HttpSession session, Model model, String roomKey) {
+        model.addAttribute("roomKey", roomKey);
+        User loginUser = ((User) session.getAttribute("loginUser"));
+        String userKey = loginUser.getUserKey();
+        int userCd = loginUser.getUserCd();
+
+        model.addAttribute("userKey", userKey);
+        model.addAttribute("userCd", userCd);
+
+        ArrayList<Chat> chatList = service.getChatList(roomKey);
+        model.addAttribute("chatList", chatList);
+        return "/chat/chatRoom";
     }
 
 }

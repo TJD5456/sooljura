@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.khedu.sooljura.chat.model.service.ChatService;
 import com.khedu.sooljura.chat.model.vo.Chat;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.khedu.sooljura.user.model.vo.User;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
@@ -18,20 +18,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-@Component("socketHandler") // applicationContext.xml 에 등록한 handler 이름
+// applicationContext.xml 에 등록한 handler 이름
+@Component("socketHandler")
 public class SocketHandler extends TextWebSocketHandler {
 
-    @Autowired
-    @Qualifier("chatService")
-    private ChatService service;
+    private final ArrayList<WebSocketSession> user;
+    private final HashMap<String, HashMap<String, WebSocketSession>> roomMap;
 
-    private ArrayList<WebSocketSession> user;
+    private final ChatService service;
     private HashMap<String, WebSocketSession> map;
-    private HashMap<String, HashMap<String, WebSocketSession>> roomMap;
 
-    public SocketHandler() {
+    public SocketHandler(@Qualifier("chatService") ChatService service) {
         user = new ArrayList<>();
         roomMap = new HashMap<>();
+        this.service = service;
     }
 
     // 소켓이 생성되어 연결되었을 때 실행되는 메소드
@@ -52,76 +52,76 @@ public class SocketHandler extends TextWebSocketHandler {
         String type = jsonObj.get("type").getAsString();
 
         if (type.equals("connect")) {
-            //최초 연결 시, 연결 정보 등록
-            String memberId = jsonObj.get("memberId").getAsString();
-            String roomId = jsonObj.get("roomId").getAsString();
+            // 최초 연결 시, 연결 정보 등록
+            String userKey = jsonObj.get("userKey").getAsString();
+            String roomKey = jsonObj.get("roomKey").getAsString();
 
             /*
              * 메세지 전송 시, 연결되어 있는 모든 세션에 메시지를 전송함.
              * 현재 방에 접속한 세션들에게만 메시지를 전송해야 하므로,
              * 방별로 세션 정보들을 관리
              */
-            if (roomMap.containsKey(roomId)) {
-                map = roomMap.get(roomId);
+            if (roomMap.containsKey(roomKey)) {
+                map = roomMap.get(roomKey);
 
-                map.put(memberId, session);
+                map.put(userKey, session);
             } else {
-                map = new HashMap<String, WebSocketSession>();
-                map.put(memberId, session);
-                roomMap.put(roomId, map);
+                map = new HashMap<>();
+                map.put(userKey, session);
+                roomMap.put(roomKey, map);
             }
 
         } else if (type.equals("chat")) {
             // 메시지 송신
-            String roomId = jsonObj.get("roomId").getAsString();
-            String memberId = jsonObj.get("memberId").getAsString();
+            String roomKey = jsonObj.get("roomKey").getAsString();
+            String userKey = jsonObj.get("userKey").getAsString();
+            String userCd = jsonObj.get("userCd").getAsString();
             String msg = jsonObj.get("msg").getAsString();
-            String fileName = jsonObj.get("fileName") != null ? jsonObj.get("fileName").getAsString() : null;
-            String filePath = jsonObj.get("filePath") != null ? jsonObj.get("filePath").getAsString() : null;
 
             Chat chat = new Chat();
-            chat.setRoomKey(roomId);
-            chat.setSenderId(memberId);
+            chat.setRoomKey(roomKey);
+            chat.setSenderKey(userKey);
             chat.setMsg(msg);
 
             // DB 등록
             int result = service.insertChat(chat);
 
             if (result > 0) {
-                // 파일 등록 시, 다운로드 가능하도록 텍스트 처리
-                if (filePath != null) {
-                    msg = "<a href='javascript:void(0)' onclick='fn.chatFileDown(\"" + fileName + "\", \"" + filePath + "\")'>" + fileName + "</a> " + msg;
+                User adminPresence = service.checkAdminPresence(roomKey);
+                if(adminPresence == null && userCd.equals("0")){
+                    int insertAdmin = service.insertAdmin(roomKey, userKey);
+                    if(insertAdmin == 0){
+                        System.out.println("=== from SocketHandler ===");
+                        System.out.println("Failed to add admin");
+                    }
                 }
-
-                msg = memberId + " : " + msg;
-                this.sendMsg(roomId, msg);
             }
         } else if (type.equals("delete")) {
-            String memberId = jsonObj.get("memberId").getAsString();
-            String roomId = jsonObj.get("roomId").getAsString();
+            String roomKey = jsonObj.get("roomKey").getAsString();
+            String userKey = jsonObj.get("userKey").getAsString();
 
-            map = roomMap.get(roomId);
+            map = roomMap.get(roomKey);
 
-            if (map.containsKey(memberId)) {
+            if (map.containsKey(userKey)) {
                 // 현재 방에서 나가기
-                map.remove(memberId);
+                map.remove(userKey);
 
                 Chat chat = new Chat();
-                chat.setRoomKey(roomId);
-                chat.setSenderId(memberId);
+                chat.setRoomKey(roomKey);
+                chat.setSenderKey(userKey);
                 service.deleteRoom(chat);
 
                 // 방에서 나간 뒤, 아무도 없으면 방 관리 Map 에서도 삭제.
                 if (map.isEmpty()) {
-                    roomMap.remove(roomId);
+                    roomMap.remove(roomKey);
                 }
             }
         }
     }
 
     // 연결된 사용자들에게 메세지 전송
-    public void sendMsg(String roomId, String msg) {
-        map = roomMap.get(roomId);
+    public void sendMsg(String roomKey, String msg) {
+        map = roomMap.get(roomKey);
 
         Set<String> set = map.keySet();
 

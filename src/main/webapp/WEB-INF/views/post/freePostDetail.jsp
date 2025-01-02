@@ -9,6 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>자유게시판 - 게시글 상세보기</title>
 <link rel="stylesheet" href="/resources/css/styles.css">
+<script src="/resources/js/custom.js"></script>
 <style>
 /* 기존 스타일 유지 */
 body {
@@ -86,21 +87,23 @@ textarea {
 }
 
 .comments {
-	margin-top: 40px;
+	display: block; /* 모든 댓글과 수정 창이 세로로 나열되도록 설정 */
 }
 
 .comments h3 {
 	font-size: 20px;
 	margin-bottom: 20px;
 }
-
 .comment {
-	margin-bottom: 20px;
-	padding: 10px;
-	border: 1px solid #ddd;
-	border-radius: 5px;
+    position: relative;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column; /* 댓글 내용과 수정 폼을 세로로 배치 */
+    align-items: stretch; /* 수정 폼 너비가 댓글 컨테이너 너비와 동일하도록 설정 */
 }
-
 .comment .content {
 	margin-top: 10px;
 }
@@ -160,6 +163,10 @@ textarea {
 .back-button a:hover {
 	background-color: #777;
 }
+#edit-form-container-${commentKey} {
+    margin-top: 10px; /* 수정 폼과 댓글 간 간격 */
+    width: 100%; /* 댓글 컨테이너에 맞춤 */
+}
 </style>
 </head>
 <body>
@@ -187,41 +194,34 @@ textarea {
 				<h4>댓글</h4>
 				<br> <br>
 				<c:forEach var="comment" items="${comments}">
-					<div class="comment">
+					<div class="comment" id="comment-${comment.commentKey}">
 						<!-- 댓글 작성자 -->
-						<!-- 수정 및 삭제 버튼 (작성자만 표시) -->
-						<c:forEach var="comment" items="${comments}">
-							<div class="comment" id="comment-${comment.commentKey}">
-								<div>
-									<span class="author">${comment.userNickNm}</span>
-									<c:if
-										test="${not empty loginUser && comment.userKey == loginUser.userKey}">
-										<!-- 삭제 버튼 -->
-										<form action="/post/deleteComment.do" method="post"
-											onsubmit="return confirm('정말 삭제하시겠습니까?');"
-											style="display: inline;">
-											<input type="hidden" name="commentKey"
-												value="${comment.commentKey}" />
-											<button type="submit"
-												style="border: none; background: none; color: red; cursor: pointer;">삭제</button>
-										</form>
-
-										<!-- 수정 버튼 -->
-										<button type="button"
-											onclick="editComment('${comment.commentKey}', '${fn:escapeXml(comment.commentContent)}');">수정</button>
-									</c:if>
-								</div>
-								<div class="date">${comment.commentDate}</div>
-								<div class="content" id="comment-content-${comment.commentKey}">${fn:escapeXml(comment.commentContent)}</div>
-							</div>
-						</c:forEach>
-
-
+						<div>
+							<span class="author">${comment.userNickNm}</span>
+							<c:if
+								test="${not empty loginUser && comment.userKey == loginUser.userKey}">
+								<button type="button"
+									onclick="editComment('${comment.commentKey}', '${fn:escapeXml(comment.commentContent).replaceAll("
+									'", "\\'")}')"
+        							style="border: none; background: none; color: blue; cursor: pointer;">
+									수정</button>
+								<!-- 삭제 버튼 -->
+								<form action="/post/deleteComment.do" method="post"
+									onsubmit="return confirm('정말 삭제하시겠습니까?');"
+									style="display: inline;">
+									<input type="hidden" name="commentKey"
+										value="${comment.commentKey}" />
+									<button type="submit"
+										style="border: none; background: none; color: red; cursor: pointer;">
+										삭제</button>
+								</form>
+							</c:if>
+						</div>
 						<!-- 댓글 작성 날짜 -->
 						<div class="date">${comment.commentDate}</div>
-
 						<!-- 댓글 내용 -->
-						<div class="content" id="comment-content-${comment.commentKey}">${comment.commentContent}</div>
+						<div class="content" id="comment-content-${comment.commentKey}">
+							${fn:escapeXml(comment.commentContent)}</div>
 					</div>
 				</c:forEach>
 			</div>
@@ -237,7 +237,6 @@ textarea {
 							<button type="submit">댓글 등록</button>
 						</form>
 					</c:when>
-
 					<c:otherwise>
 						<p>댓글을 작성하려면 로그인이 필요합니다.</p>
 						<form action="/user/loginFrm.do" method="get">
@@ -250,12 +249,15 @@ textarea {
 			</div>
 		</div>
 
-
 		<div class="back-button">
 			<!-- 뒤로가기 버튼 -->
 			<button onclick="history.back();"
 				style="border: none; background-color: #555; color: white; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
 				뒤로가기</button>
+		</div>
+		<div class="comment" id="comment-${comment.commentKey}">
+			<div class="content" id="comment-content-${comment.commentKey}">
+				${fn:escapeXml(comment.commentContent)}</div>
 		</div>
 		<!-- 리모콘 -->
 		<div class="remote-controller">
@@ -264,75 +266,104 @@ textarea {
 	</main>
 	<!-- 풋터 -->
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
-</body>
 
-<script>
-	function editComment(commentKey, commentContent) {
-		// DOM 요소 찾기
-		const parentDiv = document.getElementById(`comment-${commentKey}`);
-		const contentDiv = document
-				.getElementById(`comment-content-${commentKey}`);
+	<script>
+    // 현재 수정 중인 댓글의 key를 추적
+    let currentEditingKey = null;
 
-		// 요소 존재 여부 확인
-		if (!parentDiv || !contentDiv) {
-			console
-					.error(`Element with id comment-${commentKey} or comment-content-${commentKey} not found`);
-			return;
-		}
+    // 댓글 수정 함수
+    window.editComment = function (commentKey, commentContent) {
+        console.log("EditComment Called:", commentKey, commentContent);
 
-		// 기존 내용 숨기기
-		contentDiv.style.display = 'none';
+        // 이미 다른 댓글을 수정 중일 경우 확인 메시지
+        if (currentEditingKey && currentEditingKey !== commentKey) {
+            if (!confirm("현재 수정 중인 댓글이 있습니다. 다른 댓글을 수정하시겠습니까?")) {
+                return;
+            }
+            cancelEdit(currentEditingKey); // 기존 수정 취소
+        }
 
-		// 수정 폼 생성
-		const form = document.createElement('form');
-		form.action = '/post/updateComment.do';
-		form.method = 'post';
+        // 수정 중인 key 업데이트
+        currentEditingKey = commentKey;
 
-		const textarea = document.createElement('textarea');
-		textarea.name = 'commentContent';
-		textarea.textContent = commentContent;
-		textarea.style.width = '100%';
-		textarea.style.height = '100px';
-		form.appendChild(textarea);
+        const parentDiv = document.getElementById(`comment-${commentKey}`);
+        const contentDiv = document.getElementById(`comment-content-${commentKey}`);
 
-		const hiddenInput = document.createElement('input');
-		hiddenInput.type = 'hidden';
-		hiddenInput.name = 'commentKey';
-		hiddenInput.value = commentKey;
-		form.appendChild(hiddenInput);
+        if (!parentDiv || !contentDiv) {
+            console.error(`Element not found for commentKey: ${commentKey}`);
+            return;
+        }
 
-		const submitButton = document.createElement('button');
-		submitButton.type = 'submit';
-		submitButton.textContent = '수정 완료';
-		form.appendChild(submitButton);
+        // 이미 수정 폼이 생성된 경우 추가 생성 방지
+        if (document.getElementById(`edit-form-container-${commentKey}`)) {
+            console.warn("Edit form already exists for this comment.");
+            return;
+        }
 
-		const cancelButton = document.createElement('button');
-		cancelButton.type = 'button';
-		cancelButton.textContent = '취소';
-		cancelButton.onclick = function() {
-			cancelEdit(commentKey, commentContent);
-		};
-		form.appendChild(cancelButton);
+        // 댓글 내용을 숨김
+        contentDiv.style.display = 'none';
 
-		parentDiv.appendChild(form);
-	}
+        // 수정 폼 생성
+        const formContainer = document.createElement('div');
+        formContainer.id = `edit-form-container-${commentKey}`;
+        formContainer.style.marginTop = '10px';
 
-	function cancelEdit(commentKey, commentContent) {
-		const parentDiv = document.getElementById(`comment-${commentKey}`);
-		const contentDiv = document
-				.getElementById(`comment-content-${commentKey}`);
+        const form = document.createElement('form');
+        form.action = '/post/editComment.do';
+        form.method = 'post';
 
-		if (!parentDiv || !contentDiv) {
-			console
-					.error(`Element with id comment-${commentKey} or comment-content-${commentKey} not found`);
-			return;
-		}
+        const textArea = document.createElement('textarea');
+        textArea.name = 'commentContent';
+        textArea.value = commentContent;
+        textArea.style.width = '100%';
+        textArea.style.marginBottom = '10px';
+        form.appendChild(textArea);
 
-		contentDiv.style.display = 'block';
-		const form = parentDiv.querySelector('form');
-		if (form) {
-			parentDiv.removeChild(form);
-		}
-	}
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'commentKey';
+        hiddenInput.value = commentKey;
+        form.appendChild(hiddenInput);
+
+        const saveButton = document.createElement('button');
+        saveButton.type = 'submit';
+        saveButton.textContent = '저장';
+        saveButton.style.marginRight = '10px';
+        form.appendChild(saveButton);
+
+        const cancelButton = document.createElement('button');
+        cancelButton.type = 'button';
+        cancelButton.textContent = '취소';
+        cancelButton.onclick = function () {
+            cancelEdit(commentKey);
+        };
+        form.appendChild(cancelButton);
+
+        formContainer.appendChild(form);
+
+        // 댓글 내용 바로 아래에 수정 폼 삽입
+        contentDiv.insertAdjacentElement('afterend', formContainer);
+    };
+
+    // 댓글 수정 취소 함수
+    window.cancelEdit = function (commentKey) {
+        console.log("CancelEdit Called:", commentKey);
+
+        const formContainer = document.getElementById(`edit-form-container-${commentKey}`);
+        const contentDiv = document.getElementById(`comment-content-${commentKey}`);
+
+        if (formContainer) {
+            formContainer.remove();
+        }
+        if (contentDiv) {
+            contentDiv.style.display = 'block';
+        }
+
+        // 수정 상태 초기화
+        currentEditingKey = null;
+    };
 </script>
+
+
+</body>
 </html>

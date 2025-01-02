@@ -211,7 +211,7 @@
             $.ajax({
                 url: '/admin/selectLowerCategoryLevel.do',
                 type: 'get',
-                data: { "higherCategoryKey": higherCategoryKey },
+                data: {"higherCategoryKey": higherCategoryKey},
                 success: function (result) {
                     const categoryLevel2Div = $(".categoryLevel2");
 

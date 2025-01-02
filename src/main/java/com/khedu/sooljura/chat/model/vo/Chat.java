@@ -3,7 +3,7 @@ package com.khedu.sooljura.chat.model.vo;
 public class Chat {
     private String chatKey;
     private String roomKey;
-    private String senderId;
+    private String senderKey;
     private String msg;
     private String sentDate;
 
@@ -11,10 +11,10 @@ public class Chat {
         super();
     }
 
-    public Chat(String chatKey, String roomKey, String senderId, String msg, String sentDate) {
+    public Chat(String chatKey, String roomKey, String senderKey, String msg, String sentDate) {
         this.chatKey = chatKey;
         this.roomKey = roomKey;
-        this.senderId = senderId;
+        this.senderKey = senderKey;
         this.msg = msg;
         this.sentDate = sentDate;
     }
@@ -35,12 +35,12 @@ public class Chat {
         this.roomKey = roomKey;
     }
 
-    public String getSenderId() {
-        return senderId;
+    public String getSenderKey() {
+        return senderKey;
     }
 
-    public void setSenderId(String senderId) {
-        this.senderId = senderId;
+    public void setSenderKey(String senderKey) {
+        this.senderKey = senderKey;
     }
 
     public String getMsg() {

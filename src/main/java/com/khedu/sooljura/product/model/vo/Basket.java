@@ -1,69 +1,69 @@
 package com.khedu.sooljura.product.model.vo;
 
 public class Basket {
-	private String basketKey;
-	private int basketCd;
-	private String prodKey;
-	private String userKey;
-	private int basketCnt;
-	
-	public Basket() {
-		super();
-	}
+    private String basketKey;
+    private int basketCd;
+    private String prodKey;
+    private String userKey;
+    private int basketCnt;
 
-	public Basket(String basketKey, int basketCd, String prodKey, String userKey, int basketCnt) {
-		super();
-		this.basketKey = basketKey;
-		this.basketCd = basketCd;
-		this.prodKey = prodKey;
-		this.userKey = userKey;
-		this.basketCnt = basketCnt;
-	}
+    public Basket() {
+        super();
+    }
 
-	public String getBasketKey() {
-		return basketKey;
-	}
+    public Basket(String basketKey, int basketCd, String prodKey, String userKey, int basketCnt) {
+        super();
+        this.basketKey = basketKey;
+        this.basketCd = basketCd;
+        this.prodKey = prodKey;
+        this.userKey = userKey;
+        this.basketCnt = basketCnt;
+    }
 
-	public void setBasketKey(String basketKey) {
-		this.basketKey = basketKey;
-	}
+    public String getBasketKey() {
+        return basketKey;
+    }
 
-	public int getBasketCd() {
-		return basketCd;
-	}
+    public void setBasketKey(String basketKey) {
+        this.basketKey = basketKey;
+    }
 
-	public void setBasketCd(int basketCd) {
-		this.basketCd = basketCd;
-	}
+    public int getBasketCd() {
+        return basketCd;
+    }
 
-	public String getProdKey() {
-		return prodKey;
-	}
+    public void setBasketCd(int basketCd) {
+        this.basketCd = basketCd;
+    }
 
-	public void setProdKey(String prodKey) {
-		this.prodKey = prodKey;
-	}
+    public String getProdKey() {
+        return prodKey;
+    }
 
-	public String getUserKey() {
-		return userKey;
-	}
+    public void setProdKey(String prodKey) {
+        this.prodKey = prodKey;
+    }
 
-	public void setUserKey(String userKey) {
-		this.userKey = userKey;
-	}
+    public String getUserKey() {
+        return userKey;
+    }
 
-	public int getBasketCnt() {
-		return basketCnt;
-	}
+    public void setUserKey(String userKey) {
+        this.userKey = userKey;
+    }
 
-	public void setBasketCnt(int basketCnt) {
-		this.basketCnt = basketCnt;
-	}
+    public int getBasketCnt() {
+        return basketCnt;
+    }
 
-	@Override
-	public String toString() {
-		return "basket [basketKey=" + basketKey + ", basketCd=" + basketCd + ", prodKey=" + prodKey + ", userKey="
-				+ userKey + ", basketCnt=" + basketCnt + "]";
-	}
-	
+    public void setBasketCnt(int basketCnt) {
+        this.basketCnt = basketCnt;
+    }
+
+    @Override
+    public String toString() {
+        return "basket [basketKey=" + basketKey + ", basketCd=" + basketCd + ", prodKey=" + prodKey + ", userKey="
+                + userKey + ", basketCnt=" + basketCnt + "]";
+    }
+
 }

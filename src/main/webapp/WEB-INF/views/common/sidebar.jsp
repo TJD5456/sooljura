@@ -27,8 +27,6 @@
         <span>공지사항</span>
         <ul class="ul">
             <li><a href="/">공지사항</a></li>
-            <li><a href="/">자주묻는질문</a></li>
-            <li><a href="/">이벤트</a></li>
             <li><a href="/">Q&#38;A</a></li>
         </ul>
     </div>

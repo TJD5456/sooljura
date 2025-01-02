@@ -39,7 +39,6 @@ public class PostController {
     }
 
     @GetMapping("reviewListPost.do")
-
     public String reviewListPost() {
         return "post/reviewListPost";
     }
@@ -56,13 +55,25 @@ public class PostController {
         return "post/webPageInfo";
     }
 
-    @GetMapping("getList.do")
-    public String getList(int reqPage, Model model) {
-        PostPageData pd = service.selectPostList(reqPage);
+    @GetMapping("freePostList.do")
+    public String freePostList(@RequestParam(defaultValue = "1") int reqPage, Model model) {
+        return getPostList(reqPage, model, 2, "post/freePost"); // post_cd 2: 자유게시판
+    }
+    
+
+    @GetMapping("noticeList.do")
+    public String noticeList(@RequestParam(defaultValue = "1") int reqPage, Model model) {
+        return getPostList(reqPage, model, 1, "post/noticeListPost"); // post_cd 1: 공지사항
+    }
+
+    private String getPostList(int reqPage, Model model, int postCd, String viewName) {
+        reqPage = Math.max(reqPage, 1); // 요청 페이지 번호 유효성 검사
+        PostPageData pd = service.selectPostList(reqPage, postCd);
         model.addAttribute("list", pd.getList());
         model.addAttribute("pageNavi", pd.getPageNavi());
-        return "post/freePost";
+        return viewName;
     }
+    
 
     @PostMapping("freewrite.do")
     public String freewrite(HttpSession session, Post post, Model model) {
@@ -193,5 +204,11 @@ public class PostController {
             return "redirect:/post/freePostDetail.do";
         }
     }
-
+    
+    
+    
+    
+    
+    
+    
 }

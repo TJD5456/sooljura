@@ -19,13 +19,12 @@ public class PostDao {
     @Qualifier("sqlSessionTemplate")
     private SqlSessionTemplate sqlSession;
 
-    public List<Post> selectPostList(HashMap<String, Integer> map) {
-        return sqlSession.selectList("post.selectPostList", map);
-
+    public List<Post> selectPostList(HashMap<String, Integer> params) {
+        return sqlSession.selectList("post.selectPostList", params);
     }
 
-    public int selectPostCount() {
-        return sqlSession.selectOne("post.selectPostCount");
+    public int selectPostCount(int postCd) {
+        return sqlSession.selectOne("post.selectPostCount", postCd);
     }
 
     public String selectPostKey() {

@@ -26,7 +26,7 @@
         </ul>
         <span>공지사항</span>
         <ul class="ul">
-            <li><a href="/">공지사항</a></li>
+            <li><a href="/post/noticeList.do?reqPage=1">공지사항</a></li>
             <li><a href="/">Q&#38;A</a></li>
         </ul>
     </div>

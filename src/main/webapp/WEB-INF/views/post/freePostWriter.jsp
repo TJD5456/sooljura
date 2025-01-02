@@ -6,54 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>자유 게시판 글쓰기</title>
-
-    <!-- Summernote CSS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-
     <style>
-        /* 전체 레이아웃 */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* 사이드바 스타일 */
-        .leftSideBar {
-            width: 250px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            padding: 20px;
-            box-sizing: border-box;
-            overflow-y: auto;
-        }
-
-        .main-container {
-            margin-left: 250px; /* 사이드바 너비 */
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* 헤더와 푸터 스타일 */
-        .header, .footer {
-            background-color: #fff;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .footer {
-            margin-top: auto; /* 푸터를 하단에 고정 */
-            border-top: 1px solid #ddd;
-            box-shadow: none;
-        }
-
-        /* 폼 스타일 */
         .form-group {
             display: flex;
             margin-bottom: 15px;
@@ -73,7 +28,6 @@
             border-radius: 4px;
         }
 
-        /* 버튼 스타일 */
         .button-group {
             display: flex;
             justify-content: center;
@@ -94,22 +48,11 @@
             background-color: #0056b3;
         }
 
-        /* 콘텐츠 영역 스타일 */
-        .content {
-            flex: 1;
-            padding: 20px;
-            box-sizing: border-box;
-            background-color: #fff;
-            margin: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
         /* Summernote 스타일 */
         .note-editor {
-            max-width: 100%;
+            max-width: 80%;
             box-sizing: border-box;
+            margin: 0 auto;
         }
 
         #postContent {
@@ -128,74 +71,59 @@
     </style>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
+<main>
+    <jsp:include page="/WEB-INF/views/common/header.jsp"/>
+    <div class="wrapper">
+        <div class="content">
+            <div class="title">
+                <h1>자유 게시판 글쓰기</h1>
+            </div>
 
-<!-- 사이드바 -->
-<div class="leftSideBar">
-    <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
-</div>
+            <div class="note-editor">
+                <form action="/post/freeWrite.do" method="post">
+                    <!-- 카테고리 -->
+                    <div class="form-group">
+                        <label for="postCategory">게시판 종류 </label>
+                        <input type="text" value="자유게시판" id="postCategory" readonly>
+                    </div>
 
-<div class="main-container">
-    <!-- 헤더 -->
-    <div class="header">
-        <jsp:include page="/WEB-INF/views/common/header.jsp"/>
+                    <!-- 글쓴이 표시 -->
+                    <div class="form-group">
+                        <label for="author">글쓴이</label>
+                        <input type="text" id="author" name="author"
+                               value="<%= ((User)session.getAttribute("loginUser")).getUserNm() %>" readonly>
+                    </div>
+
+                    <!-- 제목 입력 -->
+                    <div class="form-group">
+                        <label for="title">제목</label>
+                        <input type="text" id="title" name="postTitle" placeholder="제목을 입력하세요" required>
+                    </div>
+
+                    <!-- 본문 입력 -->
+                    <div class="form-group">
+                        <label for="postContent">본문</label>
+                        <textarea id="postContent" name="postContent" required></textarea>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button" onclick="history.back();">이전</button>
+                        <button type="submit">등록</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <jsp:include page="/WEB-INF/views/common/remote.jsp"/>
     </div>
-
-    <div class="content">
-        <h1>자유 게시판 글쓰기</h1>
-
-        <!-- 글쓰기 폼 시작 -->
-        <form action="/post/freewrite.do" method="post">
-            <!-- 카테고리 -->
-            <div class="form-group">
-                <label for="postCategory">게시판 종류 </label>
-                <input type="text" value="자유게시판" readonly="readonly">
-
-            </div>
-
-            <!-- 글쓴이 표시 -->
-            <div class="form-group">
-                <label for="author">글쓴이</label>
-                <input type="text" id="author" name="author"
-                       value="<%= ((User)session.getAttribute("loginUser")).getUserNm() %>" readonly>
-            </div>
-
-            <!-- 제목 입력 -->
-            <div class="form-group">
-                <label for="title">제목</label>
-                <input type="text" id="title" name="postTitle" placeholder="제목을 입력하세요" required>
-            </div>
-
-            <!-- 본문 입력 -->
-            <div class="form-group">
-                <label for="postContent">본문</label>
-                <textarea id="postContent" name="postContent" required></textarea>
-            </div>
-
-            <!-- 버튼 -->
-            <div class="button-group">
-                <button type="button" onclick="history.back();">이전</button>
-                <button type="submit">등록</button>
-            </div>
-        </form>
-        <!-- 글쓰기 폼 끝 -->
-    </div>
-
-    <!-- 푸터 -->
-    <div class="footer">
-        <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
-    </div>
-</div>
-
-<!-- JavaScript 로드 -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
+    <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+</main>
 
 <script>
-    $(document).ready(function () {
+    $(function () {
         $('#postContent').summernote({
-            height: 400, // 에디터 높이 설정
-            lang: 'ko-KR', // 한국어 설정
+            height: 400,   // 에디터 높이 설정
+            lang: 'ko-KR',
             toolbar: [
                 ['style', ['style']],
                 ['font', ['bold', 'italic', 'underline', 'clear']],

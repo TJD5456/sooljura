@@ -22,6 +22,9 @@
                 </tr>
                 <tr>
                     <th><a href="${pageContext.request.contextPath}/admin/manageYoutube.do">유튜브 관리</a></th>
+                </tr>
+                <tr>
+                    <th><a href="${pageContext.request.contextPath}/admin/managePosts.do">게시글 관리</a></th>
                     <td>${numberOfUnCheckedPost}</td>
                 </tr>
                 <tr>

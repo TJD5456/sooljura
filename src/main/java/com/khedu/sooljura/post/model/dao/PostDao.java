@@ -58,17 +58,13 @@ public class PostDao {
         params.put("userKey", userKey);
         return sqlSession.delete("post.deleteComment", params);
     }
-
-    public int updateComment(String commentKey, String userKey, String commentContent) {
-        Map<String, String> params = new HashMap<>();
-        params.put("commentKey", commentKey);
-        params.put("userKey", userKey);
-        params.put("commentContent", commentContent);
-        return sqlSession.update("post.updateComment", params);
-    }
-
     public String selectPostKeyByCommentKey(String commentKey) {
         return sqlSession.selectOne("post.selectPostKeyByCommentKey", commentKey);
     }
+    
+    public int updateComment(Comment comment) {
+        return sqlSession.update("post.updateComment", comment);
+    }
+
 }
 

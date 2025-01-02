@@ -29,6 +29,8 @@ import com.khedu.sooljura.admin.model.vo.ProductImage;
 import com.khedu.sooljura.product.model.service.ProductService;
 import com.khedu.sooljura.product.model.vo.Basket;
 import com.khedu.sooljura.product.model.vo.OrderHistory;
+import com.khedu.sooljura.product.model.vo.ProductDiscountHistory;
+import com.khedu.sooljura.product.model.vo.ProductDiscountInfo;
 import com.khedu.sooljura.product.model.vo.ProductListData;
 import com.khedu.sooljura.user.controller.UserController;
 import com.khedu.sooljura.user.model.vo.User;
@@ -40,24 +42,38 @@ public class ProductController {
 	@Autowired
 	@Qualifier("productService")
 	private ProductService service;
-
+	
+	//상세페이지
 	@GetMapping("prodDetail.do")
-	public String prodDetail(String prodKey, Model model, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	public String prodDetail(String prodKey, Model model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Product prod = service.selOneProduct(prodKey);
-		if (prod.getTradingYn() < 1) {
+		if(prod.getTradingYn() < 1) {
 			System.out.println("access denied");
 			request.setAttribute("title", "알림");
-			request.setAttribute("msg", "access denied");
+			request.setAttribute("msg", "판매 중지된 상품입니다.");
 			request.setAttribute("icon", "error");
 			request.setAttribute("loc", "/");
 			request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
 		}
 		ProductImage prodImg = service.selOneProdImg(prodKey);
+		ProductDiscountHistory pDH = service.selOnePDH(prodKey);
+		String eventCode = pDH.getEventCd();
+		ProductDiscountInfo pDI = service.selOnePDI(prodKey, eventCode);
 
+		if(pDI.getDiscountPercent() == 0) {
+			if(pDI.getDiscountAmount() < 1) {
+			}else {
+			}
+		}else {
+			if(pDI.getDiscountAmount() > 0) {
+			}else {
+			}
+			
+		}
 		int price = prod.getProdPrice();
 		String priceWithComma = String.format("%,d", price);
-
+	
+		model.addAttribute("pDI");
 		model.addAttribute("prodImg", prodImg);
 		model.addAttribute("prod", prod);
 		model.addAttribute("priceWithComma", priceWithComma);

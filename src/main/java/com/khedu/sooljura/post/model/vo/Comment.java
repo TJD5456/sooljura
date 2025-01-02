@@ -4,7 +4,7 @@ public class Comment {
     private String commentKey;
     private String postKey;
     private String userKey;
-    private String userNickNm; // 닉네임 추가
+    private String userNickNm;
     private String commentContent;
     private String commentDate;
 

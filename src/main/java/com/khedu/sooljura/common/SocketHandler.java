@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.khedu.sooljura.chat.model.service.ChatService;
 import com.khedu.sooljura.chat.model.vo.Chat;
+import com.khedu.sooljura.user.model.vo.User;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
@@ -74,9 +75,8 @@ public class SocketHandler extends TextWebSocketHandler {
             // 메시지 송신
             String roomKey = jsonObj.get("roomKey").getAsString();
             String userKey = jsonObj.get("userKey").getAsString();
+            String userCd = jsonObj.get("userCd").getAsString();
             String msg = jsonObj.get("msg").getAsString();
-            String fileName = jsonObj.get("fileName") != null ? jsonObj.get("fileName").getAsString() : null;
-            String filePath = jsonObj.get("filePath") != null ? jsonObj.get("filePath").getAsString() : null;
 
             Chat chat = new Chat();
             chat.setRoomKey(roomKey);
@@ -87,13 +87,14 @@ public class SocketHandler extends TextWebSocketHandler {
             int result = service.insertChat(chat);
 
             if (result > 0) {
-                // 파일 등록 시, 다운로드 가능하도록 텍스트 처리
-                if (filePath != null) {
-                    msg = "<a href='javascript:void(0)' onclick='fn.chatFileDown(\"" + fileName + "\", \"" + filePath + "\")'>" + fileName + "</a> " + msg;
+                User adminPresence = service.checkAdminPresence(roomKey);
+                if(adminPresence == null && userCd.equals("0")){
+                    int insertAdmin = service.insertAdmin(roomKey, userKey);
+                    if(insertAdmin == 0){
+                        System.out.println("=== from SocketHandler ===");
+                        System.out.println("Failed to add admin");
+                    }
                 }
-
-                msg = userKey + " : " + msg;
-                this.sendMsg(roomKey, msg);
             }
         } else if (type.equals("delete")) {
             String roomKey = jsonObj.get("roomKey").getAsString();

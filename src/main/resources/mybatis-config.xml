@@ -16,6 +16,8 @@
         <typeAlias type="com.khedu.sooljura.post.model.vo.Post" alias="post"/>
         <typeAlias type="com.khedu.sooljura.product.model.vo.OrderHistory" alias="history"/>
         <typeAlias type="com.khedu.sooljura.product.model.vo.Basket" alias="basket"/>
+        <typeAlias type="com.khedu.sooljura.product.model.vo.ProductDiscountHistory" alias="discountHistory"/>
+        <typeAlias type="com.khedu.sooljura.product.model.vo.ProductDiscountInfo" alias="discountInfo"/>
         <typeAlias type="com.khedu.sooljura.chat.model.vo.Chat" alias="chat"/>
         <typeAlias type="com.khedu.sooljura.chat.model.vo.Room" alias="room"/>
     </typeAliases>

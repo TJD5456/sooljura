@@ -5,6 +5,8 @@ import com.khedu.sooljura.admin.model.vo.ProductImage;
 import com.khedu.sooljura.product.model.dao.ProductDao;
 import com.khedu.sooljura.product.model.vo.Basket;
 import com.khedu.sooljura.product.model.vo.OrderHistory;
+import com.khedu.sooljura.product.model.vo.ProductDiscountHistory;
+import com.khedu.sooljura.product.model.vo.ProductDiscountInfo;
 import com.khedu.sooljura.product.model.vo.ProductListData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -129,6 +131,16 @@ public class ProductService {
     }
 
     public ProductImage selOneProdImg(String prodKey) {
-        return dao.selOneProdImg(prodKey);
-    }
+		return dao.selOneProdImg(prodKey);
+	}
+	public ProductDiscountHistory selOnePDH(String prodKey) {
+		return dao.selOnePDH(prodKey);
+	}
+
+	public ProductDiscountInfo selOnePDI(String prodKey, String eventCode) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("prodKey", prodKey);
+		map.put("eventCd", eventCode);
+		return dao.selOnePDI(map);
+	}
 }

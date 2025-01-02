@@ -65,7 +65,9 @@
     <jsp:include page="/WEB-INF/views/common/header.jsp"/>
     <div class="wrapper">
         <div class="content">
-            <h1>자유게시판</h1>
+            <div class="title">
+                <h1>자유게시판</h1>
+            </div>
             <div class="button-div">
                 <h2 style="margin: 0;">목록</h2>
                 <c:if test="${not empty sessionScope.loginUser}">

@@ -47,20 +47,27 @@ public class ProductController {
 		ProductDiscountHistory pDH = service.selOnePDH(prodKey);
 		String eventCode = pDH.getEventCd();
 		ProductDiscountInfo pDI = service.selOnePDI(prodKey, eventCode);
-
-		if(pDI.getDiscountPercent() == 0) {
-			if(pDI.getDiscountAmount() < 1) {
-			}else {
-			}
-		}else {
-			if(pDI.getDiscountAmount() > 0) {
-			}else {
-			}
-			
-		}
+		
 		int price = prod.getProdPrice();
+		
+		int pOrA= pDI.getEventNm();
+		if(pOrA == 0) {
+			//0 == percent
+			model.addAttribute("pOrA", 0);
+			model.addAttribute("dcPrice", pDI.getDiscountPercent());
+			double percent = pDI.getDiscountPercent();
+			
+			int payPrice = price-(int)Math.round(price*(percent/100));
+			model.addAttribute("payPrice", payPrice);
+		}else {
+			model.addAttribute("pOrA", 1);
+			model.addAttribute("dcPrice", pDI.getDiscountAmount());
+			
+			int payPrice = price-pDI.getDiscountAmount();
+			model.addAttribute("payPrice", payPrice);
+		}
+		
 		String priceWithComma = String.format("%,d", price);
-	
 		model.addAttribute("pDI");
 		model.addAttribute("prodImg", prodImg);
 		model.addAttribute("prod", prod);
@@ -69,7 +76,7 @@ public class ProductController {
 	}
 	
 
-    //장바구니 페이지로 이동
+	//장바구니 페이지로 이동
     @GetMapping("expPurchaseFrm.do")
     public String expPurchase(HttpSession session, Model model) {
         // 세션에서 userKey 가져오기
@@ -226,4 +233,29 @@ public class ProductController {
 
         return "product/buyList";
     }
+    
+    @PostMapping("productDcCnt")
+    @ResponseBody
+    public int productDcCnt(String prodKey,int prodCntVal, Model model) {
+    	Product prod = service.selOneProduct(prodKey);
+    	ProductDiscountHistory pDH = service.selOnePDH(prodKey);
+    	String eventCode = pDH.getEventCd();
+    	ProductDiscountInfo pDI = service.selOnePDI(prodKey, eventCode);
+    	System.out.println(prodCntVal);
+    	int price = prod.getProdPrice();
+		
+		int pOrA= pDI.getEventNm();
+		if(pOrA == 0) {
+			//0 == percent
+			double percent = pDI.getDiscountPercent();
+			int payPrice = (price-(int)Math.round(price*(percent/100)))*prodCntVal;
+			
+			return payPrice;
+		}else {
+			//1 == amount
+			int payPrice = (price-pDI.getDiscountAmount())*prodCntVal;
+			
+			return payPrice;
+		}
+	}
 }

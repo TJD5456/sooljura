@@ -113,16 +113,27 @@ public class ProductController {
 	// 결제 페이지로 이동
 	// 제품 여러개일 수도 있으니까 반복문 걸기
 	@GetMapping("productBuyFrm.do")
-	@ResponseBody
-	public String productBuyFrm(Model model, List<String> prodKeys, String userKey) {
+	public String productBuyFrm(Model model,  @RequestParam(required = false) List<String> prodKeys, 
+            									@RequestParam(required = false) String userKey) {
+		//문제없음
+		if (userKey == null) {
+			System.err.println("Error: userKey is null");
+		}
+		if (prodKeys == null || prodKeys.isEmpty()) {
+			System.err.println("Error: prodKeys is null or empty");
+		}
+		System.out.println("userKey : " + userKey);
+		System.out.println("prodKeys : " + prodKeys);
+		
 		// userKey로 기본배송지 가져오기
 		UserController userController = new UserController();
-		UserAddr defaultAddr = userController.getDefaultAddr(userKey);
-
+		UserAddr defaultAddr = userController.findDefaultAddr(userKey);		
+		
 		// product 가져오기
 		List<ProductListData> productList = new ArrayList<>();
 		for (String prodKey : prodKeys) {
 			ProductListData prodInfo = service.prodInfo(prodKey);
+			System.out.println(prodInfo.getProductList());
 			productList.add(prodInfo);
 		}
 
@@ -200,7 +211,11 @@ public class ProductController {
 
 	// 장바구니에서 제품 삭제
 	@GetMapping("delBasket.do")
+	@ResponseBody
 	public String delBasket(String userKey, String prodKey) {
+		System.out.println(userKey);
+		System.out.println(prodKey);
+		
 		Basket basket = new Basket();
 		basket.setUserKey(userKey);
 		basket.setProdKey(prodKey);

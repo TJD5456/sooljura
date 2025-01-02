@@ -6,11 +6,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>자유 게시판 글쓰기</title>
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/resources/jquery/jquery-3.7.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <style>
-        /* 폼 스타일 */
         .form-group {
             display: flex;
             margin-bottom: 15px;
@@ -30,7 +29,6 @@
             border-radius: 4px;
         }
 
-        /* 버튼 스타일 */
         .button-group {
             display: flex;
             justify-content: center;
@@ -126,7 +124,7 @@
     $(function () {
         $('#postContent').summernote({
             height: 400,   // 에디터 높이 설정
-            lang: 'ko-KR', // 한국어 설정
+            lang: 'ko-KR',
             toolbar: [
                 ['style', ['style']],
                 ['font', ['bold', 'italic', 'underline', 'clear']],

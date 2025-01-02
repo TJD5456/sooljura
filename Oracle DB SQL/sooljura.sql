@@ -233,7 +233,7 @@ create table tbl_basket (
    basket_cnt number not null
 );
 
--- 'bk' || lpad(seq_basket.nextval, 4, '0')
+-- 'bk' || to_char(sysdate, 'yymmdd') || lpad(seq_basket.nextval, 4, '0')
 create sequence seq_basket maxvalue 9999 cycle;
 
 create table tbl_order_history (
@@ -252,10 +252,10 @@ create table tbl_order_history (
    refund_date   date
 );
 
--- 'oh' || lpad(seq_order_history.nextval, 4, '0')
+-- 'oh' || to_char(sysdate, 'yymmdd') || lpad(seq_order_history.nextval, 4, '0')
 create sequence seq_order_history maxvalue 9999 cycle;
 
--- 'rf' || lpad(seq_refund_key.nextval, 4, '0')
+-- 'rf' || to_char(sysdate, 'yymmdd') || lpad(seq_refund_key.nextval, 4, '0')
 create sequence seq_refund_key maxvalue 9999 cycle;
 
 create table tbl_room (
@@ -267,7 +267,7 @@ create table tbl_room (
    read_yn     number default 0
 );
 
--- 'ro' || lpad(seq_room_key.nextval, 4, '0')
+-- 'ro' || to_char(sysdate, 'yymmdd') || lpad(seq_room_key.nextval, 4, '0')
 create sequence seq_room_key maxvalue 9999 cycle;
 
 create table tbl_chat (
@@ -278,13 +278,7 @@ create table tbl_chat (
    sent_date  date default sysdate
 );
 
--- 'ch' || lpad(seq_chat_key.nextval, 4, '0')
+-- 'ch' || to_char(sysdate, 'yymmdd') || lpad(seq_chat_key.nextval, 4, '0')
 create sequence seq_chat_key maxvalue 9999 cycle;
 
 commit;
-
-select * from tbl_user;
-select * from tbl_user_addr;
-
-select * from tbl_room;
-select * from tbl_chat;

@@ -325,8 +325,9 @@ public class UserController {
     }
 
     // 결제를 위한 defaultAddr 가져오기
-    public UserAddr getDefaultAddr(String userKey) {
-        UserAddr userAddr = service.getDefaultAddr(userKey);
+    public UserAddr findDefaultAddr(String userKey) {
+    	System.out.println("UserControllerUserKey : " + userKey);
+        UserAddr userAddr = service.findDefaultAddr(userKey);
         return userAddr;
     }
 

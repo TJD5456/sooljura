@@ -223,8 +223,9 @@ public class UserService {
     }
 
     // 결제를 위한 defaultAddr 값 가져오기
-    public UserAddr getDefaultAddr(String userKey) {
-        return dao.getDefaultAddr(userKey);
+    public UserAddr findDefaultAddr(String userKey) {
+    	System.out.println("UserServiceUserKey : " + userKey);
+        return dao.findDefaultAddr(userKey);
     }
 
     public int insertTestAccount(User u) {

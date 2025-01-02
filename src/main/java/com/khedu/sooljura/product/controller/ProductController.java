@@ -68,35 +68,6 @@ public class ProductController {
 		return "product/prodDetail";
 	}
 	
-	//장바구니 페이지로 이동
-	@GetMapping("expPurchaseFrm.do")
-	public String expPurchase(HttpSession session, Model model) {
-		// 세션에서 userKey 가져오기
-	    String userKey = (String) session.getAttribute("userKey");
-
-
-    @GetMapping("prodDetail.do")
-    public String prodDetail(String prodKey, Model model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Product prod = service.selOneProduct(prodKey);
-        if (prod.getTradingYn() < 1) {
-            System.out.println("access denied");
-            request.setAttribute("title", "알림");
-            request.setAttribute("msg", "access denied");
-            request.setAttribute("icon", "error");
-            request.setAttribute("loc", "/");
-            request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
-        }
-        ProductImage prodImg = service.selOneProdImg(prodKey);
-
-
-        int price = prod.getProdPrice();
-        String priceWithComma = String.format("%,d", price);
-
-        model.addAttribute("prodImg", prodImg);
-        model.addAttribute("prod", prod);
-        model.addAttribute("priceWithComma", priceWithComma);
-        return "product/prodDetail";
-    }
 
     //장바구니 페이지로 이동
     @GetMapping("expPurchaseFrm.do")

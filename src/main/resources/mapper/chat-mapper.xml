@@ -56,6 +56,18 @@
                 sysdate)
     </insert>
 
+    <select id="checkAdminPresence" parameterType="string" resultType="room">
+        select admin_key as adminKey
+        from tbl_room
+        where room_key = #{_roomKey}
+    </select>
+
+    <insert id="insertAdmin" parameterType="hashmap">
+        update tbl_room
+        set admin_key = #{userKey}
+        where room_key = #{roomKey}
+    </insert>
+
     <select id="getChatList" resultType="chat">
         select chat_key   as chatKey,
                room_key   as roomKey,

@@ -66,7 +66,12 @@ public class ChatController {
     @GetMapping("chatRoom")
     public String chatRoom(HttpSession session, Model model, String roomKey) {
         model.addAttribute("roomKey", roomKey);
-        model.addAttribute("userKey", ((User) session.getAttribute("loginUser")).getUserKey());
+        User loginUser = ((User) session.getAttribute("loginUser"));
+        String userKey = loginUser.getUserKey();
+        int userCd = loginUser.getUserCd();
+
+        model.addAttribute("userKey", userKey);
+        model.addAttribute("userCd", userCd);
 
         ArrayList<Chat> chatList = service.getChatList(roomKey);
         model.addAttribute("chatList", chatList);

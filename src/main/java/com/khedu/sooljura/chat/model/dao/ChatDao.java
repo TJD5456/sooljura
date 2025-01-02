@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Repository("chatDao")
@@ -40,6 +41,14 @@ public class ChatDao {
 
     public int insertChat(Chat chat) {
         return template.insert("chat.insertChat", chat);
+    }
+
+    public Object checkAdminPresence(String roomKey) {
+        return template.selectOne("chat.checkAdminPresence", roomKey);
+    }
+
+    public int insertAdmin(HashMap<String, String> map) {
+        return template.insert("chat.insertAdmin", map);
     }
 
     public List<Chat> getChatList(String roomId) {

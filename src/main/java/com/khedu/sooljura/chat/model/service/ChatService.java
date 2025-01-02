@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @Service("chatService")
 public class ChatService {
@@ -45,6 +46,17 @@ public class ChatService {
 
     public int insertChat(Chat chat) {
         return dao.insertChat(chat);
+    }
+
+    public User checkAdminPresence(String roomKey) {
+        return (User) dao.checkAdminPresence(roomKey);
+    }
+
+    public int insertAdmin(String roomKey, String userKey) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("roomKey", roomKey);
+        map.put("userKey", userKey);
+        return dao.insertAdmin(map);
     }
 
     public ArrayList<Chat> getChatList(String roomId) {

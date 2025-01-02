@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>chat.jsp</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/jquery/jquery-3.7.1.min.js"></script>
 </head>
 <body>
 
@@ -25,6 +25,7 @@
     let ws;
     let userKey = '${userKey}';
     let roomKey = '${roomKey}';
+    let userCd = '${userCd}';
 
     let fn = {
         init: function () {
@@ -61,6 +62,7 @@
             sendObj.type = "chat";
             sendObj.roomKey = roomKey;
             sendObj.userKey = userKey;
+            sendObj.userCd = userCd;
             sendObj.msg = $("#chatMsg").val();
 
             ws.send(JSON.stringify(sendObj));

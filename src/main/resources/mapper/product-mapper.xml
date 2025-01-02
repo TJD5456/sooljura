@@ -146,4 +146,20 @@
   		  from 	tbl_product_image 
   		 where 	prod_key = #{prodKey}
   </select>
+   <select id="selOnePDH" parameterType="String" resultType="discountHistory">
+  		select 
+  				HIST_CD as histCd,
+				PROD_KEY as prodKey,
+				EVENT_CD as eventCd
+  		  from 	tbl_discount_history
+  		 where 	prod_key = #{prodKey}
+  </select>
+   <select id="selOnePDI" parameterType="hashmap" resultType="discountInfo">
+  		select 
+  				EVENT_CD as eventCd,
+				DISCOUNT_PERCENT as discountPercent,
+				DISCOUNT_AMOUNT as discountAmount
+  		  from 	tbl_discount_info
+  		 where 	event_cd = #{eventCd}
+  </select>
 </mapper>

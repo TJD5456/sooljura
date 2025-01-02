@@ -14,6 +14,8 @@ import com.khedu.sooljura.admin.model.vo.Product;
 import com.khedu.sooljura.admin.model.vo.ProductImage;
 import com.khedu.sooljura.product.model.vo.Basket;
 import com.khedu.sooljura.product.model.vo.OrderHistory;
+import com.khedu.sooljura.product.model.vo.ProductDiscountHistory;
+import com.khedu.sooljura.product.model.vo.ProductDiscountInfo;
 
 
 @Repository("productDao")
@@ -82,6 +84,14 @@ public class ProductDao {
 
 	public ProductImage selOneProdImg(String prodKey) {
 		return sessionTemplate.selectOne("product.selOneProdImg", prodKey);
+	}
+
+	public ProductDiscountHistory selOnePDH(String prodKey) {
+		return sessionTemplate.selectOne("product.selOnePDH", prodKey);
+	}
+
+	public ProductDiscountInfo selOnePDI(HashMap<String, String> map) {
+		return sessionTemplate.selectOne("product.selOnePDI", map);
 	}
 
 

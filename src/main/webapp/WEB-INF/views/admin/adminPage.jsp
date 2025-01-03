@@ -11,7 +11,7 @@
             padding-left: 45%;
         }
 
-        tr > th + td {
+        tr td {
             width: 7%;
         }
     </style>

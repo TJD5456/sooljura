@@ -3,7 +3,7 @@ package com.khedu.sooljura.product.model.vo;
 public class ProductDiscountInfo {
 	
 	private String eventCode;
-	private String eventName;
+	private int eventNm;
 	private int discountPercent;
 	private int discountAmount;
 	
@@ -11,10 +11,10 @@ public class ProductDiscountInfo {
 		super();
 	}
 
-	public ProductDiscountInfo(String eventCode, String eventName, int discountPercent, int discountAmount) {
+	public ProductDiscountInfo(String eventCode, int eventNm, int discountPercent, int discountAmount) {
 		super();
 		this.eventCode = eventCode;
-		this.eventName = eventName;
+		this.eventNm = eventNm;
 		this.discountPercent = discountPercent;
 		this.discountAmount = discountAmount;
 	}
@@ -27,12 +27,12 @@ public class ProductDiscountInfo {
 		this.eventCode = eventCode;
 	}
 
-	public String getEventName() {
-		return eventName;
+	public int getEventNm() {
+		return eventNm;
 	}
 
-	public void setEventName(String eventName) {
-		this.eventName = eventName;
+	public void setEventNm(int eventNm) {
+		this.eventNm = eventNm;
 	}
 
 	public int getDiscountPercent() {
@@ -51,9 +51,5 @@ public class ProductDiscountInfo {
 		this.discountAmount = discountAmount;
 	}
 
-	@Override
-	public String toString() {
-		return "ProductDiscountInfo eventCode=" + eventCode + ", eventName=" + eventName + ", discountPercent="
-				+ discountPercent + ", discountAmount=" + discountAmount;
-	}
+		
 }

@@ -8,6 +8,8 @@ import com.khedu.sooljura.admin.model.vo.ProductImage;
 import com.khedu.sooljura.admin.model.vo.Youtube;
 import com.khedu.sooljura.chat.model.service.ChatService;
 import com.khedu.sooljura.chat.model.vo.Room;
+import com.khedu.sooljura.post.model.service.PostService;
+import com.khedu.sooljura.post.model.vo.PostPageData;
 import com.khedu.sooljura.user.model.vo.User;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -35,10 +37,12 @@ public class AdminController {
 
     private final AdminService adminService;
     private final ChatService chatService;
+    private final PostService postService;
 
-    public AdminController(@Qualifier("adminService") AdminService adminService, @Qualifier("chatService") ChatService chatService) {
+    public AdminController(@Qualifier("adminService") AdminService adminService, @Qualifier("chatService") ChatService chatService, @Qualifier("postService") PostService postService) {
         this.adminService = adminService;
         this.chatService = chatService;
+        this.postService = postService;
     }
 
     @GetMapping("adminPage.do")
@@ -115,7 +119,9 @@ public class AdminController {
     }
 
     @GetMapping("managePosts.do")
-    public String managePosts() {
+    public String managePosts(Model model) {
+        PostPageData postPageDataList = postService.selectPostList(1, 0);
+        model.addAttribute("postPageDataList", postPageDataList);
         return "/admin/managePosts";
     }
 

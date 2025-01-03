@@ -59,20 +59,27 @@ public class ProductController {
 		ProductDiscountHistory pDH = service.selOnePDH(prodKey);
 		String eventCode = pDH.getEventCd();
 		ProductDiscountInfo pDI = service.selOnePDI(prodKey, eventCode);
-
-		if(pDI.getDiscountPercent() == 0) {
-			if(pDI.getDiscountAmount() < 1) {
-			}else {
-			}
-		}else {
-			if(pDI.getDiscountAmount() > 0) {
-			}else {
-			}
-			
-		}
+		
 		int price = prod.getProdPrice();
+		
+		int pOrA= pDI.getEventNm();
+		if(pOrA == 0) {
+			//0 == percent
+			model.addAttribute("pOrA", 0);
+			model.addAttribute("dcPrice", pDI.getDiscountPercent());
+			double percent = pDI.getDiscountPercent();
+			
+			int payPrice = price-(int)Math.round(price*(percent/100));
+			model.addAttribute("payPrice", payPrice);
+		}else {
+			model.addAttribute("pOrA", 1);
+			model.addAttribute("dcPrice", pDI.getDiscountAmount());
+			
+			int payPrice = price-pDI.getDiscountAmount();
+			model.addAttribute("payPrice", payPrice);
+		}
+		
 		String priceWithComma = String.format("%,d", price);
-	
 		model.addAttribute("pDI");
 		model.addAttribute("prodImg", prodImg);
 		model.addAttribute("prod", prod);
@@ -247,6 +254,42 @@ public class ProductController {
 		model.addAttribute("orderHistory", orderHistory.getOrderHistory());
 		model.addAttribute("pageNavi", orderHistory.getPageNavi());
 
-		return "product/buyList";
+        //prodKey를 사용해 추가 데이터 가져오기
+        if (!prodKey.isEmpty()) {
+            List<Product> product = service.getProdInfo(prodKey);
+            model.addAttribute("product", product);
+        } else {
+            model.addAttribute("product", Collections.emptyList());//구매내역 없을 때 c:if로 보여주기 위한 용도
+        }
+
+        model.addAttribute("orderHistory", orderHistory.getOrderHistory());
+        model.addAttribute("pageNavi", orderHistory.getPageNavi());
+
+        return "product/buyList";
+    }
+    
+    @PostMapping("productDcCnt")
+    @ResponseBody
+    public int productDcCnt(String prodKey,int prodCntVal, Model model) {
+    	Product prod = service.selOneProduct(prodKey);
+    	ProductDiscountHistory pDH = service.selOnePDH(prodKey);
+    	String eventCode = pDH.getEventCd();
+    	ProductDiscountInfo pDI = service.selOnePDI(prodKey, eventCode);
+    	System.out.println(prodCntVal);
+    	int price = prod.getProdPrice();
+		
+		int pOrA= pDI.getEventNm();
+		if(pOrA == 0) {
+			//0 == percent
+			double percent = pDI.getDiscountPercent();
+			int payPrice = (price-(int)Math.round(price*(percent/100)))*prodCntVal;
+			
+			return payPrice;
+		}else {
+			//1 == amount
+			int payPrice = (price-pDI.getDiscountAmount())*prodCntVal;
+			
+			return payPrice;
+		}
 	}
 }

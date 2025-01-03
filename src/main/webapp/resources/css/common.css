@@ -99,7 +99,6 @@ main {
 .content {
     flex: 1; /* This allows the content area to expand and take available space */
     padding: 20px; /* Optional: Add some padding */
-    /*margin-right: 63px;*/
 }
 
 .remote {
@@ -181,5 +180,4 @@ th {
 
 tr:hover {
     background-color: var(--table-tr-background-hover);
-);
 }

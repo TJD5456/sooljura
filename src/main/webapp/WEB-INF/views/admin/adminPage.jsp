@@ -8,7 +8,11 @@
     <style>
         tr > th {
             text-align: left;
-            padding-left: 40%;
+            padding-left: 45%;
+        }
+
+        tr > th + td {
+            width: 7%;
         }
     </style>
 </head>
@@ -48,6 +52,7 @@
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </main>
+
 <script>
     $(function () {
         let uploadYoutubeResult = "${uploadYoutubeResult}";

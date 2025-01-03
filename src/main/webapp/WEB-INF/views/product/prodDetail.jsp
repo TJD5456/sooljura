@@ -85,14 +85,16 @@ button {
 
 .hrLine {
 	margin-bottom: 50px;
-	margin-top: 50px; margin-bottom : 50px;
+	margin-top: 50px;
+	margin-bottom: 50px;
 	border-bottom: 1px solid grey;
 	border-top: 1px solid grey;
 }
 
 .commentSpace {
 	display: flex;
-	justify-content: center; margin-top : 50px;
+	justify-content: center;
+	margin-top: 50px;
 	margin-bottom: 50px;
 	margin-top: 50px;
 }
@@ -127,12 +129,10 @@ button {
 
 .prodIntro>table tr:first-of-type td:nth-of-type(2) {
 	background-color: #fc8173;
-	width: 1000px;
 }
 
 .prodIntro>table tr:nth-of-type(2) td {
 	background-color: rgb(227, 227, 227);
-	width: 1000px;
 }
 
 .finalPrice span {
@@ -248,6 +248,11 @@ button {
 				</div>
 				<div class="prodIntro">
 					<table>
+						<colgroup>
+							<col style="">
+							<col style="">
+							<col style="">
+						</colgroup>
 						<tr>
 							<td></td>
 							<td><span>상품 설명</span></td>
@@ -291,8 +296,7 @@ button {
 											<div class="date">${comment.commentDate}</div>
 											<!-- 댓글 내용 -->
 											<div class="content"
-												id="comment-content-${comment.commentKey}">
-											</div>
+												id="comment-content-${comment.commentKey}"></div>
 										</div>
 									</c:forEach>
 								</div>
@@ -305,28 +309,10 @@ button {
 						</c:choose>
 					</div>
 					<div class="comment-form">
-						<c:choose>
-							<c:when test="${not empty loginUser}">
-								<form action="/post/addComment.do" method="post">
-									<div class="form-group">
-										<textarea id="postContent" name="postContent" required></textarea>
-									</div>
-									<input type="hidden" name="postKey" value="${post.postKey}" />
-									<button type="submit">댓글 등록</button>
-								</form>
-							</c:when>
-							<c:otherwise>
-								<p>댓글을 작성하려면 로그인이 필요합니다.</p>
-								<form action="/user/loginFrm.do" method="get">
-									<div class="form-group">
-										<textarea id="postContent" name="postContent" required></textarea>
-									</div>
-									<button type="submit"
-										style="color: white; background-color: blue; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
-										로그인</button>
-								</form>
-							</c:otherwise>
-						</c:choose>
+						<div class="form-group">
+							<div id="postContent"></div>
+						</div>
+						<button type="button" id="postInputBtn">후기 등록</button>
 					</div>
 				</div>
 			</div>
@@ -335,6 +321,61 @@ button {
 		<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 	</main>
 	<script>
+	 $('#postInputBtn').on('click', function(){
+	 	const loginUser = "${not empty sessionScope.loginUser ? sessionScope.loginUser : ''}";
+	 	const logInChk = 0;
+	 	if (!loginUser) {
+	        // loginUser 값이 없을 경우 출력
+	 		msg('알림', '로그인 해야만 후기를 작성할 수 있습니다.', 'error', "");
+	 		swal({
+	 	        title: '알림',
+	 	        text: '로그인 해야만 후기를 작성할 수 있습니다.',
+	 	        icon: 'error',
+	 	        buttons: {
+	 	        	cancel: {
+	                    text: "취소",
+	                    value: false,
+	                    visible: true,
+	                    closeModal: true
+	                },
+	                confirm: {
+	                    text: "로그인",
+	                    value: true,
+	                    visible: true,
+	                    closeModal: true
+	                }
+	 	        }
+	 	    }).then(function (isConfirm) {
+	            if (isConfirm) {
+	            	location.href="/user/loginFrm.do";
+	            }
+	    	});
+	 	}
+	 	//로그인시
+  	 	const content = $('#postContent').summernote('code'); // 에디터 내용 가져오기
+		console.log(content);
+  	 	console.log(content.length);
+        if (!content || content.trim() === '<p><br></p>') {
+            alert('내용을 입력하세요!');
+            return;
+        }
+       
+        $.ajax({
+            url: '/post/freeWrite.do', // 서버로 요청을 보낼 URL
+            type: 'POST',
+            data: { content: content }, // 작성한 내용 전송
+            success: function (res) {
+				msg('안내', '후기 등록 완료', 'success');
+           	console.log(response);
+            },
+            error: function () {
+                alert('An error occurred!');
+                console.error(error);
+            }
+        });
+		 
+	 	
+	 });
 	 $(function () {
 	        $('#postContent').summernote({
 	            height: 100,   // 에디터 높이 설정
@@ -348,6 +389,7 @@ button {
 	                ['color', ['color']],
 	                ['para', ['ul', 'ol', 'paragraph']],
 	                ['view', ['fullscreen', 'codeview', 'help']],
+	                ['insert',['picture']]
 	            ],
 	            placeholder: "내용을 입력하세요...",
 	            disableResizeEditor: true

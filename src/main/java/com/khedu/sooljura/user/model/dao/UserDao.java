@@ -78,9 +78,7 @@ public class UserDao {
 
     //결제를 위한 defaultAddr 값 가져오기
     public UserAddr findDefaultAddr(String userKey) {
-    	System.out.println("UserDaoUserKey: " + userKey);
         UserAddr userAddr = sessionTemplate.selectOne("addr.findDefaultAddr", userKey);
-        System.out.println("Query result: " + userAddr);
         return userAddr;
     }
 

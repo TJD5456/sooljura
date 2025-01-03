@@ -5,6 +5,14 @@
 <head>
     <meta charset="UTF-8">
     <title>manageLevel.jsp</title>
+    <style>
+        .levelChangeSubmitButton {
+            width: 80%;
+            max-width: 1000px;
+            margin: 0 auto 20px;
+            text-align: right;
+        }
+    </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
@@ -19,6 +27,7 @@
             <div class="levelChangeSubmitButton">
                 <input type="button" value="회원 정보 수정" onclick="changeUserLevel(this)">
             </div>
+
             <table>
                 <thead>
                 <tr>

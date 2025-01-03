@@ -1,9 +1,19 @@
 package com.khedu.sooljura.user.controller;
 
-import com.khedu.sooljura.user.model.service.UserService;
-import com.khedu.sooljura.user.model.vo.AddrListData;
-import com.khedu.sooljura.user.model.vo.User;
-import com.khedu.sooljura.user.model.vo.UserAddr;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -13,18 +23,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
+import com.khedu.sooljura.user.model.service.UserService;
+import com.khedu.sooljura.user.model.vo.AddrListData;
+import com.khedu.sooljura.user.model.vo.User;
+import com.khedu.sooljura.user.model.vo.UserAddr;
 
 @Controller
 @RequestMapping("/user/")
@@ -326,7 +328,6 @@ public class UserController {
 
     // 결제를 위한 defaultAddr 가져오기
     public UserAddr findDefaultAddr(String userKey) {
-    	System.out.println("UserControllerUserKey : " + userKey);
         UserAddr userAddr = service.findDefaultAddr(userKey);
         return userAddr;
     }

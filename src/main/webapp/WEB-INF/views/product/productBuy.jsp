@@ -6,12 +6,143 @@
 <head>
     <meta charset="UTF-8">
     <title>sooljura</title>
-    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
-    <script
-            type="text/javascript"
-            src="http://code.jquery.com/jquery-3.3.1.js"
-    ></script>
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<script
+        type="text/javascript"
+        src="http://code.jquery.com/jquery-3.3.1.js"
+></script>
 </head>
+<style>
+/*
+main {
+	background-color: #EFECE5;
+}
+.div-wrap{
+	margin: 0 auto;
+    width: 60%;
+    display: flex;
+    border: 1px solid gray;
+    height: 100px;
+    margin-top: 10px;
+    background-color: #EFECE5;
+}
+.center-div-items{
+	padding: 25px;
+}
+.center-div-items > button{
+	width: 30px;
+	height: 15px;
+}
+.fixed-div{
+	position: fixed;
+	display: flex;
+	width: 100%;
+	height: 70px;
+	justify-content: center;
+	border-top: 1px solid gray;
+	bottom: 0;
+	background-color: #EFECE5;
+}
+.prodNm, .prodPrice{
+	font-size: 20px;
+	font-weight: bold;
+	margin-top: 10px;
+	border: none;
+	background-color: #EFECE5;
+}
+.center-div-items > input[type="button"]{
+	border: none;
+    border-radius: 15px;
+    color: #efece5;
+    background-color: #fc8173;
+    box-shadow: 1px 1px 1px 1px var(--button-shadow);
+    height: 25px;
+    width: 60px;
+}
+.center-div-items > input[type="button"]:hover {
+    background-color: #f5afa5;
+    box-shadow: 1px 1px 1px 1px var(--button-background);
+}
+*/
+main {
+    padding: 20px; /* 여백 추가 */
+}
+
+.div-wrap {
+    margin: 0 auto;
+    width: 80%; /* 더 넓게 설정 */
+    display: flex;
+    flex-direction: column; /* 세로 정렬 */
+    border: 1px solid #ddd; /* 기본 테두리 */
+    border-radius: 10px; /* 둥근 테두리 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+    padding: 20px; /* 내부 여백 추가 */
+    font-weight: bold;
+}
+
+.center-div-items {
+    display: flex;
+    justify-content: space-between; /* 좌우로 정렬 */
+    align-items: center; /* 수직 정렬 */
+    padding: 10px 0; /* 상하 여백 추가 */
+    border-bottom: 1px solid #ddd; /* 기본 구분선 */
+}
+
+.center-div-items:last-child {
+    border-bottom: none; /* 마지막 요소에는 구분선 제거 */
+}
+
+.prodNm, .prodPrice {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0;
+    border: none;
+    width: 80%;
+}
+
+.addrWrap {
+    margin-top: 10px;
+    font-size: 14px;
+    display: flex;
+    align-items: center; /* 아이콘과 텍스트 정렬 */
+}
+
+.addrWrap span {
+    margin-right: 10px; /* 아이콘과 텍스트 사이 여백 */
+}
+
+.addrWrap button {
+    margin-left: auto; /* 버튼을 오른쪽으로 정렬 */
+    border: none; /* 테두리 제거 */
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.fixed-div {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 70px;
+    border-top: 1px solid gray;
+    bottom: 0;
+	background-color: #EFECE5;
+}
+input[type="button"]{
+	border: none;
+    border-radius: 15px;
+    color: #efece5;
+    background-color: #fc8173;
+    box-shadow: 1px 1px 1px 1px var(--button-shadow);
+    height: 25px;
+    width: 60px;
+}
+input[type="button"]:hover {
+    background-color: #f5afa5;
+    box-shadow: 1px 1px 1px 1px var(--button-background);
+}
+</style>
 <body>
 <%--
 	user정보 		: loginUser
@@ -21,58 +152,58 @@
 --%>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <main>
-    <div>
-        <form action="/product/productBuy.do" method="POST">
-            <input type="hidden" id="userKey" value="${loginUser.userKey}">
-            <input type="hidden" id="userEmail" value="${loginUser.userEmail}">
-            <input type="hidden" id="userPhone" value="${loginUser.userPhone}">
-            <input type="hidden" id="addrKey" value="${addr.addrKey}">
-            <h2>배송지</h2>
-            <div>
-                <ul>
-                    <li style="list-style-type: none;">
-                        <div class="addrWrap">
-                            <input type="hidden" class="addrKey" name="addrKey" value="${addr.addrKey}">
-                            <span style="display: flex; font-size: 20px;">
-	                                ${addr.rcptNm}
-	                                <c:if test="${not empty addr.addrNm}">
-                                        (${addr.addrNm})
-                                    </c:if>
-	                                <c:if test="${addr.defaultYn == 1}">
-                                        <span style="font-weight: lighter; color: #fc8173; border: 1px solid #fc8173; font-size: 15px; margin-left: 10px;">기본배송지</span>
-                                    </c:if>
-	                            </span>
-                        </div>
-                        <div class="btnWrap">
-                            <button onclick="chgAddr(this)">변경</button>
-                        </div>
-                        <div class="addrWrap">
-                            <span id="rcptPhone">${addr.rcptPhone}</span>
-                        </div>
-                        <div class="addrWrap">
-                            <span id="addr">${addr.addr}</span> <span id="addrDetail">${addr.addrDetail}</span> <span
-                                id="addrCd">(${addr.addrCd})</span>
-                        </div>
-                    </li>
-                </ul>
+    <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
+    <form action="/product/productBuy.do" id="basketForm" method="POST">
+	    <input type="hidden" id="userKey" value="${loginUser.userKey}">
+	    <input type="hidden" id="userEmail" value="${loginUser.userEmail}">
+	    <input type="hidden" id="userPhone" value="${loginUser.userPhone}">
+	    <input type="hidden" id="addrKey" value="${addr.addrKey}">
+        <div class="div-wrap">
+	    	<h2>배송지</h2>
+                <div class="addrWrap">
+                    <input type="hidden" class="addrKey" name="addrKey" value="${addr.addrKey}">
+                    <span style="display: flex; font-size: 20px;">
+                         ${addr.rcptNm}
+                         <c:if test="${not empty addr.addrNm}">
+                                (${addr.addrNm})
+                            </c:if>
+                         <c:if test="${addr.defaultYn == 1}">
+                                <span style="font-weight: lighter; color: #fc8173; border: 1px solid #fc8173; font-size: 15px; margin-left: 10px;">기본배송지</span>
+                            </c:if>
+                     </span>
+                </div>
+                <div class="btnWrap">
+                    <input type="button" onclick="chgAddr(this)" value="변경">
+                </div>
+                <div class="addrWrap">
+                    <span id="rcptPhone">${addr.rcptPhone}</span>
+                </div>
+                <div class="addrWrap">
+                    <span id="addr">${addr.addr}</span> <span id="addrDetail">${addr.addrDetail}</span> <span
+                        id="addrCd">(${addr.addrCd})</span>
+                </div>
+                <br>
+                <hr>
+                <br>
+	            <h2>주문상품</h2>
+	            <br>
+	            <c:forEach var="productData" items="${productList}">
+				    <c:forEach var="product" items="${productData.productList}">
+				        <input type="hidden" class="prodKey" value="${product.prodKey}">
+				        <div class="center-div-items" style="border-bottom: none;">
+				            <input type="text" class="prodNm" value="${product.prodNm}" readonly>
+				        </div>
+				        <div class="center-div-items" style="border-top: none;">
+				            <input type="text" class="prodPrice" value="${product.prodPrice}" readonly>
+				        </div>
+				    </c:forEach>
+				</c:forEach>
             </div>
-            <h2>주문상품</h2>
-            <div>
-                <c:forEach var="productList" items="${productList}">
-                    <input type="hidden" id="prodKey" value="${productList.prodKey}">
-                    <div>
-                        <input type="text" id="prodNm" value="${product.prodNm}" readonly>
-                        <input type="text" id="prodPrice" value="${product.prodPrice}" readonly>
-                        <input type="text" id="prodCnt" value="${basketList.basketCnt}" readonly><%-- 장바구니에서 선택한 갯수 --%>
-                    </div>
-                </c:forEach>
-            </div>
-            <div>
-                <span id="orderSummary">총 0건의 주문금액 0원</span>
-                <button type="submit">선택한 제품 구매하기</button>
-            </div>
-        </form>
-    </div>
+            <div class="fixed-div">
+                <span id="orderSummary" style="font-size: 30px; margin-top: 10px;">총 0건의 주문금액 0원</span>
+                <button type="submit" style="border-radius: 10px; height: 50px; margin-top: 10px;">선택한 제품 구매하기</button>
+    		</div>
+    </form>
 </main>
 <%-- 
 	결제요청

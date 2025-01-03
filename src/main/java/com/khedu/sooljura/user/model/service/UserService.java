@@ -1,5 +1,21 @@
 package com.khedu.sooljura.user.model.service;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -8,17 +24,6 @@ import com.khedu.sooljura.user.model.dao.UserDao;
 import com.khedu.sooljura.user.model.vo.AddrListData;
 import com.khedu.sooljura.user.model.vo.User;
 import com.khedu.sooljura.user.model.vo.UserAddr;
-import org.mindrot.jbcrypt.BCrypt;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
-
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service("userService")
 public class UserService {
@@ -224,7 +229,6 @@ public class UserService {
 
     // 결제를 위한 defaultAddr 값 가져오기
     public UserAddr findDefaultAddr(String userKey) {
-    	System.out.println("UserServiceUserKey : " + userKey);
         return dao.findDefaultAddr(userKey);
     }
 

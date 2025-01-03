@@ -83,7 +83,7 @@ main {
                     <input type="hidden" class="prodCnt" value="${product.prodCnt}">
 	                <div class="div-wrap">
 	                	<div class="center-div-items" style="width: 10px; padding:35px;">
-	                    	<input type="checkbox" class="selProduct" onchange="updateOrderSummary()">
+	                    	<input type="checkbox" class="selProduct" value="${product.prodKey}">
 	                    </div>
 	                    <div class="div-items" style="width: 50%;">
                             <a href="#" style="cursor: pointer;"><input type="text" class="prodNm" value="${product.prodNm}" readonly></a><br>
@@ -178,6 +178,29 @@ main {
         $('#basketForm .selProduct').prop('checked', isChecked);
         updateOrderSummary();
     }
+    
+    document.querySelector('#basketForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // 기본 폼 제출 방지
+
+        const checkedProducts = document.querySelectorAll('.selProduct:checked');
+        const userKey = document.querySelector('#userKey').value;
+
+        if (checkedProducts.length === 0) {
+            alert("선택된 제품이 없습니다.");
+            return;
+        }
+
+        // 체크된 prodKey 값을 수집
+        const prodKeys = Array.from(checkedProducts).map(input => input.value);
+
+        // 동적으로 GET URL 생성
+        const url = new URL(this.action, window.location.origin);
+        url.searchParams.append('userKey', userKey);
+        prodKeys.forEach(key => url.searchParams.append('prodKeys', key));
+
+        // 페이지 이동
+        window.location.href = url.toString();
+    });
 </script>
 </body>
 </html>

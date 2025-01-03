@@ -79,7 +79,7 @@ public class ProductController {
 		model.addAttribute("priceWithComma", priceWithComma);
 		return "product/prodDetail";
 	}
-
+	
 	// 장바구니 페이지로 이동
 	@GetMapping("expPurchaseFrm.do")
 	public String expPurchase(HttpSession session, Model model) {
@@ -105,6 +105,9 @@ public class ProductController {
 		return "product/expPurchase";
 	}
 
+	@Autowired
+	private UserController userController;
+	
 	/*
 	 * 필요한 값 - prodKey -> 여러개 존재(basketKey로 조회? or 페이지에서 받아오기?) - basketCnt ->
 	 * prodCnt - basketCnt 할 때 필요 - userNo -> 주문내역에 넣어줄 때 필요함 - prodPrice -> 장바구니
@@ -115,34 +118,30 @@ public class ProductController {
 	@GetMapping("productBuyFrm.do")
 	public String productBuyFrm(Model model,  @RequestParam(required = false) List<String> prodKeys, 
             									@RequestParam(required = false) String userKey) {
-		//문제없음
-		if (userKey == null) {
-			System.err.println("Error: userKey is null");
-		}
-		if (prodKeys == null || prodKeys.isEmpty()) {
-			System.err.println("Error: prodKeys is null or empty");
-		}
-		System.out.println("userKey : " + userKey);
-		System.out.println("prodKeys : " + prodKeys);
-		
 		// userKey로 기본배송지 가져오기
-		UserController userController = new UserController();
 		UserAddr defaultAddr = userController.findDefaultAddr(userKey);		
 		
 		// product 가져오기
 		List<ProductListData> productList = new ArrayList<>();
+		ProductListData prodInfo = null;
 		for (String prodKey : prodKeys) {
-			ProductListData prodInfo = service.prodInfo(prodKey);
-			System.out.println(prodInfo.getProductList());
+			
+			prodInfo = service.prodInfo(prodKey);
+			for (Product product : prodInfo.getProductList()) {
+		        System.out.println("prodKey: " + product.getProdKey());
+		        System.out.println("prodNm: " + product.getProdNm());
+		        System.out.println("prodPrice: " + product.getProdPrice());
+		    }
 			productList.add(prodInfo);
 		}
 
+		System.out.println("Model에 전달된 productList: " + productList);
 		// 기본 주소지
 		model.addAttribute("addr", defaultAddr);
 		// 제품 정보 리스트
 		model.addAttribute("productList", productList);
-
-		// 장바구니 정보
+		// 장바구니 정보(결제완료 후 장바구니에서 제품 삭제용) - 보류
+		
 
 		return "product/productBuy";
 	}

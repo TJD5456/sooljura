@@ -42,12 +42,13 @@ public class ProductController {
 	@Autowired
 	@Qualifier("productService")
 	private ProductService service;
-	
-	//상세페이지
+
+	// 상세페이지
 	@GetMapping("prodDetail.do")
-	public String prodDetail(String prodKey, Model model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String prodDetail(String prodKey, Model model, HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		Product prod = service.selOneProduct(prodKey);
-		if(prod.getTradingYn() < 1) {
+		if (prod.getTradingYn() < 1) {
 			System.out.println("access denied");
 			request.setAttribute("title", "알림");
 			request.setAttribute("msg", "판매 중지된 상품입니다.");
@@ -56,34 +57,43 @@ public class ProductController {
 			request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
 		}
 		ProductImage prodImg = service.selOneProdImg(prodKey);
-		ProductDiscountHistory pDH = service.selOnePDH(prodKey);
-		String eventCode = pDH.getEventCd();
-		ProductDiscountInfo pDI = service.selOnePDI(prodKey, eventCode);
-		
 		int price = prod.getProdPrice();
-		
-		int pOrA= pDI.getEventNm();
-		if(pOrA == 0) {
-			//0 == percent
-			model.addAttribute("pOrA", 0);
-			model.addAttribute("dcPrice", pDI.getDiscountPercent());
-			double percent = pDI.getDiscountPercent();
-			
-			int payPrice = price-(int)Math.round(price*(percent/100));
-			model.addAttribute("payPrice", payPrice);
-		}else {
-			model.addAttribute("pOrA", 1);
-			model.addAttribute("dcPrice", pDI.getDiscountAmount());
-			
-			int payPrice = price-pDI.getDiscountAmount();
-			model.addAttribute("payPrice", payPrice);
+
+		int isPdhNull = service.isPdhNull(prodKey);
+		if (isPdhNull > 0) {
+			model.addAttribute("pdhNull", 0);
+			ProductDiscountHistory pDh = service.selOnePDH(prodKey);
+			String eventCode = pDh.getEventCd();
+			ProductDiscountInfo pDi = service.selOnePDI(prodKey, eventCode);
+
+			int pOrA = pDi.getEventNm();
+			if (pOrA == 0) {
+				// 0 == percent
+				model.addAttribute("pOrA", 0);
+				model.addAttribute("dcPrice", pDi.getDiscountPercent());
+				double percent = pDi.getDiscountPercent();
+
+				int payPrice = price - (int) Math.round(price * (percent / 100));
+				String priceWithComma = String.format("%,d", payPrice);
+				model.addAttribute("payPrice", priceWithComma);
+			} else {
+				model.addAttribute("pOrA", 1);
+				model.addAttribute("dcPrice", pDi.getDiscountAmount());
+
+				int payPrice = price - pDi.getDiscountAmount();
+				String priceWithComma = String.format("%,d", payPrice);
+				model.addAttribute("payPrice", priceWithComma);
+			}
+		} else {
+			model.addAttribute("pdhNull", 1);
+			model.addAttribute("pOrA", 2);
+			String priceWithComma = String.format("%,d", price);
+			model.addAttribute("payPrice", priceWithComma);
 		}
 		
-		String priceWithComma = String.format("%,d", price);
-		model.addAttribute("pDI");
+		model.addAttribute("retailPrice", price);
 		model.addAttribute("prodImg", prodImg);
 		model.addAttribute("prod", prod);
-		model.addAttribute("priceWithComma", priceWithComma);
 		return "product/prodDetail";
 	}
 
@@ -120,9 +130,9 @@ public class ProductController {
 	// 결제 페이지로 이동
 	// 제품 여러개일 수도 있으니까 반복문 걸기
 	@GetMapping("productBuyFrm.do")
-	public String productBuyFrm(Model model,  @RequestParam(required = false) List<String> prodKeys, 
-            									@RequestParam(required = false) String userKey) {
-		//문제없음
+	public String productBuyFrm(Model model, @RequestParam(required = false) List<String> prodKeys,
+			@RequestParam(required = false) String userKey) {
+		// 문제없음
 		if (userKey == null) {
 			System.err.println("Error: userKey is null");
 		}
@@ -131,11 +141,11 @@ public class ProductController {
 		}
 		System.out.println("userKey : " + userKey);
 		System.out.println("prodKeys : " + prodKeys);
-		
+
 		// userKey로 기본배송지 가져오기
 		UserController userController = new UserController();
-		UserAddr defaultAddr = userController.findDefaultAddr(userKey);		
-		
+		UserAddr defaultAddr = userController.findDefaultAddr(userKey);
+
 		// product 가져오기
 		List<ProductListData> productList = new ArrayList<>();
 		for (String prodKey : prodKeys) {
@@ -222,7 +232,7 @@ public class ProductController {
 	public String delBasket(String userKey, String prodKey) {
 		System.out.println(userKey);
 		System.out.println(prodKey);
-		
+
 		Basket basket = new Basket();
 		basket.setUserKey(userKey);
 		basket.setProdKey(prodKey);
@@ -254,42 +264,48 @@ public class ProductController {
 		model.addAttribute("orderHistory", orderHistory.getOrderHistory());
 		model.addAttribute("pageNavi", orderHistory.getPageNavi());
 
-        //prodKey를 사용해 추가 데이터 가져오기
-        if (!prodKey.isEmpty()) {
-            List<Product> product = service.getProdInfo(prodKey);
-            model.addAttribute("product", product);
-        } else {
-            model.addAttribute("product", Collections.emptyList());//구매내역 없을 때 c:if로 보여주기 위한 용도
-        }
-
-        model.addAttribute("orderHistory", orderHistory.getOrderHistory());
-        model.addAttribute("pageNavi", orderHistory.getPageNavi());
-
-        return "product/buyList";
-    }
-    
-    @PostMapping("productDcCnt")
-    @ResponseBody
-    public int productDcCnt(String prodKey,int prodCntVal, Model model) {
-    	Product prod = service.selOneProduct(prodKey);
-    	ProductDiscountHistory pDH = service.selOnePDH(prodKey);
-    	String eventCode = pDH.getEventCd();
-    	ProductDiscountInfo pDI = service.selOnePDI(prodKey, eventCode);
-    	System.out.println(prodCntVal);
-    	int price = prod.getProdPrice();
-		
-		int pOrA= pDI.getEventNm();
-		if(pOrA == 0) {
-			//0 == percent
-			double percent = pDI.getDiscountPercent();
-			int payPrice = (price-(int)Math.round(price*(percent/100)))*prodCntVal;
-			
-			return payPrice;
-		}else {
-			//1 == amount
-			int payPrice = (price-pDI.getDiscountAmount())*prodCntVal;
-			
-			return payPrice;
+		// prodKey를 사용해 추가 데이터 가져오기
+		if (!prodKey.isEmpty()) {
+			List<Product> product = service.getProdInfo(prodKey);
+			model.addAttribute("product", product);
+		} else {
+			model.addAttribute("product", Collections.emptyList());// 구매내역 없을 때 c:if로 보여주기 위한 용도
 		}
+
+		model.addAttribute("orderHistory", orderHistory.getOrderHistory());
+		model.addAttribute("pageNavi", orderHistory.getPageNavi());
+
+		return "product/buyList";
+	}
+
+	@PostMapping("productDcCnt")
+	@ResponseBody
+	public String productDcCnt(String prodKey, int prodCntVal, Model model) {
+		int isPdhNull = service.isPdhNull(prodKey);
+		Product prod = service.selOneProduct(prodKey);
+		int price = prod.getProdPrice();
+		if (isPdhNull > 0) {
+			ProductDiscountHistory pDH = service.selOnePDH(prodKey);
+			String eventCode = pDH.getEventCd();
+			ProductDiscountInfo pDI = service.selOnePDI(prodKey, eventCode);
+
+			int pOrA = pDI.getEventNm();
+			if (pOrA == 0) {
+				// 0 == percent
+				double percent = pDI.getDiscountPercent();
+				int totalPrice = (price - (int) Math.round(price * (percent / 100))) * prodCntVal;
+				String payPrice = String.format("%,d", totalPrice);
+				return payPrice;
+			} else if (pOrA == 1) {
+				// 1 == amount
+				int totalPrice = (price - pDI.getDiscountAmount()) * prodCntVal;
+				String payPrice = String.format("%,d", totalPrice);
+				return payPrice;
+			}
+		}
+		int totalPrice = price * prodCntVal;
+		String payPrice = String.format("%,d", totalPrice);
+		model.addAttribute("pOrA",2);
+		return payPrice;
 	}
 }

@@ -156,5 +156,10 @@
   		  from 	tbl_discount_info
   		 where 	event_cd = #{eventCd}
   </select>
-    
+     <select id="isPdhNull" parameterType="String" resultType="_int">
+    	select 
+   				count(*)
+		  from  tbl_discount_history
+		 where  prod_key = #{prodKey}
+  </select>
 </mapper>

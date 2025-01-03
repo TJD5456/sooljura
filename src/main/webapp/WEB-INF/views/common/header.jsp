@@ -3,6 +3,9 @@
 <link rel="stylesheet" href="/resources/css/common.css"/>
 <script src="/resources/jquery/jquery-3.7.1.min.js"></script>
 <script src="/resources/js/sweetalert.min.js"></script>
+<script src="/resources/summernote/summernote-lite.min.js"></script>
+<script src="/resources/summernote/lang/summernote-ko-KR.min.js"></script>
+<link href="/resources/summernote/summernote-lite.min.css" rel="stylesheet">
 <div id="top"></div>
 <header>
     <c:choose>

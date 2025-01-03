@@ -98,5 +98,9 @@ public class ProductDao {
 		return sessionTemplate.selectOne("product.selOnePDI", map);
 	}
 
+	public int isPdhNull(String prodKey) {
+		return sessionTemplate.selectOne("product.isPdhNull", prodKey);
+	}
+
 
 }

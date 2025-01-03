@@ -143,4 +143,8 @@ public class ProductService {
 		map.put("eventCd", eventCode);
 		return dao.selOnePDI(map);
 	}
+
+	public int isPdhNull(String prodKey) {
+		return dao.isPdhNull(prodKey);
+	}
 }

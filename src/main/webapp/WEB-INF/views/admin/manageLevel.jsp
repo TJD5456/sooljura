@@ -7,9 +7,10 @@
     <title>manageLevel.jsp</title>
     <style>
         .levelChangeSubmitButton {
+            width: 80%;
+            max-width: 1000px;
+            margin: 0 auto 20px;
             text-align: right;
-            margin-bottom: 20px;
-            margin-right: 14%;
         }
     </style>
 </head>

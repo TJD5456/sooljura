@@ -2,18 +2,18 @@ package com.khedu.sooljura.post.model.vo;
 
 public class Post {
 
-    private String postKey;      // 게시글 키
-    private int postCd;          // 게시글 코드 (1=일상, 2=질문, 3=정보 나눔, 4=공지사항)
-    private String userKey;      // 작성자 키
-    private String userNickNm; // 작성자 닉네임
-    private String userNm;       // 작성자 이름 (추가)
-    private String postTitle;    // 게시글 제목
-    private String postContent;  // 게시글 내용
-    private int postViews;   // 조회수
-    private String postDate;     // 작성일
-    private String confirmYn = "N";    // 승인 여부
-    private String deleteYn = "N";     // 삭제 여부
-    private String deleteReason; // 삭제 사유
+    private String postKey;         // 게시글 키
+    private int postCd;             // 게시글 코드 (1 == 일상, 2 == 질문, 3 == 정보 나눔, 4 == 공지사항)
+    private String userKey;         // 작성자 키
+    private String userNickNm;      // 작성자 닉네임
+    private String userNm;          // 작성자 이름 (추가)
+    private String postTitle;       // 게시글 제목
+    private String postContent;     // 게시글 내용
+    private int postViews;          // 조회수
+    private String postDate;        // 작성일
+    private String confirmYn = "N"; // 확인 여부
+    private String deleteYn = "N";  // 삭제 여부
+    private String deleteReason;    // 삭제 사유
 
     public Post() {
         super();

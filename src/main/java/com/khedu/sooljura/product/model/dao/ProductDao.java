@@ -6,14 +6,20 @@ import com.khedu.sooljura.product.model.vo.Basket;
 import com.khedu.sooljura.product.model.vo.OrderHistory;
 import com.khedu.sooljura.product.model.vo.ProductDiscountHistory;
 import com.khedu.sooljura.product.model.vo.ProductDiscountInfo;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.khedu.sooljura.admin.model.vo.Product;
+import com.khedu.sooljura.admin.model.vo.ProductImage;
+import com.khedu.sooljura.product.model.vo.Basket;
+import com.khedu.sooljura.product.model.vo.OrderHistory;
 
 
 @Repository("productDao")
@@ -29,7 +35,7 @@ public class ProductDao {
 
     //결제정보 삽입
     public int insertHistory(OrderHistory orderHistory, Map<String, Integer> orderDetail) {
-        Map<String, Object> params = new HashMap<>();
+    	Map<String, Object> params = new HashMap<>();
         params.put("OrderHistory", orderHistory);
         params.put("orderDetails", orderDetail);
 

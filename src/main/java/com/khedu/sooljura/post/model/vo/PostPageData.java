@@ -34,8 +34,8 @@ public class PostPageData {
     }
 
     @Override
-    public String toString() {
-        return "PostPageData [list=" + list + ", pageNavi=" + pageNavi + "]";
+    	 public String toString() {
+    	        return "PostPageData [listSize=" + (list != null ? list.size() : 0) + ", pageNavi=" + pageNavi + "]";
     }
 
 }

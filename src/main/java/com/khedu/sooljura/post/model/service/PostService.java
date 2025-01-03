@@ -19,57 +19,45 @@ public class PostService {
 	@Qualifier("postDao")
 	private PostDao dao;
 
-	public PostPageData selectPostList(int reqPage) {
-		int viewNoticeCnt = 5; // 한 페이지당 표시할 게시글 수
+	public PostPageData selectPostList(int reqPage, int postCd) {
+	    int postsPerPage = 5; // 한 페이지당 게시글 수
+	    int end = reqPage * postsPerPage;
+	    int start = end - postsPerPage + 1;
 
-		// 페이징 시작 및 끝 계산
-		int end = reqPage * viewNoticeCnt;
-		int start = end - viewNoticeCnt + 1;
+	    HashMap<String, Integer> params = new HashMap<>();
+	    params.put("start", start);
+	    params.put("end", end);
+	    params.put("postCd", postCd);
 
-		HashMap<String, Integer> map = new HashMap<>();
-		map.put("start", start);
-		map.put("end", end);
+	    List<Post> list = dao.selectPostList(params);
+	    int totalPostCount = dao.selectPostCount(postCd);
 
-		// 게시글 리스트 가져오기
-		ArrayList<Post> list = (ArrayList<Post>) dao.selectPostList(map);
+	    int totalPages = (int) Math.ceil((double) totalPostCount / postsPerPage);
 
-		// 전체 게시글 수 가져오기
-		int totCnt = dao.selectPostCount();
+	    StringBuilder pageNavi = new StringBuilder();
+	    int naviSize = 3;
+	    int naviStart = ((reqPage - 1) / naviSize) * naviSize + 1;
 
-		// 전체 페이지 수 계산
-		int totPage = (totCnt % viewNoticeCnt > 0) ? (totCnt / viewNoticeCnt + 1) : (totCnt / viewNoticeCnt);
+	    if (naviStart > 1) {
+	        pageNavi.append("<a href='?reqPage=").append(naviStart - 1).append("'> 이전 </a>");
+	    }
+	    for (int i = 0; i < naviSize && naviStart <= totalPages; i++, naviStart++) {
+	        if (naviStart == reqPage) {
+	            pageNavi.append("<span>").append(naviStart).append("</span>");
+	        } else {
+	            pageNavi.append("<a href='?reqPage=").append(naviStart).append("'>").append(naviStart).append("</a>");
+	        }
+	    }
+	    if (naviStart <= totalPages) {
+	        pageNavi.append("<a href='?reqPage=").append(naviStart).append("'> 다음 </a>");
+	    }
 
-		// 페이지 네비게이션 설정
-		int pageNaviSize = 3; // 한 번에 보여줄 페이지 네비게이션 크기
-		int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1; // 페이지 네비게이션 시작 번호
-		StringBuilder pageNavi = new StringBuilder();
+	    // PostPageData 객체 생성 및 설정
+	    PostPageData pd = new PostPageData();
+	    pd.setList((ArrayList<Post>) list);
+	    pd.setPageNavi(pageNavi.toString());
 
-		// 이전 버튼
-		if (pageNo != 1) {
-			pageNavi.append("<a href='/post/getList.do?reqPage=").append(pageNo - 1).append("'> 이전 </a>");
-		}
-
-		// 페이지 번호
-		for (int i = 0; i < pageNaviSize; i++) {
-			if (pageNo == reqPage) {
-				pageNavi.append("<span>").append(pageNo).append("</span>");
-			} else {
-				pageNavi.append("<a href='/post/getList.do?reqPage=").append(pageNo).append("'>").append(pageNo)
-						.append("</a>");
-			}
-			pageNo++;
-			if (pageNo > totPage) {
-				break;
-			}
-		}
-
-		// 다음 버튼
-		if (pageNo <= totPage) {
-			pageNavi.append("<a href='/post/getList.do?reqPage=").append(pageNo).append("'> 다음 </a>");
-		}
-
-		// PostPageData 객체 생성 후 반환
-		return new PostPageData(list, pageNavi.toString());
+	    return pd;
 	}
 
 	public int insertfreePost(Post post) {

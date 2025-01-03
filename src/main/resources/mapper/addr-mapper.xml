@@ -111,7 +111,7 @@
     </insert>
 
     <!-- 결제를 위한 defaultAddr 가져오기 -->
-    <select id="getDefaultAddr" parameterType="string" resultType="addr">
+    <select id="findDefaultAddr" parameterType="string" resultType="addr">
         select addr_key    as addrKey,
                user_key    as userKey,
                addr_nm     as addrNm,
@@ -124,6 +124,6 @@
                default_yn  as defaultYn
         from tbl_user_addr
         where user_key = #{userKey}
-          and default_yn = 1
+        and default_yn = 1
     </select>
 </mapper>

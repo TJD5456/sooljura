@@ -50,14 +50,15 @@
 
     <!-- 장바구니에 넣은 productKey 조회 -->
     <select id="findProdKey" parameterType="string" resultType="basket">
-        select basket_key as basketKey,
-               basket_cd  as basketCd,
-               prod_key   as prodKey,
-               user_key   as userKey,
-               basket_cnt as basketCnt
+        select 
+        	basket_key as basketKey,
+	        basket_cd  as basketCd,
+	        prod_key   as prodKey,
+	        user_key   as userKey,
+	        basket_cnt as basketCnt
         from tbl_basket
         where user_key = #{userKey}
-          and basket_cd = 1
+        and basket_cd = 1
     </select>
 
     <!-- productKey로 제품 정보 조회 -->
@@ -67,7 +68,7 @@
                prod_price as prodPrice,
                prod_cnt   as prodCnt
         from tbl_product
-        where prod_key as #{prodKey}
+        where prod_key = #{prodKey}
     </select>
 
     <!-- 장바구니에 제품 넣기 -->

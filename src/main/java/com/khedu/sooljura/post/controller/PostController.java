@@ -26,46 +26,53 @@ public class PostController {
     @Qualifier("postService")
     private PostService service;
 
-    
     @GetMapping("notePost.do")
     public String notePost() {
         return "post/notePost";
     }
 
     @GetMapping("detailReviewPost.do")
-
     public String detailReviewPost() {
         return "post/detailReviewPost";
     }
 
     @GetMapping("reviewListPost.do")
-
     public String reviewListPost() {
         return "post/reviewListPost";
     }
 
     @GetMapping("freePostWriter.do")
-
     public String freePostWirter() {
         return "post/freePostWriter";
     }
 
     @GetMapping("webPageInfo.do")
-
     public String webPageInfo() {
         return "post/webPageInfo";
     }
 
-    @GetMapping("getList.do")
-    public String getList(int reqPage, Model model) {
-        PostPageData pd = service.selectPostList(reqPage);
-        model.addAttribute("list", pd.getList());
-        model.addAttribute("pageNavi", pd.getPageNavi());
-        return "post/freePost";
+    @GetMapping("freePostList.do")
+    public String freePostList(@RequestParam(defaultValue = "1") int reqPage, Model model) {
+        return getPostList(reqPage, model, 2, "post/freePost"); // post_cd 2: 자유게시판
+    }
+    
+
+    @GetMapping("noticeList.do")
+    public String noticeList(@RequestParam(defaultValue = "1") int reqPage, Model model) {
+        return getPostList(reqPage, model, 1, "post/noticeListPost"); // post_cd 1: 공지사항
     }
 
-    @PostMapping("freewrite.do")
-    public String freewrite(HttpSession session, Post post, Model model) {
+    private String getPostList(int reqPage, Model model, int postCd, String viewName) {
+        reqPage = Math.max(reqPage, 1); // 요청 페이지 번호 유효성 검사
+        PostPageData pd = service.selectPostList(reqPage, postCd);
+        model.addAttribute("list", pd.getList());
+        model.addAttribute("pageNavi", pd.getPageNavi());
+        return viewName;
+    }
+    
+
+    @PostMapping("freeWrite.do")
+    public String freeWrite(HttpSession session, Post post, Model model) {
 
         // 0.제목 확인
         if (post.getPostTitle() == null || post.getPostTitle().isEmpty()) {
@@ -99,6 +106,7 @@ public class PostController {
             return "post/freePostWriter"; // 예외 발생 시 작성 페이지로 복귀
         }
     }
+
     @RequestMapping("/freePostDetail.do")
     public String freePostDetail(@RequestParam(value = "postKey", required = true) String postKey, Model model) {
         if (postKey == null || postKey.isEmpty()) {
@@ -107,7 +115,7 @@ public class PostController {
         }
 
         Post post = service.selectOnePost(postKey);
-        List<Comment> comments = service.selectCommentsByPostKey(postKey); 
+        List<Comment> comments = service.selectCommentsByPostKey(postKey);
         model.addAttribute("post", post);
         model.addAttribute("comments", comments);
         return "post/freePostDetail";
@@ -167,7 +175,7 @@ public class PostController {
             return "redirect:/post/freePostDetail.do";
         }
     }
-    
+
     @PostMapping("/editComment.do")
     public String editComment(@RequestParam("commentKey") String commentKey,
                               @RequestParam("commentContent") String commentContent,
@@ -193,5 +201,11 @@ public class PostController {
             return "redirect:/post/freePostDetail.do";
         }
     }
-
+    
+    
+    
+    
+    
+    
+    
 }

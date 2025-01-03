@@ -5,6 +5,12 @@
 <head>
     <meta charset="UTF-8">
     <title>adminPage.jsp</title>
+    <style>
+        tr > th {
+            text-align: left;
+            padding-left: 40%;
+        }
+    </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
@@ -18,10 +24,10 @@
             <table>
                 <tbody>
                 <tr>
-                    <th><a href="${pageContext.request.contextPath}/admin/manageProducts.do">상품 등록</a></th>
+                    <th colspan="2"><a href="${pageContext.request.contextPath}/admin/manageProducts.do">상품 등록</a></th>
                 </tr>
                 <tr>
-                    <th><a href="${pageContext.request.contextPath}/admin/manageYoutube.do">유튜브 관리</a></th>
+                    <th colspan="2"><a href="${pageContext.request.contextPath}/admin/manageYoutube.do">유튜브 관리</a></th>
                 </tr>
                 <tr>
                     <th><a href="${pageContext.request.contextPath}/admin/managePosts.do">게시글 관리</a></th>

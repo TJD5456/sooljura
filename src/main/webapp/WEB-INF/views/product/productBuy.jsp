@@ -13,83 +13,32 @@
 ></script>
 </head>
 <style>
-/*
 main {
-	background-color: #EFECE5;
-}
-.div-wrap{
-	margin: 0 auto;
-    width: 60%;
-    display: flex;
-    border: 1px solid gray;
-    height: 100px;
-    margin-top: 10px;
-    background-color: #EFECE5;
-}
-.center-div-items{
-	padding: 25px;
-}
-.center-div-items > button{
-	width: 30px;
-	height: 15px;
-}
-.fixed-div{
-	position: fixed;
-	display: flex;
-	width: 100%;
-	height: 70px;
-	justify-content: center;
-	border-top: 1px solid gray;
-	bottom: 0;
-	background-color: #EFECE5;
-}
-.prodNm, .prodPrice{
-	font-size: 20px;
-	font-weight: bold;
-	margin-top: 10px;
-	border: none;
-	background-color: #EFECE5;
-}
-.center-div-items > input[type="button"]{
-	border: none;
-    border-radius: 15px;
-    color: #efece5;
-    background-color: #fc8173;
-    box-shadow: 1px 1px 1px 1px var(--button-shadow);
-    height: 25px;
-    width: 60px;
-}
-.center-div-items > input[type="button"]:hover {
-    background-color: #f5afa5;
-    box-shadow: 1px 1px 1px 1px var(--button-background);
-}
-*/
-main {
-    padding: 20px; /* 여백 추가 */
+    padding: 20px;
 }
 
 .div-wrap {
     margin: 0 auto;
-    width: 80%; /* 더 넓게 설정 */
+    width: 80%;
     display: flex;
-    flex-direction: column; /* 세로 정렬 */
-    border: 1px solid #ddd; /* 기본 테두리 */
-    border-radius: 10px; /* 둥근 테두리 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
-    padding: 20px; /* 내부 여백 추가 */
+    flex-direction: column;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
     font-weight: bold;
 }
 
 .center-div-items {
     display: flex;
-    justify-content: space-between; /* 좌우로 정렬 */
-    align-items: center; /* 수직 정렬 */
-    padding: 10px 0; /* 상하 여백 추가 */
-    border-bottom: 1px solid #ddd; /* 기본 구분선 */
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
 }
 
 .center-div-items:last-child {
-    border-bottom: none; /* 마지막 요소에는 구분선 제거 */
+    border-bottom: none;
 }
 
 .prodNm, .prodPrice {
@@ -104,16 +53,16 @@ main {
     margin-top: 10px;
     font-size: 14px;
     display: flex;
-    align-items: center; /* 아이콘과 텍스트 정렬 */
+    align-items: center;
 }
 
 .addrWrap span {
-    margin-right: 10px; /* 아이콘과 텍스트 사이 여백 */
+    margin-right: 10px;
 }
 
 .addrWrap button {
-    margin-left: auto; /* 버튼을 오른쪽으로 정렬 */
-    border: none; /* 테두리 제거 */
+    margin-left: auto;
+    border: none;
     padding: 5px 10px;
     border-radius: 5px;
     font-size: 14px;
@@ -173,7 +122,7 @@ input[type="button"]:hover {
                      </span>
                 </div>
                 <div class="btnWrap">
-                    <input type="button" onclick="chgAddr(this)" value="변경">
+                    <input type="button" onclick="chgAddr()" value="변경">
                 </div>
                 <div class="addrWrap">
                     <span id="rcptPhone">${addr.rcptPhone}</span>
@@ -253,13 +202,23 @@ input[type="button"]:hover {
         updateOrderSummary();
     });
 
-    // 결제 요청
+    // 결제 요청(주문내역에 넣을 prodKey 배열 따로 생성)
+    let prodKeys = []; // prodKey 배열
+	$('.prodKeyClass').each(function () {
+	    prodKeys.push($(this).val()); // prodKey 값을 배열에 추가
+	});
+    
     reqPayment: function (payBtn) {
         $.ajax({
             url: '/product/makeOrderNo.do', // 주문번호 생성 요청 URL
             type: 'POST',
+            data : {
+            	 userKey: $('#userKey').val(),
+                 prodKey: prodKeys, // 배열로 전달
+                 addrKey: $('#addrKey').val()
+            },
             dataType: 'json', // JSON 형식의 데이터 수신
-            success: function (orderData) {
+            success: function (orderData && orderData.orderNo) {
                 if (orderData && orderData.orderNo) {
                     let buyProdName = $('#prodNm').val() + "외 " + totalCnt - 1 + "개";
                     let buyAmount = totalPrice;
@@ -337,6 +296,27 @@ input[type="button"]:hover {
         // 아임포트 가맹점 식별 코드 설정
         IMP.init("imp56726440");
     });
+    
+    //주소지 변경 버튼 클릭 시
+    function chgAddr(){
+    	$.ajax({
+    		url : "/product/chgAddr.do",
+    		type : "POST",
+    		data : {
+    			userKey : $('#userKey').val()
+    		},
+    		success : function(res){
+    			if(res === "1"){
+    				
+    			}else{
+    				msg('알림', '주소지 변경 중 오류가 발생했습니다', 'error');
+    			}
+    		},
+    		error : function(){
+    			console.log('주소지변경 ajax 오류');
+    		}
+    	});
+    }
 </script>
 </body>
 </html>

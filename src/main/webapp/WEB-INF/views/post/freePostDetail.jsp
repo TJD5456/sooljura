@@ -47,23 +47,27 @@
                                 <button type="button"
                                         onclick="editComment('${comment.commentKey}', '${fn:escapeXml(comment.commentContent).replaceAll(" '", "\\'")}')"
                                         style="border: none; background: none; color: blue; cursor: pointer;">
-                                    수정
-                                </button>
-                                <form action="/post/deleteComment.do" method="post"
-                                      onsubmit="return confirm('정말 삭제하시겠습니까?');"
-                                      style="display: inline;">
-                                    <input type="hidden" name="commentKey" value="${comment.commentKey}"/>
-                                    <button type="submit" class="to-login-btn" onclick="toLogin()">삭제</button>
-                                </form>
-                            </c:if>
-                        </div>
-                        <div class="date">${comment.commentDate}</div>
-                        <div class="content" id="comment-content-${comment.commentKey}">
-                                ${fn:escapeXml(comment.commentContent)}
-                        </div>
-                    </div>
-                </c:forEach>
-            </div>
+										수정</button>
+									<!-- 삭제 버튼 -->
+									<form action="/post/deleteComment.do" method="post"
+										onsubmit="return confirm('정말 삭제하시겠습니까?');"
+										style="display: inline;">
+										<input type="hidden" name="commentKey"
+											value="${comment.commentKey}" />
+										<button type="submit"
+											style="border: none; background: none; color: red; cursor: pointer;">
+											삭제</button>
+									</form>
+								</c:if>
+							</div>
+							<!-- 댓글 작성 날짜 -->
+							<div class="date">${comment.commentDate}</div>
+							<!-- 댓글 내용 -->
+							<div class="content" id="comment-content-${comment.commentKey}">
+								${fn:escapeXml(comment.commentContent)}</div>
+						</div>
+					</c:forEach>
+				</div>
 
             <!-- 댓글 작성 폼 -->
             <div class="comment-form">
@@ -85,14 +89,13 @@
                 </c:choose>
             </div>
 
-        </div>
-        <jsp:include page="/WEB-INF/views/common/remote.jsp"/>
-    </div>
-    <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
-</main>
-
-<script>
-    // 현재 수정 중인 댓글의 key 를 추적
+			</div>
+			<jsp:include page="/WEB-INF/views/common/remote.jsp" />
+		</div>
+		<jsp:include page="/WEB-INF/views/common/footer.jsp" />
+	</main>
+	<script>
+    // 현재 수정 중인 댓글의 key를 추적
     let currentEditingKey = null;
 
     // 댓글 수정 함수
@@ -182,13 +185,22 @@
         if (contentDiv) {
             contentDiv.style.display = 'block';
         }
+
         // 수정 상태 초기화
         currentEditingKey = null;
     };
+
+    function confirmEditPage(url) {
+        if (confirm("수정 페이지로 이동하시겠습니까?")) {
+            window.location.href = url;
+        }
+    }
 
     function toLogin() {
         window.location.href = '/user/loginFrm.do';
     }
 </script>
+
+
 </body>
 </html>

@@ -60,6 +60,9 @@
     </style>
 </head>
 <body>
+
+
+
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
 <main>
     <jsp:include page="/WEB-INF/views/common/header.jsp"/>
@@ -81,6 +84,7 @@
                     <th>제목</th>
                     <th>작성자</th>
                     <th>작성일</th>
+                     <th>조회수</th>  <!-- 조회수 열 추가 -->
                 </tr>
                 </thead>
                 <tbody>
@@ -89,6 +93,7 @@
                         <td><a href="/post/freePostDetail.do?postKey=${post.postKey}">${post.postTitle}</a></td>
                         <td>${post.userNickNm}</td>
                         <td>${post.postDate}</td>
+                        <td>${post.postViews}</td>  <!-- 조회수 표시 -->
                     </tr>
                 </c:forEach>
                 <c:if test="${empty list}">

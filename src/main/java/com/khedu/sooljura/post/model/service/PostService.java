@@ -19,63 +19,64 @@ public class PostService {
 	@Qualifier("postDao")
 	private PostDao dao;
 
-	public PostPageData selectPostList(int reqPage, int postCd) {
-	    int postsPerPage = 5; // 한 페이지당 게시글 수
-	    int end = reqPage * postsPerPage;
-	    int start = end - postsPerPage + 1;
+	 // 자유게시판, 공지사항 등 공통 메서드
+    public PostPageData selectPostList(int reqPage, int postCd) {
+        int postsPerPage = 5;
+        int end = reqPage * postsPerPage;
+        int start = end - postsPerPage + 1;
 
-	    HashMap<String, Integer> params = new HashMap<>();
-	    params.put("start", start);
-	    params.put("end", end);
-	    params.put("postCd", postCd);
+        HashMap<String, Integer> params = new HashMap<>();
+        params.put("start", start);
+        params.put("end", end);
+        params.put("postCd", postCd);
 
-	    List<Post> list = dao.selectPostList(params);
-	    int totalPostCount = dao.selectPostCount(postCd);
+        List<Post> list = dao.selectPostList(params);
+        int totalPostCount = dao.selectPostCount(postCd);
+        int totalPages = (int) Math.ceil((double) totalPostCount / postsPerPage);
 
-	    int totalPages = (int) Math.ceil((double) totalPostCount / postsPerPage);
+        StringBuilder pageNavi = new StringBuilder();
+        int naviSize = 3;
+        int naviStart = ((reqPage - 1) / naviSize) * naviSize + 1;
 
-	    StringBuilder pageNavi = new StringBuilder();
-	    int naviSize = 3;
-	    int naviStart = ((reqPage - 1) / naviSize) * naviSize + 1;
+        if (naviStart > 1) {
+            pageNavi.append("<a href='?reqPage=").append(naviStart - 1).append("'> 이전 </a>");
+        }
+        for (int i = 0; i < naviSize && naviStart <= totalPages; i++, naviStart++) {
+            if (naviStart == reqPage) {
+                pageNavi.append("<span>").append(naviStart).append("</span>");
+            } else {
+                pageNavi.append("<a href='?reqPage=").append(naviStart).append("'>").append(naviStart).append("</a>");
+            }
+        }
+        if (naviStart <= totalPages) {
+            pageNavi.append("<a href='?reqPage=").append(naviStart).append("'> 다음 </a>");
+        }
 
-	    if (naviStart > 1) {
-	        pageNavi.append("<a href='?reqPage=").append(naviStart - 1).append("'> 이전 </a>");
-	    }
-	    for (int i = 0; i < naviSize && naviStart <= totalPages; i++, naviStart++) {
-	        if (naviStart == reqPage) {
-	            pageNavi.append("<span>").append(naviStart).append("</span>");
-	        } else {
-	            pageNavi.append("<a href='?reqPage=").append(naviStart).append("'>").append(naviStart).append("</a>");
-	        }
-	    }
-	    if (naviStart <= totalPages) {
-	        pageNavi.append("<a href='?reqPage=").append(naviStart).append("'> 다음 </a>");
-	    }
-
-	    // PostPageData 객체 생성 및 설정
-	    PostPageData pd = new PostPageData();
-	    pd.setList((ArrayList<Post>) list);
-	    pd.setPageNavi(pageNavi.toString());
-
-	    return pd;
-	}
+        PostPageData pd = new PostPageData();
+        pd.setList((ArrayList<Post>) list);
+        pd.setPageNavi(pageNavi.toString());
+        return pd;
+    }
 
 	public int insertFreePost(Post post) {
 		return dao.insertFreePost(post);
 	}
 
-	public Post selectOnePost(String postKey) {
-		if (postKey == null || postKey.isEmpty()) {
-			throw new IllegalArgumentException("postKey는 null이거나 비어 있을 수 없습니다.");
-		}
+	 public Post selectOnePost(String postKey) {
+	        if (postKey == null || postKey.isEmpty()) {
+	            throw new IllegalArgumentException("postKey는 null이거나 비어 있을 수 없습니다.");
+	        }
 
-		Post post = dao.selectOnePost(postKey);
-		if (post == null) {
-			throw new RuntimeException("해당 postKey에 대한 게시글이 존재하지 않습니다: " + postKey);
-		}
+	        // 조회수 증가 처리
+	        dao.increasePostView(postKey);  // 게시글 조회 시 항상 조회수 증가
 
-		return post;
-	}
+	        Post post = dao.selectOnePost(postKey);
+	        if (post == null) {
+	            throw new RuntimeException("해당 postKey에 대한 게시글이 존재하지 않습니다: " + postKey);
+	        }
+
+	        return post;
+	    }
 
 	public int insertComment(Comment comment) {
 		return dao.insertComment(comment);
@@ -105,4 +106,11 @@ public class PostService {
     return dao.insertNoticePost(post);
 }
 
+	public int deletePost(String postKey, String userKey) {
+    // 게시글 작성자 확인 후 삭제 처리
+    return dao.deletePost(postKey, userKey);
+}
+	public int updatePost(Post post) {
+	    return dao.updatePost(post);
+	}
 }

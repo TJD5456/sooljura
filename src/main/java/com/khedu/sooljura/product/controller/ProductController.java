@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -144,15 +145,8 @@ public class ProductController {
 		for (String prodKey : prodKeys) {
 			
 			prodInfo = service.prodInfo(prodKey);
-			for (Product product : prodInfo.getProductList()) {
-		        System.out.println("prodKey: " + product.getProdKey());
-		        System.out.println("prodNm: " + product.getProdNm());
-		        System.out.println("prodPrice: " + product.getProdPrice());
-		    }
 			productList.add(prodInfo);
 		}
-
-		System.out.println("Model에 전달된 productList: " + productList);
 		// 기본 주소지
 		model.addAttribute("addr", defaultAddr);
 		// 제품 정보 리스트
@@ -166,16 +160,22 @@ public class ProductController {
 	// 결제 API에 주문번호 보내는 용도
 	@PostMapping("makeOrderNo.do")
 	@ResponseBody
-	public String makeOrderNo(HttpSession session, String userKey, String prodKey, String addrKey) {
+	public String makeOrderNo(@RequestBody Map<String, Object> requestBody) {
 		// 결제 API에 orderNo 보내줘야함
-		OrderHistory orderHistory = new OrderHistory();
-		orderHistory.setUserKey(userKey);
-		orderHistory.setProdKey(prodKey);
-		orderHistory.setAddrKey(addrKey);
-
 		// orderNo 생성 및 Product.java에 orderNo 집어넣음
-		int makeOrderNo = service.makeOrderNo(orderHistory);
+		OrderHistory orderHistory = new OrderHistory();
+	    orderHistory.setUserKey((String) requestBody.get("userKey"));
+	    orderHistory.setAddrKey((String) requestBody.get("addrKey"));
 
+	    List<String> prodKeyList = (List<String>) requestBody.get("prodKey");
+	    System.out.println("prodKeyList = " + prodKeyList);
+	    String prodKeyString = String.join(",", prodKeyList);
+	    System.out.println("prodKeyString = " + prodKeyString);
+	    orderHistory.setProdKey(prodKeyString);
+	    System.out.println("orderHistory = " + orderHistory);
+	    
+	    int makeOrderNo = service.makeOrderNo(orderHistory);
+	    
 		if (makeOrderNo > 0) {
 			String orderNo = orderHistory.getOrderNo();
 			// 정상적으로 넣으면 orderNo 반환
@@ -229,9 +229,6 @@ public class ProductController {
 	@GetMapping("delBasket.do")
 	@ResponseBody
 	public String delBasket(String userKey, String prodKey) {
-		System.out.println(userKey);
-		System.out.println(prodKey);
-
 		Basket basket = new Basket();
 		basket.setUserKey(userKey);
 		basket.setProdKey(prodKey);
@@ -240,6 +237,7 @@ public class ProductController {
 		return String.valueOf(result);
 	}
 
+/*		
 	// 구매내역 페이지로 이동
 	@GetMapping("buyList.do")
 	public String buyList(HttpSession session, int reqPage, Model model) {
@@ -248,8 +246,8 @@ public class ProductController {
 		ProductListData orderHistory = service.orderList(userKey, reqPage);
 
 		// 구매 내역에서 prodKey 리스트 추출
-		List<String> prodKey = orderHistory.getOrderHistory().stream().map(OrderHistory::getProdKey) // OrderHistory 객체의
-																										// prodKey 추출
+		// OrderHistory 객체의 prodKey 추출
+		List<String> prodKey = orderHistory.getOrderHistory().stream().map(OrderHistory::getProdKey)
 				.collect(Collectors.toList());
 
 		// prodKey를 사용해 추가 데이터 가져오기
@@ -276,7 +274,7 @@ public class ProductController {
 
 		return "product/buyList";
 	}
-
+*/
 	@PostMapping("productDcCnt")
 	@ResponseBody
 	public String productDcCnt(String prodKey, int prodCntVal, Model model) {

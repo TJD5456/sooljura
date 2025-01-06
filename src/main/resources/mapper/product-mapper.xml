@@ -3,14 +3,18 @@
 <mapper namespace="product">
     <!-- 결제 API에 주문번호를 보내기 위한 주문번호 제작 -->
     <insert id="makeOrderNo" parameterType="history">
-        insert into tbl_order_history (order_no,
-                                       prod_key,
-                                       user_key,
-                                       addr_key)
-        values ('oh' || to_char(sysdate, 'yymmdd') || lpad(seq_order_history.nextval, 4, '0')
-            #{prodKey}, #{userKey}, #{addrKey}
+        insert into tbl_order_history (
+        	order_no,
+            prod_key,
+            user_key,
+            addr_key)
+        values (
+        	'oh' || to_char(sysdate, 'yymmdd') || lpad(seq_order_history.nextval, 4, '0')
+            #{prodKey}, 
+            #{userKey}, 
+            #{addrKey}
             )
-            returning order_no
+        returning order_no
         into #{orderNo}
     </insert>
 

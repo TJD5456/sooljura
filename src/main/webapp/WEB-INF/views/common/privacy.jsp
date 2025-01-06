@@ -1,19 +1,71 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이용약관</title>
     <style>
-        .textEl {
-            margin: auto;
-            text-align: left;
-            width: 50%;
+        .title h2 {
+            text-align: center;
+            color: #555;
+            margin-bottom: 20px;
         }
 
-        p {
-            margin-top: 20px;
+        .textEl {
+            margin: 0 auto;
+            padding: 20px;
+            max-width: 800px;
+        }
+
+        .textEl h3 {
+            color: #444;
+            border-left: 4px solid #0078D4;
+            padding-left: 10px;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        .textEl p, ul {
             margin-bottom: 20px;
+            color: #555;
+        }
+
+        .textEl ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+
+        .textEl ul li {
+            margin-bottom: 10px;
+        }
+
+        .textEl strong {
+            color: #0078D4;
+        }
+
+        .textEl p {
+            margin-top: 15px;
+        }
+
+        .contact-info ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .contact-info ul li {
+            margin-bottom: 10px;
+        }
+
+        .contact-info strong {
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .textEl {
+                width: 100%;
+                padding: 10px;
+            }
         }
     </style>
 </head>
@@ -77,7 +129,6 @@
                         종이에 출력된 개인정보는 분쇄기로 파기하며, 전자 파일은 복구할 수 없도록 완전히 삭제합니다.
                     </li>
                 </ul>
-                <br>
 
                 <h3>6. 개인정보의 보호를 위한 조치</h3>
                 <ul>
@@ -88,7 +139,7 @@
 
                 <h3>7. 개인정보 보호 책임자</h3>
                 <p>개인정보 관련 문의는 아래로 연락 주시면 신속히 처리하겠습니다.</p>
-                <ul>
+                <ul class="contact-info">
                     <li><strong>이름:</strong> 홍길동</li>
                     <li><strong>소속/직위:</strong> 고객지원팀 / 팀장</li>
                     <li><strong>이메일:</strong> support@sooljura.com</li>

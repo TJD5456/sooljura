@@ -51,43 +51,22 @@ public class PostController {
 		return "post/webPageInfo";
 	}
 
-	@GetMapping("freePostList.do") // 자유게시판
-	public String freePostList(@RequestParam(defaultValue = "1") int reqPage, Model model) {
-		return getPostList(reqPage, model, 2, "post/freePost"); // post_cd 2: 자유게시판
-	}
+	  @GetMapping("freePostList.do") // 자유게시판
+	    public String freePostList(@RequestParam(defaultValue = "1") int reqPage, Model model) {
+	        return getPostList(reqPage, model, 2, "post/freePost"); // post_cd 2: 자유게시판
+	    }
 
-	@GetMapping("noticeList.do") // 공지사항
-	public String noticeList(@RequestParam(defaultValue = "1") int reqPage, Model model) {
-		return getPostList(reqPage, model, 1, "post/noticeListPost"); // post_cd 1: 공지사항
-	}
-
-	private String getPostList(int reqPage, Model model, int postCd, String viewName) {
-		reqPage = Math.max(reqPage, 1);
-		PostPageData pd = service.selectPostList(reqPage, postCd);
-		model.addAttribute("list", pd.getList());
-		model.addAttribute("pageNavi", pd.getPageNavi());
-		return viewName; // viewName에 따라 해당 JSP를 렌더링함
-	}
-
-	@PostMapping("freeWrite.do")
-	public String freeWrite(HttpSession session, Post post, Model model) {
-    @GetMapping("freePostList.do")
-    public String freePostList(@RequestParam(defaultValue = "1") int reqPage, Model model) {
-        return getPostList(reqPage, model, 2, "post/freePost"); // post_cd 2: 자유게시판
-    }
-    
-    @GetMapping("noticeList.do")
-    public String noticeList(@RequestParam(defaultValue = "1") int reqPage, Model model) {
-        return getPostList(reqPage, model, 1, "post/noticeListPost"); // post_cd 1: 공지사항
-    }
-
-    private String getPostList(int reqPage, Model model, int postCd, String viewName) {
-        reqPage = Math.max(reqPage, 1); // 요청 페이지 번호 유효성 검사
-        PostPageData pd = service.selectPostList(reqPage, postCd);
-        model.addAttribute("list", pd.getList());
-        model.addAttribute("pageNavi", pd.getPageNavi());
-        return viewName;
-    }
+	  @GetMapping("noticeList.do") // 공지사항
+	    public String noticeList(@RequestParam(defaultValue = "1") int reqPage, Model model) {
+	        return getPostList(reqPage, model, 1, "post/noticeListPost"); // post_cd 1: 공지사항
+	    }
+	  private String getPostList(int reqPage, Model model, int postCd, String viewName) {
+	        reqPage = Math.max(reqPage, 1);
+	        PostPageData pd = service.selectPostList(reqPage, postCd);
+	        model.addAttribute("list", pd.getList());
+	        model.addAttribute("pageNavi", pd.getPageNavi());
+	        return viewName;
+	    }
     
     @PostMapping("freeWrite.do")
     public String freeWrite(HttpSession session, Post post, Model model) {

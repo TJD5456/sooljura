@@ -6,10 +6,6 @@
     <meta charset="UTF-8">
     <title>managePosts.jsp</title>
     <style>
-        .second-table {
-            margin-top: 30px;
-        }
-
         .pagination {
             display: flex;
             justify-content: center;
@@ -60,7 +56,8 @@
                 <tbody>
                 <c:forEach var="post" items="${postList}">
                     <tr>
-                        <td><a href="/post/freePostDetail.do?postKey=${post.postKey}">${post.postTitle}</a></td>
+                        <td><a id="post-${post.postKey}"
+                               href="/post/freePostDetail.do?postKey=${post.postKey}">${post.postTitle}</a></td>
                         <td>${post.userNickNm}</td>
                         <td>${post.postTitle}</td>
                         <td>${post.postDate}</td>

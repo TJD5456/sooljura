@@ -42,7 +42,7 @@ public class PostController {
     }
 
     @GetMapping("freePostWriter.do")
-    public String freePostWirter() {
+    public String freePostWriter() {
         return "post/freePostWriter";
     }
 
@@ -56,7 +56,6 @@ public class PostController {
         return getPostList(reqPage, model, 2, "post/freePost"); // post_cd 2: 자유게시판
     }
     
-
     @GetMapping("noticeList.do")
     public String noticeList(@RequestParam(defaultValue = "1") int reqPage, Model model) {
         return getPostList(reqPage, model, 1, "post/noticeListPost"); // post_cd 1: 공지사항
@@ -70,7 +69,6 @@ public class PostController {
         return viewName;
     }
     
-
     @PostMapping("freeWrite.do")
     public String freeWrite(HttpSession session, Post post, Model model) {
 
@@ -201,11 +199,5 @@ public class PostController {
             return "redirect:/post/freePostDetail.do";
         }
     }
-    
-    
-    
-    
-    
-    
     
 }

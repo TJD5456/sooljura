@@ -11,7 +11,6 @@ public class CommonDao {
     @Qualifier("sqlSessionTemplate")
     private SqlSessionTemplate sqlSession;
 
-
 }
 
 

@@ -1,13 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f9f9f9;
-    }
-
     .youtube {
         display: flex;
         border: 1px solid #ddd;
@@ -51,7 +44,6 @@
     .related-products div img {
         width: 50px;
     }
-
 </style>
 
 <div class="youtube">

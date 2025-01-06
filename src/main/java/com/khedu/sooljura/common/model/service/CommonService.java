@@ -8,10 +8,8 @@ import org.springframework.stereotype.Service;
 @Service("commonService")
 public class CommonService {
 
-
     @Autowired
     @Qualifier("commonDao")
     private CommonDao dao;
-
 
 }

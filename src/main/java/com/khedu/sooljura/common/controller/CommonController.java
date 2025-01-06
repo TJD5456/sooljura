@@ -17,28 +17,26 @@ public class CommonController {
     @Qualifier("commonService")
     private CommonService service;
 
-
-    @GetMapping("commonTerms.do")
-    public String CommonTerms() {
-        return "common/Terms";
-    }
-
-    @GetMapping("commonprivacy.do")
-    public String Commonprivacy() {
-        return "common/privacy";
-    }
-
-    @GetMapping("commonguide.do")
-    public String Commonguide() {
+    @GetMapping("commonGuide.do")
+    public String CommonGuide() {
         return "common/guide";
     }
 
-    @ExceptionHandler(Exception.class)
-    public String handleAllExceptions(Exception ex, Model model) {
-        // 에러 메시지 설정
-        model.addAttribute("errorMessage", "예기치 못한 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-        // 로그 출력 (선택 사항)
-        ex.printStackTrace();
-        return "common/error"; // /WEB-INF/views/common/error.jsp로 이동
+    @GetMapping("commonPrivacy.do")
+    public String CommonPrivacy() {
+        return "common/privacy";
     }
+
+    @GetMapping("commonTerms.do")
+    public String CommonTerms() {
+        return "common/terms";
+    }
+
+    @ExceptionHandler(Exception.class)
+    public String handleAllExceptions(Exception e, Model model) {
+        model.addAttribute("errorMessage", "예기치 못한 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        e.printStackTrace();
+        return "common/error";
+    }
+
 }

@@ -26,11 +26,6 @@ public class PostController {
 	@Qualifier("postService")
 	private PostService service;
 
-	@GetMapping("notePost.do")
-	public String notePost() {
-		return "post/notePost";
-	}
-
 	@GetMapping("detailReviewPost.do")
 	public String detailReviewPost() {
 		return "post/detailReviewPost";
@@ -40,11 +35,36 @@ public class PostController {
 	public String reviewListPost() {
 		return "post/reviewListPost";
 	}
+	
+	@GetMapping("freePostWriter.do")
+	public String freePostWriter() {
+	    return "post/freePostWriter";  // JSP: /WEB-INF/views/post/freePostWriter.jsp
+	}
+	@PostMapping("freeWrite.do")
+	public String freeWrite(HttpSession session, Post post, Model model) {
+	    User loginUser = (User) session.getAttribute("loginUser");
+	    if (loginUser == null) {
+	        model.addAttribute("errorMessage", "로그인이 필요합니다.");
+	        return "redirect:/user/login.do";
+	    }
+	    post.setUserKey(loginUser.getUserKey());
+	    post.setUserNm(loginUser.getUserNm());
+	    post.setPostCd(2);  // 자유게시판 코드 설정
 
-    @GetMapping("freePostWriter.do")
-    public String freePostWriter() {
-        return "post/freePostWriter";
-    }
+	    try {
+	        int result = service.insertfreePost(post);
+	        if (result > 0) {
+	            return "redirect:/post/freePostList.do?reqPage=1";
+	        } else {
+	            model.addAttribute("errorMessage", "게시글 등록 중 오류가 발생했습니다.");
+	            return "post/freePostWriter";
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        model.addAttribute("errorMessage", "게시글 등록 중 예외가 발생했습니다.");
+	        return "post/freePostWriter";
+	    }
+	}
 
 	@GetMapping("webPageInfo.do")
 	public String webPageInfo() {
@@ -68,87 +88,66 @@ public class PostController {
 	        return viewName;
 	    }
     
-    @PostMapping("freeWrite.do")
-    public String freeWrite(HttpSession session, Post post, Model model) {
+	  @GetMapping("noticePostWriter.do")
+	  public String noticePostWriter(HttpSession session, Model model) {
+	      // 1. 로그인 사용자 정보 확인
+	      User loginUser = (User) session.getAttribute("loginUser");
+	      if (loginUser == null) {
+	          model.addAttribute("errorMessage", "로그인이 필요합니다.");
+	          return "redirect:/user/login.do";  // 로그인 페이지로 리다이렉트
+	      }
 
-		// 0. 제목 확인
-		if (post.getPostTitle() == null || post.getPostTitle().isEmpty()) {
-			model.addAttribute("errorMessage", "제목을 입력해주세요.");
-			return "post/freePostWriter";
-		}
+	      // 2. 관리자 권한 확인
+	      if (loginUser.getUserCd() != 0) {  // 0: 관리자 권한
+	          model.addAttribute("errorMessage", "공지사항 작성 권한이 없습니다.");
+	          return "redirect:/post/noticeList.do";  // 공지사항 목록 페이지로 리다이렉트
+	      }
 
-		// 1. 로그인 사용자 정보 확인
-		User loginUser = (User) session.getAttribute("loginUser");
-		if (loginUser == null) {
-			model.addAttribute("errorMessage", "로그인이 필요합니다.");
-			return "redirect:/user/login.do";
-		}
+	      // 3. 공지사항 작성 페이지 반환
+	      return "post/noticeWriter";  // noticeWriter.jsp를 렌더링
+	  }
 
-		// 2. 작성자 정보 설정
-		post.setUserKey(loginUser.getUserKey());
-		post.setUserNm(loginUser.getUserNm());
+	  @PostMapping("noticeWrite.do")
+	  public String noticeWrite(HttpSession session, Post post, Model model) {
+	      // 0. 제목 확인
+	      if (post.getPostTitle() == null || post.getPostTitle().isEmpty()) {
+	          model.addAttribute("errorMessage", "제목을 입력해주세요.");
+	          return "post/noticeWriter";  // 공지사항 작성 페이지
+	      }
 
-		// **postCd 설정 (자유게시판: 2)**
-		post.setPostCd(2);
+	      // 1. 로그인 사용자 정보 확인
+	      User loginUser = (User) session.getAttribute("loginUser");
+	      if (loginUser == null) {
+	          model.addAttribute("errorMessage", "로그인이 필요합니다.");
+	          return "redirect:/user/login.do";  // 로그인 페이지로 리다이렉트
+	      }
 
-		// 3. 게시글 저장
-		try {
-			int result = service.insertfreePost(post);
-			if (result > 0) {
-				return "redirect:/post/freePostList.do?reqPage=1"; // 자유게시판 목록으로 리다이렉트
-			} else {
-				model.addAttribute("errorMessage", "게시글 등록 중 오류가 발생했습니다.");
-				return "post/freePostWriter"; // 실패 시 작성 페이지로 복귀
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("errorMessage", "게시글 등록 중 예외가 발생했습니다.");
-			return "post/freePostWriter";
-		}
-	}
-	
-	@PostMapping("noticeWrite.do")
-	public String noticeWrite(HttpSession session, Post post, Model model) {
+	      // 2. 관리자 권한 확인
+	      if (loginUser.getUserCd() != 0) {  // 0: 관리자 권한
+	          model.addAttribute("errorMessage", "공지사항 작성 권한이 없습니다.");
+	          return "redirect:/post/noticeList.do";  // 공지사항 목록 페이지로 리다이렉트
+	      }
 
-	    // 0. 제목 확인
-	    if (post.getPostTitle() == null || post.getPostTitle().isEmpty()) {
-	        model.addAttribute("errorMessage", "제목을 입력해주세요.");
-	        return "post/noticePostWriter";  // 공지사항 작성 페이지
-	    }
+	      // 3. 작성자 정보 설정 및 게시판 코드 설정
+	      post.setUserKey(loginUser.getUserKey());
+	      post.setUserNm(loginUser.getUserNm());
+	      post.setPostCd(1);  // 공지사항 코드: 1
 
-	    // 1. 로그인 사용자 정보 확인
-	    User loginUser = (User) session.getAttribute("loginUser");
-	    if (loginUser == null) {
-	        model.addAttribute("errorMessage", "로그인이 필요합니다.");
-	        return "redirect:/user/login.do";  // 로그인 페이지로 리다이렉트
-	    }
-
-	    // 2. 관리자 권한 확인
-	    if (loginUser.getUserCd() != 0) {  // 0: 관리자 권한
-	        model.addAttribute("errorMessage", "공지사항 작성 권한이 없습니다.");
-	        return "redirect:/post/noticeList.do";  // 공지사항 목록 페이지로 리다이렉트
-	    }
-
-	    // 3. 작성자 정보 설정 및 게시판 코드 설정
-	    post.setUserKey(loginUser.getUserKey());
-	    post.setUserNm(loginUser.getUserNm());
-	    post.setPostCd(1);  // 공지사항 코드: 1
-
-	    // 4. 게시글 저장
-	    try {
-	        int result = service.insertNoticePost(post);
-	        if (result > 0) {
-	            return "redirect:/post/noticeList.do?reqPage=1";  // 성공 시 공지사항 목록 페이지로 리다이렉트
-	        } else {
-	            model.addAttribute("errorMessage", "공지사항 등록 중 오류가 발생했습니다.");
-	            return "post/noticePostWriter";  // 실패 시 작성 페이지로 복귀
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        model.addAttribute("errorMessage", "공지사항 등록 중 예외가 발생했습니다.");
-	        return "post/noticePostWriter";
-	    }
-	}
+	      // 4. 게시글 저장
+	      try {
+	          int result = service.insertNoticePost(post);
+	          if (result > 0) {
+	              return "redirect:/post/noticeList.do?reqPage=1";  // 성공 시 공지사항 목록 페이지로 리다이렉트
+	          } else {
+	              model.addAttribute("errorMessage", "공지사항 등록 중 오류가 발생했습니다.");
+	              return "post/noticeWriter";  // 실패 시 작성 페이지로 복귀
+	          }
+	      } catch (Exception e) {
+	          e.printStackTrace();
+	          model.addAttribute("errorMessage", "공지사항 등록 중 예외가 발생했습니다.");
+	          return "post/noticeWriter";
+	      }
+	  }
 
 
 	@RequestMapping("/freePostDetail.do")
@@ -164,6 +163,25 @@ public class PostController {
 		model.addAttribute("comments", comments);
 		return "post/freePostDetail";
 	}
+	
+	@GetMapping("noticeDetail.do")
+	public String noticeDetail(@RequestParam("postKey") String postKey, Model model) {
+	    // 1. postKey 유효성 검사
+	    if (postKey == null || postKey.isEmpty()) {
+	        model.addAttribute("errorMessage", "잘못된 게시글 정보입니다.");
+	        return "errorPage";  // 에러 페이지로 리다이렉트
+	    }
+
+	    // 2. 게시글 조회 (내부에서 조회수 증가 처리)
+	    Post post = service.selectOnePost(postKey);
+
+	    // 3. 모델에 게시글 정보 추가
+	    model.addAttribute("post", post);
+
+	    return "post/noticeDetail";  // noticeDetail.jsp 페이지로 이동
+	}
+
+	
 
 	// 댓글작성 or 댓글이 없는 경우 에러메세지를 추가
 	@PostMapping("/addComment.do")
@@ -243,5 +261,139 @@ public class PostController {
 			return "redirect:/post/freePostDetail.do";
 		}
 	}
+	
+	@PostMapping("/deletePost.do")
+	public String deletePost(@RequestParam("postKey") String postKey, HttpSession session, RedirectAttributes redirectAttributes) {
+	    User loginUser = (User) session.getAttribute("loginUser");
 
+	    // 1. 로그인 여부 확인
+	    if (loginUser == null) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "로그인이 필요합니다.");
+	        return "redirect:/user/login.do";  // 로그인 페이지로 리다이렉트
+	    }
+
+	    try {
+	        // 2. 게시글 작성자 확인 및 삭제 처리
+	        int result = service.deletePost(postKey, loginUser.getUserKey());
+
+	        if (result > 0) {
+	            redirectAttributes.addFlashAttribute("successMessage", "게시글이 삭제되었습니다.");
+	        } else {
+	            redirectAttributes.addFlashAttribute("errorMessage", "게시글 삭제 권한이 없습니다.");
+	        }
+
+	        return "redirect:/post/freePostList.do";  // 성공 시 자유게시판 목록으로 리다이렉트
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        redirectAttributes.addFlashAttribute("errorMessage", "게시글 삭제 중 오류가 발생했습니다.");
+	        return "redirect:/post/freePostDetail.do?postKey=" + postKey;
+	    }
+	}
+	
+	@GetMapping("freePostEdit.do")
+	public String freePostEdit(@RequestParam("postKey") String postKey, HttpSession session, Model model) {
+	    User loginUser = (User) session.getAttribute("loginUser");
+
+	    if (loginUser == null) {
+	        model.addAttribute("errorMessage", "로그인이 필요합니다.");
+	        return "redirect:/user/login.do";  // 로그인 페이지로 리다이렉트
+	    }
+
+	    Post post = service.selectOnePost(postKey);
+	    if (!post.getUserKey().equals(loginUser.getUserKey())) {
+	        model.addAttribute("errorMessage", "게시글 수정 권한이 없습니다.");
+	        return "redirect:/post/freePostDetail.do?postKey=" + postKey;  // 게시글 상세보기로 이동
+	    }
+
+	    model.addAttribute("post", post);  // 기존 게시글 데이터를 모델에 추가
+	    return "post/freePostEdit";  // 수정 페이지
+	}
+
+	// 게시글 수정 처리
+	@PostMapping("freePostUpdate.do")
+	public String freePostUpdate(HttpSession session, Post post, RedirectAttributes redirectAttributes) {
+	    User loginUser = (User) session.getAttribute("loginUser");
+
+	    if (loginUser == null) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "로그인이 필요합니다.");
+	        return "redirect:/user/login.do";
+	    }
+
+	    try {
+	        post.setUserKey(loginUser.getUserKey());
+	        int result = service.updatePost(post);
+
+	        if (result > 0) {
+	            redirectAttributes.addFlashAttribute("successMessage", "게시글이 성공적으로 수정되었습니다.");
+	            return "redirect:/post/freePostDetail.do?postKey=" + post.getPostKey();
+	        } else {
+	            redirectAttributes.addFlashAttribute("errorMessage", "게시글 수정 중 오류가 발생했습니다.");
+	            return "redirect:/post/freePostEdit.do?postKey=" + post.getPostKey();
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        redirectAttributes.addFlashAttribute("errorMessage", "게시글 수정 중 예외가 발생했습니다.");
+	        return "redirect:/post/freePostEdit.do?postKey=" + post.getPostKey();
+	    }
+	}
+	// 공지사항 수정 페이지 이동
+	@GetMapping("noticePostEdit.do")
+	public String noticePostEdit(@RequestParam("postKey") String postKey, HttpSession session, Model model) {
+	    User loginUser = (User) session.getAttribute("loginUser");
+
+	    // 1. 로그인 확인
+	    if (loginUser == null) {
+	        model.addAttribute("errorMessage", "로그인이 필요합니다.");
+	        return "redirect:/user/login.do";  // 로그인 페이지로 리다이렉트
+	    }
+
+	    // 2. 관리자 권한 확인
+	    if (loginUser.getUserCd() != 0) {  // 0: 관리자 권한
+	        model.addAttribute("errorMessage", "공지사항 수정 권한이 없습니다.");
+	        return "redirect:/post/noticeDetail.do?postKey=" + postKey;  // 상세보기 페이지로 이동
+	    }
+
+	    // 3. 공지사항 데이터 조회 및 모델 설정
+	    Post post = service.selectOnePost(postKey);
+	    model.addAttribute("post", post);  // 기존 게시글 데이터를 모델에 추가
+
+	    return "post/noticePostEdit";  // 수정 페이지 렌더링
+	}
+
+	// 공지사항 수정 처리
+	@PostMapping("noticePostUpdate.do")
+	public String noticePostUpdate(HttpSession session, Post post, RedirectAttributes redirectAttributes) {
+	    User loginUser = (User) session.getAttribute("loginUser");
+
+	    // 1. 로그인 확인
+	    if (loginUser == null) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "로그인이 필요합니다.");
+	        return "redirect:/user/login.do";  // 로그인 페이지로 리다이렉트
+	    }
+
+	    // 2. 관리자 권한 확인
+	    if (loginUser.getUserCd() != 0) {  // 0: 관리자 권한
+	        redirectAttributes.addFlashAttribute("errorMessage", "공지사항 수정 권한이 없습니다.");
+	        return "redirect:/post/noticeDetail.do?postKey=" + post.getPostKey();  // 상세보기 페이지로 리다이렉트
+	    }
+
+	    try {
+	        // 3. 작성자 정보 설정
+	        post.setUserKey(loginUser.getUserKey());
+
+	        // 4. 게시글 수정 처리
+	        int result = service.updatePost(post);
+	        if (result > 0) {
+	            redirectAttributes.addFlashAttribute("successMessage", "공지사항이 성공적으로 수정되었습니다.");
+	            return "redirect:/post/noticeDetail.do?postKey=" + post.getPostKey();  // 성공 시 상세보기 페이지로 이동
+	        } else {
+	            redirectAttributes.addFlashAttribute("errorMessage", "공지사항 수정 중 오류가 발생했습니다.");
+	            return "redirect:/post/noticePostEdit.do?postKey=" + post.getPostKey();  // 실패 시 수정 페이지로 복귀
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        redirectAttributes.addFlashAttribute("errorMessage", "공지사항 수정 중 예외가 발생했습니다.");
+	        return "redirect:/post/noticePostEdit.do?postKey=" + post.getPostKey();
+	    }
+	}
 }

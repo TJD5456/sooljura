@@ -69,5 +69,22 @@ public class PostDao {
         return sqlSession.insert("post.insertNoticePost", post);
     }
 
+    // **조회수 증가 메서드 추가**
+    public void increasePostView(String postKey) {
+        sqlSession.update("post.increasePostView", postKey);
+    }
+
+	public int deletePost(String postKey, String userKey) {
+    Map<String, String> params = new HashMap<>();
+    params.put("postKey", postKey);
+    params.put("userKey", userKey);
+    return sqlSession.delete("post.deletePost", params);
+}
+
+	public int updatePost(Post post) {
+	    return sqlSession.update("post.updatePost", post);
+	}
+	
+	
 }
 

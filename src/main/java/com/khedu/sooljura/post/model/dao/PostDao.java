@@ -65,5 +65,9 @@ public class PostDao {
         return sqlSession.update("post.updateComment", comment);
     }
 
+    public int insertNoticePost(Post post) {
+        return sqlSession.insert("post.insertNoticePost", post);
+    }
+
 }
 

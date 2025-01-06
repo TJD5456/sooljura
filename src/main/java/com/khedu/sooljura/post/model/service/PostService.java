@@ -101,4 +101,8 @@ public class PostService {
 		return dao.updateComment(comment);
 	}
 
+	public int insertNoticePost(Post post) {
+    return dao.insertNoticePost(post);
+}
+
 }

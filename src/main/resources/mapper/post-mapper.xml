@@ -5,30 +5,31 @@
 <mapper namespace="post">
 
     <!-- 게시글 목록 조회 -->
-    <select id="selectPostList" resultType="post">
-        SELECT *
-        FROM (
-            SELECT ROWNUM AS rnum,
-                   p.post_key AS postKey,
-                   p.post_cd AS postCd,
-                   p.user_key AS userKey,
-                   u.user_nicknm AS userNickNm,
-                   p.post_title AS postTitle,
-                   p.post_content AS postContent,
-                   p.post_view AS postViews,
-                   TO_CHAR(p.post_date, 'YYYY-MM-DD') AS postDate,
-                   p.confirm_yn AS confirmYn,
-                   p.delete_yn AS deleteYn,
-                   p.delete_reason AS deleteReason,
-                   t.post_nm AS postCategory
-            FROM tbl_post p
-            JOIN tbl_user u ON p.user_key = u.user_key
-            JOIN tbl_post_type t ON p.post_cd = t.post_cd
-            WHERE p.delete_yn = 0
-            ORDER BY p.post_date DESC
-        )
-        WHERE rnum BETWEEN #{start} AND #{end}
-    </select>
+   <select id="selectPostList" resultType="post">
+    SELECT *
+    FROM (
+        SELECT ROWNUM AS rnum,
+               p.post_key AS postKey,
+               p.post_cd AS postCd,
+               p.user_key AS userKey,
+               u.user_nicknm AS userNickNm,
+               p.post_title AS postTitle,
+               p.post_content AS postContent,
+               p.post_view AS postViews,
+               TO_CHAR(p.post_date, 'YYYY-MM-DD') AS postDate,
+               p.confirm_yn AS confirmYn,
+               p.delete_yn AS deleteYn,
+               p.delete_reason AS deleteReason,
+               t.post_nm AS postCategory
+        FROM tbl_post p
+        JOIN tbl_user u ON p.user_key = u.user_key
+        JOIN tbl_post_type t ON p.post_cd = t.post_cd
+        WHERE p.delete_yn = 0  <!-- 삭제되지 않은 글만 가져옴 -->
+          AND p.post_cd = #{postCd}  <!-- 게시판 코드 필터링 -->
+        ORDER BY p.post_date DESC
+    )
+    WHERE rnum BETWEEN #{start} AND #{end}
+</select>
 
     <!-- 전체 게시글 수 조회 -->
     <select id="selectPostCount" resultType="int">
@@ -43,7 +44,7 @@
         FROM dual
     </select>
 
-    <!-- 게시글 삽입 -->
+    <!-- 자유게시판 삽입 -->
     <insert id="insertfreePost" parameterType="post">
         INSERT INTO tbl_post (
             post_key, post_cd, user_key, post_title, post_content,
@@ -54,6 +55,20 @@
             SYSDATE, 0, 0, 0
         )
     </insert>
+
+
+
+	   <!-- 공지사항 게시글 삽입 -->
+    <insert id="insertNoticePost" parameterType="post">
+    INSERT INTO tbl_post (
+        post_key, post_cd, user_key, post_title, post_content,
+        post_date, post_view, confirm_yn, delete_yn
+    ) VALUES (
+        'no' || TO_CHAR(SYSDATE, 'YYMMDD') || LPAD(seq_post.NEXTVAL, 4, '0'),
+        1, #{userKey}, #{postTitle}, #{postContent},
+        SYSDATE, 0, 0, 0
+    )
+</insert>
 
     <!-- 특정 게시글 상세 조회 -->
     <select id="selectOnePost" parameterType="String" resultType="post">

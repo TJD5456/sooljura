@@ -11,7 +11,9 @@
     <c:choose>
         <c:when test="${not empty loginUser}">
             <c:if test="${loginUser.userCd == 0}">
-                <a href="/admin/adminPage.do">Admin page</a>
+                <a href="/admin/adminPage.do">
+                    <img src="/resources/icons/icon_duck_gear.png" alt="관리자페이지" style="width: 45px;">
+                </a>
             </c:if>
             <a href="/user/logout.do">
                 <img src="/resources/icons/logout_fix_45px.png" alt="로그아웃"><!-- 로그아웃 조건 추가 -->

@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
@@ -8,143 +7,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>자유게시판 - 게시글 상세보기</title>
-    <link rel="stylesheet" href="/resources/css/styles.css">
-    <script src="/resources/js/custom.js"></script>
+    <link rel="stylesheet" href="/resources/css/freePost.css"/>
     <style>
-        /* 기존 스타일 유지 */
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-
-        .content {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        .post-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .post-info {
-            font-size: 14px;
-            color: #555;
-            margin-bottom: 20px;
-        }
-
-        .post-content {
-            font-size: 16px;
-            margin-bottom: 30px;
-            line-height: 1.5;
-        }
-
-        textarea {
-            resize: none; /* 사용자가 크기 변경 불가 */
-            border: 1px solid #ddd;
-            padding: 10px;
-            border-radius: 5px;
-        }
-
-        .comments {
-            display: block; /* 모든 댓글과 수정 창이 세로로 나열되도록 설정 */
-        }
-
-        .comments h3 {
-            font-size: 20px;
-            margin-bottom: 20px;
-        }
-
-        .comment {
-            position: relative;
-            margin-bottom: 20px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            display: flex;
-            flex-direction: column; /* 댓글 내용과 수정 폼을 세로로 배치 */
-            align-items: stretch; /* 수정 폼 너비가 댓글 컨테이너 너비와 동일하도록 설정 */
-        }
-
-        .comment .content {
-            margin-top: 10px;
-        }
-
-        .comment .author {
-            font-weight: bold;
-        }
-
-        .comment .date {
-            font-size: 12px;
-            color: #777;
-            margin-bottom: 5px;
-        }
-
-        .comment-form {
-            margin-top: 30px;
-        }
-
-        .comment-form textarea {
-            width: 100%;
-            max-width: 100%;
-            height: 100px;
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            resize: none;
-        }
-
         .comment-form button {
+            width: 100px;
             padding: 10px 20px;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
             border-radius: 5px;
+            color: #FFF;
             cursor: pointer;
-        }
-
-        .comment-form button:hover {
-            background-color: #0056b3;
-        }
-
-        .back-button {
-            margin-top: 20px;
-            text-align: right;
-        }
-
-        .back-button a {
-            text-decoration: none;
-            color: #fff;
-            background-color: #555;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .back-button a:hover {
-            background-color: #777;
-        }
-
-        #edit-form-container-${commentKey} {
-            margin-top: 10px; /* 수정 폼과 댓글 간 간격 */
-            width: 100%; /* 댓글 컨테이너에 맞춤 */
         }
     </style>
 </head>
@@ -173,30 +43,21 @@
                         <!-- 댓글 작성자 -->
                         <div>
                             <span class="author">${comment.userNickNm}</span>
-                            <c:if
-                                    test="${not empty loginUser && comment.userKey == loginUser.userKey}">
+                            <c:if test="${not empty loginUser && comment.userKey == loginUser.userKey}">
                                 <button type="button"
-                                        onclick="editComment('${comment.commentKey}', '${fn:escapeXml(comment.commentContent).replaceAll("
-                                                '", "\\'")}')"
+                                        onclick="editComment('${comment.commentKey}', '${fn:escapeXml(comment.commentContent).replaceAll(" '", "\\'")}')"
                                         style="border: none; background: none; color: blue; cursor: pointer;">
                                     수정
                                 </button>
-                                <!-- 삭제 버튼 -->
                                 <form action="/post/deleteComment.do" method="post"
                                       onsubmit="return confirm('정말 삭제하시겠습니까?');"
                                       style="display: inline;">
-                                    <input type="hidden" name="commentKey"
-                                           value="${comment.commentKey}"/>
-                                    <button type="submit"
-                                            style="border: none; background: none; color: red; cursor: pointer;">
-                                        삭제
-                                    </button>
+                                    <input type="hidden" name="commentKey" value="${comment.commentKey}"/>
+                                    <button type="submit" class="to-login-btn" onclick="toLogin()">삭제</button>
                                 </form>
                             </c:if>
                         </div>
-                        <!-- 댓글 작성 날짜 -->
                         <div class="date">${comment.commentDate}</div>
-                        <!-- 댓글 내용 -->
                         <div class="content" id="comment-content-${comment.commentKey}">
                                 ${fn:escapeXml(comment.commentContent)}
                         </div>
@@ -206,37 +67,22 @@
 
             <!-- 댓글 작성 폼 -->
             <div class="comment-form">
+                <form action="/post/addComment.do" method="post" id="commentForm"
+                        <c:if test="${empty loginUser}">
+                            hidden
+                        </c:if>>
+                    <textarea name="commentContent" placeholder="댓글 내용을 입력하세요" required></textarea>
+                    <input type="hidden" name="postKey" value="${post.postKey}"/>
+                </form>
+                <button class="back-button" onclick="history.back();">뒤로가기</button>
                 <c:choose>
-                    <c:when test="${not empty loginUser}">
-                        <form action="/post/addComment.do" method="post">
-							<textarea name="commentContent" placeholder="댓글 내용을 입력하세요"
-                                      required></textarea>
-                            <input type="hidden" name="postKey" value="${post.postKey}"/>
-                            <button type="submit">댓글 등록</button>
-                        </form>
+                    <c:when test="${empty loginUser}">
+                        <button onclick="toLogin()" class="to-login-btn">로그인</button>
                     </c:when>
                     <c:otherwise>
-                        <p>댓글을 작성하려면 로그인이 필요합니다.</p>
-                        <form action="/user/loginFrm.do" method="get">
-                            <button type="submit" style="color: white; background-color: blue; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
-                                로그인
-                            </button>
-                        </form>
+                        <button type="submit" form="commentForm">댓글 등록</button>
                     </c:otherwise>
                 </c:choose>
-            </div>
-
-            <div class="back-button">
-                <!-- 뒤로가기 버튼 -->
-                <button onclick="history.back();"
-                        style="border: none; background-color: #555; color: white; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
-                    뒤로가기
-                </button>
-            </div>
-
-            <div class="comment" id="comment-${comment.commentKey}">
-                <div class="content" id="comment-content-${comment.commentKey}">
-                    ${fn:escapeXml(comment.commentContent)}</div>
             </div>
 
         </div>
@@ -244,8 +90,9 @@
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </main>
+
 <script>
-    // 현재 수정 중인 댓글의 key를 추적
+    // 현재 수정 중인 댓글의 key 를 추적
     let currentEditingKey = null;
 
     // 댓글 수정 함수
@@ -335,12 +182,13 @@
         if (contentDiv) {
             contentDiv.style.display = 'block';
         }
-
         // 수정 상태 초기화
         currentEditingKey = null;
     };
+
+    function toLogin() {
+        window.location.href = '/user/loginFrm.do';
+    }
 </script>
-
-
 </body>
 </html>

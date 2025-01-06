@@ -1,0 +1,82 @@
+.container {
+    width: 80%;
+    max-width: 1000px;
+    margin: 0 auto 50px;
+    padding: 20px;
+    background-color: #FFF;
+    border: 1px solid #DDD;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.post-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.post-info {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.post-content {
+    font-size: 16px;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.comments {
+    display: block; /* 모든 댓글과 수정 창이 세로로 나열되도록 설정 */
+}
+
+.comments h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.comment {
+    position: relative;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column; /* 댓글 내용과 수정 폼을 세로로 배치 */
+    align-items: stretch; /* 수정 폼 너비가 댓글 컨테이너 너비와 동일하도록 설정 */
+}
+
+.comment .content {
+    margin-top: 10px;
+}
+
+.comment .author {
+    font-weight: bold;
+}
+
+.comment .date {
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 5px;
+}
+
+.comment-form {
+    width: 100%;
+    margin-top: 30px;
+}
+
+.comment-form textarea {
+    resize: none;
+    position: relative;
+    width: 100%;
+    height: 100px;
+    margin-bottom: 10px;
+    border: 1px solid #DDD;
+    border-radius: 5px;
+}
+
+#edit-form-container- ${commentKey} {
+    margin-top: 10px; /* 수정 폼과 댓글 간 간격 */
+    width: 100%; /* 댓글 컨테이너에 맞춤 */
+}

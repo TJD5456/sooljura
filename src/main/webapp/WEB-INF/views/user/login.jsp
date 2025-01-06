@@ -14,7 +14,6 @@
         }
 
         .login-wrap > * {
-            margin-top: 20%;
             margin: 0 auto;
             display: block;
             justify-content: center;
@@ -70,7 +69,6 @@
         }
 
         #remember {
-            text-align: none;
             font-size: 12px;
             color: gray;
             float: left;
@@ -87,7 +85,7 @@
             height: 50px;
         }
 
-        input[type = submit] : hover {
+        input[type = submit]:hover {
             background-color: #f5afa5;
             box-shadow: 1px 1px 1px 1px #fc8173;
         }
@@ -98,12 +96,16 @@
             gap: 10px;
             align-items: center;
         }
+
+        .logo {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <div class="login-wrap">
-    <img src="/resources/icons/logo.png" class="logo" alt="logo">
+    <img src="/resources/icons/logo.png" class="logo" alt="logo" onclick="window.location.href='/'">
     <div class="login">
         <form action="/user/login.do" method="post" onsubmit="return loginBtn(event);">
             <input type="text" id="userId" value="${cookie.saveId.value}" placeholder="아이디 입력"> <br>

@@ -41,10 +41,10 @@ public class PostController {
 		return "post/reviewListPost";
 	}
 
-	@GetMapping("freePostWriter.do")
-	public String freePostWirter() {
-		return "post/freePostWriter";
-	}
+    @GetMapping("freePostWriter.do")
+    public String freePostWriter() {
+        return "post/freePostWriter";
+    }
 
 	@GetMapping("webPageInfo.do")
 	public String webPageInfo() {
@@ -71,6 +71,26 @@ public class PostController {
 
 	@PostMapping("freeWrite.do")
 	public String freeWrite(HttpSession session, Post post, Model model) {
+    @GetMapping("freePostList.do")
+    public String freePostList(@RequestParam(defaultValue = "1") int reqPage, Model model) {
+        return getPostList(reqPage, model, 2, "post/freePost"); // post_cd 2: 자유게시판
+    }
+    
+    @GetMapping("noticeList.do")
+    public String noticeList(@RequestParam(defaultValue = "1") int reqPage, Model model) {
+        return getPostList(reqPage, model, 1, "post/noticeListPost"); // post_cd 1: 공지사항
+    }
+
+    private String getPostList(int reqPage, Model model, int postCd, String viewName) {
+        reqPage = Math.max(reqPage, 1); // 요청 페이지 번호 유효성 검사
+        PostPageData pd = service.selectPostList(reqPage, postCd);
+        model.addAttribute("list", pd.getList());
+        model.addAttribute("pageNavi", pd.getPageNavi());
+        return viewName;
+    }
+    
+    @PostMapping("freeWrite.do")
+    public String freeWrite(HttpSession session, Post post, Model model) {
 
 		// 0. 제목 확인
 		if (post.getPostTitle() == null || post.getPostTitle().isEmpty()) {

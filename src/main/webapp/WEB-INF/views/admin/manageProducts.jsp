@@ -13,8 +13,14 @@
             margin-top: 50px;
         }
 
-        span {
+        .category-span {
             display: inline-block;
+            width: 30%;
+            text-align: left;
+        }
+
+        .category-span > input {
+            margin-right: 5px;
         }
     </style>
 </head>
@@ -75,7 +81,7 @@
                             <div class="categoryLevel1">
                                 <c:forEach var="category" items="${categoryList}">
                                     <c:if test="${category.categoryLevel == 1}">
-                                        <span>
+                                        <span class="category-span">
                                             <input type="radio" value="${category.categoryKey}"
                                                    id="${category.categoryNm}" name="categoryLevel1" required>
                                             <label for="${category.categoryNm}">${category.categoryNm}</label>
@@ -176,6 +182,7 @@
                         let categoryNm = result[i].categoryNm;
 
                         const spanEl = document.createElement("span");
+                        spanEl.setAttribute("class", "category-span");
 
                         const inputEl = document.createElement("input");
                         inputEl.setAttribute("type", "radio");
@@ -228,6 +235,7 @@
                         let categoryNm = result[i].categoryNm;
 
                         const spanEl = document.createElement("span");
+                        spanEl.setAttribute("class", "category-span");
 
                         const inputEl = document.createElement("input");
                         inputEl.setAttribute("type", "radio");

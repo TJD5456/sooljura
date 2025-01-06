@@ -32,9 +32,9 @@
     </div>
     <span>커뮤니티</span>
     <ul class="ul">
-        <li><a href="/post/getList.do?reqPage=1">자유게시판</a></li>
-        <li><a href="/post/reviewListPost.do">후기 게시판</a></li>
-        <li><a href="/post/webPageInfo.do">웹사이트소개</a></li>
+        <li><a href="/post/freePostList.do?reqPage=1">자유게시판</a></li>
+        <li><a href="/post/reviewListPost.do?reqPage=1">후기 게시판</a></li>
+        <li><a href="/post/noticeList.do?reqPage=1">공지사항</a></li>
     </ul>
 
     <form action="/user/createTestAccount.do" method="post">

@@ -11,3 +11,4 @@ sooljura.iml
 qodana.yaml
 
 .vscode/settings.json
+src/main/webapp/resources/productImage/

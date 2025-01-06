@@ -120,8 +120,10 @@ public class AdminController {
 
     @GetMapping("managePosts.do")
     public String managePosts(Model model) {
-        PostPageData postPageDataList = postService.selectPostList(1, 0);
-        model.addAttribute("postPageDataList", postPageDataList);
+        int requestPostCd = 2;
+        PostPageData postPageDataList = postService.selectPostList(1, requestPostCd);
+        model.addAttribute("postList", postPageDataList.getList());
+        model.addAttribute("pageNavi", postPageDataList.getPageNavi());
         return "/admin/managePosts";
     }
 

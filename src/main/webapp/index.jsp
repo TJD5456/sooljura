@@ -5,8 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>술주라</title>
-    <link rel="icon"
-          href="/resources/icons/logo-circle-woText-16px-favicon.png">
+    <link rel="icon" href="/resources/icons/logo-circle-woText-16px-favicon.png">
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>

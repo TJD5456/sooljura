@@ -51,23 +51,24 @@ public class PostController {
 		return "post/webPageInfo";
 	}
 
-	  @GetMapping("freePostList.do") // 자유게시판
-	    public String freePostList(@RequestParam(defaultValue = "1") int reqPage, Model model) {
-	        return getPostList(reqPage, model, 2, "post/freePost"); // post_cd 2: 자유게시판
-	    }
+	@GetMapping("freePostList.do") // 자유게시판
+	public String freePostList(@RequestParam(defaultValue = "1") int reqPage, Model model) {
+		return getPostList(reqPage, model, 2, "post/freePost"); // post_cd 2: 자유게시판
+	}
 
-	  @GetMapping("noticeList.do") // 공지사항
-	    public String noticeList(@RequestParam(defaultValue = "1") int reqPage, Model model) {
-	        return getPostList(reqPage, model, 1, "post/noticeListPost"); // post_cd 1: 공지사항
-	    }
-	  private String getPostList(int reqPage, Model model, int postCd, String viewName) {
-	        reqPage = Math.max(reqPage, 1);
-	        PostPageData pd = service.selectPostList(reqPage, postCd);
-	        model.addAttribute("list", pd.getList());
-	        model.addAttribute("pageNavi", pd.getPageNavi());
-	        return viewName;
-	    }
-    
+	@GetMapping("noticeList.do") // 공지사항
+	public String noticeList(@RequestParam(defaultValue = "1") int reqPage, Model model) {
+		return getPostList(reqPage, model, 1, "post/noticeListPost"); // post_cd 1: 공지사항
+	}
+
+	public String getPostList(int reqPage, Model model, int postCd, String viewName) {
+		reqPage = Math.max(reqPage, 1);
+		PostPageData pd = service.selectPostList(reqPage, postCd);
+		model.addAttribute("list", pd.getList());
+		model.addAttribute("pageNavi", pd.getPageNavi());
+		return viewName;
+	}
+
     @PostMapping("freeWrite.do")
     public String freeWrite(HttpSession session, Post post, Model model) {
 
@@ -93,7 +94,7 @@ public class PostController {
 
 		// 3. 게시글 저장
 		try {
-			int result = service.insertfreePost(post);
+			int result = service.insertFreePost(post);
 			if (result > 0) {
 				return "redirect:/post/freePostList.do?reqPage=1"; // 자유게시판 목록으로 리다이렉트
 			} else {
@@ -106,7 +107,7 @@ public class PostController {
 			return "post/freePostWriter";
 		}
 	}
-	
+
 	@PostMapping("noticeWrite.do")
 	public String noticeWrite(HttpSession session, Post post, Model model) {
 
@@ -149,7 +150,6 @@ public class PostController {
 	        return "post/noticePostWriter";
 	    }
 	}
-
 
 	@RequestMapping("/freePostDetail.do")
 	public String freePostDetail(@RequestParam(value = "postKey", required = true) String postKey, Model model) {

@@ -60,8 +60,8 @@ public class PostService {
 	    return pd;
 	}
 
-	public int insertfreePost(Post post) {
-		return dao.insertfreePost(post);
+	public int insertFreePost(Post post) {
+		return dao.insertFreePost(post);
 	}
 
 	public Post selectOnePost(String postKey) {

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="com.khedu.sooljura.user.model.vo.User" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -53,6 +53,10 @@
             max-width: 80%;
             box-sizing: border-box;
             margin: 0 auto;
+        }
+
+        .note-frame {
+            width: 1000px;
         }
 
         #postContent {

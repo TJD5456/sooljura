@@ -31,15 +31,13 @@ public class PostDao {
         return sqlSession.selectOne("post.selectPostKey");
     }
 
-    public int insertfreePost(Post post) {
-        return sqlSession.insert("post.insertfreePost", post);
+    public int insertFreePost(Post post) {
+        return sqlSession.insert("post.insertFreePost", post);
     }
 
     public Post selectOnePost(String postKey) {
-        Post result = sqlSession.selectOne("post.selectOnePost", postKey);
-        return result;
+        return sqlSession.selectOne("post.selectOnePost", postKey);
     }
-
 
     // 댓글 등록
     public int insertComment(Comment comment) {
@@ -57,6 +55,7 @@ public class PostDao {
         params.put("userKey", userKey);
         return sqlSession.delete("post.deleteComment", params);
     }
+
     public String selectPostKeyByCommentKey(String commentKey) {
         return sqlSession.selectOne("post.selectPostKeyByCommentKey", commentKey);
     }

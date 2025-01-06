@@ -1,13 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항</title>
-    <link rel="stylesheet" href="/resources/css/your-styles.css">
-    <!-- 스타일 시트 연결 -->
     <style>
         body {
             font-family: Arial, sans-serif;

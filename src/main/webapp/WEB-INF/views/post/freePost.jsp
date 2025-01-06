@@ -13,6 +13,7 @@
             align-items: center;
             margin: 0 auto 30px;
             width: 80%;
+            max-width: 1000px;
         }
 
         .btn-write {

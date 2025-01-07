@@ -20,8 +20,8 @@ public class ProductService {
     private ProductDao dao;
 
     //제품번호 생성(구매를 위한 API 선작업)
-    public int makeOrderNo(OrderHistory orderHistory) {
-        return dao.makeOrderNo(orderHistory);
+    public String makeOrderNo() {
+        return dao.makeOrderNo();
     }
 
     //결제정보 삽입

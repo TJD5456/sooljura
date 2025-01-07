@@ -24,8 +24,8 @@
                 만약 에러난 경우<br>
                 seq_product<br>
                 seq_product_image<br>
-
                 두 시퀀스 초기화하고 사용<br>
+
                 스크래핑 및 db insert 가 모두 끝났다면, 추가된 행은 모두 378개, <br>
                 마지막 제품명 대만 마오타이(마우타이) (VAT 별도) 임 <br>
                 server 모듈 auto reloading 다시 켜줄것.<br>

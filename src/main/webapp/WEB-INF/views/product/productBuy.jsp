@@ -104,7 +104,6 @@
     <jsp:include page="/WEB-INF/views/common/header.jsp"/>
     <div class="wrapper">
         <div class="content">
-            <form action="/product/productBuy.do" id="buyList" method="POST">
                 <input type="hidden" id="userKey" value="${loginUser.userKey}">
                 <input type="hidden" id="userEmail" value="${loginUser.userEmail}">
                 <input type="hidden" id="userPhone" value="${loginUser.userPhone}">
@@ -156,7 +155,6 @@
                     <input type="submit" id="buyBtn" onclick="reqPayment()"
                            style="border-radius: 10px; height: 50px; margin-top: 10px;" value="선택한 제품 구매하기">
                 </div>
-            </form>
         </div>
         <jsp:include page="/WEB-INF/views/common/remote.jsp"/>
     </div>
@@ -213,10 +211,11 @@
 
     function reqPayment() {
         // 결제 요청(주문내역에 넣을 prodKey 배열 따로 생성)
-        let prodKeys = []; // prodKey 배열
-        $('.prodKeys').each(function () {
-            prodKeys.push($(this).val()); // prodKey 값을 배열에 추가
-        });
+        let prodKeys = 'pr2501070005'; // prodKey 배열
+        // $('.prodKeys').each(function () {
+        //     prodKeys.push($(this).val()); // prodKey 값을 배열에 추가
+        // });
+        // pr2501070005,pr2501070003
 
         console.log("prodKeys: " + prodKeys);
 

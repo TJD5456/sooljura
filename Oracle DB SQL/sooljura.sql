@@ -236,9 +236,6 @@ create table tbl_basket (
 -- 'bk' || to_char(sysdate, 'yymmdd') || lpad(seq_basket.nextval, 4, '0')
 create sequence seq_basket maxvalue 9999 cycle;
 
-insert into TBL_BASKET values ('bk' || to_char(sysdate, 'yymmdd') || lpad(seq_basket.nextval, 4, '0'), 1, 'pr2501070005', 'us0000000001', 1);
-insert into TBL_BASKET values ('bk' || to_char(sysdate, 'yymmdd') || lpad(seq_basket.nextval, 4, '0'), 1, 'pr2501070003', 'us0000000001', 2);
-
 create table tbl_order_history (
    imp_uid       varchar2(255) primary key,
    order_no      char(12) unique not null,
@@ -285,3 +282,6 @@ create table tbl_chat (
 create sequence seq_chat_key maxvalue 9999 cycle;
 
 commit;
+
+insert into TBL_BASKET values ('bk' || to_char(sysdate, 'yymmdd') || lpad(seq_basket.nextval, 4, '0'), 1, 'pr2501070005', 'us0000000001', 1);
+insert into TBL_BASKET values ('bk' || to_char(sysdate, 'yymmdd') || lpad(seq_basket.nextval, 4, '0'), 1, 'pr2501070003', 'us0000000001', 2);

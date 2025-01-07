@@ -100,4 +100,12 @@ public class ProductDao {
 		return sessionTemplate.selectList("product.getProdList", categoryKey);
     }
 
+	public List<Product> getProdListByName(String categoryKey) {
+		return sessionTemplate.selectList("product.getProdListByName", categoryKey);
+	}
+
+	public List<Product> getProdListByPrice(String categoryKey) {
+		return sessionTemplate.selectList("product.getProdListByPrice", categoryKey);
+	}
+
 }

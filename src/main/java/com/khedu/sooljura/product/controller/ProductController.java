@@ -294,8 +294,8 @@ public class ProductController {
 	}
 	
 	@GetMapping("productList.do")
-	public String productList(String categoryKey, Model model) {
-		ArrayList<Product> prodlist = service.getProdList(categoryKey);
+	public String productList(String categoryKey, int sort, Model model) {
+		ArrayList<Product> prodlist = null;
 		String listTitle = null;
 		switch (categoryKey) {
 		case "c0001":
@@ -319,8 +319,20 @@ public class ProductController {
 		default:
 			break;
 		}
-		 model.addAttribute("listTitle", listTitle);
-        model.addAttribute("prodlist", prodlist);
+		model.addAttribute("prodCate", categoryKey);
+		model.addAttribute("listTitle", listTitle);
+		if(sort > 0) {
+			if(sort == 1) {
+				prodlist = service.getProdListByName(categoryKey);
+				
+			}else if(sort == 2) {
+				prodlist = service.getProdListByPrice(categoryKey);
+			}
+		}else {
+			prodlist = service.getProdList(categoryKey);
+			
+		}
+		model.addAttribute("prodlist", prodlist);
 		return "product/prodList";
 	}
 	

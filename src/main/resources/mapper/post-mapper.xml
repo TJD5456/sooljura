@@ -45,7 +45,7 @@
 	</select>
 
 	<!-- 자유게시판 삽입 -->
-	<insert id="insertfreePost" parameterType="post">
+	<insert id="insertFreePost" parameterType="post">
 		INSERT INTO tbl_post (
 		post_key, post_cd, user_key, post_title, post_content,
 		post_date, post_view, confirm_yn, delete_yn
@@ -55,7 +55,6 @@
 		SYSDATE, 0, 0, 0
 		)
 	</insert>
-
 
 
 	<!-- 공지사항 게시글 삽입 -->

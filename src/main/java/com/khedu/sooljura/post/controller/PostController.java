@@ -60,6 +60,7 @@ public class PostController {
                 model.addAttribute("errorMessage", "게시글 등록 중 오류가 발생했습니다.");
                 return "post/freePostWriter";
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("errorMessage", "게시글 등록 중 예외가 발생했습니다.");

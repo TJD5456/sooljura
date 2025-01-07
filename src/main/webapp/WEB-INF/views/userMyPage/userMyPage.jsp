@@ -6,65 +6,27 @@
     <title>술주라</title>
 </head>
 <style>
-    .wrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
     .myPageChoices {
+        width: 700px;
+        margin: 0 auto;
         display: flex;
         justify-content: center;
-
-        width: 700px;
     }
 
     .myPageInfoView {
         height: 800px;
-
     }
 
     .myPageChoiceBtn {
         width: 500px;
         height: 50px;
         margin: 15px;
-
         font-size: 20px;
         font-weight: bold;
     }
 
     .myPageInfoView {
         display: none;
-    }
-
-    .userInfoInptBtn {
-        margin: 20px;
-        display: flex;
-        justify-content: center;
-    }
-
-    .userInfoBtn {
-        width: 50%;
-        height: 20px;
-        padding: 1px;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .userInfoUpdContent {
-        display: flex;
-        justify-content: center;
-        text-align: center;
-        min-width: 600px;
-    }
-
-    .tblUserInfo {
-        min-width: 600px;
-        height: 550px;
-        border-top: 1px solid black;
-        border-bottom: 1px solid gray;
     }
 
     .tblUserInfo > tbody > tr > th {
@@ -80,26 +42,9 @@
         box-sizing: border-box;
     }
 
-    .pwChgBtns {
-        display: flex;
-    }
-
-    .pwChgBtns .userInfoBtn {
-        width: 225px;
-    }
-
-    .pwChgBtns > * {
+    .pwChgBtn > * {
         margin-left: 5px;
         margin-right: 5px;
-    }
-
-    .userInptAddrBtn {
-        display: flex;
-        justify-content: center;
-    }
-
-    #userPwChg {
-        display: none;
     }
 
     #userPwChg > table > tbody > tr > th {
@@ -115,27 +60,6 @@
         box-sizing: border-box;
     }
 
-    #newPwUnMatchSpan {
-        font-size: 10px;
-        display: none;
-    }
-
-    #oldPwUnMatchSpan {
-        font-size: 10px;
-        display: none;
-    }
-
-    #newPwIrreg {
-        font-size: 10px;
-        display: none;
-    }
-
-    #userPwMod {
-        display: none;
-        font-size: 10px;
-        background-color: white;
-    }
-
     #userPwMod > ul {
         list-style-type: none;
     }
@@ -145,30 +69,34 @@
     }
 </style>
 <body>
-<%--개인정보 수정 페이지 --%>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
 <main>
     <jsp:include page="/WEB-INF/views/common/header.jsp"/>
     <div class="wrapper">
-        <h1 style="margin: 15px;">마이 페이지</h1>
-        <div style="margin: 15px;"><span>필요하신 메뉴 버튼을 클릭하여 주세요!</span></div>
-        <div class="myPageChoices">
-            <button class="myPageChoiceBtn" id="userInfo" onclick="toggleView(this)">회원 정보</button>
-            <button class="myPageChoiceBtn" id="shoppingInfo" onclick="toggleView(this)">쇼핑 정보</button>
-            <button class="myPageChoiceBtn" id="readMyPost" onclick="toggleView(this)">내글 보기</button>
-            <button class="myPageChoiceBtn" id="likedMerc" onclick="toggleView(this)">찜한상품 보기</button>
-            <button class="myPageChoiceBtn" id="addrInfo" onclick="addrInfo()">주소지 관리</button>
+        <div class="content">
+            <div class="title">
+                <h1>마이 페이지</h1>
+            </div>
+
+            <div class="myPageChoices">
+                <button class="myPageChoiceBtn" id="userInfo" onclick="toggleView(this)">회원 정보</button>
+                <button class="myPageChoiceBtn" id="shoppingInfo" onclick="toggleView(this)">쇼핑 정보</button>
+                <button class="myPageChoiceBtn" id="readMyPost" onclick="toggleView(this)">내글 보기</button>
+                <button class="myPageChoiceBtn" id="likedMerc" onclick="toggleView(this)">찜한상품</button>
+                <button class="myPageChoiceBtn" id="addrInfo" onclick="addrInfo()">주소 관리</button>
+            </div>
+            <div class="myPageInfoView"></div>
         </div>
-        <div class="myPageInfoView"></div>
         <jsp:include page="/WEB-INF/views/common/remote.jsp"/>
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </main>
+
 <script>
     function toggleView(button) {
-        /*값 불러올 수 있도록 펑션 설계*/
-        /*해당 값에 맞는 페이지로 location.href 써서 보내줄것임*/
-        /*불필요하다 생각되면 말해주세요 --엄*/
+        /* 값 불러올 수 있도록 펑션 설계 */
+        /* 해당 값에 맞는 페이지로 location.href 써서 보내줄것임 */
+        /* 불필요하다 생각되면 말해주세요 */
         const endPoints = {
             userInfo: "/userMyPage/userInfo.do",
             shoppingInfo: "/userMyPage/shoppingInfo.do",
@@ -182,8 +110,9 @@
             console.error("Invalid selection:", selected);
             return;
         }
-        ;
+
         $('.myPageInfoView').hide(); // 기존 뷰 숨기기
+
         console.log("버튼 클릭됨");
 
         $.ajax({
@@ -199,8 +128,7 @@
         });
     }
 
-
-    //==========userInfo.jsp의 function============================================================================================================================
+    // ========== userInfo.jsp 의 function ==========
     function pwChk() {
         $('#myPageInfoView').on('input', '#userPw', function () {
             const regExp = /^[a-zA-Z0-9!@#$%^&*]{8,16}$/;
@@ -210,8 +138,6 @@
 
             }
         });
-
-
     }
 
     function pwChk() {
@@ -226,14 +152,9 @@
         } else {
             $('#pwUnMatchSpan').html('비밀번호가 일치합니다.').css('color', 'green');
         }
-
-
     }
 
-
-    $(document).ready(function () {
-
-
+    $(function () {
         $('.myPageInfoView').on('click', '#pwChgBtn', function () {
             console.log("button clicked");
             $('#userPwChg').toggle();
@@ -245,8 +166,8 @@
 
         $('.myPageInfoView').on('click', '#userInfoUpd', function () {
 
+            console.log("foobar");
 
-            console.log("Tlqkf anjrk answpdi");
             $.ajax({
                 url: "/userMyPage/userInfoUpd",
                 type: "post",
@@ -264,9 +185,7 @@
         });
     });
 
-    //============================================================================================================================================
     function addrInfo() {
-        //주소지 정보
         location.href = "/user/addrListFrm.do";
     }
 </script>

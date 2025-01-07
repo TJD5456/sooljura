@@ -6,6 +6,7 @@
 <script src="/resources/summernote/summernote-lite.min.js"></script>
 <script src="/resources/summernote/lang/summernote-ko-KR.min.js"></script>
 <link href="/resources/summernote/summernote-lite.min.css" rel="stylesheet">
+<link rel="icon" href="/resources/icons/logo-circle-woText-16px-favicon.png">
 <div id="top"></div>
 <header>
     <c:choose>

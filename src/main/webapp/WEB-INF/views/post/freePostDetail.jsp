@@ -223,6 +223,24 @@
     $(".adminDeletePost").click(function () {
         window.location.href = "/post/adminDeletePost.do?postKey=${post.postKey}";
     })
+
+    $(function() {
+        if("${post.confirmYn == 0}" && "${userCd == 0}"){
+            $.ajax({
+                url: '/post/confirmYn.do',
+                type: 'get',
+                data: {
+                    postKey: "${post.postKey}",
+                },
+                success: function(data) {
+                    console.log("confirmYn: " + data);
+                },
+                error: function(){
+                    console.log("foobar");
+                }
+            })
+        }
+    })
 </script>
 </body>
 </html>

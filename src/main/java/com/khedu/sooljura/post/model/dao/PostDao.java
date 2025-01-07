@@ -88,4 +88,8 @@ public class PostDao {
         return sqlSession.delete("post.adminDeletePost", postKey);
     }
 
+    public int confirmYn(String postKey) {
+        return sqlSession.update("post.confirmYn", postKey);
+    }
+
 }

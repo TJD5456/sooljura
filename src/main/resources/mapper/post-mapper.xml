@@ -163,4 +163,10 @@
 		where post_key = #{_postKey}
 	</delete>
 
+	<update id="confirmYn" parameterType="string">
+		update tbl_post
+		set confirm_yn = 1
+		where post_key = #{_postKey}
+	</update>
+
 </mapper>

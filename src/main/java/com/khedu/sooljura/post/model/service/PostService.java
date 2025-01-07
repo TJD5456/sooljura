@@ -119,4 +119,8 @@ public class PostService {
         return dao.adminDeletePost(postKey);
     }
 
+    public int confirmYn(String postKey) {
+        return dao.confirmYn(postKey);
+    }
+
 }

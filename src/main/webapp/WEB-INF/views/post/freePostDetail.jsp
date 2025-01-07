@@ -16,6 +16,13 @@
             color: #FFF;
             cursor: pointer;
         }
+
+        .small-button {
+            border: none;
+            background: none;
+            color: blue;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -49,7 +56,7 @@
                                 <c:if test="${not empty loginUser && comment.userKey == loginUser.userKey}">
                                     <button type="button"
                                             onclick="editComment('${comment.commentKey}', '${fn:escapeXml(comment.commentContent).replaceAll(" '", "\\'")}')"
-                                            style="border: none; background: none; color: blue; cursor: pointer;">
+                                    >
                                         수정
                                     </button>
                                     <!-- 삭제 버튼 -->
@@ -58,8 +65,7 @@
                                           style="display: inline;">
                                         <input type="hidden" name="commentKey"
                                                value="${comment.commentKey}"/>
-                                        <button type="submit"
-                                                style="border: none; background: none; color: red; cursor: pointer;">
+                                        <button type="submit">
                                             삭제
                                         </button>
                                     </form>

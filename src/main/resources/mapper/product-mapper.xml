@@ -261,4 +261,18 @@
           on 	a.prod_key = i.prod_key
     order by 	a.prod_key
     </select>
+    
+    <!-- 찜하기, 장바구니 전 이미 테이블에 있는지 확인 -->
+    <select id="chkBasket" parameterType="basket" resultType="_int">
+    	select 
+    		count(*)
+    	from
+    		tbl_basket
+    	where 
+    		prod_key = #{prodKey} 
+    	and 
+    		user_key = #{userKey} 
+    	and 
+    		basket_cd = #{basketCd}	
+    </select>
 </mapper>

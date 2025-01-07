@@ -154,4 +154,9 @@ public class ProductService {
 	public ArrayList<Product> getProdListByPrice(String categoryKey) {
 		return (ArrayList<Product>)dao.getProdListByPrice(categoryKey);
 	}
+	
+	//장바구니에 넣기 전 장바구니 테이블에 있는지 체크
+	public int chkBasket(Basket basket) {
+		return dao.chkBasket(basket);
+	}
 }

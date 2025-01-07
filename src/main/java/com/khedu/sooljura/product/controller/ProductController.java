@@ -183,25 +183,46 @@ public class ProductController {
 	// 제품 장바구니에 넣기
 	@GetMapping("insertBasket.do")
 	public String insertBasket(Basket basket) {
+		System.out.println("prodKey : " + basket.getProdKey());
+		System.out.println("userKey : " + basket.getUserKey());
+		System.out.println("basketCnt : " + basket.getBasketCnt());
+		
 		basket.setBasketCd(1);
-		int insertBasket = service.insertBasket(basket);
-		if(insertBasket == 1) {			
-			return String.valueOf(insertBasket);
-		}else {
-			return String.valueOf(insertBasket);
+		
+		//장바구니에 넣기 전 장바구니 테이블에 있는지 체크
+		int chkBasket = service.chkBasket(basket);
+		
+		if(chkBasket < 1) {	
+			//장바구니 테이블 삽입
+			int insertBasket = service.insertBasket(basket);
+			
+			if(insertBasket == 1) {			
+				return String.valueOf(insertBasket);
+			}
 		}
+		return String.valueOf(0);
 	}
 
 	// 제품 찜하기
 	@GetMapping("insertLike.do")
 	public String insertLike(Basket basket) {
+		System.out.println("prodKey : " + basket.getProdKey());
+		System.out.println("userKey : " + basket.getUserKey());
+
 		basket.setBasketCd(2);
-		int insertLike = service.insertBasket(basket);
-		if(insertLike == 1) {			
-			return String.valueOf(insertLike);
-		}else {
-			return String.valueOf(insertLike);
+		basket.setBasketCnt(0);
+		
+		//장바구니에 넣기 전 장바구니 테이블에 있는지 체크
+		int chkBasket = service.chkBasket(basket);
+		
+		if(chkBasket < 1) {
+			//좋아요 테이블 삽입
+			int insertLike = service.insertBasket(basket);
+			if(insertLike == 1) {			
+				return String.valueOf(insertLike);
+			}
 		}
+		return String.valueOf(0);
 	}
 
 	// 장바구니에서 제품 삭제

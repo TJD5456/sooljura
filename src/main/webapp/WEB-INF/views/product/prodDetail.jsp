@@ -168,8 +168,9 @@ button {
 								</colgroup>
 								<tbody>
 									<tr>
-										<th colspan="4"><input type="hidden" id="prodKey"
-											value="${prod.prodKey}"> <span class="good_tit1">${prod.prodNm}</span>
+										<th colspan="4"><input type="hidden" id="prodKey" value="${prod.prodKey}"> 
+										<input type="hidden" id="userKey" value="${loginUser.userKey}">
+											<span class="good_tit1">${prod.prodNm}</span>
 										</th>
 									</tr>
 									<tr>
@@ -317,31 +318,56 @@ button {
             });
 		});
 		
+		<%-- 좋아요 버튼 클릭 시 --%>
 		$('#likedProd').on('click', function(){
 			const prodCntVal = $('#prodCnt').val();
 			const price = $('.payPrice').find('span').html();	
 			
 			$.ajax({
-				url : "/product/insertBasket.do",
+				url : "/product/insertLike.do",
 				type : "GET",
 				data : {
-					prodKey : $('#prodKey').val()
-				}
+					prodKey : $('#prodKey').val(),
+					userKey : $('#userKey').val()
+				},
 				success : function(res){
-					if(res === "1"){
-						msg('알림', '찜하기 목록에 들어갔습니다', 'success');
+					if(res == "1"){
+						msg('알림', '찜하기 완료', 'success');
 					}else{
 						msg('알림', '찜하기 오류발생', 'error');
 					}
+				},
+				error : function(){
+					console.log('찜하기 ajax 오류');
 				}
-			})
+			});
 		});
 		
+		<%-- 장바구니 버튼 클릭 --%>
 		$('#prodBasket').on('click', function(){
 			const prodCntVal = $('#prodCnt').val();
 			const price = $('.payPrice').find('span').html();	
 			const totalPrice = price.replace(/,/g, '').replace(/원/g, '');
-			console.log("장바구니 prodCount : " + prodCntVal + "| totalPrice : " + totalPrice)
+			
+			$.ajax({
+				url : "/product/insertBasket.do",
+				type : "GET",
+				data : {
+					prodKey : $('#prodKey').val(),
+					basketCnt : prodCntVal,
+					userKey : $('#userKey').val()
+				},
+				success : function(res){
+					if(res == "1"){
+						msg('알림', '장바구니 완료', 'success');
+					}else{
+						msg('알림', '장바구니 오류발생', 'error');
+					}
+				},
+				error : function(){
+					console.log('장바구니 ajax 오류');
+				}
+			});
 		});
 	</script>
 </body>

@@ -103,4 +103,9 @@ public class ProductDao {
 		return sessionTemplate.selectList("product.getProdListByPrice", categoryKey);
 	}
 
+	//장바구니에 넣기 전 장바구니 테이블에 있는지 체크
+	public int chkBasket(Basket basket) {
+		return sessionTemplate.selectOne("product.chkBasket", basket);
+	}
+
 }

@@ -141,10 +141,12 @@ public class ProductController {
 	// 결제 API 에 주문번호 보내는 용도
 	@PostMapping("makeOrderNo.do")
 	@ResponseBody
-	public String makeOrderNo(OrderHistory orderHistory, @RequestParam ArrayList<String> productKeys) {
+	public String makeOrderNo(OrderHistory orderHistory, @RequestParam ArrayList<String> prodKeys) {
 		System.out.println("inside makeOrderNo");
+		System.out.println("userKey: " + orderHistory.getUserKey());
+		System.out.println("addrKey: " + orderHistory.getAddrKey());
 
-		System.out.println(productKeys);
+		System.out.println("prodKeys: " + prodKeys);
 		// 결제 API 에 orderNo 보내줘야함
 		// orderNo 생성 및 Product.java 에 orderNo 집어넣음
 
@@ -161,7 +163,7 @@ public class ProductController {
 		}
 	}
 
-	// 결제 API로 값 받아오고 삽입
+	// 결제 API 로 값 받아오고 삽입
 	@PostMapping("productBuy.do")
 	@ResponseBody
 	public String productBuy(@RequestParam("prodKey") List<String> prodKeys,

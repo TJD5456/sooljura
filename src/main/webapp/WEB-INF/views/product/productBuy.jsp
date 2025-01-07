@@ -224,9 +224,9 @@
             url: '/product/makeOrderNo.do', // 주문번호 생성 요청 URL 아니 이거 어디서부터 꼬인거야 씨이빠 콘솔도 안보여 프린트도 안보여 그냥
             type: 'POST',
             data: {
-                productKeys: prodKeys, // 배열로 전달
                 userKey: $('#userKey').val(),
-                addrKey: $('#addrKey').val()
+                addrKey: $('#addrKey').val(),
+                prodKeys: prodKeys // 배열로 전달
             },
             dataType: 'json', // JSON 형식의 데이터 수신
             success: function (orderData) {

@@ -114,4 +114,9 @@ public class PostService {
     public int updatePost(Post post) {
         return dao.updatePost(post);
     }
+
+    public int adminDeletePost(String postKey) {
+        return dao.adminDeletePost(postKey);
+    }
+
 }

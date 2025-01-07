@@ -143,17 +143,24 @@
 		WHERE post_key = #{postKey}
 	</update>
 
-<delete id="deletePost" parameterType="map">
-    DELETE FROM tbl_post
-    WHERE post_key = #{postKey} AND user_key = #{userKey}
-</delete>
+    <delete id="deletePost" parameterType="map">
+        DELETE FROM tbl_post
+        WHERE post_key = #{postKey} AND user_key = #{userKey}
+    </delete>
 
 
-<update id="updatePost" parameterType="post">
-    UPDATE tbl_post
-    SET post_title = #{postTitle},
-        post_content = #{postContent},
-        post_date = SYSDATE
-    WHERE post_key = #{postKey} AND user_key = #{userKey}
-</update>
+    <update id="updatePost" parameterType="post">
+        UPDATE tbl_post
+        SET post_title = #{postTitle},
+            post_content = #{postContent},
+            post_date = SYSDATE
+        WHERE post_key = #{postKey} AND user_key = #{userKey}
+    </update>
+
+	<delete id="adminDeletePost" parameterType="string">
+		delete
+		from TBL_POST
+		where post_key = #{_postKey}
+	</delete>
+
 </mapper>

@@ -59,7 +59,7 @@ public class PostDao {
     public String selectPostKeyByCommentKey(String commentKey) {
         return sqlSession.selectOne("post.selectPostKeyByCommentKey", commentKey);
     }
-    
+
     public int updateComment(Comment comment) {
         return sqlSession.update("post.updateComment", comment);
     }
@@ -73,17 +73,19 @@ public class PostDao {
         sqlSession.update("post.increasePostView", postKey);
     }
 
-	public int deletePost(String postKey, String userKey) {
-    Map<String, String> params = new HashMap<>();
-    params.put("postKey", postKey);
-    params.put("userKey", userKey);
-    return sqlSession.delete("post.deletePost", params);
-}
+    public int deletePost(String postKey, String userKey) {
+        Map<String, String> params = new HashMap<>();
+        params.put("postKey", postKey);
+        params.put("userKey", userKey);
+        return sqlSession.delete("post.deletePost", params);
+    }
 
-	public int updatePost(Post post) {
-	    return sqlSession.update("post.updatePost", post);
-	}
-	
-	
-}
+    public int updatePost(Post post) {
+        return sqlSession.update("post.updatePost", post);
+    }
 
+    public int adminDeletePost(String postKey) {
+        return sqlSession.delete("post.adminDeletePost", postKey);
+    }
+
+}

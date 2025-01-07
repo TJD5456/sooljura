@@ -91,7 +91,6 @@ public class PostController {
         return viewName;
     }
 
-
     @GetMapping("noticePostWriter.do")
     public String noticePostWriter(HttpSession session, Model model) {
         // 1. 로그인 사용자 정보 확인
@@ -154,7 +153,11 @@ public class PostController {
     }
 
     @RequestMapping("/freePostDetail.do")
-    public String freePostDetail(@RequestParam(value = "postKey", required = true) String postKey, Model model) {
+    public String freePostDetail(HttpSession session, @RequestParam(value = "postKey", required = true) String postKey, Model model) {
+        User loginUser = (User) session.getAttribute("loginUser");
+        int userCd = loginUser.getUserCd();
+        model.addAttribute("userCd", userCd);
+
         if (postKey == null || postKey.isEmpty()) {
             model.addAttribute("errorMessage", "게시글 키가 유효하지 않습니다.");
             return "errorPage"; // 에러 페이지로 이동
@@ -183,7 +186,6 @@ public class PostController {
 
         return "post/noticeDetail";  // noticeDetail.jsp 페이지로 이동
     }
-
 
     // 댓글작성 or 댓글이 없는 경우 에러메세지를 추가
     @PostMapping("/addComment.do")
@@ -283,8 +285,8 @@ public class PostController {
             } else {
                 redirectAttributes.addFlashAttribute("errorMessage", "게시글 삭제 권한이 없습니다.");
             }
-
             return "redirect:/post/freePostList.do";  // 성공 시 자유게시판 목록으로 리다이렉트
+
         } catch (Exception e) {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("errorMessage", "게시글 삭제 중 오류가 발생했습니다.");
@@ -399,4 +401,14 @@ public class PostController {
             return "redirect:/post/noticePostEdit.do?postKey=" + post.getPostKey();
         }
     }
+
+    @GetMapping("adminDeletePost.do")
+    public String adminDeletePost(String postKey) {
+        if (service.adminDeletePost(postKey) > 0) {
+            return "redirect:/admin/managePosts.do";
+        } else {
+            return "redirect:/post/freePostDetail.do?postKey=" + postKey;
+        }
+    }
+
 }

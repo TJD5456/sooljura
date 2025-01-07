@@ -23,6 +23,10 @@
             color: blue;
             cursor: pointer;
         }
+
+        .adminDeletePost {
+            float: right;
+        }
     </style>
 </head>
 <body>
@@ -98,6 +102,9 @@
                             <button type="submit" form="commentForm">댓글 등록</button>
                         </c:otherwise>
                     </c:choose>
+                    <c:if test="${userCd == 0}">
+                        <button class="adminDeletePost" type="button">삭제</button>
+                    </c:if>
                 </div>
 
             </div>
@@ -106,8 +113,9 @@
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </main>
+
 <script>
-    // 현재 수정 중인 댓글의 key를 추적
+    // 현재 수정 중인 댓글의 key 를 추적
     let currentEditingKey = null;
 
     // 댓글 수정 함수
@@ -211,8 +219,10 @@
     function toLogin() {
         window.location.href = '/user/loginFrm.do';
     }
+
+    $(".adminDeletePost").click(function () {
+        window.location.href = "/post/adminDeletePost.do?postKey=${post.postKey}";
+    })
 </script>
-
-
 </body>
 </html>

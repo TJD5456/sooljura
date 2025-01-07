@@ -9,18 +9,11 @@ import com.khedu.sooljura.product.model.vo.ProductDiscountInfo;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-
-import com.khedu.sooljura.admin.model.vo.Product;
-import com.khedu.sooljura.admin.model.vo.ProductImage;
-import com.khedu.sooljura.product.model.vo.Basket;
-import com.khedu.sooljura.product.model.vo.OrderHistory;
-
 
 @Repository("productDao")
 public class ProductDao {
@@ -29,17 +22,13 @@ public class ProductDao {
     private SqlSessionTemplate sessionTemplate;
 
     //주문번호 생성용도(API결제에 필요함)
-    public int makeOrderNo(OrderHistory orderHistory) {
-        return sessionTemplate.insert("product.makeOrderNo", orderHistory);
+    public String makeOrderNo() {
+        return sessionTemplate.selectOne("product.makeOrderNo");
     }
 
     //결제정보 삽입
-    public int insertHistory(OrderHistory orderHistory, Map<String, Integer> orderDetail) {
-    	Map<String, Object> params = new HashMap<>();
-        params.put("OrderHistory", orderHistory);
-        params.put("orderDetails", orderDetail);
-
-        return sessionTemplate.insert("product.insertHistory", params);
+    public int insertHistory(OrderHistory orderHistory) {
+        return sessionTemplate.insert("product.insertHistory", orderHistory);
     }
 
     //주문번호 제작용도 제거
@@ -90,17 +79,33 @@ public class ProductDao {
         return sessionTemplate.selectOne("product.selOneProdImg", prodKey);
     }
 
-	public ProductDiscountHistory selOnePDH(String prodKey) {
-		return sessionTemplate.selectOne("product.selOnePDH", prodKey);
+    public ProductDiscountHistory selOnePDH(String prodKey) {
+        return sessionTemplate.selectOne("product.selOnePDH", prodKey);
+    }
+
+    public ProductDiscountInfo selOnePDI(HashMap<String, String> map) {
+        return sessionTemplate.selectOne("product.selOnePDI", map);
+    }
+
+    public int isPdhNull(String prodKey) {
+        return sessionTemplate.selectOne("product.isPdhNull", prodKey);
+    }
+
+	public List<Product> getProdList(String categoryKey) {
+		return sessionTemplate.selectList("product.getProdList", categoryKey);
+    }
+
+	public List<Product> getProdListByName(String categoryKey) {
+		return sessionTemplate.selectList("product.getProdListByName", categoryKey);
 	}
 
-	public ProductDiscountInfo selOnePDI(HashMap<String, String> map) {
-		return sessionTemplate.selectOne("product.selOnePDI", map);
+	public List<Product> getProdListByPrice(String categoryKey) {
+		return sessionTemplate.selectList("product.getProdListByPrice", categoryKey);
 	}
 
-	public int isPdhNull(String prodKey) {
-		return sessionTemplate.selectOne("product.isPdhNull", prodKey);
+	//장바구니에 넣기 전 장바구니 테이블에 있는지 체크
+	public int chkBasket(Basket basket) {
+		return sessionTemplate.selectOne("product.chkBasket", basket);
 	}
-
 
 }

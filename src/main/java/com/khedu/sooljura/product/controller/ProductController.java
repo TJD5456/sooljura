@@ -1,41 +1,24 @@
 package com.khedu.sooljura.product.controller;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import com.khedu.sooljura.admin.model.vo.Product;
+import com.khedu.sooljura.admin.model.vo.ProductImage;
+import com.khedu.sooljura.product.model.service.ProductService;
+import com.khedu.sooljura.product.model.vo.*;
+import com.khedu.sooljura.user.controller.UserController;
+import com.khedu.sooljura.user.model.vo.User;
+import com.khedu.sooljura.user.model.vo.UserAddr;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.khedu.sooljura.admin.model.vo.Product;
-import com.khedu.sooljura.admin.model.vo.ProductImage;
-import com.khedu.sooljura.product.model.service.ProductService;
-import com.khedu.sooljura.product.model.vo.Basket;
-import com.khedu.sooljura.product.model.vo.OrderHistory;
-import com.khedu.sooljura.product.model.vo.ProductDiscountHistory;
-import com.khedu.sooljura.product.model.vo.ProductDiscountInfo;
-import com.khedu.sooljura.product.model.vo.ProductListData;
-import com.khedu.sooljura.user.controller.UserController;
-import com.khedu.sooljura.user.model.vo.User;
-import com.khedu.sooljura.user.model.vo.UserAddr;
+import java.io.IOException;
+import java.util.*;
 
 @Controller
 @RequestMapping("/product/")
@@ -104,18 +87,17 @@ public class ProductController {
 		// 세션에서 userKey 가져오기(정상작동중)
 		User loginUser = (User) session.getAttribute("loginUser");
 		String userKey = ((User) loginUser).getUserKey();
-		// userKey로 Basket 리스트 조회해서 prodKey 가져오기 (정상작동중)
+		// userKey 로 Basket 리스트 조회해서 prodKey 가져오기 (정상작동중)
 		ArrayList<Basket> findProdKey = service.findProdKey(userKey);
 
 		if (findProdKey == null || findProdKey.isEmpty()) {
-			// Basket 리스트에서 prodKey가 없는경우
+			// Basket 리스트에서 prodKey 가 없는경우
 			model.addAttribute("basketList", Collections.emptyList());
 		} else {
 			// Basket 리스트에서 가져온 prodKey로 제품 정보 조회
 			List<ProductListData> prodInfoList = new ArrayList<>();
 			findProdKey.forEach(basket -> {
 				ProductListData prodInfo = service.prodInfo(basket.getProdKey());
-				System.out.println("prodInfo : " + prodInfo.toString());
 				prodInfoList.add(prodInfo);
 			});
 			model.addAttribute("basketList", prodInfoList);
@@ -137,8 +119,8 @@ public class ProductController {
 	public String productBuyFrm(Model model,  @RequestParam(required = false) List<String> prodKeys, 
             									@RequestParam(required = false) String userKey) {
 		// userKey로 기본배송지 가져오기
-		UserAddr defaultAddr = userController.findDefaultAddr(userKey);		
-		
+		UserAddr defaultAddr = userController.findDefaultAddr(userKey);
+
 		// product 가져오기
 		List<ProductListData> productList = new ArrayList<>();
 		ProductListData prodInfo = null;
@@ -152,77 +134,95 @@ public class ProductController {
 		// 제품 정보 리스트
 		model.addAttribute("productList", productList);
 		// 장바구니 정보(결제완료 후 장바구니에서 제품 삭제용) - 보류
-		
 
 		return "product/productBuy";
 	}
 
-	// 결제 API에 주문번호 보내는 용도
-	@PostMapping("makeOrderNo.do")
+	// 결제 API 에 주문번호 보내는 용도
+	@GetMapping("makeOrderNo.do")
 	@ResponseBody
-	public String makeOrderNo(@RequestBody Map<String, Object> requestBody) {
-		// 결제 API에 orderNo 보내줘야함
-		// orderNo 생성 및 Product.java에 orderNo 집어넣음
-		OrderHistory orderHistory = new OrderHistory();
-	    orderHistory.setUserKey((String) requestBody.get("userKey"));
-	    orderHistory.setAddrKey((String) requestBody.get("addrKey"));
+	public String makeOrderNo(OrderHistory orderHistory) {
+		// 결제 API 에 orderNo 보내줘야함
+		// orderNo 생성 및 Product.java 에 orderNo 집어넣음		
+	    String makeOrderNo = service.makeOrderNo();
 
-	    List<String> prodKeyList = (List<String>) requestBody.get("prodKey");
-	    System.out.println("prodKeyList = " + prodKeyList);
-	    String prodKeyString = String.join(",", prodKeyList);
-	    System.out.println("prodKeyString = " + prodKeyString);
-	    orderHistory.setProdKey(prodKeyString);
-	    System.out.println("orderHistory = " + orderHistory);
-	    
-	    int makeOrderNo = service.makeOrderNo(orderHistory);
-	    
-		if (makeOrderNo > 0) {
-			String orderNo = orderHistory.getOrderNo();
+		if (makeOrderNo != null) {
+			orderHistory.setOrderNo(makeOrderNo);
+			System.out.println("orderNo: " + makeOrderNo);
 			// 정상적으로 넣으면 orderNo 반환
-			return orderNo;
+			return makeOrderNo;
 		} else {
 			// 정상적으로 DB에 못넣으면 0반환
 			return "0";
 		}
 	}
 
-	// 결제 API로 값 받아오고 삽입
+	// 결제 API 로 값 받아오고 삽입
 	@PostMapping("productBuy.do")
 	@ResponseBody
-	public String productBuy(@RequestParam("prodKey") List<String> prodKeys,
-			@RequestParam("orderCnt") List<Integer> orderCnts, @ModelAttribute OrderHistory orderHistory) {
-
-		Map<String, Integer> orderDetail = new HashMap<>();
-		for (int i = 0; i < prodKeys.size(); i++) {
-			orderDetail.put(prodKeys.get(i), orderCnts.get(i));
-		}
-
+	public String productBuy(@RequestBody OrderHistory orderHistory) {
+		System.out.println(orderHistory.getImpUid());
+		System.out.println(orderHistory.getProdKeys());
+		System.out.println(orderHistory.getUserKey());
+		System.out.println(orderHistory.getAddrKey());
+		System.out.println(orderHistory.getOrderPrice());
+		System.out.println(orderHistory.getOrderCnt());
+		
 		// 제품 구매내역 DB에 넣기
-		int insertHistory = service.insertHistory(orderHistory, orderDetail);
-
+		int insertHistory = service.insertHistory(orderHistory);
+		
 		if (insertHistory > 0) {
 			// 정상적으로 넣으면 1 반환 오류 발생시 다른 숫자 반환
-			// int result -> 정상적으로 결제 완료 시 위에서 만든 주문번호 제작용 컬럼 삭제
-			int result = service.delOrderNo(orderHistory);
-
-			return String.valueOf(result);
+			// int result -> 정상적으로 결제 완료 시 위에서 만든 주문번호 제작용 컬럼 삭제 - 보류
+			return String.valueOf(insertHistory);
 		}
 		// 오류 발생 시 0 반환
 		return "0";
 	}
 
 	// 제품 장바구니에 넣기
+	@GetMapping("insertBasket.do")
 	public String insertBasket(Basket basket) {
+		System.out.println("prodKey : " + basket.getProdKey());
+		System.out.println("userKey : " + basket.getUserKey());
+		System.out.println("basketCnt : " + basket.getBasketCnt());
+		
 		basket.setBasketCd(1);
-		int insertBasket = service.insertBasket(basket);
-		return String.valueOf(insertBasket);
+		
+		//장바구니에 넣기 전 장바구니 테이블에 있는지 체크
+		int chkBasket = service.chkBasket(basket);
+		
+		if(chkBasket < 1) {	
+			//장바구니 테이블 삽입
+			int insertBasket = service.insertBasket(basket);
+			
+			if(insertBasket == 1) {			
+				return String.valueOf(insertBasket);
+			}
+		}
+		return String.valueOf(0);
 	}
 
 	// 제품 찜하기
+	@GetMapping("insertLike.do")
 	public String insertLike(Basket basket) {
+		System.out.println("prodKey : " + basket.getProdKey());
+		System.out.println("userKey : " + basket.getUserKey());
+
 		basket.setBasketCd(2);
-		int insertLike = service.insertBasket(basket);
-		return String.valueOf(insertLike);
+		basket.setBasketCnt(0);
+		
+		//장바구니에 넣기 전 장바구니 테이블에 있는지 체크
+		int chkBasket = service.chkBasket(basket);
+		
+		if(chkBasket < 1) {
+			//좋아요 테이블 삽입
+			int insertLike = service.insertBasket(basket);
+			if(insertLike == 1) {			
+				return String.valueOf(insertLike);
+			}
+		}
+		return String.valueOf(0);
 	}
 
 	// 장바구니에서 제품 삭제
@@ -305,4 +305,48 @@ public class ProductController {
 		model.addAttribute("pOrA",2);
 		return payPrice;
 	}
+	
+	@GetMapping("productList.do")
+	public String productList(String categoryKey, int sort, Model model) {
+		ArrayList<Product> prodlist = null;
+		String listTitle = null;
+		switch (categoryKey) {
+		case "c0001":
+			listTitle = "와인/샴페인";
+			break;
+		case "c0002":
+			listTitle = "위스키";
+			break;
+		case "c0003":
+			listTitle = "브랜디/꼬냑";
+			break;
+		case "c0004":
+			listTitle = "리큐르/보드카";
+			break;
+		case "c0005":
+			listTitle = "전통주/민속주";
+			break;
+		case "c0006":
+			listTitle = "기타주류";
+			break;
+		default:
+			break;
+		}
+		model.addAttribute("prodCate", categoryKey);
+		model.addAttribute("listTitle", listTitle);
+		if(sort > 0) {
+			if(sort == 1) {
+				prodlist = service.getProdListByName(categoryKey);
+				
+			}else if(sort == 2) {
+				prodlist = service.getProdListByPrice(categoryKey);
+			}
+		}else {
+			prodlist = service.getProdList(categoryKey);
+			
+		}
+		model.addAttribute("prodlist", prodlist);
+		return "product/prodList";
+	}
+	
 }

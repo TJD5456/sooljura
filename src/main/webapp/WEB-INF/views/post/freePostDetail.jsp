@@ -16,6 +16,10 @@
             color: #FFF;
             cursor: pointer;
         }
+
+        .adminDeletePost {
+            float: right;
+        }
     </style>
 </head>
 <body>
@@ -31,9 +35,24 @@
             <div class="container">
                 <div class="post-title">${post.postTitle}</div>
                 <div class="post-info">
-                    작성자: ${post.userNickNm} |
-                    작성일:${post.postDate} |
-                    조회수: ${post.postViews}
+                    작성자: ${post.userNickNm} | 작성일:${post.postDate} | 조회수:
+                    ${post.postViews}
+
+                    <!-- 게시글 수정/삭제 버튼 (작성자 본인만 확인 가능) -->
+                    <c:if
+                            test="${not empty loginUser && post.userKey == loginUser.userKey}">
+                        <div class="edit-buttons">
+                            <!-- 게시글 수정 버튼 -->
+                            <a class="edit-button"
+                               href="/post/freePostEdit.do?postKey=${post.postKey}">수정</a>
+                            <!-- 게시글 삭제 버튼 -->
+                            <form action="/post/deletePost.do" method="post"
+                                  onsubmit="return confirm('정말 삭제하시겠습니까?')">
+                                <input type="hidden" name="postKey" value="${post.postKey}">
+                                <button type="submit" class="delete-button">삭제</button>
+                            </form>
+                        </div>
+                    </c:if>
                 </div>
                 <div class="post-content">${post.postContent}</div>
 
@@ -46,22 +65,15 @@
                             <!-- 댓글 작성자 -->
                             <div>
                                 <span class="author">${comment.userNickNm}</span>
-                                <c:if test="${not empty loginUser && comment.userKey == loginUser.userKey}">
-                                    <button type="button"
-                                            onclick="editComment('${comment.commentKey}', '${fn:escapeXml(comment.commentContent).replaceAll(" '", "\\'")}')"
-                                            style="border: none; background: none; color: blue; cursor: pointer;">
-                                        수정
-                                    </button>
+                                <c:if
+                                        test="${not empty loginUser && comment.userKey == loginUser.userKey}">
                                     <!-- 삭제 버튼 -->
                                     <form action="/post/deleteComment.do" method="post"
                                           onsubmit="return confirm('정말 삭제하시겠습니까?');"
                                           style="display: inline;">
                                         <input type="hidden" name="commentKey"
                                                value="${comment.commentKey}"/>
-                                        <button type="submit"
-                                                style="border: none; background: none; color: red; cursor: pointer;">
-                                            삭제
-                                        </button>
+                                        <button type="submit">삭제</button>
                                     </form>
                                 </c:if>
                             </div>
@@ -73,14 +85,14 @@
                         </div>
                     </c:forEach>
                 </div>
-
                 <!-- 댓글 작성 폼 -->
                 <div class="comment-form">
                     <form action="/post/addComment.do" method="post" id="commentForm"
                             <c:if test="${empty loginUser}">
                                 hidden
                             </c:if>>
-                        <textarea name="commentContent" placeholder="댓글 내용을 입력하세요" required></textarea>
+							<textarea name="commentContent" placeholder="댓글 내용을 입력하세요"
+                                      required></textarea>
                         <input type="hidden" name="postKey" value="${post.postKey}"/>
                     </form>
                     <button class="back-button" onclick="history.back();">뒤로가기</button>
@@ -92,6 +104,9 @@
                             <button type="submit" form="commentForm">댓글 등록</button>
                         </c:otherwise>
                     </c:choose>
+                    <c:if test="${userCd == 0}">
+                        <button class="adminDeletePost" type="button">삭제</button>
+                    </c:if>
                 </div>
 
             </div>
@@ -100,8 +115,9 @@
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </main>
+
 <script>
-    // 현재 수정 중인 댓글의 key를 추적
+    // 현재 수정 중인 댓글의 key 를 추적
     let currentEditingKey = null;
 
     // 댓글 수정 함수
@@ -205,8 +221,22 @@
     function toLogin() {
         window.location.href = '/user/loginFrm.do';
     }
+
+    $(".adminDeletePost").click(function () {
+        window.location.href = "/post/adminDeletePost.do?postKey=${post.postKey}";
+    })
+
+    $(function () {
+        if ("${post.confirmYn == 0}" && "${userCd == 0}") {
+            $.ajax({
+                url: '/post/confirmYn.do',
+                type: 'get',
+                data: {
+                    postKey: "${post.postKey}",
+                }
+            })
+        }
+    })
 </script>
-
-
 </body>
 </html>

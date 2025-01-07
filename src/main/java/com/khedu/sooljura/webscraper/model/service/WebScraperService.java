@@ -10,11 +10,12 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import javax.servlet.http.HttpServletRequest;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -43,43 +44,41 @@ public class WebScraperService {
         ArrayList<ProductImage> prodImgList = new ArrayList<ProductImage>();
 
         String[][] bevArrColl = {
-                {
-                        "http://www.kajawine.kr/shop/list.php?ca_id=1010&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0007
-                        "http://www.kajawine.kr/shop/list.php?ca_id=1020&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0008
-                        "http://www.kajawine.kr/shop/list.php?ca_id=1030&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0009
-                        "http://www.kajawine.kr/shop/list.php?ca_id=1040&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c00010
-                        "http://www.kajawine.kr/shop/list.php?ca_id=1060&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=" // c00011
-                }
-                ,
-
-                {"http://www.kajawine.kr/shop/list.php?ca_id=2010&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0012
-                        "http://www.kajawine.kr/shop/list.php?ca_id=2020&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0013
-                        "http://www.kajawine.kr/shop/list.php?ca_id=2030&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0014
-                        "http://www.kajawine.kr/shop/list.php?ca_id=2040&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0015
-                        "http://www.kajawine.kr/shop/list.php?ca_id=2050&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0016
-                        "http://www.kajawine.kr/shop/list.php?ca_id=6010&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page="// c0017
-                },
-                {"http://www.kajawine.kr/shop/list.php?ca_id=3010&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0018
-                        "http://www.kajawine.kr/shop/list.php?ca_id=3020&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0019
-                        "http://www.kajawine.kr/shop/list.php?ca_id=3040&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=" // c0020
-                },
-                {"http://www.kajawine.kr/shop/list.php?ca_id=6020&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0021
-                        "http://www.kajawine.kr/shop/list.php?ca_id=6030&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0022
-                        "http://www.kajawine.kr/shop/list.php?ca_id=6040&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0023
-                        "http://www.kajawine.kr/shop/list.php?ca_id=6050&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=" // c0024
-                },
-                {"http://www.kajawine.kr/shop/list.php?ca_id=40&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page="// c0025
-                },
-                {"http://www.kajawine.kr/shop/list.php?ca_id=5010&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0026
-                        "http://www.kajawine.kr/shop/list.php?ca_id=5020&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",// c0027
-                        // "http://www.kajawine.kr/shop/list.php?ca_id=b0&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page="
-                        // //보류 -- 사케
-                }
+            {
+                "http://www.kajawine.kr/shop/list.php?ca_id=1010&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0007
+                "http://www.kajawine.kr/shop/list.php?ca_id=1020&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0008
+                "http://www.kajawine.kr/shop/list.php?ca_id=1030&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0009
+                "http://www.kajawine.kr/shop/list.php?ca_id=1040&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c00010
+                "http://www.kajawine.kr/shop/list.php?ca_id=1060&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=" // c00011
+            },
+            {"http://www.kajawine.kr/shop/list.php?ca_id=2010&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0012
+                "http://www.kajawine.kr/shop/list.php?ca_id=2020&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0013
+                "http://www.kajawine.kr/shop/list.php?ca_id=2030&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0014
+                "http://www.kajawine.kr/shop/list.php?ca_id=2040&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0015
+                "http://www.kajawine.kr/shop/list.php?ca_id=2050&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0016
+                "http://www.kajawine.kr/shop/list.php?ca_id=6010&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page="// c0017
+            },
+            {"http://www.kajawine.kr/shop/list.php?ca_id=3010&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0018
+                "http://www.kajawine.kr/shop/list.php?ca_id=3020&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0019
+                "http://www.kajawine.kr/shop/list.php?ca_id=3040&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=" // c0020
+            },
+            {"http://www.kajawine.kr/shop/list.php?ca_id=6020&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0021
+                "http://www.kajawine.kr/shop/list.php?ca_id=6030&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0022
+                "http://www.kajawine.kr/shop/list.php?ca_id=6040&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0023
+                "http://www.kajawine.kr/shop/list.php?ca_id=6050&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=" // c0024
+            },
+            {"http://www.kajawine.kr/shop/list.php?ca_id=40&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page="// c0025
+            },
+            {"http://www.kajawine.kr/shop/list.php?ca_id=5010&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=", // c0026
+                "http://www.kajawine.kr/shop/list.php?ca_id=5020&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page=",// c0027
+                // "http://www.kajawine.kr/shop/list.php?ca_id=b0&sort=&sortodr=&type_color=&it_price=&it_opt4=&it_opt9=&page="
+                // //보류 -- 사케
+            }
         };
 
         String[] sortCodeArr = {"c0007", "c0008", "c0009", "c0010", "c0011", "c0012", "c0013", "c0014", "c0015",
-                "c0016", "c0017", "c0018", "c0019", "c0020", "c0021", "c0022", "c0023", "c0024", "c0025", "c0026",
-                "c0027"};
+            "c0016", "c0017", "c0018", "c0019", "c0020", "c0021", "c0022", "c0023", "c0024", "c0025", "c0026",
+            "c0027"};
 
         int sortCodeIndex = 0;
 
@@ -110,7 +109,7 @@ public class WebScraperService {
 
                                 String prodKey = dao.selProdKey(product.getProdNm());
 
-                                if (prodKey != null) { // prodKey 값이 null이 아닐 경우만 진행
+                                if (prodKey != null) { // prodKey 값이 null 이 아닐 경우만 진행
                                     System.out.println("이미지 경로 : " + imgPath);
                                     System.out.println("이미지 이름 : " + imgNm);
                                     System.out.println("제품 키 : " + prodKey);
@@ -121,7 +120,6 @@ public class WebScraperService {
 
                         } else if (duplCnt > 0) {// 중복된 경우
                             System.out.println("다음괴 같은 이름을 가진 제품 존재! 제품명 : " + product.getProdNm());
-                            continue;
                         }
                     }
                 }
@@ -130,15 +128,14 @@ public class WebScraperService {
     }
 
     public ArrayList<Product> scraper(String url, String sortCode) {
-        ArrayList<ProductImage> prodImgList = new ArrayList<ProductImage>();
+        ArrayList<ProductImage> prodImgList = new ArrayList<>();
         ProductImage prodImg = new ProductImage();
-        ArrayList<Product> list = new ArrayList<Product>();
-        // 1) 대상 페이지 URL
+        ArrayList<Product> list = new ArrayList<>();
 
+        // 1) 대상 페이지 URL
         for (int i = 1; i < 2; i++) {
             String pageUrl = url + i;
             try {
-
                 // 2) 연결 요청 및 페이지 HTML 조회
                 Document document = Jsoup.connect(pageUrl).ignoreContentType(true).get();
 
@@ -149,22 +146,22 @@ public class WebScraperService {
 
                 for (Element parentsEl : parentsEls) {
                     Product prod = new Product();
-                    // 4) 원하는 정보 추출
 
+                    // 4) 원하는 정보 추출
                     // 상세페이지 링크
                     String prodDetailLink = parentsEl.getElementsByClass("sct_txt").get(0).getElementsByTag("a")
-                            .attr("href");
+                        .attr("href");
 
                     // 상품명
                     String productName = parentsEl.getElementsByClass("listImg").get(0).getElementsByTag("a").get(0)
-                            .getElementsByTag("img").attr("alt");
+                        .getElementsByTag("img").attr("alt");
 
                     // 상세페이지 스크래퍼
                     prod = scraperDetail(prodDetailLink, sortCode);
                     // 상품 정가
                     Element price = parentsEl.getElementsByClass("sct_cost").get(0);
                     Element strikeTag = parentsEl.getElementsByClass("sct_cost").get(0).getElementsByTag("strike")
-                            .first();
+                        .first();
                     if (strikeTag != null) {
                         String productPrice = strikeTag.text();
                         int cleanedPrice = Integer.parseInt(productPrice.replace(",", "").replace("원", ""));
@@ -175,21 +172,15 @@ public class WebScraperService {
                         prod.setProdPrice(cleanedPrice);
                     }
 
-                    //
                     if (prod.getTradingYn() == 0) {
-                        // System.out.println("거래 종료 상품");
-
                         String imgUrl = parentsEl.getElementsByClass("listImg").get(0).getElementsByTag("a").get(0).getElementsByTag("img").attr("src");
                         // 거래 종료상품 상품명 제공
                         String prodNm = prodNameChk(productName);
-
                         String imgPath = getImgFile(imgUrl, sortCode, prodNm, "only_for_thumbnail");
-                        imgPath = imgPath.replace("C:/finalProject/sooljura/src/main/webapp", "");
+
                         prodImg.setImgPath(imgPath);
                         prodImg.setImgNm(prodNm);
-
                         prodImgList.add(prodImg);
-
                         prod.setProdNm(prodNm);
                         prod.setProdOrigin("");
                         prod.setProdMaker("");
@@ -210,13 +201,11 @@ public class WebScraperService {
                         list.add(prod);
                     }
                 }
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         return list;
-
     }
 
     // 가자 주류 웹 스크래퍼 -상세 페이지
@@ -248,7 +237,7 @@ public class WebScraperService {
 
         // 가자주류 주류 전체보기 페이지에서 이미지와 링크는 있지만 상세보기가 막혀있는 "거래중지" 페이지 대비책
         // 받아올 수 있는 값 중 유일하게 해당 페이지가 "거래중지" 라는 것을 알려줄 수 있는것이 <title>오류안내 ...</title>
-        // 페이지의 title에서 첫 4글자가 "오류안내"와 일치할 경우 "거래중지" 로 제품명, 가격을 제외한 나머지 컬럼 null
+        // 페이지의 title 에서 첫 4글자가 "오류안내"와 일치할 경우 "거래중지" 로 제품명, 가격을 제외한 나머지 컬럼 null
         String isNull = document.select("title").text().substring(0, 4);
 
         if (isNull.equals("오류안내")) {
@@ -336,10 +325,13 @@ public class WebScraperService {
                             }
                         }
                     } else {
+                        System.out.println("foobar 1");
                     }
                 } else {
+                    System.out.println("foobar 2");
                 }
             } else {
+                System.out.println("foobar 3");
             }
 
             // 제품 설명
@@ -366,7 +358,7 @@ public class WebScraperService {
 
             prodImgList.add(prodImg);
 
-            // prod객체에 각 값 전달
+            // prod 객체에 각 값 전달
             prod.setProdOrigin(productOrigin.replace("원산지 : ", ""));
 
             prod.setProdMaker(productMaker.replace("제조사 : ", ""));
@@ -379,7 +371,6 @@ public class WebScraperService {
             prod.setProductImages(prodImgList);
         }
         return prod;
-
     }
 
     // 제품명에 /\?*:<>등 특수기호가 들어가 이미지 파일 생성 안되는 오류 발생. 오류 수정용 메소드
@@ -387,8 +378,7 @@ public class WebScraperService {
         // 제품명에 a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ를 제외한 특수기호가 포함된경우 해당 특수문자 제거
         String regex = "[^a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ\\s]";
 
-        String replaceStr = prodName.replaceAll(regex, "");
-        return replaceStr;
+        return prodName.replaceAll(regex, "");
     }
 
     // 이미지파일 db에 저장
@@ -405,21 +395,18 @@ public class WebScraperService {
         URL url = null;
         InputStream in = null;
         OutputStream out = null;
-        // 컴퓨터 또는 서버의 저장할 경로 저장 경로 c드라이브 내 .../sooljura/src/main/webapp/resources/productImage 폴더 내부 저장
-        //resource 하위 productImage폴더 필요!!!
-        //TODO 저장될 하위 경로 지정 필요!!!
-        //String localSave = "C:/.../sooljura/src/main/webapp/resources/productImage/";
-        String localSave = "C:/finalProject/sooljura/src/main/webapp/resources/productImage/";
+
+        String localSave = savePath();
 
         // 저장될 파일의 명칭
         // 분류코드_제품명_이미지크기.jpg
-        // ex) 2010_버팔로 트레이스 1000ml VAT별도_thumbnail_160x214.jpg
+        // ex) 2010_버팔로 트레이스 1000ml VAT 별도_thumbnail_160x214.jpg
         localSave += sortCode + "_" + productName + "_" + fileFor + ".jpg";
+
         try {
             url = new URL(imageUrl);
             in = url.openStream();
 
-            //
             out = new FileOutputStream(localSave);
 
             while (true) {
@@ -430,21 +417,15 @@ public class WebScraperService {
                 if (data == -1) {
                     break;
                 }
-
                 // 읽어들인 이미지 데이터 저장
                 out.write(data);
             }
-
-            // 객체 클로즈
             in.close();
             out.close();
 
         } catch (Exception e) {
-            // 예외처리
             e.printStackTrace();
         } finally {
-            // 만일 에러가 발생해서 클로즈가 안됐을 경우
-            // NULL값을 체크후 클로즈
             if (in != null) {
                 in.close();
             }
@@ -452,7 +433,32 @@ public class WebScraperService {
                 out.close();
             }
         }
-        return localSave;
+        return removeRedundantPath(localSave);
+    }
+
+    public String savePath() {
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        if (requestAttributes == null) {
+            throw new IllegalStateException("No request attributes found. This method must be called within an HTTP request scope.");
+        }
+        HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
+
+        String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/productImages/");
+
+        if (savePath.contains("target")) {
+            savePath = savePath.replace("\\target\\sooljura-1.0.0-BUILD-SNAPSHOT", "\\src\\main\\webapp");
+        }
+
+        File dir = new File(savePath);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        return savePath;
+    }
+
+    public String removeRedundantPath(String fullPath) {
+        int lastIndex = fullPath.lastIndexOf("\\");
+        return (lastIndex != -1) ? fullPath.substring(lastIndex + 1) : fullPath;
     }
 
 }

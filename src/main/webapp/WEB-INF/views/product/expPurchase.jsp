@@ -6,62 +6,69 @@
 <head>
     <meta charset="UTF-8">
     <title>sooljura</title>
-<style>
-main {
-	background-color: #EFECE5;
-}
-.div-wrap{
-	margin: 0 auto;
-    width: 60%;
-    display: flex;
-    border: 1px solid gray;
-    height: 100px;
-    margin-top: 10px;
-    background-color: #EFECE5;
-}
-.center-div-items{
-	padding: 25px;
-}
-.center-div-items > button{
-	width: 30px;
-	height: 15px;
-}
-.fixed-div{
-	position: fixed;
-	display: flex;
-	width: 100%;
-	height: 70px;
-	justify-content: center;
-	border-top: 1px solid gray;
-	bottom: 0;
-	background-color: #EFECE5;
-}
-.prodNm, .prodPrice{
-	font-size: 20px;
-	font-weight: bold;
-	margin-top: 10px;
-	border: none;
-	background-color: #EFECE5;
-}
-.center-div-items > input[type="button"]{
-	border: none;
-    border-radius: 15px;
-    color: #efece5;
-    background-color: #fc8173;
-    box-shadow: 1px 1px 1px 1px var(--button-shadow);
-    height: 25px;
-    width: 60px;
-}
-.center-div-items > input[type="button"]:hover {
-    background-color: #f5afa5;
-    box-shadow: 1px 1px 1px 1px var(--button-background);
-}
-</style>
+    <style>
+        main {
+            background-color: #EFECE5;
+        }
+
+        .div-wrap {
+            margin: 0 auto;
+            width: 60%;
+            display: flex;
+            border: 1px solid gray;
+            height: 100px;
+            margin-top: 10px;
+            background-color: #EFECE5;
+        }
+
+        .center-div-items {
+            padding: 25px;
+        }
+
+        .center-div-items > button {
+            width: 30px;
+            height: 15px;
+        }
+
+        .fixed-div {
+            position: fixed;
+            display: flex;
+            width: 100%;
+            height: 70px;
+            justify-content: center;
+            border-top: 1px solid gray;
+            bottom: 0;
+            background-color: #EFECE5;
+        }
+
+        .prodNm, .prodPrice {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+            border: none;
+            background-color: #EFECE5;
+        }
+
+        .center-div-items > input[type="button"] {
+            border: none;
+            border-radius: 15px;
+            color: #efece5;
+            background-color: #fc8173;
+            box-shadow: 1px 1px 1px 1px var(--button-shadow);
+            height: 25px;
+            width: 60px;
+        }
+
+        .center-div-items > input[type="button"]:hover {
+            background-color: #f5afa5;
+            box-shadow: 1px 1px 1px 1px var(--button-background);
+        }
+    </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <main>
-	<jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
+    <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
     <h1>장바구니</h1>
     <br>
     <hr>
@@ -71,43 +78,51 @@ main {
     <c:if test="${empty basketList}">
         <h2>장바구니에 제품이 없습니다</h2>
     </c:if>
-
     <!-- 장바구니에 제품이 있는 경우 -->
     <c:if test="${not empty basketList}">
+
         <form action="/product/productBuyFrm.do" id="basketForm" method="get">
-        	<input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)"> 전체 선택
+
+            <input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)"><label for="selectAll">전체 선택</label>
             <input type="hidden" id="userKey" name="userKey" value="${loginUser.userKey}">
+
             <c:forEach var="productData" items="${basketList}">
-	            <c:forEach var="product" items="${productData.productList}">
+                <c:forEach var="product" items="${productData.productList}">
+
                     <input type="hidden" class="prodKey" name="prodKeys" value="${product.prodKey}">
                     <input type="hidden" class="prodCnt" value="${product.prodCnt}">
-	                <div class="div-wrap">
-	                	<div class="center-div-items" style="width: 10px; padding:35px;">
-	                    	<input type="checkbox" class="selProduct" value="${product.prodKey}">
-	                    </div>
-	                    <div class="div-items" style="width: 50%;">
+
+                    <div class="div-wrap">
+                        <div class="center-div-items" style="width: 10px; padding:35px;">
+                            <input type="checkbox" class="selProduct" value="${product.prodKey}">
+                        </div>
+
+                        <div class="div-items" style="width: 50%;">
                             <a href="#" style="cursor: pointer;"><input type="text" class="prodNm" value="${product.prodNm}" readonly></a><br>
                             <input type="text" class="prodPrice" value="${product.prodPrice}" readonly>
-	                    </div>
-                        <div class="center-div-items" style="width: 10%;">
-					          <span class="basketCnt">1</span><br>
-					          <button type="button" onclick="fn.buyCntCalc('-', this)">-</button>
-					          <button type="button" onclick="fn.buyCntCalc('+', this)">+</button>
                         </div>
+
+                        <div class="center-div-items" style="width: 10%;">
+                            <span class="basketCnt">1</span><br>
+                            <button type="button" onclick="fn.buyCntCalc('-', this)">-</button>
+                            <button type="button" onclick="fn.buyCntCalc('+', this)">+</button>
+                        </div>
+
                         <div class="center-div-items" style="width: 10%; justify-items: center;">
                             <input type="button" onclick="delBasket(this)" value="삭제하기"><br>
                             <input type="button" onclick="buyBasket(this)" value="구매하기" style="margin-top: 5px;">
                         </div>
-	                </div>
-	            </c:forEach>
+                    </div>
+                </c:forEach>
             </c:forEach>
             <div class="fixed-div">
-	            <span id="orderSummary" style="font-size: 30px; margin-top: 10px;">총 0건의 주문금액 0원</span>
-	            <input type="submit" style="border-radius: 10px; height: 50px; margin-top: 10px;" value="선택한 제품 구매하기">
+                <span id="orderSummary" style="font-size: 30px; margin-top: 10px;">총 0건의 주문금액 0원</span>
+                <input type="submit" style="border-radius: 10px; height: 50px; margin-top: 10px;" value="선택한 제품 구매하기">
             </div>
         </form>
     </c:if>
 </main>
+
 <script>
     let fn = {
         buyCntCalc: function (oper, btn) {
@@ -132,23 +147,23 @@ main {
     };
 
     function updateOrderSummary() {
-	    let totalCnt = 0;
-	    let totalPrice = 0;
+        let totalCnt = 0;
+        let totalPrice = 0;
 
-	    $('#basketForm .selProduct:checked').each(function () {
-	        const $parentDiv = $(this).closest('.div-wrap');
-	        const prodCnt = Number($parentDiv.find('.basketCnt').text());
-	        const prodPrice = Number($parentDiv.find('.prodPrice').val());
-	
-	        totalCnt += prodCnt;
-	        totalPrice += prodCnt * prodPrice;
-	    });
+        $('#basketForm .selProduct:checked').each(function () {
+            const $parentDiv = $(this).closest('.div-wrap');
+            const prodCnt = Number($parentDiv.find('.basketCnt').text());
+            const prodPrice = Number($parentDiv.find('.prodPrice').val());
 
-	    $('#orderSummary').text(`총 ${totalCnt}건의 주문금액 ${totalPrice.toLocaleString()}원`);
-	    console.log("totalCnt : " + totalCnt + ", totalPrice : " + totalPrice);
-	}
+            totalCnt += prodCnt;
+            totalPrice += prodCnt * prodPrice;
+        });
 
-    
+        $('#orderSummary').text(`총 ${totalCnt}건의 주문금액 ${totalPrice.toLocaleString()}원`);
+        console.log("totalCnt : " + totalCnt + ", totalPrice : " + totalPrice);
+    }
+
+
     function delBasket(button) {
         const prodKey = $('.prodKey').val();
         const userKey = $('#userKey').val();
@@ -156,15 +171,15 @@ main {
         $.ajax({
             url: "/product/delBasket.do",
             type: "GET",
-            data: { 
-            		prodKey: prodKey,
-            		userKey: userKey
-            	},
+            data: {
+                prodKey: prodKey,
+                userKey: userKey
+            },
             success: function (res) {
                 if (res === "1") {
-                	msg('알림', '제품 삭제 완료', 'success', "window.location.reload()");
+                    msg('알림', '제품 삭제 완료', 'success', "window.location.reload()");
                 } else {
-                	msg('알림', '오류가 발생했습니다', 'error');
+                    msg('알림', '오류가 발생했습니다', 'error');
                 }
             },
             error: function () {
@@ -178,7 +193,7 @@ main {
         $('#basketForm .selProduct').prop('checked', isChecked);
         updateOrderSummary();
     }
-    
+
     document.querySelector('#basketForm').addEventListener('submit', function (event) {
         event.preventDefault(); // 기본 폼 제출 방지
 

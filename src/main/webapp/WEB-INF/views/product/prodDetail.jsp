@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -151,7 +151,7 @@ button {
 					<!-- 상품이미지 미리보기 시작 { -->
 					<div class="goodsLeft">
 						<div class="goodsImg">
-							<img src="${prodImg.imgPath}" width="360" height="480" alt=""
+							<img src="/resources/upload/productImages/${prodImg.imgPath}" width="360" height="480" alt="${prodImg.imgNm}"
 								title="">
 						</div>
 					</div>
@@ -168,8 +168,9 @@ button {
 								</colgroup>
 								<tbody>
 									<tr>
-										<th colspan="4"><input type="hidden" id="prodKey"
-											value="${prod.prodKey}"> <span class="good_tit1">${prod.prodNm}</span>
+										<th colspan="4"><input type="hidden" id="prodKey" value="${prod.prodKey}"> 
+										<input type="hidden" id="userKey" value="${loginUser.userKey}">
+											<span class="good_tit1">${prod.prodNm}</span>
 										</th>
 									</tr>
 									<tr>
@@ -197,7 +198,7 @@ button {
 									</tr>
 									<tr>
 										<th>소비자가격</th>
-										<td colspan="3"><span>${retailPrice}원</span></td>
+										<td colspan="3"><span><fmt:formatNumber value="${retailPrice}" type="number" pattern="#,###"/>원</span></td>
 									</tr>
 
 									<tr>
@@ -265,137 +266,13 @@ button {
 						</tr>
 					</table>
 				</div>
-				<div>
-					<div class="hrLine">
-						<c:choose>
-							<c:when test="${not empty postList}">
-								<div class="commentSpace">
-									<c:forEach var="comment" items="${comments}">
-										<div class="comment" id="comment-${comment.commentKey}">
-											<!-- 댓글 작성자 -->
-											<div>
-												<span class="author">${comment.userNickNm}</span>
-												<c:if
-													test="${not empty loginUser && comment.userKey == loginUser.userKey}">
-													<button type="button"
-														onclick="editComment('${comment.commentKey}')">
-														수정</button>
-													<!-- 삭제 버튼 -->
-													<form action="/post/deleteComment.do" method="post"
-														onsubmit="return confirm('정말 삭제하시겠습니까?');"
-														style="display: inline;">
-														<input type="hidden" name="commentKey"
-															value="${comment.commentKey}" />
-														<button type="submit"
-															style="border: none; background: none; color: red; cursor: pointer;">
-															삭제</button>
-													</form>
-												</c:if>
-											</div>
-											<!-- 댓글 작성 날짜 -->
-											<div class="date">${comment.commentDate}</div>
-											<!-- 댓글 내용 -->
-											<div class="content"
-												id="comment-content-${comment.commentKey}"></div>
-										</div>
-									</c:forEach>
-								</div>
-							</c:when>
-							<c:otherwise>
-								<div class="commentSpace">
-									<span>작성된 댓글이 없습니다.</span>
-								</div>
-							</c:otherwise>
-						</c:choose>
-					</div>
-					<div class="comment-form">
-						<div class="form-group">
-							<div id="postContent"></div>
-						</div>
-						<button type="button" id="postInputBtn">후기 등록</button>
-					</div>
-				</div>
+				
 			</div>
 		</div>
 		<jsp:include page="/WEB-INF/views/common/remote.jsp" />
 		<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 	</main>
-	<script>
-	 $('#postInputBtn').on('click', function(){
-	 	const loginUser = "${not empty sessionScope.loginUser ? sessionScope.loginUser : ''}";
-	 	const logInChk = 0;
-	 	if (!loginUser) {
-	        // loginUser 값이 없을 경우 출력
-	 		msg('알림', '로그인 해야만 후기를 작성할 수 있습니다.', 'error', "");
-	 		swal({
-	 	        title: '알림',
-	 	        text: '로그인 해야만 후기를 작성할 수 있습니다.',
-	 	        icon: 'error',
-	 	        buttons: {
-	 	        	cancel: {
-	                    text: "취소",
-	                    value: false,
-	                    visible: true,
-	                    closeModal: true
-	                },
-	                confirm: {
-	                    text: "로그인",
-	                    value: true,
-	                    visible: true,
-	                    closeModal: true
-	                }
-	 	        }
-	 	    }).then(function (isConfirm) {
-	            if (isConfirm) {
-	            	location.href="/user/loginFrm.do";
-	            }
-	    	});
-	 	}
-	 	//로그인시
-  	 	const content = $('#postContent').summernote('code'); // 에디터 내용 가져오기
-		console.log(content);
-  	 	console.log(content.length);
-        if (!content || content.trim() === '<p><br></p>') {
-            alert('내용을 입력하세요!');
-            return;
-        }
-       
-        $.ajax({
-            url: '/post/freeWrite.do', // 서버로 요청을 보낼 URL
-            type: 'POST',
-            data: { content: content }, // 작성한 내용 전송
-            success: function (res) {
-				msg('안내', '후기 등록 완료', 'success');
-           	console.log(response);
-            },
-            error: function () {
-                alert('An error occurred!');
-                console.error(error);
-            }
-        });
-		 
-	 	
-	 });
-	 $(function () {
-	        $('#postContent').summernote({
-	            height: 100,   // 에디터 높이 설정
-	            width: 1177,
-	            lang: 'ko-KR',
-	            toolbar: [
-	                ['style', ['style']],
-	                ['font', ['bold', 'italic', 'underline', 'clear']],
-	                ['fontname', ['fontname']],
-	                ['fontsize', ['fontsize']],
-	                ['color', ['color']],
-	                ['para', ['ul', 'ol', 'paragraph']],
-	                ['view', ['fullscreen', 'codeview', 'help']],
-	                ['insert',['picture']]
-	            ],
-	            placeholder: "내용을 입력하세요...",
-	            disableResizeEditor: true
-	        });
-	    });
-	
+	<script>	
 		$('#cntBtnUp').on('click', function(){
 			var currentValue = parseInt($('#prodCnt').val()) || 0;
 			$('#prodCnt').val(currentValue + 1).trigger('change');
@@ -441,19 +318,56 @@ button {
             });
 		});
 		
+		<%-- 좋아요 버튼 클릭 시 --%>
 		$('#likedProd').on('click', function(){
 			const prodCntVal = $('#prodCnt').val();
 			const price = $('.payPrice').find('span').html();	
 			
-			const totalPrice = price.replace(/,/g, '').replace(/원/g, '');
-			console.log("찜하기 prodCount : " + prodCntVal + "| totalPrice : " + totalPrice)
+			$.ajax({
+				url : "/product/insertLike.do",
+				type : "GET",
+				data : {
+					prodKey : $('#prodKey').val(),
+					userKey : $('#userKey').val()
+				},
+				success : function(res){
+					if(res == "1"){
+						msg('알림', '찜하기 완료', 'success');
+					}else{
+						msg('알림', '찜하기 오류발생', 'error');
+					}
+				},
+				error : function(){
+					console.log('찜하기 ajax 오류');
+				}
+			});
 		});
 		
+		<%-- 장바구니 버튼 클릭 --%>
 		$('#prodBasket').on('click', function(){
 			const prodCntVal = $('#prodCnt').val();
 			const price = $('.payPrice').find('span').html();	
 			const totalPrice = price.replace(/,/g, '').replace(/원/g, '');
-			console.log("장바구니 prodCount : " + prodCntVal + "| totalPrice : " + totalPrice)
+			
+			$.ajax({
+				url : "/product/insertBasket.do",
+				type : "GET",
+				data : {
+					prodKey : $('#prodKey').val(),
+					basketCnt : prodCntVal,
+					userKey : $('#userKey').val()
+				},
+				success : function(res){
+					if(res == "1"){
+						msg('알림', '장바구니 완료', 'success');
+					}else{
+						msg('알림', '장바구니 오류발생', 'error');
+					}
+				},
+				error : function(){
+					console.log('장바구니 ajax 오류');
+				}
+			});
 		});
 	</script>
 </body>

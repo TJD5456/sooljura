@@ -3,11 +3,7 @@ package com.khedu.sooljura.product.model.service;
 import com.khedu.sooljura.admin.model.vo.Product;
 import com.khedu.sooljura.admin.model.vo.ProductImage;
 import com.khedu.sooljura.product.model.dao.ProductDao;
-import com.khedu.sooljura.product.model.vo.Basket;
-import com.khedu.sooljura.product.model.vo.OrderHistory;
-import com.khedu.sooljura.product.model.vo.ProductDiscountHistory;
-import com.khedu.sooljura.product.model.vo.ProductDiscountInfo;
-import com.khedu.sooljura.product.model.vo.ProductListData;
+import com.khedu.sooljura.product.model.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -15,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service("productService")
 public class ProductService {
@@ -24,13 +19,13 @@ public class ProductService {
     private ProductDao dao;
 
     //제품번호 생성(구매를 위한 API 선작업)
-    public int makeOrderNo(OrderHistory orderHistory) {
-        return dao.makeOrderNo(orderHistory);
+    public String makeOrderNo() {
+        return dao.makeOrderNo();
     }
 
     //결제정보 삽입
-    public int insertHistory(OrderHistory orderHistory, Map<String, Integer> orderDetail) {
-        return dao.insertHistory(orderHistory, orderDetail);
+    public int insertHistory(OrderHistory orderHistory) {
+        return dao.insertHistory(orderHistory);
     }
 
     //주문번호 제작용도 제거
@@ -40,7 +35,7 @@ public class ProductService {
 
     // 장바구니 제품 정보를 조회하기 위한 제품 키 조회
     public ArrayList<Basket> findProdKey(String userKey) {
-        return (ArrayList<Basket>)dao.findProdKey(userKey); // List<Basket> 반환
+        return (ArrayList<Basket>) dao.findProdKey(userKey); // List<Basket> 반환
     }
 
     // 단일 prodKey로 제품 정보 조회
@@ -131,20 +126,37 @@ public class ProductService {
     }
 
     public ProductImage selOneProdImg(String prodKey) {
-		return dao.selOneProdImg(prodKey);
-	}
-	public ProductDiscountHistory selOnePDH(String prodKey) {
-		return dao.selOnePDH(prodKey);
+        return dao.selOneProdImg(prodKey);
+    }
+
+    public ProductDiscountHistory selOnePDH(String prodKey) {
+        return dao.selOnePDH(prodKey);
+    }
+
+    public ProductDiscountInfo selOnePDI(String prodKey, String eventCode) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("prodKey", prodKey);
+        map.put("eventCd", eventCode);
+        return dao.selOnePDI(map);
+    }
+
+    public int isPdhNull(String prodKey) {
+        return dao.isPdhNull(prodKey);
+    }
+    public ArrayList<Product> getProdList(String categoryKey) {
+		return (ArrayList<Product>)dao.getProdList(categoryKey);
 	}
 
-	public ProductDiscountInfo selOnePDI(String prodKey, String eventCode) {
-		HashMap<String, String> map = new HashMap<>();
-		map.put("prodKey", prodKey);
-		map.put("eventCd", eventCode);
-		return dao.selOnePDI(map);
+	public ArrayList<Product> getProdListByName(String categoryKey) {
+		return (ArrayList<Product>)dao.getProdListByName(categoryKey);
 	}
 
-	public int isPdhNull(String prodKey) {
-		return dao.isPdhNull(prodKey);
+	public ArrayList<Product> getProdListByPrice(String categoryKey) {
+		return (ArrayList<Product>)dao.getProdListByPrice(categoryKey);
+	}
+	
+	//장바구니에 넣기 전 장바구니 테이블에 있는지 체크
+	public int chkBasket(Basket basket) {
+		return dao.chkBasket(basket);
 	}
 }

@@ -33,7 +33,7 @@
     <span>커뮤니티</span>
     <ul class="ul">
         <li><a href="/post/freePostList.do?reqPage=1">자유게시판</a></li>
-        <li><a href="/post/reviewListPost.do?reqPage=1">후기 게시판</a></li>
+        <li><a href="/post/reviewListPost.do?reqPage=1">제품 후기 게시판</a></li>
         <li><a href="/post/webPageInfo.do">사이트 소개</a></li>
     </ul>
 

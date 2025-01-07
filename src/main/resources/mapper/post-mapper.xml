@@ -45,7 +45,7 @@
 	</select>
 
 	<!-- 자유게시판 삽입 -->
-	<insert id="insertfreePost" parameterType="post">
+	<insert id="insertFreePost" parameterType="post">
 		INSERT INTO tbl_post (
 		post_key, post_cd, user_key, post_title, post_content,
 		post_date, post_view, confirm_yn, delete_yn
@@ -157,4 +157,24 @@
         post_date = SYSDATE
     WHERE post_key = #{postKey} AND user_key = #{userKey}
 </update>
+
+<!-- 후기 게시판 삽입 -->
+<insert id="insertReviewPost" parameterType="post">
+    INSERT INTO tbl_post (
+        post_key, post_cd, user_key, post_title, post_content,
+        post_date, post_view, confirm_yn, delete_yn
+    ) VALUES (
+        'rv' || TO_CHAR(SYSDATE, 'YYMMDD') || LPAD(seq_post.NEXTVAL, 4, '0'),
+        3, #{userKey}, #{postTitle}, #{postContent},
+        SYSDATE, 0, 0, 0
+    )
+</insert>
+
+
+<select id="selectPostsByUserAndCategory" resultType="post">
+    SELECT post_key AS postKey, post_title AS postTitle, post_date AS postDate, post_view AS postViews
+    FROM tbl_post
+    WHERE user_key = #{userKey} AND post_cd = #{postCd} AND delete_yn = 0
+    ORDER BY post_date DESC
+</select>
 </mapper>

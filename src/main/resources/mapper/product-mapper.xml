@@ -8,32 +8,31 @@
     </select>
 
     <!-- 받아온 결제 API 정보를 주문번호에 넣기 -->
-    <insert id="insertHistory" parameterType="map">
-        insert into tbl_order_history (
-	        imp_uid,
-	        order_no,
-	        prod_key,
-	        user_key,
-	        addr_key,
-	        card_company,
-	        order_price,
-	        order_cnt,
-	        ordered_date
-        ) values
-        <foreach collection="orderDetail" item="item" separator=",">
-            (
-            #{item.impUid},
-            #{orderNo},
-            #{item.prodKey},
-            #{item.userKey},
-            #{item.addrKey},
-            #{item.cardCompany},
-            #{item.orderPrice},
-            #{item.orderCnt},
-            sysdate
-            )
-        </foreach>
-    </insert>
+    <insert id="insertHistory" parameterType="history">
+    insert into tbl_order_history (
+        imp_uid,
+        order_no,
+        prod_key,
+        user_key,
+        addr_key,
+        order_price,
+        order_cnt,
+        order_date
+    )
+    values
+    <foreach collection="prodKeys" item="prodKey" separator=",">
+    (
+        #{impUid},
+        'oh' || to_char(sysdate, 'YYMMDD') || lpad(seq_order_history.nextval, 4, '0'),
+        #{prodKey},
+        #{userKey},
+        #{addrKey},
+        #{orderPrice},
+        #{orderCnt},
+        sysdate
+    )
+    </foreach>
+</insert>
 
     <!-- 주문번호 제작용도의 컬럼 제거 -->
     <delete id="delOrderNo" parameterType="history">

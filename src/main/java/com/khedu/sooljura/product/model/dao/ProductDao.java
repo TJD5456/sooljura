@@ -9,7 +9,6 @@ import com.khedu.sooljura.product.model.vo.ProductDiscountInfo;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +27,8 @@ public class ProductDao {
     }
 
     //결제정보 삽입
-    public int insertHistory(OrderHistory orderHistory, Map<String, Integer> orderDetail) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("OrderHistory", orderHistory);
-        params.put("orderDetails", orderDetail);
-
-        return sessionTemplate.insert("product.insertHistory", params);
+    public int insertHistory(OrderHistory orderHistory) {
+        return sessionTemplate.insert("product.insertHistory", orderHistory);
     }
 
     //주문번호 제작용도 제거

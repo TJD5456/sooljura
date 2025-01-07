@@ -160,23 +160,21 @@ public class ProductController {
 	// 결제 API 로 값 받아오고 삽입
 	@PostMapping("productBuy.do")
 	@ResponseBody
-	public String productBuy(@RequestParam("prodKey") List<String> prodKeys,
-			@RequestParam("orderCnt") List<Integer> orderCnts, @ModelAttribute OrderHistory orderHistory) {
-
-		Map<String, Integer> orderDetail = new HashMap<>();
-		for (int i = 0; i < prodKeys.size(); i++) {
-			orderDetail.put(prodKeys.get(i), orderCnts.get(i));
-		}
-
+	public String productBuy(@RequestBody OrderHistory orderHistory) {
+		System.out.println(orderHistory.getImpUid());
+		System.out.println(orderHistory.getProdKeys());
+		System.out.println(orderHistory.getUserKey());
+		System.out.println(orderHistory.getAddrKey());
+		System.out.println(orderHistory.getOrderPrice());
+		System.out.println(orderHistory.getOrderCnt());
+		
 		// 제품 구매내역 DB에 넣기
-		int insertHistory = service.insertHistory(orderHistory, orderDetail);
-
+		int insertHistory = service.insertHistory(orderHistory);
+		
 		if (insertHistory > 0) {
 			// 정상적으로 넣으면 1 반환 오류 발생시 다른 숫자 반환
-			// int result -> 정상적으로 결제 완료 시 위에서 만든 주문번호 제작용 컬럼 삭제
-			int result = service.delOrderNo(orderHistory);
-
-			return String.valueOf(result);
+			// int result -> 정상적으로 결제 완료 시 위에서 만든 주문번호 제작용 컬럼 삭제 - 보류
+			return String.valueOf(insertHistory);
 		}
 		// 오류 발생 시 0 반환
 		return "0";

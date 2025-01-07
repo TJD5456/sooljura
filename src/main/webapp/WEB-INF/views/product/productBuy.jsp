@@ -211,11 +211,14 @@
 
     function reqPayment() {
         // 결제 요청(주문내역에 넣을 prodKey 배열 따로 생성)
-        let prodKeys = $('.prodKeys').val(); // prodKey 배열 - 일단은 string으로 하나만
-        // $('.prodKeys').each(function () {
-        //     prodKeys.push($(this).val()); // prodKey 값을 배열에 추가
-        // });
+        let prodKeys = []; // prodKey 배열 - 일단은 string으로 하나만
+        
+        
+        $('.prodKeys').each(function () {
+             prodKeys.push($(this).val()); // prodKey 값을 배열에 추가
+        });
 
+        console.log(prodKeys);
         $(function () {
 	        // 아임포트 가맹점 식별 코드 설정
 	        IMP.init("imp56726440");
@@ -252,18 +255,21 @@
                        if (resInfo.success) {
                            // 결제 성공 시 서버에 결제 결과 전송
                            let orderPayload = {
-                               impUid: resInfo.imp_uid, // 결제 API사 고유번호
-                               orderNo: resInfo.merchant_uid, // 주문번호
-                               tid: resInfo.pg_tid, // PG사 결제 고유번호
-                               authDate: resInfo.paid_at, // 결제 승인 시간
-                               productName: buyProdName, // 상품명
-                               quantity: buyCnt, // 수량
-                               totalAmount: buyAmount * buyCnt, // 총 금액
-                               userEmail: buyEmail, // 사용자 이메일
-                               userName: buyName, // 사용자 이름
-                               userPhone: buyTel, // 사용자 전화번호
-                               userAddr: buyAddr, // 사용자 주소
-                               userPostCode: buyPostCode // 사용자 우편번호
+                               impUid		: resInfo.imp_uid, // 결제 API사 고유번호
+                               orderNo		: resInfo.merchant_uid, // 주문번호
+                               prodKeys 	: prodKeys,
+                               addrKey 		: $('#addrKey').val(),
+                               userKey 		: $('#userKey').val(),
+                               orderPrice	: buyAmount * buyCnt, // 총 금액
+                               orderCnt		: buyCnt, // 수량
+                               orderDate	: resInfo.paid_at // 결제 승인 시간
+                               //tid			: resInfo.pg_tid, // PG사 결제 고유번호
+                               //productName	: buyProdName, // 상품명
+                               //userEmail	: buyEmail, // 사용자 이메일
+                               //userName		: buyName, // 사용자 이름
+                               //userPhone	: buyTel, // 사용자 전화번호
+                               //userAddr		: buyAddr, // 사용자 주소
+                               //userPostCode	: buyPostCode, // 사용자 우편번호
                            };
 
                            $.ajax({
@@ -286,8 +292,7 @@
                            // 결제 실패 처리
                            msg('알림', '결제에 실패하였습니다. 에러 내용: ' + resInfo.error_msg, 'error');
                        }
-                   });
-               
+                   });             
             },
             error: function () {
                 alert('서버 통신 중 오류가 발생했습니다.');

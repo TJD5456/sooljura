@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service("productService")
 public class ProductService {
@@ -25,8 +24,8 @@ public class ProductService {
     }
 
     //결제정보 삽입
-    public int insertHistory(OrderHistory orderHistory, Map<String, Integer> orderDetail) {
-        return dao.insertHistory(orderHistory, orderDetail);
+    public int insertHistory(OrderHistory orderHistory) {
+        return dao.insertHistory(orderHistory);
     }
 
     //주문번호 제작용도 제거

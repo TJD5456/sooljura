@@ -117,12 +117,12 @@
                 <tbody>
                 <c:forEach var="product" items="${products}">
                     <tr class="product-each">
-                            <%-- TODO: 제품을 클릭하면 제품 상세 페이지로 이동하도록 할것 --%>
+                        <%-- TODO: 제품을 클릭하면 제품 상세 페이지로 이동하도록 할것 --%>
                         <td>${product.prodKey}</td>
                         <td>${product.productCategory.categoryNm}</td>
                         <td>${product.prodNm}</td>
                         <td>${product.prodPrice}</td>
-                        <td><img src="/resources/upload/product_images/${product.productImages[0].imgPath}"
+                        <td><img src="/resources/upload/productImages/${product.productImages[0].imgPath}"
                                  alt="${product.productImages[0].imgNm}" style="height: 100px"></td>
                         <td>${product.prodCnt}</td>
                     </tr>

@@ -144,4 +144,15 @@ public class ProductService {
     public int isPdhNull(String prodKey) {
         return dao.isPdhNull(prodKey);
     }
+    public ArrayList<Product> getProdList(String categoryKey) {
+		return (ArrayList<Product>)dao.getProdList(categoryKey);
+	}
+
+	public ArrayList<Product> getProdListByName(String categoryKey) {
+		return (ArrayList<Product>)dao.getProdListByName(categoryKey);
+	}
+
+	public ArrayList<Product> getProdListByPrice(String categoryKey) {
+		return (ArrayList<Product>)dao.getProdListByPrice(categoryKey);
+	}
 }

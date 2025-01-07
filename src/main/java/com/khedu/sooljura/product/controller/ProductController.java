@@ -286,4 +286,48 @@ public class ProductController {
 		model.addAttribute("pOrA",2);
 		return payPrice;
 	}
+	
+	@GetMapping("productList.do")
+	public String productList(String categoryKey, int sort, Model model) {
+		ArrayList<Product> prodlist = null;
+		String listTitle = null;
+		switch (categoryKey) {
+		case "c0001":
+			listTitle = "와인/샴페인";
+			break;
+		case "c0002":
+			listTitle = "위스키";
+			break;
+		case "c0003":
+			listTitle = "브랜디/꼬냑";
+			break;
+		case "c0004":
+			listTitle = "리큐르/보드카";
+			break;
+		case "c0005":
+			listTitle = "전통주/민속주";
+			break;
+		case "c0006":
+			listTitle = "기타주류";
+			break;
+		default:
+			break;
+		}
+		model.addAttribute("prodCate", categoryKey);
+		model.addAttribute("listTitle", listTitle);
+		if(sort > 0) {
+			if(sort == 1) {
+				prodlist = service.getProdListByName(categoryKey);
+				
+			}else if(sort == 2) {
+				prodlist = service.getProdListByPrice(categoryKey);
+			}
+		}else {
+			prodlist = service.getProdList(categoryKey);
+			
+		}
+		model.addAttribute("prodlist", prodlist);
+		return "product/prodList";
+	}
+	
 }

@@ -30,8 +30,6 @@ public class WebScraperController {
     private String scrapper() {
         service.doScraper();
         return null;
-
     }
-
 
 }

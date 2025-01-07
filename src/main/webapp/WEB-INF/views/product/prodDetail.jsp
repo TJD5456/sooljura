@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -151,7 +151,7 @@ button {
 					<!-- 상품이미지 미리보기 시작 { -->
 					<div class="goodsLeft">
 						<div class="goodsImg">
-							<img src="${prodImg.imgPath}" width="360" height="480" alt=""
+							<img src="/resources/upload/productImages/${prodImg.imgPath}" width="360" height="480" alt="${prodImg.imgNm}"
 								title="">
 						</div>
 					</div>
@@ -197,7 +197,7 @@ button {
 									</tr>
 									<tr>
 										<th>소비자가격</th>
-										<td colspan="3"><span>${retailPrice}원</span></td>
+										<td colspan="3"><span><fmt:formatNumber value="${retailPrice}" type="number" pattern="#,###"/>원</span></td>
 									</tr>
 
 									<tr>

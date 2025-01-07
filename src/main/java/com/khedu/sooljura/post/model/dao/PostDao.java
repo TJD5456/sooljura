@@ -59,11 +59,11 @@ public class PostDao {
     public String selectPostKeyByCommentKey(String commentKey) {
         return sqlSession.selectOne("post.selectPostKeyByCommentKey", commentKey);
     }
-    
+
     public int updateComment(Comment comment) {
         return sqlSession.update("post.updateComment", comment);
     }
-
+    
     public int insertNoticePost(Post post) {
         return sqlSession.insert("post.insertNoticePost", post);
     }
@@ -73,17 +73,37 @@ public class PostDao {
         sqlSession.update("post.increasePostView", postKey);
     }
 
-	public int deletePost(String postKey, String userKey) {
-    Map<String, String> params = new HashMap<>();
-    params.put("postKey", postKey);
-    params.put("userKey", userKey);
-    return sqlSession.delete("post.deletePost", params);
-}
+    public int deletePost(String postKey, String userKey) {
+        Map<String, String> params = new HashMap<>();
+        params.put("postKey", postKey);
+        params.put("userKey", userKey);
+        return sqlSession.delete("post.deletePost", params);
+    }
 
 	public int updatePost(Post post) {
 	    return sqlSession.update("post.updatePost", post);
 	}
 	
-	
-}
+	public interface PostDAO {
+	    int insertReviewPost(Post post);  // 후기 게시판 insert 메서드 추가
+	}
+	public int insertReviewPost(Post post) {
+        return sqlSession.insert("post.insertReviewPost", post);  // SQL 호출
+    }
 
+	public List<Post> selectPostsByUserAndCategory(String userKey, int postCd) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("userKey", userKey);
+        params.put("postCd", postCd);
+        return sqlSession.selectList("post.selectPostsByUserAndCategory", params);
+    }
+
+    public int adminDeletePost(String postKey) {
+        return sqlSession.delete("post.adminDeletePost", postKey);
+    }
+
+    public int confirmYn(String postKey) {
+        return sqlSession.update("post.confirmYn", postKey);
+    }
+
+}

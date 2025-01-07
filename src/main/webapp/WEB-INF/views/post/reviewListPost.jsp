@@ -1,13 +1,24 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>reviewListPost</title>
 </head>
 <body>
-<h1>안녕하세요~!</h1>
-<a href="/post/detailReviewPost.do"> 이동하기</a>
+<jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
+<main>
+    <jsp:include page="/WEB-INF/views/common/header.jsp"/>
+    <div class="wrapper">
+        <div class="content">
+            <div class="title">
+                <h1>여긴 어디 나는 누구?</h1>
+            </div>
+            <a href="/post/detailReviewPost.do">"detailReviewPost" 로 이동하기</a>
+        </div>
+        <jsp:include page="/WEB-INF/views/common/remote.jsp"/>
+    </div>
+    <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+</main>
 </body>
 </html>

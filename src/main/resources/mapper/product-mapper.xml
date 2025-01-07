@@ -161,5 +161,27 @@
         select count(*)
         from tbl_discount_history
         where prod_key = #{prodKey}
+  </select>
+   <select id="getProdList" parameterType="String" resultType="product">
+      select 	a.PROD_KEY 		as prodKey,
+       			i.img_path 		as imgPath,
+       			PROD_NM 		as prodNm,
+       			PROD_PRICE   	as prodPrice,
+       			PROD_MAKER  	as prodMaker,
+       			PROD_ORIGIN  	as prodOrigin,
+       			PROD_INTRO   	as prodIntro,
+       			PROD_CNT     	as prodCnt,
+       			PROD_VOL     	as prodVol,
+       			PROD_PROOF   	as prodProof,
+       			TRADING_YN   	as tradingYn,
+       			a.CATEGORY_KEY 	as categoryKey,
+       			UPLOAD_DATE  	as uploadDate
+  		from 	tbl_product a
+   left join 	tbl_product_category b
+    	  on 	a.category_key = b.category_key 
+   left join 	tbl_product_image i
+          on 	a.prod_key = i.prod_key
+       where 	b.higher_category = #{categoryKey}
+       order 	by a.prod_key
     </select>
 </mapper>

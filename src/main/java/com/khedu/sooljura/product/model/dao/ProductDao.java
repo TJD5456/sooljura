@@ -6,15 +6,15 @@ import com.khedu.sooljura.product.model.vo.Basket;
 import com.khedu.sooljura.product.model.vo.OrderHistory;
 import com.khedu.sooljura.product.model.vo.ProductDiscountHistory;
 import com.khedu.sooljura.product.model.vo.ProductDiscountInfo;
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
 
 @Repository("productDao")
 public class ProductDao {
@@ -96,5 +96,8 @@ public class ProductDao {
         return sessionTemplate.selectOne("product.isPdhNull", prodKey);
     }
 
+	public List<Product> getProdList(String categoryKey) {
+		return sessionTemplate.selectList("product.getProdList", categoryKey);
+    }
 
 }

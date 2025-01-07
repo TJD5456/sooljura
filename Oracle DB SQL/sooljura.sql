@@ -283,7 +283,8 @@ create sequence seq_chat_key maxvalue 9999 cycle;
 
 commit;
 
-insert into TBL_BASKET values ('bk' || to_char(sysdate, 'yymmdd') || lpad(seq_basket.nextval, 4, '0'), 1, 'pr2501070005', 'us0000000001', 1);
-insert into TBL_BASKET values ('bk' || to_char(sysdate, 'yymmdd') || lpad(seq_basket.nextval, 4, '0'), 1, 'pr2501070003', 'us0000000001', 2);
-
-select * from TBL_PRODUCT_IMAGE;
+-- 레벨1 회원 자동 생성후
+insert into tbl_basket values ( 'bk' || to_char( sysdate, 'yymmdd') || lpad( seq_basket.nextval, 4, '0'), 1, 
+                                ( select prod_key from tbl_product where '%0001'), ( select user_key from tbl_user where '%0001'), 1 );
+insert into tbl_basket values ( 'bk' || to_char( sysdate, 'yymmdd') || lpad( seq_basket.nextval, 4, '0'), 1, 
+                                ( select prod_key from tbl_product where '%0002'), ( select user_key from tbl_user where '%0001'), 1 );

@@ -7,8 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>상품페이지</title>
-<link rel="icon"
-	href="/resources/icons/logo-circle-woText-16px-favicon.png">
+<link rel="icon" href="/resources/icons/logo-circle-woText-16px-favicon.png">
 <style>
 .prodList{
 	margin-left: 100px;
@@ -51,6 +50,13 @@ td {
 					<div>
 						<h1>${listTitle}</h1>
 					</div>
+					<div>
+						<select name="sorting" class="sorting">
+							<option value="0">선택</option>
+							<option value="1">가나다순</option>
+							<option value="2">가격순</option>
+						</select>
+					</div>
 					<ul class="prodUlList">
 						<c:forEach var="prod" items="${prodlist}">
 							<li class="prodLi">
@@ -62,7 +68,7 @@ td {
 										<td><div class="prodName"> ${prod.prodNm} </div></td>
 									</tr>
 									<tr>
-										<td><fmt:formatNumber value="${prod.prodPrice}" type="number" pattern="#,###"/>\</td>
+										<td><fmt:formatNumber value="${prod.prodPrice}" type="number" pattern="#,###"/>원</td>
 									</tr>
 								</table>
 							</li>
@@ -74,6 +80,21 @@ td {
 		</div>
 	</main>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+	<script>
+		$('.sorting').on('change', function(){
+			const sort = $('.sorting').val();	
+			console.log(sort);
+			location.href="/product/productList.do?categoryKey="+`${prodCate}`+"&sort="+sort;
+		});
+		
+		$(document).ready(function() {
+			// 현재 URL의 파라미터에서 `sort` 값을 가져옴
+			const urlParams = new URLSearchParams(window.location.search);
+			const currentSort = urlParams.get('sort');
+			if (currentSort) {
+				$('.sorting').val(currentSort);
+			}
+		});
+	</script>
 </body>
-<body>
 </html>

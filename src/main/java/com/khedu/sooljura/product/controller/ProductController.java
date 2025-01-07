@@ -139,24 +139,18 @@ public class ProductController {
 	}
 
 	// 결제 API 에 주문번호 보내는 용도
-	@PostMapping("makeOrderNo.do")
+	@GetMapping("makeOrderNo.do")
 	@ResponseBody
-	public String makeOrderNo(OrderHistory orderHistory, String prodKeys) {
-		System.out.println("inside makeOrderNo");
-		System.out.println("userKey: " + orderHistory.getUserKey());
-		System.out.println("addrKey: " + orderHistory.getAddrKey());
-
-		System.out.println("prodKeys: " + prodKeys);
+	public String makeOrderNo(OrderHistory orderHistory) {
 		// 결제 API 에 orderNo 보내줘야함
-		// orderNo 생성 및 Product.java 에 orderNo 집어넣음
+		// orderNo 생성 및 Product.java 에 orderNo 집어넣음		
+	    String makeOrderNo = service.makeOrderNo();
 
-	    int makeOrderNo = service.makeOrderNo(orderHistory);
-
-		if (makeOrderNo > 0) {
-			String orderNo = orderHistory.getOrderNo();
-			System.out.println("orderNo: " + orderNo);
+		if (makeOrderNo != null) {
+			orderHistory.setOrderNo(makeOrderNo);
+			System.out.println("orderNo: " + makeOrderNo);
 			// 정상적으로 넣으면 orderNo 반환
-			return orderNo;
+			return makeOrderNo;
 		} else {
 			// 정상적으로 DB에 못넣으면 0반환
 			return "0";

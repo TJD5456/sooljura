@@ -271,7 +271,7 @@ button {
 		<jsp:include page="/WEB-INF/views/common/remote.jsp" />
 		<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 	</main>
-	<script>
+	<script>	
 		$('#cntBtnUp').on('click', function(){
 			var currentValue = parseInt($('#prodCnt').val()) || 0;
 			$('#prodCnt').val(currentValue + 1).trigger('change');
@@ -321,8 +321,20 @@ button {
 			const prodCntVal = $('#prodCnt').val();
 			const price = $('.payPrice').find('span').html();	
 			
-			const totalPrice = price.replace(/,/g, '').replace(/원/g, '');
-			console.log("찜하기 prodCount : " + prodCntVal + "| totalPrice : " + totalPrice)
+			$.ajax({
+				url : "/product/insertBasket.do",
+				type : "GET",
+				data : {
+					prodKey : $('#prodKey').val()
+				}
+				success : function(res){
+					if(res === "1"){
+						msg('알림', '찜하기 목록에 들어갔습니다', 'success');
+					}else{
+						msg('알림', '찜하기 오류발생', 'error');
+					}
+				}
+			})
 		});
 		
 		$('#prodBasket').on('click', function(){

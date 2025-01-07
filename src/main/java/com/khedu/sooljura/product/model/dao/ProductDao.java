@@ -23,8 +23,8 @@ public class ProductDao {
     private SqlSessionTemplate sessionTemplate;
 
     //주문번호 생성용도(API결제에 필요함)
-    public int makeOrderNo(OrderHistory orderHistory) {
-        return sessionTemplate.insert("product.makeOrderNo", orderHistory);
+    public String makeOrderNo() {
+        return sessionTemplate.selectOne("product.makeOrderNo");
     }
 
     //결제정보 삽입

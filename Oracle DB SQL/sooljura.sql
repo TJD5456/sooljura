@@ -236,6 +236,9 @@ create table tbl_basket (
 -- 'bk' || to_char(sysdate, 'yymmdd') || lpad(seq_basket.nextval, 4, '0')
 create sequence seq_basket maxvalue 9999 cycle;
 
+insert into TBL_BASKET values ('bk' || to_char(sysdate, 'yymmdd') || lpad(seq_basket.nextval, 4, '0'), 1, 'pr2501070005', 'us0000000001', 1);
+insert into TBL_BASKET values ('bk' || to_char(sysdate, 'yymmdd') || lpad(seq_basket.nextval, 4, '0'), 1, 'pr2501070003', 'us0000000001', 2);
+
 create table tbl_order_history (
    imp_uid       varchar2(255) primary key,
    order_no      char(12) unique not null,
@@ -245,7 +248,7 @@ create table tbl_order_history (
    card_company  varchar2(50) not null,
    order_price   number,
    order_cnt     number,
-   ordered_date  date default sysdate,
+   order_date    date default sysdate,
    refund_yn     number default 0,
    refund_reason varchar2(100) default '맛없음',
    refund_key    char(12),
@@ -282,6 +285,3 @@ create table tbl_chat (
 create sequence seq_chat_key maxvalue 9999 cycle;
 
 commit;
-
-select * from tbl_user;
-select * from tbl_post;

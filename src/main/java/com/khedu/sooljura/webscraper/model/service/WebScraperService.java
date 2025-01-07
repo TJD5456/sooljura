@@ -366,7 +366,7 @@ public class WebScraperService {
 
             prodImgList.add(prodImg);
 
-            // prod객체에 각 값 전달
+            // prod 객체에 각 값 전달
             prod.setProdOrigin(productOrigin.replace("원산지 : ", ""));
 
             prod.setProdMaker(productMaker.replace("제조사 : ", ""));
@@ -387,8 +387,7 @@ public class WebScraperService {
         // 제품명에 a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ를 제외한 특수기호가 포함된경우 해당 특수문자 제거
         String regex = "[^a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ\\s]";
 
-        String replaceStr = prodName.replaceAll(regex, "");
-        return replaceStr;
+        return prodName.replaceAll(regex, "");
     }
 
     // 이미지파일 db에 저장
@@ -405,11 +404,9 @@ public class WebScraperService {
         URL url = null;
         InputStream in = null;
         OutputStream out = null;
-        // 컴퓨터 또는 서버의 저장할 경로 저장 경로 c드라이브 내 .../sooljura/src/main/webapp/resources/productImage 폴더 내부 저장
-        //resource 하위 productImage폴더 필요!!!
-        //TODO 저장될 하위 경로 지정 필요!!!
-        //String localSave = "C:/.../sooljura/src/main/webapp/resources/productImage/";
-        String localSave = "C:/finalProject/sooljura/src/main/webapp/resources/productImage/";
+
+        //TODO 저장될 하위 경로 지정 필요
+        String localSave = "C:/finalproject-workspace/sooljura/src/main/webapp/resources/productImage/";
 
         // 저장될 파일의 명칭
         // 분류코드_제품명_이미지크기.jpg
@@ -434,8 +431,6 @@ public class WebScraperService {
                 // 읽어들인 이미지 데이터 저장
                 out.write(data);
             }
-
-            // 객체 클로즈
             in.close();
             out.close();
 

@@ -6,20 +6,14 @@ import com.khedu.sooljura.product.model.vo.Basket;
 import com.khedu.sooljura.product.model.vo.OrderHistory;
 import com.khedu.sooljura.product.model.vo.ProductDiscountHistory;
 import com.khedu.sooljura.product.model.vo.ProductDiscountInfo;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import com.khedu.sooljura.admin.model.vo.Product;
-import com.khedu.sooljura.admin.model.vo.ProductImage;
-import com.khedu.sooljura.product.model.vo.Basket;
-import com.khedu.sooljura.product.model.vo.OrderHistory;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @Repository("productDao")
@@ -35,7 +29,7 @@ public class ProductDao {
 
     //결제정보 삽입
     public int insertHistory(OrderHistory orderHistory, Map<String, Integer> orderDetail) {
-    	Map<String, Object> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("OrderHistory", orderHistory);
         params.put("orderDetails", orderDetail);
 
@@ -90,17 +84,17 @@ public class ProductDao {
         return sessionTemplate.selectOne("product.selOneProdImg", prodKey);
     }
 
-	public ProductDiscountHistory selOnePDH(String prodKey) {
-		return sessionTemplate.selectOne("product.selOnePDH", prodKey);
-	}
+    public ProductDiscountHistory selOnePDH(String prodKey) {
+        return sessionTemplate.selectOne("product.selOnePDH", prodKey);
+    }
 
-	public ProductDiscountInfo selOnePDI(HashMap<String, String> map) {
-		return sessionTemplate.selectOne("product.selOnePDI", map);
-	}
+    public ProductDiscountInfo selOnePDI(HashMap<String, String> map) {
+        return sessionTemplate.selectOne("product.selOnePDI", map);
+    }
 
-	public int isPdhNull(String prodKey) {
-		return sessionTemplate.selectOne("product.isPdhNull", prodKey);
-	}
+    public int isPdhNull(String prodKey) {
+        return sessionTemplate.selectOne("product.isPdhNull", prodKey);
+    }
 
 
 }

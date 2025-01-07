@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="product">
-    <!-- 결제 API에 주문번호를 보내기 위한 주문번호 제작 -->
+
+    <!-- 결제 API 에 주문번호를 보내기 위한 주문번호 제작 -->
     <insert id="makeOrderNo" parameterType="history">
-        insert into tbl_order_history (
-        	order_no,
-            prod_key,
-            user_key,
-            addr_key)
-        values (
-        	'oh' || to_char(sysdate, 'yymmdd') || lpad(seq_order_history.nextval, 4, '0')
-            #{prodKey}, 
-            #{userKey}, 
-            #{addrKey}
-            )
+        insert into tbl_order_history (order_no,
+                                       prod_key,
+                                       user_key,
+                                       addr_key)
+        values ('oh' || to_char(sysdate, 'yymmdd') || lpad(seq_order_history.nextval, 4, '0'),
+                #{prodKey}, #{userKey}, #{addrKey})
         returning order_no
-        into #{orderNo}
+            into #{orderNo}
     </insert>
 
     <!-- 받아온 결제 API 정보를 주문번호에 넣기 -->
@@ -42,9 +38,10 @@
             #{item.orderPrice},
             #{item.orderCnt},
             sysdate
-        )
-    </foreach>
-  </insert>
+            )
+        </foreach>
+    </insert>
+
     <!-- 주문번호 제작용도의 컬럼 제거 -->
     <delete id="delOrderNo" parameterType="history">
         delete tbl_order_history
@@ -54,15 +51,14 @@
 
     <!-- 장바구니에 넣은 productKey 조회 -->
     <select id="findProdKey" parameterType="string" resultType="basket">
-        select 
-        	basket_key as basketKey,
-	        basket_cd  as basketCd,
-	        prod_key   as prodKey,
-	        user_key   as userKey,
-	        basket_cnt as basketCnt
+        select basket_key as basketKey,
+               basket_cd  as basketCd,
+               prod_key   as prodKey,
+               user_key   as userKey,
+               basket_cnt as basketCnt
         from tbl_basket
         where user_key = #{userKey}
-        and basket_cd = 1
+          and basket_cd = 1
     </select>
 
     <!-- productKey로 제품 정보 조회 -->
@@ -135,6 +131,7 @@
         from tbl_product
         where prod_key = #{prodKey}
     </select>
+
     <select id="selOneProdImg" resultType="productImage">
         select IMG_KEY  as imgKey,
                IMG_NM   as imgNm,
@@ -143,26 +140,26 @@
         from tbl_product_image
         where prod_key = #{prodKey}
     </select>
+
     <select id="selOnePDH" parameterType="String" resultType="discountHistory">
-  		select 
-  				HIST_CD as histCd,
-				PROD_KEY as prodKey,
-				EVENT_CD as eventCd
-  		  from 	tbl_discount_history
-  		 where 	prod_key = #{prodKey}
-  </select>
-   <select id="selOnePDI" parameterType="hashmap" resultType="discountInfo">
-  		select 
-  				EVENT_CD as eventCd,
-				DISCOUNT_PERCENT as discountPercent,
-				DISCOUNT_AMOUNT as discountAmount
-  		  from 	tbl_discount_info
-  		 where 	event_cd = #{eventCd}
-  </select>
-     <select id="isPdhNull" parameterType="String" resultType="_int">
-    	select 
-   				count(*)
-		  from  tbl_discount_history
-		 where  prod_key = #{prodKey}
-  </select>
+        select HIST_CD  as histCd,
+               PROD_KEY as prodKey,
+               EVENT_CD as eventCd
+        from tbl_discount_history
+        where prod_key = #{prodKey}
+    </select>
+
+    <select id="selOnePDI" parameterType="hashmap" resultType="discountInfo">
+        select EVENT_CD         as eventCd,
+               DISCOUNT_PERCENT as discountPercent,
+               DISCOUNT_AMOUNT  as discountAmount
+        from tbl_discount_info
+        where event_cd = #{eventCd}
+    </select>
+
+    <select id="isPdhNull" parameterType="String" resultType="_int">
+        select count(*)
+        from tbl_discount_history
+        where prod_key = #{prodKey}
+    </select>
 </mapper>

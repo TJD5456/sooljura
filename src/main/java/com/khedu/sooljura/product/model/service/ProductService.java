@@ -3,11 +3,7 @@ package com.khedu.sooljura.product.model.service;
 import com.khedu.sooljura.admin.model.vo.Product;
 import com.khedu.sooljura.admin.model.vo.ProductImage;
 import com.khedu.sooljura.product.model.dao.ProductDao;
-import com.khedu.sooljura.product.model.vo.Basket;
-import com.khedu.sooljura.product.model.vo.OrderHistory;
-import com.khedu.sooljura.product.model.vo.ProductDiscountHistory;
-import com.khedu.sooljura.product.model.vo.ProductDiscountInfo;
-import com.khedu.sooljura.product.model.vo.ProductListData;
+import com.khedu.sooljura.product.model.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -40,7 +36,7 @@ public class ProductService {
 
     // 장바구니 제품 정보를 조회하기 위한 제품 키 조회
     public ArrayList<Basket> findProdKey(String userKey) {
-        return (ArrayList<Basket>)dao.findProdKey(userKey); // List<Basket> 반환
+        return (ArrayList<Basket>) dao.findProdKey(userKey); // List<Basket> 반환
     }
 
     // 단일 prodKey로 제품 정보 조회
@@ -131,20 +127,21 @@ public class ProductService {
     }
 
     public ProductImage selOneProdImg(String prodKey) {
-		return dao.selOneProdImg(prodKey);
-	}
-	public ProductDiscountHistory selOnePDH(String prodKey) {
-		return dao.selOnePDH(prodKey);
-	}
+        return dao.selOneProdImg(prodKey);
+    }
 
-	public ProductDiscountInfo selOnePDI(String prodKey, String eventCode) {
-		HashMap<String, String> map = new HashMap<>();
-		map.put("prodKey", prodKey);
-		map.put("eventCd", eventCode);
-		return dao.selOnePDI(map);
-	}
+    public ProductDiscountHistory selOnePDH(String prodKey) {
+        return dao.selOnePDH(prodKey);
+    }
 
-	public int isPdhNull(String prodKey) {
-		return dao.isPdhNull(prodKey);
-	}
+    public ProductDiscountInfo selOnePDI(String prodKey, String eventCode) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("prodKey", prodKey);
+        map.put("eventCd", eventCode);
+        return dao.selOnePDI(map);
+    }
+
+    public int isPdhNull(String prodKey) {
+        return dao.isPdhNull(prodKey);
+    }
 }

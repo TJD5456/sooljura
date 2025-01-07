@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>자유 게시판 글쓰기</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <style>
         .form-group {
@@ -86,26 +85,22 @@
 
             <div class="note-editor">
                 <form action="/post/freeWrite.do" method="post">
-                    <!-- 카테고리 -->
                     <div class="form-group">
                         <label for="postCategory">게시판 종류 </label>
                         <input type="text" value="자유게시판" id="postCategory" readonly>
                     </div>
 
-                    <!-- 글쓴이 표시 -->
                     <div class="form-group">
                         <label for="author">글쓴이</label>
                         <input type="text" id="author" name="author"
                                value="<%= ((User)session.getAttribute("loginUser")).getUserNm() %>" readonly>
                     </div>
 
-                    <!-- 제목 입력 -->
                     <div class="form-group">
                         <label for="title">제목</label>
                         <input type="text" id="title" name="postTitle" placeholder="제목을 입력하세요" required>
                     </div>
 
-                    <!-- 본문 입력 -->
                     <div class="form-group">
                         <label for="postContent">본문</label>
                         <textarea id="postContent" name="postContent" required></textarea>
@@ -123,6 +118,7 @@
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
 <script>
     $(function () {
         $('#postContent').summernote({

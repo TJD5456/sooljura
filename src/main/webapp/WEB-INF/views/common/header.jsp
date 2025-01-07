@@ -24,7 +24,7 @@
                 <!-- mypage -test 지우고 여기에 로그인 되있으면 마이페이지로 넘어가는 조건 추가 -->
             </a>
             <a href="/product/expPurchaseFrm.do">
-                <img src="/resources/icons/champagne_샴페인_3170079_45px.png" alt="샴페인">
+                <img src="/resources/icons/champagne_샴페인_3170079_45px.png" alt="장바구니">
                 <!-- 장바구니(로그인이 되있으면 장바구니 페이지 안되있으면 로그인 페이지) -->
             </a>
         </c:when>

@@ -117,6 +117,7 @@ public class PostService {
 	}
 
 	public List<Post> getMyPostsByCategory(String userKey, int postCd) {
-        return dao.selectPostsByUserAndCategory(userKey, postCd);
-    }
+		return dao.selectPostsByUserAndCategory(userKey, postCd);
+	}
+
 }

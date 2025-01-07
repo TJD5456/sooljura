@@ -57,7 +57,6 @@
 	</insert>
 
 
-
 	<!-- 공지사항 게시글 삽입 -->
 	<insert id="insertNoticePost" parameterType="post">
 		INSERT INTO tbl_post (

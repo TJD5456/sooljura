@@ -16,12 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import com.khedu.sooljura.admin.model.vo.Product;
-import com.khedu.sooljura.admin.model.vo.ProductImage;
-import com.khedu.sooljura.product.model.vo.Basket;
-import com.khedu.sooljura.product.model.vo.OrderHistory;
-
-
 @Repository("productDao")
 public class ProductDao {
     @Autowired
@@ -35,7 +29,7 @@ public class ProductDao {
 
     //결제정보 삽입
     public int insertHistory(OrderHistory orderHistory, Map<String, Integer> orderDetail) {
-    	Map<String, Object> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("OrderHistory", orderHistory);
         params.put("orderDetails", orderDetail);
 
@@ -90,17 +84,28 @@ public class ProductDao {
         return sessionTemplate.selectOne("product.selOneProdImg", prodKey);
     }
 
-	public ProductDiscountHistory selOnePDH(String prodKey) {
-		return sessionTemplate.selectOne("product.selOnePDH", prodKey);
+    public ProductDiscountHistory selOnePDH(String prodKey) {
+        return sessionTemplate.selectOne("product.selOnePDH", prodKey);
+    }
+
+    public ProductDiscountInfo selOnePDI(HashMap<String, String> map) {
+        return sessionTemplate.selectOne("product.selOnePDI", map);
+    }
+
+    public int isPdhNull(String prodKey) {
+        return sessionTemplate.selectOne("product.isPdhNull", prodKey);
+    }
+
+	public List<Product> getProdList(String categoryKey) {
+		return sessionTemplate.selectList("product.getProdList", categoryKey);
+    }
+
+	public List<Product> getProdListByName(String categoryKey) {
+		return sessionTemplate.selectList("product.getProdListByName", categoryKey);
 	}
 
-	public ProductDiscountInfo selOnePDI(HashMap<String, String> map) {
-		return sessionTemplate.selectOne("product.selOnePDI", map);
+	public List<Product> getProdListByPrice(String categoryKey) {
+		return sessionTemplate.selectList("product.getProdListByPrice", categoryKey);
 	}
-
-	public int isPdhNull(String prodKey) {
-		return sessionTemplate.selectOne("product.isPdhNull", prodKey);
-	}
-
 
 }

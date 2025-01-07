@@ -17,12 +17,12 @@
         --%>
         <span>카테고리</span>
         <ul class="ul">
-            <li><a href="/">와인/샴페인</a></li>
-            <li><a href="/">위스키</a></li>
-            <li><a href="/">브랜디/꼬냑</a></li>
-            <li><a href="/">리큐르/보드카</a></li>
-            <li><a href="/">전통주/민속주</a></li>
-            <li><a href="/">기타주류</a></li>
+            <li><a href="/product/productList.do?categoryKey=c0001&sort=0">와인/샴페인</a></li>
+            <li><a href="/product/productList.do?categoryKey=c0002&sort=0">위스키</a></li>
+            <li><a href="/product/productList.do?categoryKey=c0003&sort=0">브랜디/꼬냑</a></li>
+            <li><a href="/product/productList.do?categoryKey=c0004&sort=0">리큐르/보드카</a></li>
+            <li><a href="/product/productList.do?categoryKey=c0005&sort=0">전통주/민속주</a></li>
+            <li><a href="/product/productList.do?categoryKey=c0006&sort=0">기타주류</a></li>
         </ul>
         <span>공지사항</span>
         <ul class="ul">

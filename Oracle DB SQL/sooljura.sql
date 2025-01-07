@@ -285,3 +285,5 @@ commit;
 
 insert into TBL_BASKET values ('bk' || to_char(sysdate, 'yymmdd') || lpad(seq_basket.nextval, 4, '0'), 1, 'pr2501070005', 'us0000000001', 1);
 insert into TBL_BASKET values ('bk' || to_char(sysdate, 'yymmdd') || lpad(seq_basket.nextval, 4, '0'), 1, 'pr2501070003', 'us0000000001', 2);
+
+select * from TBL_PRODUCT_IMAGE;

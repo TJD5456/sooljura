@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -151,7 +150,7 @@ button {
 					<!-- 상품이미지 미리보기 시작 { -->
 					<div class="goodsLeft">
 						<div class="goodsImg">
-							<img src="${prodImg.imgPath}" width="360" height="480" alt=""
+							<img src="/resources/upload/productImages/${prodImg.imgPath}" width="360" height="480" alt="${prodImg.imgNm}"
 								title="">
 						</div>
 					</div>

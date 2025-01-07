@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -147,8 +150,14 @@ public class AdminController {
         return "/admin/manageLevel";
     }
 
-    public String savePath(HttpServletRequest request) {
-        String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/product_images/");
+    public String savePath() {
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        if (requestAttributes == null) {
+            throw new IllegalStateException("No request attributes found. This method must be called within an HTTP request scope.");
+        }
+        HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
+
+        String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/productImages/");
 
         if (savePath.contains("target")) {
             savePath = savePath.replace("\\target\\sooljura-1.0.0-BUILD-SNAPSHOT", "\\src\\main\\webapp");
@@ -162,10 +171,10 @@ public class AdminController {
     }
 
     @PostMapping("uploadProduct")
-    public String uploadProduct(HttpServletRequest request, MultipartFile[] prodImages, Product product) {
+    public String uploadProduct(MultipartFile[] prodImages, Product product) {
         ArrayList<ProductImage> imageList = new ArrayList<>();
 
-        String savePath = savePath(request);
+        String savePath = savePath();
 
         for (MultipartFile image : prodImages) {
             if (!image.isEmpty()) {

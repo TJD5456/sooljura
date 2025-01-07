@@ -62,7 +62,7 @@ td {
 							<li class="prodLi">
 								<table>
 									<tr>
-										<td><a href="/product/prodDetail.do?prodKey=${prod.prodKey}"><img alt="" width="150px" height="200px" src="${prod.imgPath}"></a></td>
+										<td><a href="/product/prodDetail.do?prodKey=${prod.prodKey}"><img alt="" width="150px" height="200px" src="/resources/upload/productImages/${prod.imgPath}"></a></td>
 									</tr>
 									<tr>
 										<td><div class="prodName"> ${prod.prodNm} </div></td>

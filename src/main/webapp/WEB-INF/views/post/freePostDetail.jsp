@@ -17,13 +17,6 @@
             cursor: pointer;
         }
 
-        .small-button {
-            border: none;
-            background: none;
-            color: blue;
-            cursor: pointer;
-        }
-
         .adminDeletePost {
             float: right;
         }
@@ -240,12 +233,6 @@
                 type: 'get',
                 data: {
                     postKey: "${post.postKey}",
-                },
-                success: function (data) {
-                    console.log("confirmYn: " + data);
-                },
-                error: function () {
-                    console.log("foobar");
                 }
             })
         }

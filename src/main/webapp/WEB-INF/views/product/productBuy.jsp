@@ -102,7 +102,7 @@ input[type="button"]:hover {
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <main>
     <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
-    <form action="/product/productBuy.do" id="basketForm" method="POST">
+    <form action="/product/productBuy.do" id="buyList" method="POST">
 	    <input type="hidden" id="userKey" value="${loginUser.userKey}">
 	    <input type="hidden" id="userEmail" value="${loginUser.userEmail}">
 	    <input type="hidden" id="userPhone" value="${loginUser.userPhone}">
@@ -138,7 +138,7 @@ input[type="button"]:hover {
 	            <br>
 	            <c:forEach var="productData" items="${productList}">
 				    <c:forEach var="product" items="${productData.productList}">
-				        <input type="hidden" class="prodKey" value="${product.prodKey}">
+				        <input type="hidden" class="prodKeys" value="${product.prodKey}"><%-- 값 있음 --%>
 				        <div class="center-div-items" style="border-bottom: none;">
 				            <input type="text" class="prodNm" value="${product.prodNm}" readonly>
 				        </div>
@@ -150,7 +150,7 @@ input[type="button"]:hover {
             </div>
             <div class="fixed-div">
                 <span id="orderSummary" style="font-size: 30px; margin-top: 10px;">총 0건의 주문금액 0원</span>
-                <button type="submit" style="border-radius: 10px; height: 50px; margin-top: 10px;">선택한 제품 구매하기</button>
+                <input type="submit" id="buyBtn" onclick="reqPayment()" style="border-radius: 10px; height: 50px; margin-top: 10px;" value="선택한 제품 구매하기">
     		</div>
     </form>
 </main>
@@ -202,21 +202,22 @@ input[type="button"]:hover {
         updateOrderSummary();
     });
 
-    // 결제 요청(주문내역에 넣을 prodKey 배열 따로 생성)
-    let prodKeys = []; // prodKey 배열
-	$('.prodKeyClass').each(function () {
-	    prodKeys.push($(this).val()); // prodKey 값을 배열에 추가
-	});
-    
-    reqPayment: function (payBtn) {
+    function reqPayment() {
+	    // 결제 요청(주문내역에 넣을 prodKey 배열 따로 생성)
+	    let prodKeys = []; // prodKey 배열
+		$('.prodKeys').each(function () {
+		    prodKeys.push($(this).val()); // prodKey 값을 배열에 추가
+		});
+	    console.log('prodKey : ' + prodKeys);
+	    
         $.ajax({
-            url: '/product/makeOrderNo.do', // 주문번호 생성 요청 URL
+            url: '/product/makeOrderNo.do', // 주문번호 생성 요청 URL 아니 이거 어디서부터 꼬인거야 씨이빠 콘솔도 안보여 프린트도 안보여 그냥
             type: 'POST',
-            data : {
+            data : JSON.stringify({
             	 userKey: $('#userKey').val(),
-                 prodKey: prodKeys, // 배열로 전달
+                 prodKey: prodKeys, // 배열로 전달           
                  addrKey: $('#addrKey').val()
-            },
+            }),
             dataType: 'json', // JSON 형식의 데이터 수신
             success: function (orderData && orderData.orderNo) {
                 if (orderData && orderData.orderNo) {
@@ -288,10 +289,9 @@ input[type="button"]:hover {
                 alert('서버 통신 중 오류가 발생했습니다.');
             }
         });
+    	}
     }
-    }
-    ;
-
+    
     $(function () {
         // 아임포트 가맹점 식별 코드 설정
         IMP.init("imp56726440");

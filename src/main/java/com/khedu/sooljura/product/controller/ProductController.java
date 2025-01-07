@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -160,19 +159,10 @@ public class ProductController {
 	// 결제 API에 주문번호 보내는 용도
 	@PostMapping("makeOrderNo.do")
 	@ResponseBody
-	public String makeOrderNo(@RequestBody Map<String, Object> requestBody) {
+	public String makeOrderNo(OrderHistory orderHistory, @RequestParam(required = false) List<String> prodKey) {
+		System.out.println("prodKeys : " + prodKey);
 		// 결제 API에 orderNo 보내줘야함
 		// orderNo 생성 및 Product.java에 orderNo 집어넣음
-		OrderHistory orderHistory = new OrderHistory();
-	    orderHistory.setUserKey((String) requestBody.get("userKey"));
-	    orderHistory.setAddrKey((String) requestBody.get("addrKey"));
-
-	    List<String> prodKeyList = (List<String>) requestBody.get("prodKey");
-	    System.out.println("prodKeyList = " + prodKeyList);
-	    String prodKeyString = String.join(",", prodKeyList);
-	    System.out.println("prodKeyString = " + prodKeyString);
-	    orderHistory.setProdKey(prodKeyString);
-	    System.out.println("orderHistory = " + orderHistory);
 	    
 	    int makeOrderNo = service.makeOrderNo(orderHistory);
 	    
@@ -184,6 +174,7 @@ public class ProductController {
 			// 정상적으로 DB에 못넣으면 0반환
 			return "0";
 		}
+
 	}
 
 	// 결제 API로 값 받아오고 삽입
@@ -212,17 +203,27 @@ public class ProductController {
 	}
 
 	// 제품 장바구니에 넣기
+	@GetMapping("insertBasket.do")
 	public String insertBasket(Basket basket) {
 		basket.setBasketCd(1);
 		int insertBasket = service.insertBasket(basket);
-		return String.valueOf(insertBasket);
+		if(insertBasket == 1) {			
+			return String.valueOf(insertBasket);
+		}else {
+			return String.valueOf(insertBasket);
+		}
 	}
 
 	// 제품 찜하기
+	@GetMapping("insertLike.do")
 	public String insertLike(Basket basket) {
 		basket.setBasketCd(2);
 		int insertLike = service.insertBasket(basket);
-		return String.valueOf(insertLike);
+		if(insertLike == 1) {			
+			return String.valueOf(insertLike);
+		}else {
+			return String.valueOf(insertLike);
+		}
 	}
 
 	// 장바구니에서 제품 삭제

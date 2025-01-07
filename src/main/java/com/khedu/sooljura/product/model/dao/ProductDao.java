@@ -11,11 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-
 @Repository("productDao")
 public class ProductDao {
     @Autowired
@@ -96,5 +91,8 @@ public class ProductDao {
         return sessionTemplate.selectOne("product.isPdhNull", prodKey);
     }
 
+	public List<Product> getProdList(String categoryKey) {
+		return sessionTemplate.selectList("product.getProdList", categoryKey);
+    }
 
 }

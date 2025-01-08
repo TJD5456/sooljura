@@ -63,7 +63,7 @@ public class ChatController {
         }
     }
 
-    @GetMapping("chatRoom")
+    @GetMapping("/chatRoom.do")
     public String chatRoom(HttpSession session, Model model, String roomKey) {
         model.addAttribute("roomKey", roomKey);
         User loginUser = ((User) session.getAttribute("loginUser"));
@@ -79,6 +79,18 @@ public class ChatController {
         ArrayList<Chat> chatList = service.getChatList(roomKey);
         model.addAttribute("chatList", chatList);
         return "/chat/chatRoom";
+    }
+
+    @GetMapping("toChatList.do")
+    public String toChatList(HttpSession session, Model model) {
+        User loginUser = (User) session.getAttribute("loginUser");
+        int userCd = loginUser.getUserCd();
+
+        if (userCd != 0) {
+            return "redirect:/admin/manageChats.do";
+        } else {
+            return "redirect:/chat/chatRoom.do";
+        }
     }
 
 }

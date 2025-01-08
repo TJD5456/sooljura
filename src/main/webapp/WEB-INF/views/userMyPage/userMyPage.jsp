@@ -6,6 +6,9 @@
     <title>술주라</title>
 </head>
 <style>
+	.userInfo{
+		display: none;
+	}
     .myPageChoices {
         width: 700px;
         margin: 0 auto;
@@ -85,7 +88,11 @@
                 <button class="myPageChoiceBtn" id="likedMerc" onclick="toggleView(this)">찜한상품</button>
                 <button class="myPageChoiceBtn" id="addrInfo" onclick="addrInfo()">주소 관리</button>
             </div>
-            <div class="myPageInfoView"></div>
+            <div class="myPageInfoView">
+            </div>
+            <div class="userInfo">
+            	<jsp:include page="/userMyPage/userInfo.do"></jsp:include>
+            </div>
         </div>
         <jsp:include page="/WEB-INF/views/common/remote.jsp"/>
     </div>

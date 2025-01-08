@@ -68,10 +68,7 @@ public class ChatService {
     }
 
     public String selectUserNickNm(String roomKey) {
-        String userNickNm = dao.selectUserNickNm(roomKey);
-        System.out.println("roomKey: " + roomKey);
-        System.out.println("userNickNm: "+userNickNm);
-        return  userNickNm;
+        return dao.selectUserNickNm(roomKey);
     }
 
 }

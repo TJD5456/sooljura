@@ -110,13 +110,16 @@
                 <div class="div-wrap">
                     <h2>배송지</h2>
                     <div class="addrWrap">
-                        <input type="hidden" class="addrKey" name="addrKey" value="${addr.addrKey}">
-                        <span style="display: flex; font-size: 20px;">
-                         ${addr.rcptNm}
-                         <c:if test="${not empty addr.addrNm}">
-                             (${addr.addrNm})
-                         </c:if>
-                     </span>
+                        <input type="hidden" id="addrKey" name="addrKey" value="${addr.addrKey}">
+                        
+                        <span style="display: flex; font-size: 20px;" id="rcptNm">
+	                         ${addr.rcptNm}
+	                    </span>
+	                    <span id="addrNm">
+	                         <c:if test="${not empty addr.addrNm}">
+	                             (${addr.addrNm})
+	                         </c:if>
+                     	</span>
                     </div>
 
                     <div class="btnWrap">
@@ -128,8 +131,10 @@
                     </div>
 
                     <div class="addrWrap">
-                        <span id="addr">${addr.addr}</span> <span id="addrDetail">${addr.addrDetail}</span> <span
-                            id="addrCd">(${addr.addrCd})</span>
+                        <span id="addrCd">(${addr.addrCd})</span>
+                    </div>
+                    <div class="addrWrap">
+                        <span id="addr">${addr.addr}</span> <span id="addrDetail">${addr.addrDetail}</span> <br>
                     </div>
 
                     <h2 class="order-product-title">주문상품</h2>
@@ -311,41 +316,20 @@
     	console.log(res);
     	
     	// addrKey 값 업데이트
-        const addrKeyInput = document.querySelector(".addrKey");
-        if (addrKeyInput) {
-            addrKeyInput.value = res.addrKey;
-        }
+        document.getElementById("addrKey").value = res.addrKey || "";
 
+    	
         // rcptNm 값 업데이트
-        const rcptNmSpan = document.querySelector(".addrWrap span:first-child");
-        if (rcptNmSpan) {
-            let rcptText = res.rcptNm;
-            if (res.addrNm && res.addrNm.trim() !== "") {
-                rcptText += `(${res.addrNm.trim()})`; // addrNm이 있는 경우 추가
-            }
-            rcptNmSpan.textContent = rcptText;
-        }
-
+        document.getElementById("rcptNm").textContent = res.rcptNm || "";
+        document.getElementById("addrNm").textContent = res.addrNm || "";
+		
         // rcptPhone 값 업데이트
-        const rcptPhoneSpan = document.getElementById("rcptPhone");
-        if (rcptPhoneSpan) {
-            rcptPhoneSpan.textContent = res.rcptPhone;
-        }
+        document.getElementById("rcptPhone").textContent = res.rcptPhone || "";
 
         // addr, addrDetail, addrCd 값 업데이트
-        const addrSpan = document.getElementById("addr");
-        const addrDetailSpan = document.getElementById("addrDetail");
-        const addrCdSpan = document.getElementById("addrCd");
-
-        if (addrSpan) {
-            addrSpan.textContent = res.addr;
-        }
-        if (addrDetailSpan) {
-            addrDetailSpan.textContent = res.addrDetail || ""; // addrDetail이 없을 경우 빈 문자열
-        }
-        if (addrCdSpan) {
-            addrCdSpan.textContent = `(${res.addrCd})`;
-        }
+        document.getElementById("addr").textContent = res.addr || "";
+        document.getElementById("addrDetail").textContent = res.addrDetail || "";
+        document.getElementById("addrCd").textContent = (res.addrCd) || "";
     }
 </script>
 </body>

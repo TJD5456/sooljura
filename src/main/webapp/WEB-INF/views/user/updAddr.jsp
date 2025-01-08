@@ -4,113 +4,112 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>sooljura</title>
-    <style>
+<meta charset="UTF-8">
+<title>sooljura</title>
+<style>
+main {
+    padding: 0;
+}
 
-        main {
-            padding: 0;
-        }
+/* 전체 배경색 설정 */
+body {
+    background-color: #EFECE5; /* 연한 배경색 */
+    align-items: center; /* 수직 가운데 정렬 */
+    height: 100vh; /* 화면 높이를 100%로 설정 */
+    margin: 0;
+}
 
-        /* 전체 배경색 설정 */
-        body {
-            background-color: #EFECE5; /* 연한 배경색 */
-            align-items: center; /* 수직 가운데 정렬 */
-            height: 100vh; /* 화면 높이를 100%로 설정 */
-            margin: 0;
-        }
+/* 폼 컨테이너 스타일 */
+.insert {
+    border: 1px solid black; /* 검은 테두리 */
+    width: 600px; /* 폼의 너비 */
+    height: auto; /* 높이를 콘텐츠에 맞게 조정 */
+    display: flex; /* 플렉스 박스 사용 */
+    flex-direction: column; /* 자식 요소를 세로로 배치 */
+    align-items: center; /* 수평 가운데 정렬 */
+    padding: 20px; /* 내부 여백 */
+    background-color: #fff; /* 배경 흰색 */
+    border-radius: 10px; /* 모서리를 둥글게 */
+}
 
-        /* 폼 컨테이너 스타일 */
-        .insert {
-            border: 1px solid black; /* 검은 테두리 */
-            width: 600px; /* 폼의 너비 */
-            height: auto; /* 높이를 콘텐츠에 맞게 조정 */
-            display: flex; /* 플렉스 박스 사용 */
-            flex-direction: column; /* 자식 요소를 세로로 배치 */
-            align-items: center; /* 수평 가운데 정렬 */
-            padding: 20px; /* 내부 여백 */
-            background-color: #fff; /* 배경 흰색 */
-            border-radius: 10px; /* 모서리를 둥글게 */
-        }
+/* 폼 스타일 */
+form {
+    width: 80%; /* 폼 너비 설정 */
+    display: flex; /* 플렉스 박스 사용 */
+    flex-direction: column; /* 요소를 세로로 배치 */
+    align-items: center; /* 자식 요소를 수평 중앙 정렬 */
+}
 
-        /* 폼 스타일 */
-        form {
-            width: 80%; /* 폼 너비 설정 */
-            display: flex; /* 플렉스 박스 사용 */
-            flex-direction: column; /* 요소를 세로로 배치 */
-            align-items: center; /* 자식 요소를 수평 중앙 정렬 */
-        }
+/* 입력 필드 공통 스타일 */
+.insertInfo {
+    width: 100%; /* 입력 필드 너비를 100%로 설정 */
+    margin-bottom: 10px; /* 아래쪽 여백 */
+    padding: 10px; /* 내부 여백 */
+    border: 1px solid black; /* 검은 테두리 */
+    border-radius: 5px; /* 모서리를 둥글게 */
+}
 
-        /* 입력 필드 공통 스타일 */
-        .insertInfo {
-            width: 100%; /* 입력 필드 너비를 100%로 설정 */
-            margin-bottom: 10px; /* 아래쪽 여백 */
-            padding: 10px; /* 내부 여백 */
-            border: 1px solid black; /* 검은 테두리 */
-            border-radius: 5px; /* 모서리를 둥글게 */
-        }
+/* 버튼 스타일 */
+button {
+    height: 40px; /* 버튼 높이 */
+    width: 200px; /* 버튼 너비 */
+    background-color: #FC8173; /* 버튼 배경색 */
+    color: #EFECE5; /* 버튼 글자색 */
+    border-radius: 20px; /* 버튼 모서리를 둥글게 */
+    border: none; /* 테두리 제거 */
+    cursor: pointer; /* 커서 스타일 변경 */
+}
 
-        /* 버튼 스타일 */
-        button {
-            height: 40px; /* 버튼 높이 */
-            width: 200px; /* 버튼 너비 */
-            background-color: #FC8173; /* 버튼 배경색 */
-            color: #EFECE5; /* 버튼 글자색 */
-            border-radius: 20px; /* 버튼 모서리를 둥글게 */
-            border: none; /* 테두리 제거 */
-            cursor: pointer; /* 커서 스타일 변경 */
-        }
+/* 회원가입 버튼 중앙 배치 */
+button > .submit {
+    height: 40px; /* 버튼 높이 */
+    width: 200px; /* 버튼 너비 */
+    background-color: #FC8173; /* 버튼 배경색 */
+    color: #EFECE5; /* 버튼 글자색 */
+    border-radius: 20px; /* 버튼 모서리를 둥글게 */
+    border: none; /* 테두리 제거 */
+    cursor: pointer; /* 커서 스타일 변경 */
+    margin-top: 20px; /* 위 요소와 간격 */
+    align-self: center; /* 부모 컨테이너에서 중앙 정렬 */
+}
 
-        /* 회원가입 버튼 중앙 배치 */
-        button > .submit {
-            height: 40px; /* 버튼 높이 */
-            width: 200px; /* 버튼 너비 */
-            background-color: #FC8173; /* 버튼 배경색 */
-            color: #EFECE5; /* 버튼 글자색 */
-            border-radius: 20px; /* 버튼 모서리를 둥글게 */
-            border: none; /* 테두리 제거 */
-            cursor: pointer; /* 커서 스타일 변경 */
-            margin-top: 20px; /* 위 요소와 간격 */
-            align-self: center; /* 부모 컨테이너에서 중앙 정렬 */
-        }
+/* 개별 입력 그룹 간 간격 */
+.form-group {
+    width: 100%; /* 각 그룹의 너비를 부모 기준 100%로 설정 */
+    display: flex; /* 플렉스 박스 사용 */
+    justify-content: space-between; /* 자식 요소 간 간격 배분 */
+    margin-bottom: 10px; /* 아래쪽 간격 추가 */
+}
 
-        /* 개별 입력 그룹 간 간격 */
-        .form-group {
-            width: 100%; /* 각 그룹의 너비를 부모 기준 100%로 설정 */
-            display: flex; /* 플렉스 박스 사용 */
-            justify-content: space-between; /* 자식 요소 간 간격 배분 */
-            margin-bottom: 10px; /* 아래쪽 간격 추가 */
-        }
+/* 중복 체크 버튼 스타일 */
+input[type="button"] {
+    width: auto; /* 너비를 내용에 맞게 조정 */
+    margin-left: 10px; /* 입력 필드와 버튼 간의 간격 */
+    padding: 10px; /* 내부 여백 */
+    background-color: #FC8173; /* 버튼 배경색 */
+    color: #EFECE5; /* 버튼 글자색 */
+    border: none; /* 테두리 제거 */
+    border-radius: 5px; /* 모서리를 둥글게 */
+    cursor: pointer; /* 커서 스타일 변경 */
+    height: 37px; /*중복 체크 버튼 높이 조정*/
+}
 
-        /* 중복 체크 버튼 스타일 */
-        input[type="button"] {
-            width: auto; /* 너비를 내용에 맞게 조정 */
-            margin-left: 10px; /* 입력 필드와 버튼 간의 간격 */
-            padding: 10px; /* 내부 여백 */
-            background-color: #FC8173; /* 버튼 배경색 */
-            color: #EFECE5; /* 버튼 글자색 */
-            border: none; /* 테두리 제거 */
-            border-radius: 5px; /* 모서리를 둥글게 */
-            cursor: pointer; /* 커서 스타일 변경 */
-            height: 37px; /*중복 체크 버튼 높이 조정*/
-        }
+.insert-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 100px;
+    margin-right: 130px;
+}
 
-        .insert-wrap {
-            display: flex;
-            justify-content: center;
-            padding: 100px;
-            margin-right: 130px;
-        }
+form {
+    margin-top: 50px;
+}
 
-        form {
-            margin-top: 50px;
-        }
-
-        .btnWrap > button {
-            width: 110px;
-            height: 40px;
-        }
-    </style>
+.btnWrap > button {
+    width: 110px;
+    height: 40px;
+}
+</style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/textHeader.jsp"/>

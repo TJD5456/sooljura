@@ -83,6 +83,7 @@ li {
 <script>
 <%-- 주소지 삭제 --%>
 function delAddr(button) {
+	const userKey = $('#userKey').val();
     const addrKey = $(button).closest('li').find('.addrKey').val();
     swal({
         title: "알림",
@@ -112,7 +113,7 @@ function delAddr(button) {
                 },
                 success: function (res) {
                     if (res === "1") {
-                        msg('알림', '삭제가 완료되었습니다', 'success', "location.href = '/user/addrListFrm.do';");
+                        msg('알림', '삭제가 완료되었습니다', 'success', "location.href = '/product/chgAddr.do?userKey="+userKey+"';");
                     } else {
                         msg('알림', '삭제중 오류가 발생했습니다', 'error');
                     }
@@ -128,9 +129,8 @@ function delAddr(button) {
 <%-- 주소지 수정 --%>
 function updAddr(button) {
     const addrKey = $(button).closest('li').find('.addrKey').val();
-    console.log(addrKey);
 
-    location.href = "/user/updAddrFrm.do?addrKey=" + addrKey;
+    location.href = "/product/updBuyPageAddrFrm.do?addrKey=" + addrKey;
 
     <%--
     if (!addrKey) {

@@ -10,21 +10,26 @@
 		FROM (
 		SELECT ROWNUM AS rnum,
 		p.post_key AS postKey,
-		p.post_cd AS postCd,
+		p.post_cd AS
+		postCd,
 		p.user_key AS userKey,
 		u.user_nicknm AS userNickNm,
-		p.post_title AS postTitle,
+		p.post_title
+		AS postTitle,
 		p.post_content AS postContent,
 		p.post_view AS postViews,
 		TO_CHAR(p.post_date, 'YYYY-MM-DD') AS postDate,
-		p.confirm_yn AS confirmYn,
+		p.confirm_yn AS
+		confirmYn,
 		p.delete_yn AS deleteYn,
 		p.delete_reason AS deleteReason,
 		t.post_nm AS postCategory
 		FROM tbl_post p
-		JOIN tbl_user u ON p.user_key = u.user_key
+		JOIN tbl_user u ON p.user_key
+		= u.user_key
 		JOIN tbl_post_type t ON p.post_cd = t.post_cd
-		WHERE p.delete_yn = 0  <!-- 삭제되지 않은 글만 가져옴 -->
+		WHERE
+		p.delete_yn = 0  <!-- 삭제되지 않은 글만 가져옴 -->
 		AND p.post_cd = #{postCd}  <!-- 게시판 코드 필터링 -->
 		ORDER BY p.post_date DESC
 		)
@@ -34,7 +39,8 @@
 	<!-- 전체 게시글 수 조회 -->
 	<select id="selectPostCount" resultType="int">
 		SELECT COUNT(*)
-		FROM tbl_post
+		FROM
+		tbl_post
 		WHERE delete_yn = 0
 	</select>
 
@@ -48,10 +54,13 @@
 	<insert id="insertFreePost" parameterType="post">
 		INSERT INTO tbl_post (
 		post_key, post_cd, user_key, post_title, post_content,
-		post_date, post_view, confirm_yn, delete_yn
+		post_date,
+		post_view, confirm_yn, delete_yn
 		) VALUES (
-		'po' || TO_CHAR(SYSDATE, 'YYMMDD') || LPAD(seq_post.NEXTVAL, 4, '0'),
-		2, #{userKey}, #{postTitle}, #{postContent},
+		'po' || TO_CHAR(SYSDATE,
+		'YYMMDD') || LPAD(seq_post.NEXTVAL, 4, '0'),
+		2, #{userKey},
+		#{postTitle}, #{postContent},
 		SYSDATE, 0, 0, 0
 		)
 	</insert>
@@ -59,12 +68,16 @@
 
 	<!-- 공지사항 게시글 삽입 -->
 	<insert id="insertNoticePost" parameterType="post">
-		INSERT INTO tbl_post (
+		INSERT INTO tbl_post
+		(
 		post_key, post_cd, user_key, post_title, post_content,
-		post_date, post_view, confirm_yn, delete_yn
+		post_date,
+		post_view, confirm_yn, delete_yn
 		) VALUES (
-		'no' || TO_CHAR(SYSDATE, 'YYMMDD') || LPAD(seq_post.NEXTVAL, 4, '0'),
-		1, #{userKey}, #{postTitle}, #{postContent},
+		'no' || TO_CHAR(SYSDATE,
+		'YYMMDD') || LPAD(seq_post.NEXTVAL, 4, '0'),
+		1, #{userKey},
+		#{postTitle}, #{postContent},
 		SYSDATE, 0, 0, 0
 		)
 	</insert>
@@ -76,15 +89,18 @@
 		p.post_cd AS postCd,
 		p.user_key AS userKey,
 		u.user_nicknm AS userNickNm,
-		p.post_title AS postTitle,
+		p.post_title AS
+		postTitle,
 		p.post_content AS postContent,
 		p.post_date AS postDate,
 		p.post_view AS postViews,
 		p.confirm_yn AS confirmYn,
-		p.delete_yn AS deleteYn,
+		p.delete_yn AS
+		deleteYn,
 		p.delete_reason AS deleteReason
 		FROM tbl_post p
-		JOIN tbl_user u ON p.user_key = u.user_key
+		JOIN tbl_user u
+		ON p.user_key = u.user_key
 		WHERE p.post_key = #{postKey}
 	</select>
 
@@ -92,9 +108,11 @@
 	<insert id="insertComment"
 		parameterType="com.khedu.sooljura.post.model.vo.Comment">
 		INSERT INTO tbl_comment (
-		comment_key, post_key, user_key, comment_content, comment_date
+		comment_key, post_key,
+		user_key, comment_content, comment_date
 		) VALUES (
-		'po' || TO_CHAR(SYSDATE, 'YYMMDD') || LPAD(seq_comment.NEXTVAL, 4, '0'),
+		'po' ||
+		TO_CHAR(SYSDATE, 'YYMMDD') || LPAD(seq_comment.NEXTVAL, 4, '0'),
 		#{postKey}, #{userKey}, #{commentContent}, SYSDATE
 		)
 	</insert>
@@ -106,10 +124,13 @@
 		c.post_key AS postKey,
 		c.user_key AS userKey,
 		u.user_nicknm AS userNickNm,
-		c.comment_content AS commentContent,
-		TO_CHAR(c.comment_date, 'YYYY-MM-DD HH24:MI:SS') AS commentDate
+		c.comment_content AS
+		commentContent,
+		TO_CHAR(c.comment_date, 'YYYY-MM-DD HH24:MI:SS') AS
+		commentDate
 		FROM tbl_comment c
-		JOIN tbl_user u ON c.user_key = u.user_key
+		JOIN tbl_user u ON c.user_key =
+		u.user_key
 		WHERE c.post_key = #{postKey}
 		ORDER BY c.comment_date ASC
 	</select>
@@ -125,28 +146,33 @@
 		resultType="string">
 		SELECT post_key
 		FROM tbl_comment
-		WHERE comment_key = #{commentKey}
+		WHERE comment_key =
+		#{commentKey}
 	</select>
 
 	<!-- 댓글 수정 -->
 	<update id="updateComment"
 		parameterType="com.khedu.sooljura.post.model.vo.Comment">
 		UPDATE tbl_comment
-		SET comment_content = #{commentContent},
+		SET comment_content =
+		#{commentContent},
 		comment_date = SYSDATE
-		WHERE comment_key = #{commentKey}
+		WHERE comment_key =
+		#{commentKey}
 	</update>
 
 	<update id="increasePostView">
 		UPDATE tbl_post
 		SET post_view = post_view + 1
-		WHERE post_key = #{postKey}
+		WHERE
+		post_key = #{postKey}
 	</update>
 
-    <delete id="deletePost" parameterType="map">
-        DELETE FROM tbl_post
-        WHERE post_key = #{postKey} AND user_key = #{userKey}
-    </delete>
+	<delete id="deletePost" parameterType="map">
+		DELETE FROM tbl_post
+		WHERE
+		post_key = #{postKey} AND user_key = #{userKey}
+	</delete>
 
 
 	<delete id="adminDeletePost" parameterType="string">
@@ -157,35 +183,44 @@
 
 	<update id="confirmYn" parameterType="string">
 		update tbl_post
-		set confirm_yn = 1
+		set
+		confirm_yn = 1
 		where post_key = #{_postKey}
 	</update>
 
 	<update id="updatePost" parameterType="post">
 		UPDATE tbl_post
-		SET post_title = #{postTitle},
-			post_content = #{postContent},
-			post_date = SYSDATE
+		SET
+		post_title = #{postTitle},
+		post_content = #{postContent},
+		post_date =
+		SYSDATE
 		WHERE post_key = #{postKey} AND user_key = #{userKey}
 	</update>
 
 	<!-- 후기 게시판 삽입 -->
 	<insert id="insertReviewPost" parameterType="post">
-		INSERT INTO tbl_post (
-			post_key, post_cd, user_key, post_title, post_content,
-			post_date, post_view, confirm_yn, delete_yn
+		INSERT INTO tbl_post
+		(
+		post_key, post_cd, user_key, post_title, post_content,
+		post_date,
+		post_view, confirm_yn, delete_yn
 		) VALUES (
-			'rv' || TO_CHAR(SYSDATE, 'YYMMDD') || LPAD(seq_post.NEXTVAL, 4, '0'),
-			3, #{userKey}, #{postTitle}, #{postContent},
-			SYSDATE, 0, 0, 0
+		'rv' || TO_CHAR(SYSDATE,
+		'YYMMDD') || LPAD(seq_post.NEXTVAL, 4, '0'),
+		3, #{userKey},
+		#{postTitle}, #{postContent},
+		SYSDATE, 0, 0, 0
 		)
 	</insert>
 
 	<select id="selectPostsByUserAndCategory" resultType="post">
-		SELECT post_key AS postKey, post_title AS postTitle, post_date AS postDate, post_view AS postViews
+		SELECT post_key AS postKey, post_title AS postTitle, post_date AS postDate,
+		post_view AS postViews
 		FROM tbl_post
 		WHERE user_key = #{userKey} AND post_cd = #{postCd} AND delete_yn = 0
 		ORDER BY post_date DESC
 	</select>
+
 
 </mapper>

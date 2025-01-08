@@ -160,23 +160,21 @@ public class ProductController {
 	// 결제 API 로 값 받아오고 삽입
 	@PostMapping("productBuy.do")
 	@ResponseBody
-	public String productBuy(@RequestParam("prodKey") List<String> prodKeys,
-			@RequestParam("orderCnt") List<Integer> orderCnts, @ModelAttribute OrderHistory orderHistory) {
-
-		Map<String, Integer> orderDetail = new HashMap<>();
-		for (int i = 0; i < prodKeys.size(); i++) {
-			orderDetail.put(prodKeys.get(i), orderCnts.get(i));
-		}
-
+	public String productBuy(@RequestBody OrderHistory orderHistory) {
+		System.out.println(orderHistory.getImpUid());
+		System.out.println(orderHistory.getProdKeys());
+		System.out.println(orderHistory.getUserKey());
+		System.out.println(orderHistory.getAddrKey());
+		System.out.println(orderHistory.getOrderPrice());
+		System.out.println(orderHistory.getOrderCnt());
+		
 		// 제품 구매내역 DB에 넣기
-		int insertHistory = service.insertHistory(orderHistory, orderDetail);
-
+		int insertHistory = service.insertHistory(orderHistory);
+		
 		if (insertHistory > 0) {
 			// 정상적으로 넣으면 1 반환 오류 발생시 다른 숫자 반환
-			// int result -> 정상적으로 결제 완료 시 위에서 만든 주문번호 제작용 컬럼 삭제
-			int result = service.delOrderNo(orderHistory);
-
-			return String.valueOf(result);
+			// int result -> 정상적으로 결제 완료 시 위에서 만든 주문번호 제작용 컬럼 삭제 - 보류
+			return String.valueOf(insertHistory);
 		}
 		// 오류 발생 시 0 반환
 		return "0";
@@ -185,25 +183,46 @@ public class ProductController {
 	// 제품 장바구니에 넣기
 	@GetMapping("insertBasket.do")
 	public String insertBasket(Basket basket) {
+		System.out.println("prodKey : " + basket.getProdKey());
+		System.out.println("userKey : " + basket.getUserKey());
+		System.out.println("basketCnt : " + basket.getBasketCnt());
+		
 		basket.setBasketCd(1);
-		int insertBasket = service.insertBasket(basket);
-		if(insertBasket == 1) {			
-			return String.valueOf(insertBasket);
-		}else {
-			return String.valueOf(insertBasket);
+		
+		//장바구니에 넣기 전 장바구니 테이블에 있는지 체크
+		int chkBasket = service.chkBasket(basket);
+		
+		if(chkBasket < 1) {	
+			//장바구니 테이블 삽입
+			int insertBasket = service.insertBasket(basket);
+			
+			if(insertBasket == 1) {			
+				return String.valueOf(insertBasket);
+			}
 		}
+		return String.valueOf(0);
 	}
 
 	// 제품 찜하기
 	@GetMapping("insertLike.do")
 	public String insertLike(Basket basket) {
+		System.out.println("prodKey : " + basket.getProdKey());
+		System.out.println("userKey : " + basket.getUserKey());
+
 		basket.setBasketCd(2);
-		int insertLike = service.insertBasket(basket);
-		if(insertLike == 1) {			
-			return String.valueOf(insertLike);
-		}else {
-			return String.valueOf(insertLike);
+		basket.setBasketCnt(0);
+		
+		//장바구니에 넣기 전 장바구니 테이블에 있는지 체크
+		int chkBasket = service.chkBasket(basket);
+		
+		if(chkBasket < 1) {
+			//좋아요 테이블 삽입
+			int insertLike = service.insertBasket(basket);
+			if(insertLike == 1) {			
+				return String.valueOf(insertLike);
+			}
 		}
+		return String.valueOf(0);
 	}
 
 	// 장바구니에서 제품 삭제

@@ -1,32 +1,34 @@
 package com.khedu.sooljura.product.model.vo;
 
+import java.util.List;
+
 public class OrderHistory {
     private String impUid;
     private String orderNo;
     private String prodKey;
     private String userKey;
     private String addrKey;
-    private String cardCompany;
     private int orderPrice;
     private int orderCnt;
     private String orderDate;
+    private List<String> prodKeys;
 	
     public OrderHistory() {
 		super();
 	}
 
-	public OrderHistory(String impUid, String orderNo, String prodKey, String userKey, String addrKey,
-			String cardCompany, int orderPrice, int orderCnt, String orderDate) {
+	public OrderHistory(String impUid, String orderNo, String prodKey, String userKey, String addrKey, int orderPrice,
+			int orderCnt, String orderDate, List<String> prodKeys) {
 		super();
 		this.impUid = impUid;
 		this.orderNo = orderNo;
 		this.prodKey = prodKey;
 		this.userKey = userKey;
 		this.addrKey = addrKey;
-		this.cardCompany = cardCompany;
 		this.orderPrice = orderPrice;
 		this.orderCnt = orderCnt;
 		this.orderDate = orderDate;
+		this.prodKeys = prodKeys;
 	}
 
 	public String getImpUid() {
@@ -69,14 +71,6 @@ public class OrderHistory {
 		this.addrKey = addrKey;
 	}
 
-	public String getCardCompany() {
-		return cardCompany;
-	}
-
-	public void setCardCompany(String cardCompany) {
-		this.cardCompany = cardCompany;
-	}
-
 	public int getOrderPrice() {
 		return orderPrice;
 	}
@@ -101,11 +95,21 @@ public class OrderHistory {
 		this.orderDate = orderDate;
 	}
 
+	public List<String> getProdKeys() {
+		return prodKeys;
+	}
+
+	public void setProdKeys(List<String> prodKeys) {
+		this.prodKeys = prodKeys;
+	}
+
 	@Override
 	public String toString() {
 		return "OrderHistory [impUid=" + impUid + ", orderNo=" + orderNo + ", prodKey=" + prodKey + ", userKey="
-				+ userKey + ", addrKey=" + addrKey + ", cardCompany=" + cardCompany + ", orderPrice=" + orderPrice
-				+ ", orderCnt=" + orderCnt + ", orderDate=" + orderDate + "]";
+				+ userKey + ", addrKey=" + addrKey + ", orderPrice=" + orderPrice + ", orderCnt=" + orderCnt
+				+ ", orderDate=" + orderDate + ", prodKeys=" + prodKeys + "]";
 	}
-
+	
+    
+    
 }

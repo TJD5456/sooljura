@@ -6,14 +6,18 @@
         <li><a href="/"><img src="/resources/icons/home_홈_1946488_45px.png" alt="홈"></a></li>
         <li><a href="/"><img src="/resources/icons/bags_쇼핑백_1413928_45px.png" alt="쇼핑백"></a></li>
         <li><a href="/"><img src="/resources/icons/heart_찜하기_5303390_45px.png" alt="찜하기"></a></li>
-        <c:if test="${not empty loginUser}">
-            <li><a href="javascript:void(0);">
-                <img src="/resources/icons/message-icon.png" onclick="fn.startChat();" style="width: 45px" alt="chat">
-            </a></li>
+        <c:if test="${not empty loginUser && loginUser.userCd != 0}">
+            <li>
+                <a href="javascript:void(0);">
+                    <img src="/resources/icons/message-icon.png" onclick="fn.startChat();" style="width: 45px"
+                         alt="chat">
+                </a>
+            </li>
         </c:if>
         <li><a href="#bottom"><img src="/resources/icons/arrow_화살표하_7411288_45px.png" alt="화살표하"></a></li>
     </ul>
 </div>
+
 <script>
     let fn = {
         startChat: function () {

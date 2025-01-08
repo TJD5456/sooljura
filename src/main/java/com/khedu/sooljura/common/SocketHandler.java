@@ -96,6 +96,7 @@ public class SocketHandler extends TextWebSocketHandler {
                             System.out.println("Failed to add admin");
                         }
                     }
+                    this.sendMsg(roomKey, msg);
                 }
                 break;
             }

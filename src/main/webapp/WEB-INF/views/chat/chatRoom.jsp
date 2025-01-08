@@ -187,10 +187,8 @@
             };
 
             // 메시지 수신 시, 이벤트 핸들러
-            ws.onmessage = function (e) {
-                let msg = e.data;
-                let chat = $('#msgArea').html() + "\n <h4>" + msg + "</h4>";
-                $("#msgArea").html(chat);
+            ws.onmessage = function () {
+                location.reload();
             };
 
             // 소켓 연결 종료 이벤트 핸들러
@@ -222,9 +220,11 @@
             sendObj.userKey = userKey;
 
             ws.send(JSON.stringify(sendObj));
+
+            window.location = "/chat/toChatList.do";
         },
         returnList: function () {
-            location.href = "/chat/chatFrm.do";
+            window.location = "/chat/toChatList.do";
         }
     };
 

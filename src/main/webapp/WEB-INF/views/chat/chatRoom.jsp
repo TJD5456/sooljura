@@ -91,27 +91,75 @@
             background-color: var(--button-background-hover);
             box-shadow: 1px 1px 1px 1px var(--button-background);
         }
+
+        .myMsgContainer {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 8px;
+        }
+
+        .adminMsgContainer {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .bubble {
+            max-width: 60%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            word-wrap: break-word;
+            position: relative;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .myMsgBubble {
+            background-color: var(--button-background);
+            color: #333;
+            border-top-right-radius: 0;
+        }
+
+        .adminMsgBubble {
+            background-color: #fff;
+            color: #333;
+            border-top-left-radius: 0;
+        }
     </style>
 </head>
 <body>
 <div class="chat-wrapper">
     <div class="chat-title">실시간 채팅</div>
 
-    <!-- 기존 메시지 출력 영역 -->
     <div id="msgArea">
         <c:forEach var="chat" items="${chatList}">
-            <h4>${chat.senderKey}: ${chat.msg} [${chat.sentDate}]</h4>
+            <c:choose>
+                <c:when test="${chat.senderKey == userKey}">
+                    <div class="myMsgContainer">
+                        <div class="bubble myMsgBubble">
+                                ${chat.msg}
+                        </div>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="adminMsgContainer">
+                        <div class="bubble adminMsgBubble">
+                            관리자: ${chat.msg}
+                        </div>
+                    </div>
+                </c:otherwise>
+            </c:choose>
         </c:forEach>
     </div>
 
-    <!-- 입력 영역 + 버튼들 -->
     <div class="chat-input-area">
+        <button class="button" onclick="fn.deleteChat()">나가기</button>
+        <button class="button" onclick="fn.returnList()">목록</button>
+
         <label for="chatMsg" style="display: none;">메시지</label>
         <input type="text" id="chatMsg" placeholder="메시지를 입력하세요">
 
         <button class="button" onclick="fn.sendValidate()">보내기</button>
-        <button class="button" onclick="fn.deleteChat()">나가기</button>
-        <button class="button" onclick="fn.returnList()">목록</button>
     </div>
 </div>
 

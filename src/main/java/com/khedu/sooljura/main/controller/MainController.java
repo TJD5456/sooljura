@@ -19,13 +19,9 @@ public class MainController {
 	
 	@GetMapping("/")
     public String main(Model model) {
-		System.out.println("접속완");
-        ArrayList<Product> allProdList = service.getAllItems();
         
         ArrayList<Product> wineProdList = service.getWine();
-        
         ArrayList<Product> wiskeyProdList = service.getWiskey();
-        
         ArrayList<Product> brandyProdList = service.getBrandy();
         ArrayList<Product> liqueurProdList = service.getLiqueur();
         ArrayList<Product> sojuProdList = service.getSoju();

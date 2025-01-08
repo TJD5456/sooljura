@@ -213,12 +213,10 @@
             $('#chatMsg').val("");
         },
         deleteChat: function () {
-            // 방 나가기 == 삭제
             let sendObj = {};
             sendObj.type = "delete";
             sendObj.roomKey = roomKey;
             sendObj.userKey = userKey;
-
             ws.send(JSON.stringify(sendObj));
 
             window.location = "/chat/toChatList.do";

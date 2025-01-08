@@ -140,7 +140,7 @@
 </main>
 
 <script>
-    function goToProductDetail(prodKey){
+    function goToProductDetail(prodKey) {
         window.location.href = '/product/prodDetail.do?prodKey=' + prodKey;
     }
 

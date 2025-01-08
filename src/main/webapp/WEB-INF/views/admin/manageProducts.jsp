@@ -22,6 +22,11 @@
         .category-span > input {
             margin-right: 5px;
         }
+
+        .second-table tr:hover {
+            background-color: var(--table-th-background);
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -116,8 +121,7 @@
                 </thead>
                 <tbody>
                 <c:forEach var="product" items="${products}">
-                    <tr class="product-each">
-                        <%-- TODO: 제품을 클릭하면 제품 상세 페이지로 이동하도록 할것 --%>
+                    <tr class="product-each" onclick="goToProductDetail('${product.prodKey}')">
                         <td>${product.prodKey}</td>
                         <td>${product.productCategory.categoryNm}</td>
                         <td>${product.prodNm}</td>
@@ -136,6 +140,10 @@
 </main>
 
 <script>
+    function goToProductDetail(prodKey){
+        window.location.href = '/product/prodDetail.do?prodKey=' + prodKey;
+    }
+
     function manageCategoryFrm() {
         window.location.href = '/admin/manageCategoryFrm.do';
     }

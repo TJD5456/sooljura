@@ -327,6 +327,12 @@ public class UserController {
 
         return String.valueOf(complete);
     }
+    
+    //결제페이지에서 주소지 수정페이지로 이동
+    public UserAddr updBuyPageAddrFrm(String addrKey) {
+    	UserAddr userAddr = service.userAddr(addrKey);
+    	return userAddr;
+    }
 
     // 로그아웃
     @GetMapping("logout.do")
@@ -424,7 +430,4 @@ public class UserController {
 
         return "redirect:/";
     }
-
-
-
 }

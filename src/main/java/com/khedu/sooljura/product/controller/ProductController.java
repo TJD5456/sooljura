@@ -359,4 +359,10 @@ public class ProductController {
 	}
 	
 	//결제페이지 주소지 팝업에서 주소지 수정
+	@GetMapping("updBuyPageAddrFrm.do")
+	public String updBuyPageAddrFrm(String addrKey, Model model) {
+		UserAddr addrInfo = userController.updBuyPageAddrFrm(addrKey);
+		model.addAttribute("addrInfo", addrInfo);
+		return "product/updBuyPageAddr";
+	}
 }

@@ -113,7 +113,8 @@ public class PostService {
 	}
 
 	public List<Post> getMyPostsByCategory(String userKey, int postCd) {
-		return dao.selectPostsByUserAndCategory(userKey, postCd);
+	    System.out.println("Service 호출됨 - userKey: " + userKey + ", postCd: " + postCd);
+	    return dao.selectPostsByUserAndCategory(userKey, postCd);
 	}
 
     public int updatePost(Post post) {

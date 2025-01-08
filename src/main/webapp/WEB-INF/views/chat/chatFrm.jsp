@@ -99,12 +99,6 @@
             background-color: #fafafa;
             cursor: pointer;
         }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            box-shadow: 0 -1px 5px rgba(0,0,0,0.05);
-        }
     </style>
 </head>
 <body>
@@ -143,7 +137,6 @@
         </table>
     </section>
 </div>
-<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 
 <script>
     function startChat() {

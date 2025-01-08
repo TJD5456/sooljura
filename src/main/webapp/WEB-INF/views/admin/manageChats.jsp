@@ -15,6 +15,7 @@
         }
     </style>
 </head>
+
 <body>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
 <main>
@@ -47,6 +48,7 @@
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </main>
+
 <script>
     function goToRoom(roomKey) {
         window.location = "/chat/chatRoom.do?roomKey=" + roomKey;

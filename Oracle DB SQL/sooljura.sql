@@ -283,9 +283,10 @@ create sequence seq_chat_key maxvalue 9999 cycle;
 
 commit;
 
--- 레벨1 회원 자동 생성후
+-- 자동 생성된 레벨1 회원 장바구니
 insert into tbl_basket values ( 'bk' || to_char( sysdate, 'yymmdd') || lpad( seq_basket.nextval, 4, '0'), 1, 
                                 ( select prod_key from tbl_product where '%0001'), ( select user_key from tbl_user where '%0001'), 1 );
 insert into tbl_basket values ( 'bk' || to_char( sysdate, 'yymmdd') || lpad( seq_basket.nextval, 4, '0'), 1, 
                                 ( select prod_key from tbl_product where '%0002'), ( select user_key from tbl_user where '%0001'), 1 );
 
+select * from tbl_chat;

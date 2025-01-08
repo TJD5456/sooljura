@@ -67,4 +67,11 @@ public class ChatService {
         dao.deleteRoom(chat);
     }
 
+    public String selectUserNickNm(String roomKey) {
+        String userNickNm = dao.selectUserNickNm(roomKey);
+        System.out.println("roomKey: " + roomKey);
+        System.out.println("userNickNm: "+userNickNm);
+        return  userNickNm;
+    }
+
 }

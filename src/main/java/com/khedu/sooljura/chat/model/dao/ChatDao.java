@@ -59,4 +59,8 @@ public class ChatDao {
         template.delete("chat.deleteRoom", chat);
     }
 
+    public String selectUserNickNm(String roomKey) {
+        return template.selectOne("chat.selectUserNickNm", roomKey);
+    }
+
 }

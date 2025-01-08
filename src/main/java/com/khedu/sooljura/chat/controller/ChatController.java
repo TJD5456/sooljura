@@ -70,6 +70,9 @@ public class ChatController {
         String userKey = loginUser.getUserKey();
         int userCd = loginUser.getUserCd();
 
+        String userNickNm = service.selectUserNickNm(roomKey);
+        model.addAttribute("userNickNm", userNickNm);
+
         model.addAttribute("userKey", userKey);
         model.addAttribute("userCd", userCd);
 

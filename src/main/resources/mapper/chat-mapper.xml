@@ -84,4 +84,12 @@
         where room_key = #{roomKey}
     </delete>
 
+    <select id="selectUserNickNm" parameterType="string" resultType="string">
+        select user_nicknm
+        from tbl_user
+        where user_key = (select user_key
+                          from tbl_room
+                          where room_key = #{_roomKey})
+    </select>
+
 </mapper>

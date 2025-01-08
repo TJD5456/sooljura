@@ -5,21 +5,115 @@
 <head>
     <meta charset="UTF-8">
     <title>chat.jsp</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common.css"/>
     <script src="${pageContext.request.contextPath}/resources/jquery/jquery-3.7.1.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chat-wrapper {
+            width: 90%;
+            max-width: 600px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column; /* stack messages and input vertically */
+            min-height: 70vh;
+        }
+
+        .chat-title {
+            font-size: 20px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        #msgArea {
+            flex: 1; /* fill remaining space */
+            border: 1px solid #ccc;
+            padding: 10px;
+            overflow-y: auto; /* vertical scroll if messages overflow */
+            margin-bottom: 16px;
+            background-color: #fafafa;
+        }
+
+        #msgArea h4 {
+            font-size: 14px;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            word-wrap: break-word; /* wrap long text */
+        }
+
+        .chat-input-area {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap; /* wrap to next line if not enough space */
+            margin-bottom: 8px;
+        }
+
+        #chatMsg {
+            flex: 1; /* grow to fill available space */
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .button {
+            padding: 8px 12px;
+            font-size: 14px;
+            color: var(--sidebar-background);
+            background-color: var(--button-background);
+            box-shadow: 1px 1px 1px 1px var(--button-shadow);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: var(--button-background-hover);
+            box-shadow: 1px 1px 1px 1px var(--button-background);
+        }
+    </style>
 </head>
 <body>
+<div class="chat-wrapper">
+    <div class="chat-title">실시간 채팅</div>
 
-<%-- 기존 메시지 출력 --%>
-<div id="msgArea" style="border : 1px solid black; height : 500px; overflow : scroll;">
-    <c:forEach var="chat" items="${chatList}">
-        <h4>${chat.senderKey}: ${chat.msg}[${chat.sentDate}]</h4>
-    </c:forEach>
+    <!-- 기존 메시지 출력 영역 -->
+    <div id="msgArea">
+        <c:forEach var="chat" items="${chatList}">
+            <h4>${chat.senderKey}: ${chat.msg} [${chat.sentDate}]</h4>
+        </c:forEach>
+    </div>
+
+    <!-- 입력 영역 + 버튼들 -->
+    <div class="chat-input-area">
+        <label for="chatMsg" style="display: none;">메시지</label>
+        <input type="text" id="chatMsg" placeholder="메시지를 입력하세요">
+
+        <button class="button" onclick="fn.sendValidate()">보내기</button>
+        <button class="button" onclick="fn.deleteChat()">나가기</button>
+        <button class="button" onclick="fn.returnList()">목록</button>
+    </div>
 </div>
-
-<label for="chatMsg">메시지 : </label><input type="text" id="chatMsg">
-<button onclick="fn.sendValidate()">보내기</button>
-<button onclick="fn.deleteChat()">나가기</button>
-<button onclick="fn.returnList()">목록</button>
 
 <script>
     let ws;

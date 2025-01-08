@@ -364,7 +364,7 @@ button {
 						msg('알림', '장바구니 오류발생', 'error');
 					}
 				},
-				error : function(){
+				error : function(res){
 					console.log('장바구니 ajax 오류');
 				}
 			});

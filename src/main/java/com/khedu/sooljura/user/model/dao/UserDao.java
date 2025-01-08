@@ -60,6 +60,12 @@ public class UserDao {
     public int updAddr(UserAddr userAddr) {
         return sessionTemplate.update("addr.updAddr", userAddr);
     }
+    
+    //결제페이지에서 주소지 선택
+    public UserAddr selectAddr(String addrKey) {
+    	UserAddr addr = sessionTemplate.selectOne("addr.selectAddr", addrKey);
+	    return addr;
+	}
 
     //주소지 defaultYn 변경
     public int setDefaultYn(UserAddr userAddr) {

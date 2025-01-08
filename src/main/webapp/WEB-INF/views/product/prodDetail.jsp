@@ -205,9 +205,9 @@ button {
 										<th>할인가/율</th>
 										<td colspan="3"><c:if test="${pOrA eq 2}">
 												<span>0&#37;</span>
-											</c:if> <c:if test="${pOrA eq 1}">
-												<span>${dcPrice}&#37;</span>
 											</c:if> <c:if test="${pOrA eq 0}">
+												<span>${dcPrice}&#37;</span>
+											</c:if> <c:if test="${pOrA eq 1}">
 												<span>${dcPrice}원</span>
 											</c:if></td>
 									</tr>

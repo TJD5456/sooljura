@@ -179,7 +179,7 @@
             },
             success: function (res) {
                 if (res === "1") {
-                    msg('알림', '제품 삭제 완료', 'success', "window.location.reload()");
+                    msg('알림', '제품 삭제 완료', 'success', "location.href = '/product/expPurchaseFrm.do';");
                 } else {
                 	console.log(res)
                     msg('알림', '오류가 발생했습니다', 'error');

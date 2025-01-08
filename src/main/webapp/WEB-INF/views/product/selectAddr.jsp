@@ -41,12 +41,13 @@ li {
 <body>
 <jsp:include page="/WEB-INF/views/common/textHeader.jsp"/>
 <main>
-    <br><br>
+    <br>
     <h2>주소지 관리</h2>
     <br>
     <hr>
     <br>
     <ul>
+	    <li style="list-style-type: none;"><input type="hidden" id="userKey" value="${loginUser.userKey}"></li>
 	    <c:forEach var="addr" items="${addrList}">
 	        <li style="list-style-type: none;">
 	            <div class="addrWrap">
@@ -78,12 +79,9 @@ li {
 	        <br>
 	    </c:forEach>
     </ul>
-    <input type="button" onclick="addAddr()" value="주소지 추가">
+    <input type="button" onclick="addAddr(this)" style="width:100%" value="주소지 추가">
 <script>
-function addAddr() {
-    location.href = "/user/addAddrFrm.do";
-}
-
+<%-- 주소지 삭제 --%>
 function delAddr(button) {
     const addrKey = $(button).closest('li').find('.addrKey').val();
     swal({
@@ -127,6 +125,7 @@ function delAddr(button) {
     });
 }
 
+<%-- 주소지 수정 --%>
 function updAddr(button) {
     const addrKey = $(button).closest('li').find('.addrKey').val();
     console.log(addrKey);
@@ -142,6 +141,7 @@ function updAddr(button) {
     --%>
 }
 
+<%-- 주소지 선택 --%>
 function selAddr(button){
 	const addrKey = $(button).closest('li').find('.addrKey').val();
 	
@@ -150,15 +150,22 @@ function selAddr(button){
 		type: "POST",
 		data : {
 			addrKey : addrKey
-		}
+		},
 		success : function(res){
-			
+			window.opener.chgAddrChild(res);
+			window.close();
 		},
 		error : function(){
 			console.log('주소지 선택 ajax 오류');
 		}
 	})
 }
+
+<%-- 주소지 추가 --%>
+function addAddr(button){
+	location.href = "/product/addBuyPageAddrFrm.do";
+}
+
 </script>
 </main>
 </body>

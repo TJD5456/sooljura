@@ -106,7 +106,6 @@
                 <input type="hidden" id="userKey" value="${loginUser.userKey}">
                 <input type="hidden" id="userEmail" value="${loginUser.userEmail}">
                 <input type="hidden" id="userPhone" value="${loginUser.userPhone}">
-                <input type="hidden" id="addrKey" value="${addr.addrKey}">
 
                 <div class="div-wrap">
                     <h2>배송지</h2>
@@ -116,9 +115,6 @@
                          ${addr.rcptNm}
                          <c:if test="${not empty addr.addrNm}">
                              (${addr.addrNm})
-                         </c:if>
-                         <c:if test="${addr.defaultYn == 1}">
-                             <span style="font-weight: lighter; color: #fc8173; border: 1px solid #fc8173; font-size: 15px; margin-left: 10px;">기본배송지</span>
                          </c:if>
                      </span>
                     </div>
@@ -237,7 +233,6 @@
                    let buyTel = $('#userPhone').val(); // 서버에서 받은 사용자 전화번호
                    let buyAddr = $('#addr').val() + $('#addrDetail').val(); // 서버에서 받은 사용자 주소
                    let buyPostCode = $('#addrCd').val(); // 우편번호는 임의 값 또는 추가 구현
-                   console.log(buyProdName);
 
                    // 아임포트 결제 요청
                    IMP.request_pay({
@@ -302,23 +297,55 @@
 
     //주소지 변경 버튼 클릭 시
     function chgAddr() {
-        $.ajax({
-            url: "/product/chgAddr.do",
-            type: "POST",
-            data: {
-                userKey: $('#userKey').val()
-            },
-            success: function (res) {
-                if (res === "1") {
+    	let userKey = $('#userKey').val();
+    	
+    	let popupWidth = 600;
+		let popupHeight = 750;
+		let top = (window.innerHeight - popupHeight) / 2 + window.screenY;
+		let left = (window.innerWidth - popupWidth) / 2 + window.screenX;
+		
+		window.open("/product/chgAddr.do?userKey="+userKey, "chgAddr", "width="+popupWidth+", top="+top+", height="+popupHeight+", left="+left);
+    }
+    //주소지 변경 팝업에서 호출하는 함수
+    function chgAddrChild(res){
+    	console.log(res);
+    	
+    	// addrKey 값 업데이트
+        const addrKeyInput = document.querySelector(".addrKey");
+        if (addrKeyInput) {
+            addrKeyInput.value = res.addrKey;
+        }
 
-                } else {
-                    msg('알림', '주소지 변경 중 오류가 발생했습니다', 'error');
-                }
-            },
-            error: function () {
-                console.log('주소지변경 ajax 오류');
+        // rcptNm 값 업데이트
+        const rcptNmSpan = document.querySelector(".addrWrap span:first-child");
+        if (rcptNmSpan) {
+            let rcptText = res.rcptNm;
+            if (res.addrNm && res.addrNm.trim() !== "") {
+                rcptText += `(${res.addrNm.trim()})`; // addrNm이 있는 경우 추가
             }
-        });
+            rcptNmSpan.textContent = rcptText;
+        }
+
+        // rcptPhone 값 업데이트
+        const rcptPhoneSpan = document.getElementById("rcptPhone");
+        if (rcptPhoneSpan) {
+            rcptPhoneSpan.textContent = res.rcptPhone;
+        }
+
+        // addr, addrDetail, addrCd 값 업데이트
+        const addrSpan = document.getElementById("addr");
+        const addrDetailSpan = document.getElementById("addrDetail");
+        const addrCdSpan = document.getElementById("addrCd");
+
+        if (addrSpan) {
+            addrSpan.textContent = res.addr;
+        }
+        if (addrDetailSpan) {
+            addrDetailSpan.textContent = res.addrDetail || ""; // addrDetail이 없을 경우 빈 문자열
+        }
+        if (addrCdSpan) {
+            addrCdSpan.textContent = `(${res.addrCd})`;
+        }
     }
 </script>
 </body>

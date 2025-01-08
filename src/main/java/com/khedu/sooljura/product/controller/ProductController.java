@@ -5,6 +5,7 @@ import com.khedu.sooljura.admin.model.vo.ProductImage;
 import com.khedu.sooljura.product.model.service.ProductService;
 import com.khedu.sooljura.product.model.vo.*;
 import com.khedu.sooljura.user.controller.UserController;
+import com.khedu.sooljura.user.model.vo.AddrListData;
 import com.khedu.sooljura.user.model.vo.User;
 import com.khedu.sooljura.user.model.vo.UserAddr;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -161,12 +162,6 @@ public class ProductController {
 	@PostMapping("productBuy.do")
 	@ResponseBody
 	public String productBuy(@RequestBody OrderHistory orderHistory) {
-		System.out.println(orderHistory.getImpUid());
-		System.out.println(orderHistory.getProdKeys());
-		System.out.println(orderHistory.getUserKey());
-		System.out.println(orderHistory.getAddrKey());
-		System.out.println(orderHistory.getOrderPrice());
-		System.out.println(orderHistory.getOrderCnt());
 		
 		// 제품 구매내역 DB에 넣기
 		int insertHistory = service.insertHistory(orderHistory);
@@ -229,7 +224,7 @@ public class ProductController {
 		return String.valueOf(result);
 	}
 
-/*		
+	
 	// 구매내역 페이지로 이동
 	@GetMapping("buyList.do")
 	public String buyList(HttpSession session, int reqPage, Model model) {
@@ -239,7 +234,7 @@ public class ProductController {
 
 		// 구매 내역에서 prodKey 리스트 추출
 		// OrderHistory 객체의 prodKey 추출
-		List<String> prodKey = orderHistory.getOrderHistory().stream().map(OrderHistory::getProdKey)
+/*		List<String> prodKey = orderHistory.getOrderHistory().stream().map(OrderHistory::getProdKey)
 				.collect(Collectors.toList());
 
 		// prodKey를 사용해 추가 데이터 가져오기
@@ -262,11 +257,11 @@ public class ProductController {
 		}
 
 		model.addAttribute("orderHistory", orderHistory.getOrderHistory());
-		model.addAttribute("pageNavi", orderHistory.getPageNavi());
+		model.addAttribute("pageNavi", orderHistory.getPageNavi());*/
 
 		return "product/buyList";
 	}
-*/
+
 	@PostMapping("productDcCnt")
 	@ResponseBody
 	public String productDcCnt(String prodKey, int prodCntVal, Model model) {
@@ -341,4 +336,27 @@ public class ProductController {
 		return "product/prodList";
 	}
 	
+	//결제페이지 주소지 팝업띄우기
+	@GetMapping("chgAddr.do")
+	public String chgAddr(String userKey, Model model) {
+		AddrListData addrList = userController.buyPageAddr(userKey);
+		
+		model.addAttribute("addrList", addrList.getAddrList());
+		return "product/selectAddr";
+	}
+	
+	//결제페이지 주소지 선택
+	@PostMapping("selAddr.do")
+	@ResponseBody
+	public UserAddr selAddr(String addrKey, Model model) {
+		return userController.selectAddr(addrKey);		
+	}
+	
+	//결제페이지 주소 팝업에서 주소지 추가 페이지 이동
+	@GetMapping("addBuyPageAddrFrm.do")
+	public String addBuyPageAddrFrm() {		
+		return "product/addBuyPageAddr";
+	}
+	
+	//결제페이지 주소지 팝업에서 주소지 수정
 }

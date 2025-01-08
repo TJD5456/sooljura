@@ -260,8 +260,18 @@ public class UserController {
 
         return "user/addrList";
     }
+    
+    //결제페이지 주소지선택 팝업
+    public AddrListData buyPageAddr(String userKey) {
+    	return service.addrList(userKey);
+    }
 
-    // 주소지 추가 페이지
+    //결제페이지 주소지 선택
+    public UserAddr selectAddr(String addrKey) {
+    	return service.selectAddr(addrKey);
+    }
+    
+    // 주소지 추가 페이지로 이동
     @GetMapping("addAddrFrm.do")
     public String addAddrFrm() {
         return "user/addAddr";
@@ -414,5 +424,7 @@ public class UserController {
 
         return "redirect:/";
     }
+
+
 
 }

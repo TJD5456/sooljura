@@ -182,20 +182,15 @@ public class ProductController {
 
 	// 제품 장바구니에 넣기
 	@GetMapping("insertBasket.do")
-	public String insertBasket(Basket basket) {
-		System.out.println("prodKey : " + basket.getProdKey());
-		System.out.println("userKey : " + basket.getUserKey());
-		System.out.println("basketCnt : " + basket.getBasketCnt());
-		
+	@ResponseBody
+	public String insertBasket(Basket basket) {		
 		basket.setBasketCd(1);
 		
 		//장바구니에 넣기 전 장바구니 테이블에 있는지 체크
 		int chkBasket = service.chkBasket(basket);
-		
 		if(chkBasket < 1) {	
 			//장바구니 테이블 삽입
 			int insertBasket = service.insertBasket(basket);
-			
 			if(insertBasket == 1) {			
 				return String.valueOf(insertBasket);
 			}
@@ -205,16 +200,13 @@ public class ProductController {
 
 	// 제품 찜하기
 	@GetMapping("insertLike.do")
+	@ResponseBody
 	public String insertLike(Basket basket) {
-		System.out.println("prodKey : " + basket.getProdKey());
-		System.out.println("userKey : " + basket.getUserKey());
-
 		basket.setBasketCd(2);
 		basket.setBasketCnt(0);
 		
 		//장바구니에 넣기 전 장바구니 테이블에 있는지 체크
 		int chkBasket = service.chkBasket(basket);
-		
 		if(chkBasket < 1) {
 			//좋아요 테이블 삽입
 			int insertLike = service.insertBasket(basket);
@@ -228,7 +220,7 @@ public class ProductController {
 	// 장바구니에서 제품 삭제
 	@GetMapping("delBasket.do")
 	@ResponseBody
-	public String delBasket(String userKey, String prodKey) {
+	public String delBasket(String userKey, String prodKey) {		
 		Basket basket = new Basket();
 		basket.setUserKey(userKey);
 		basket.setProdKey(prodKey);

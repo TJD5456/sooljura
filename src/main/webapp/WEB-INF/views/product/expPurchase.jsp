@@ -88,11 +88,11 @@
 
             <c:forEach var="productData" items="${basketList}">
                 <c:forEach var="product" items="${productData.productList}">
-
-                    <input type="hidden" class="prodKey" name="prodKeys" value="${product.prodKey}">
-                    <input type="hidden" class="prodCnt" value="${product.prodCnt}">
+					
 
                     <div class="div-wrap">
+	                    <input type="hidden" class="prodKey" name="prodKey" value="${product.prodKey}">
+	                    <input type="hidden" class="prodCnt" value="${product.prodCnt}">
                         <div class="center-div-items" style="width: 10px; padding:35px;">
                             <input type="checkbox" class="selProduct" value="${product.prodKey}">
                         </div>
@@ -163,9 +163,11 @@
         console.log("totalCnt : " + totalCnt + ", totalPrice : " + totalPrice);
     }
 
-
+	<%-- 장바구니 제품정보 삭제 --%>
     function delBasket(button) {
-        const prodKey = $('.prodKey').val();
+    	const prodKey = $(button).closest('.div-wrap').find('.prodKey').val();
+    	console.log("prodKey:", prodKey);
+    	
         const userKey = $('#userKey').val();
 
         $.ajax({
@@ -179,6 +181,7 @@
                 if (res === "1") {
                     msg('알림', '제품 삭제 완료', 'success', "window.location.reload()");
                 } else {
+                	console.log(res)
                     msg('알림', '오류가 발생했습니다', 'error');
                 }
             },

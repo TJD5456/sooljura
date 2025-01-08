@@ -237,12 +237,22 @@ button {
 								</tbody>
 							</table>
 							<div class="btns">
-								<div>
-									<button class="basketBtns" id="likedProd">찜하기</button>
-								</div>
-								<div>
-									<button class="basketBtns" id="prodBasket">장바구니</button>
-								</div>
+								<c:if test="${not empty loginUser}">
+									<div>
+										<button class="basketBtns" id="likedProd">찜하기</button>
+									</div>
+									<div>
+										<button class="basketBtns" id="prodBasket">장바구니</button>
+									</div>
+								</c:if>
+								<c:if test="${empty loginUser}">
+									<div>
+										<a href="/user/loginFrm.do"><button class="basketBtns">찜하기</button></a>
+									</div>
+									<div>
+										<a href="/user/loginFrm.do"><button class="basketBtns">장바구니</button></a>
+									</div>
+								</c:if>
 							</div>
 						</div>
 					</section>
@@ -364,7 +374,7 @@ button {
 						msg('알림', '장바구니 오류발생', 'error');
 					}
 				},
-				error : function(){
+				error : function(res){
 					console.log('장바구니 ajax 오류');
 				}
 			});

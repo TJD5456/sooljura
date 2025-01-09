@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/product/")
@@ -86,25 +85,34 @@ public class ProductController {
 	// 장바구니 페이지로 이동
 	@GetMapping("expPurchaseFrm.do")
 	public String expPurchase(HttpSession session, Model model) {
-		// 세션에서 userKey 가져오기(정상작동중)
-		User loginUser = (User) session.getAttribute("loginUser");
-		String userKey = ((User) loginUser).getUserKey();
-		// userKey 로 Basket 리스트 조회해서 prodKey 가져오기 (정상작동중)
-		ArrayList<Basket> findProdKey = service.findProdKey(userKey);
+	    // 세션에서 userKey 가져오기
+	    User loginUser = (User) session.getAttribute("loginUser");
+	    String userKey = loginUser.getUserKey();
 
-		if (findProdKey == null || findProdKey.isEmpty()) {
-			// Basket 리스트에서 prodKey 가 없는경우
-			model.addAttribute("basketList", Collections.emptyList());
-		} else {
-			// Basket 리스트에서 가져온 prodKey로 제품 정보 조회
-			List<ProductListData> prodInfoList = new ArrayList<>();
-			findProdKey.forEach(basket -> {
-				ProductListData prodInfo = service.prodInfo(basket.getProdKey());
-				prodInfoList.add(prodInfo);
-			});
-			model.addAttribute("basketList", prodInfoList);
-		}
-		return "product/expPurchase";
+	    // userKey로 Basket 리스트 조회
+	    ArrayList<Basket> findProdKey = service.findProdKey(userKey);
+
+	    if (findProdKey == null || findProdKey.isEmpty()) {
+	        // 장바구니가 비어 있는 경우
+	        model.addAttribute("basketList", Collections.emptyList());
+	    } else {
+	        // Basket 리스트와 관련된 제품 정보 가져오기
+	        List<Map<String, Object>> basketProductInfoList = new ArrayList<>();
+
+	        findProdKey.forEach(basket -> {
+	            // 제품 정보 조회
+	            ProductListData prodInfo = service.prodInfo(basket.getProdKey());
+	            Map<String, Object> basketProductInfo = new HashMap<>();
+
+	            // 장바구니 정보와 제품 정보를 함께 담음
+	            basketProductInfo.put("basket", basket);
+	            basketProductInfo.put("productList", prodInfo.getProductList());
+	            basketProductInfoList.add(basketProductInfo);
+	        });
+
+	        model.addAttribute("basketList", basketProductInfoList);
+	    }
+	    return "product/expPurchase";
 	}
 
 	@Autowired

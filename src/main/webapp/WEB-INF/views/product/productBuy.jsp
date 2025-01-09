@@ -151,7 +151,7 @@
                     </c:forEach>
                 </div>
                 <div class="fixed-div">
-                    <span id="orderSummary" style="font-size: 30px; margin-top: 10px;">총 0건의 주문금액 0원</span>
+                    <span id="orderSummary" style="font-size: 30px; margin-top: 10px;">총 <span id="totalCnt">0</span>건의 주문금액 <span id="totalPrice">0</span>원</span>
                     <input type="submit" id="buyBtn" onclick="reqPayment()"
                            style="border-radius: 10px; height: 50px; margin-top: 10px;" value="선택한 제품 구매하기">
                 </div>

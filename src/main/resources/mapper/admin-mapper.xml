@@ -194,4 +194,19 @@
         where user_key = #{userKey}
     </update>
 
+    <update id="editProd" parameterType="product">
+        update tbl_product
+        set prod_nm      = #{prodNm},
+            prod_price   = #{prodPrice},
+            prod_maker   = #{prodMaker},
+            prod_origin  = #{prodOrigin},
+            prod_intro   = #{prodIntro},
+            prod_cnt     = #{prodCnt},
+            prod_vol     = #{prodVol},
+            prod_proof   = #{prodProof},
+            trading_yn   = #{tradingYn},
+            category_key = #{categoryKey}
+        where prod_key = #{prodKey}
+    </update>
+
 </mapper>

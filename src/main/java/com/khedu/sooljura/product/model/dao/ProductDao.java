@@ -7,6 +7,7 @@ import com.khedu.sooljura.product.model.vo.OrderHistory;
 import com.khedu.sooljura.product.model.vo.ProductDiscountHistory;
 import com.khedu.sooljura.product.model.vo.ProductDiscountInfo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -107,5 +108,13 @@ public class ProductDao {
 	public int chkBasket(Basket basket) {
 		return sessionTemplate.selectOne("product.chkBasket", basket);
 	}
+
+    public List<ProductImage> selImg(String prodKey) {
+        return sessionTemplate.selectList("product.selImg", prodKey);
+    }
+
+    public String selCatNm(String prodKey) {
+        return sessionTemplate.selectOne("product.selCatNm", prodKey);
+    }
 
 }

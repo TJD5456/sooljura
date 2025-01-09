@@ -372,7 +372,7 @@ button {
 					userKey : $('#userKey').val()
 				},
 				success : function(res){
-					if(res == "1"){
+					if(res === "1"){
 						msg('알림', '장바구니 완료', 'success');
 					}else{
 						msg('알림', '장바구니 오류발생', 'error');
@@ -385,7 +385,7 @@ button {
 		});
 
 		function editProd() {
-			window.location = "/product/editProd.do?prodKey=" + "${prod.prodKey}";
+			window.location = "/product/editProdFrm.do?prodKey=" + "${prod.prodKey}";
 		}
 	</script>
 </body>

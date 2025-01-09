@@ -1,6 +1,9 @@
 package com.khedu.sooljura.product.controller;
 
+import com.khedu.sooljura.admin.model.dao.AdminDao;
+import com.khedu.sooljura.admin.model.service.AdminService;
 import com.khedu.sooljura.admin.model.vo.Product;
+import com.khedu.sooljura.admin.model.vo.ProductCategory;
 import com.khedu.sooljura.admin.model.vo.ProductImage;
 import com.khedu.sooljura.product.model.service.ProductService;
 import com.khedu.sooljura.product.model.vo.*;
@@ -24,9 +27,15 @@ import java.util.*;
 @Controller
 @RequestMapping("/product/")
 public class ProductController {
-	@Autowired
-	@Qualifier("productService")
-	private ProductService service;
+
+	private final ProductService service;
+	private final AdminService adminService;
+
+	public ProductController(@Qualifier("productService") ProductService service,
+							 @Qualifier("adminService") AdminService adminService) {
+		this.adminService = adminService;
+		this.service = service;
+	}
 
 	// 상세페이지
 	@GetMapping("prodDetail.do")
@@ -228,7 +237,6 @@ public class ProductController {
 		return String.valueOf(result);
 	}
 
-	
 	// 구매내역 페이지로 이동
 	@GetMapping("buyList.do")
 	public String buyList(HttpSession session, int reqPage, Model model, String userKey) {
@@ -346,10 +354,14 @@ public class ProductController {
 		return "product/updBuyPageAddr";
 	}
 
-	@GetMapping("editProd.do")
+	@GetMapping("editProdFrm.do")
 	public String editProd(String prodKey, Model model) {
-        System.out.println("prodKey: " + prodKey );
-        return "";
+		model.addAttribute("prodKey", prodKey);
+        model.addAttribute("prod", service.selOneProduct(prodKey));
+        model.addAttribute("img", service.selImg(prodKey));
+		model.addAttribute("catNm", service.selCatNm(prodKey));
+		model.addAttribute("catList", adminService.getAllCategoryInfos());
+        return "product/editProd";
 	}
 
 }

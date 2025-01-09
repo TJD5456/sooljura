@@ -261,4 +261,15 @@ public class AdminController {
         return serv.changeUserLevel(userKeyArr, userCdArr);
     }
 
+    @PostMapping("editProd")
+    public String editProd(Product product) {
+        int editRes = serv.editProd(product);
+
+        if (editRes > 0) {
+            return "redirect:/admin/manageProducts.do";
+        } else {
+            return "redirect:/product/prodDetail.do?=" + product.getProdKey();
+        }
+    }
+
 }

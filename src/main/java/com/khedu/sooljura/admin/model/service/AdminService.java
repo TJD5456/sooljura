@@ -121,4 +121,8 @@ public class AdminService {
         return result;
     }
 
+    public int editProd(Product product) {
+        return dao.editProd(product);
+    }
+
 }

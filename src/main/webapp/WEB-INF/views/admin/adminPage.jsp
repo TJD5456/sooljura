@@ -32,22 +32,19 @@
                     <th colspan="2"><a href="/admin/manageProducts.do">상품 등록</a></th>
                 </tr>
                 <tr>
-                    <th colspan="2"><a href="/admin/orderHistyr.do">구매내역</a></th>
-                </tr>
-                <tr>
                     <th colspan="2"><a href="/admin/manageYoutube.do">유튜브 관리</a></th>
                 </tr>
                 <tr>
                     <th><a href="/admin/managePosts.do">게시글 관리</a></th>
-                    <td>${numberOfUnCheckedPost}</td>
+                    <td>${newPost}</td>
                 </tr>
                 <tr>
                     <th><a href="/admin/manageChats.do">1대1 채팅</a></th>
-                    <td>${numberOfUnCheckedChats}</td>
+                    <td>${newChat}</td>
                 </tr>
                 <tr>
                     <th><a href="/admin/manageLevel.do">회원 레벨 관리</a></th>
-                    <td>${numberOfUnCheckedNewUser}</td>
+                    <td>${newUser}</td>
                 </tr>
                 </tbody>
             </table>

@@ -3,8 +3,8 @@
 <html>
 <head>
     <title>chatFrm.jsp</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common.css"/>
-    <script src="${pageContext.request.contextPath}/resources/jquery/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="/resources/css/common.css"/>
+    <script src="/resources/jquery/jquery-3.7.1.min.js"></script>
     <style>
         html, body {
             margin: 0;

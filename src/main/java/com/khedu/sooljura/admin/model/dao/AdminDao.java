@@ -21,12 +21,12 @@ public class AdminDao {
         this.template = template;
     }
 
-    public int numberOfUnCheckedPost() {
-        return template.selectOne("admin.numberOfUnCheckedPost");
+    public int selNewPost() {
+        return template.selectOne("admin.selNewPost");
     }
 
-    public int numberOfUncheckedNewUser() {
-        return template.selectOne("admin.numberOfUncheckedNewUser");
+    public int newUser() {
+        return template.selectOne("admin.newUser");
     }
 
     public String selectProdKey() {

@@ -5,8 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <title>chat.jsp</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common.css"/>
-    <script src="${pageContext.request.contextPath}/resources/jquery/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="/resources/css/common.css"/>
+    <script src="/resources/jquery/jquery-3.7.1.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -213,12 +213,10 @@
             $('#chatMsg').val("");
         },
         deleteChat: function () {
-            // 방 나가기 == 삭제
             let sendObj = {};
             sendObj.type = "delete";
             sendObj.roomKey = roomKey;
             sendObj.userKey = userKey;
-
             ws.send(JSON.stringify(sendObj));
 
             window.location = "/chat/toChatList.do";

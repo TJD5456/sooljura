@@ -8,6 +8,14 @@
         .currentYoutube {
             display: block;
         }
+
+        input, textarea {
+            padding: 4px;
+        }
+
+        input {
+            margin-right: 4px;
+        }
     </style>
 </head>
 <body>

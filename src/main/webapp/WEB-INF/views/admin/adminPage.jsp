@@ -29,22 +29,22 @@
             <table>
                 <tbody>
                 <tr>
-                    <th colspan="2"><a href="${pageContext.request.contextPath}/admin/manageProducts.do">상품 등록</a></th>
+                    <th colspan="2"><a href="/admin/manageProducts.do">상품 등록</a></th>
                 </tr>
                 <tr>
-                    <th colspan="2"><a href="${pageContext.request.contextPath}/admin/manageYoutube.do">유튜브 관리</a></th>
+                    <th colspan="2"><a href="/admin/manageYoutube.do">유튜브 관리</a></th>
                 </tr>
                 <tr>
-                    <th><a href="${pageContext.request.contextPath}/admin/managePosts.do">게시글 관리</a></th>
-                    <td>${numberOfUnCheckedPost}</td>
+                    <th><a href="/admin/managePosts.do">게시글 관리</a></th>
+                    <td>${newPost}</td>
                 </tr>
                 <tr>
-                    <th><a href="${pageContext.request.contextPath}/admin/manageChats.do">1대1 채팅</a></th>
-                    <td>${numberOfUnCheckedChats}</td>
+                    <th><a href="/admin/manageChats.do">1대1 채팅</a></th>
+                    <td>${newChat}</td>
                 </tr>
                 <tr>
-                    <th><a href="${pageContext.request.contextPath}/admin/manageLevel.do">회원 레벨 관리</a></th>
-                    <td>${numberOfUnCheckedNewUser}</td>
+                    <th><a href="/admin/manageLevel.do">회원 레벨 관리</a></th>
+                    <td>${newUser}</td>
                 </tr>
                 </tbody>
             </table>
@@ -56,11 +56,11 @@
 
 <script>
     $(function () {
-        let uploadYoutubeResult = "${uploadYoutubeResult}";
+        let ytRes = "${ytRes}";
 
-        if (uploadYoutubeResult === "1") {
+        if (ytRes === "1") {
             window.alert("유튜브 등록 성공");
-        } else if (uploadYoutubeResult === "0") {
+        } else if (ytRes === "0") {
             window.alert("유튜브 등록 중 오류가 발생하였습니다");
         }
     });

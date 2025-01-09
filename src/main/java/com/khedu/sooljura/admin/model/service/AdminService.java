@@ -62,12 +62,12 @@ public class AdminService {
         return (ArrayList<ProductCategory>) dao.getAllCategoryInfos();
     }
 
-    public int numberOfUnCheckedPost() {
-        return dao.numberOfUnCheckedPost();
+    public int selNewPost() {
+        return dao.selNewPost();
     }
 
-    public int numberOfUnCheckedNewUser() {
-        return dao.numberOfUncheckedNewUser();
+    public int newUser() {
+        return dao.newUser();
     }
 
     public int uploadYoutube(Youtube youtube) {

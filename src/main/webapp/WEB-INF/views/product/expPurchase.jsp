@@ -4,66 +4,66 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>sooljura</title>
-    <style>
-        main {
-            background-color: #EFECE5;
-        }
+<meta charset="UTF-8">
+<title>sooljura</title>
+<style>
+main {
+    background-color: #EFECE5;
+}
 
-        .div-wrap {
-            margin: 0 auto;
-            width: 60%;
-            display: flex;
-            border: 1px solid gray;
-            height: 100px;
-            margin-top: 10px;
-            background-color: #EFECE5;
-        }
+.div-wrap {
+    margin: 0 auto;
+    width: 60%;
+    display: flex;
+    border: 1px solid gray;
+    height: 100px;
+    margin-top: 10px;
+    background-color: #EFECE5;
+}
 
-        .center-div-items {
-            padding: 25px;
-        }
+.center-div-items {
+    padding: 25px;
+}
 
-        .center-div-items > button {
-            width: 30px;
-            height: 15px;
-        }
+.center-div-items > button {
+    width: 30px;
+    height: 15px;
+}
 
-        .fixed-div {
-            position: fixed;
-            display: flex;
-            width: 100%;
-            height: 70px;
-            justify-content: center;
-            border-top: 1px solid gray;
-            bottom: 0;
-            background-color: #EFECE5;
-        }
+.fixed-div {
+    position: fixed;
+    display: flex;
+    width: 100%;
+    height: 70px;
+    justify-content: center;
+    border-top: 1px solid gray;
+    bottom: 0;
+    background-color: #EFECE5;
+}
 
-        .prodNm, .prodPrice {
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 10px;
-            border: none;
-            background-color: #EFECE5;
-        }
+.prodNm, .prodPrice {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+    border: none;
+    background-color: #EFECE5;
+}
 
-        .center-div-items > input[type="button"] {
-            border: none;
-            border-radius: 15px;
-            color: #efece5;
-            background-color: #fc8173;
-            box-shadow: 1px 1px 1px 1px var(--button-shadow);
-            height: 25px;
-            width: 60px;
-        }
+.center-div-items > input[type="button"] {
+    border: none;
+    border-radius: 15px;
+    color: #efece5;
+    background-color: #fc8173;
+    box-shadow: 1px 1px 1px 1px var(--button-shadow);
+    height: 25px;
+    width: 60px;
+}
 
-        .center-div-items > input[type="button"]:hover {
-            background-color: #f5afa5;
-            box-shadow: 1px 1px 1px 1px var(--button-background);
-        }
-    </style>
+.center-div-items > input[type="button"]:hover {
+    background-color: #f5afa5;
+    box-shadow: 1px 1px 1px 1px var(--button-background);
+}
+</style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>

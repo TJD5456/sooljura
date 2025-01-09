@@ -75,7 +75,7 @@ public class ProductService {
 
         //구매목록 정보
         ArrayList<OrderHistory> list = (ArrayList<OrderHistory>) dao.orderList(map);
-
+        
         //구매목록 갯수
         int totCnt = dao.orderHistoryCnt(userKey);
         int totPage = 0;

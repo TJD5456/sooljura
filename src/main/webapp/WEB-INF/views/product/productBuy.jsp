@@ -279,7 +279,9 @@
                                data: JSON.stringify(orderPayload), // 주문 정보와 결제 정보를 JSON 으로 변환
                                success: function (res) {
                                    if (res === '1') {
-                                       msg('알림', '결제가 완료되었습니다', 'success', "location.href = '/product/buyList.do?reqPage=1';");
+                                	   let userKey = $('#userKey').val();
+                                	   
+                                       msg('알림', '결제가 완료되었습니다', 'success', "location.href = '/product/buyList.do?reqPage=1&userKey=" + userKey + "';");
                                    } else {
                                        msg('알림', '주문 저장 실패', 'error');
                                    }

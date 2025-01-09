@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/product/")
@@ -239,15 +240,21 @@ public class ProductController {
 
 	// 구매내역 페이지로 이동
 	@GetMapping("buyList.do")
-	public String buyList(HttpSession session, int reqPage, Model model, String userKey) {
-		// userKey로 구매내역 가져오기
-		System.out.println("userKey : " + userKey);
-		ProductListData orderHistory = service.orderList(userKey, reqPage);
-		System.out.println("orderHistory : " + orderHistory);
-		model.addAttribute("orderHistory", orderHistory.getOrderHistory());
-		model.addAttribute("pageNavi", orderHistory.getPageNavi());
+	public String buyList(int reqPage, Model model, String userKey) {
+	    // 1. 사용자 구매 내역 가져오기
+	    ProductListData ohList = service.orderList(userKey, reqPage);
 
-		return "product/buyList";
+	    // 2. orderHistory와 productList 매핑
+	    ohList.getOrderHistory().forEach(order -> {
+	        // prodKey를 String 타입으로 받아 ProductListData 객체 반환
+	        ProductListData productData = service.prodInfo(order.getProdKey());
+	        order.setProductList(productData.getProductList()); // ProductListData에서 productList 설정
+	    });
+
+	    // 3. Model에 데이터 추가
+	    model.addAttribute("orderHistory", ohList.getOrderHistory());
+	    model.addAttribute("pageNavi", ohList.getPageNavi());
+	    return "product/buyList";
 	}
 
 	@PostMapping("productDcCnt")

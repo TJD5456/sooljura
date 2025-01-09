@@ -36,34 +36,43 @@ main {
 <main>
     <jsp:include page="/WEB-INF/views/common/header.jsp"/>
     <h2>구매내역</h2>
-	<br>    
-   	<hr>
-   	<br>
-    <!-- 구매 내역 순회 -->
-    <c:set var="previousDateTime" value="" scope="page" />
-	<c:forEach var="orderHistory" items="${orderHistory}">
-	    <!-- 현재 주문의 날짜 및 시간 추출 (yyyy-MM-dd HH:mm:ss 형식으로) -->
-	    <c:set var="currentDateTime" value="${orderHistory.orderDate}" />
-	
-	    <!-- 새로운 날짜 및 시간이 시작될 때만 출력 -->
-	    <div class="div-wrap">
-	        <c:if test="${empty previousDateTime or previousDateTime != currentDateTime}">
-	            <span id="payDay" style="font-size: 15px;">결제일 : ${currentDateTime}</span><br>
-	            <!-- 이전 날짜 및 시간을 현재 값으로 업데이트 -->
-	            <c:set var="previousDateTime" value="${currentDateTime}" scope="page" />
-	        </c:if>
-	
-	        <!-- 해당 결제 그룹의 제품 출력 -->
-	        <c:forEach var="product" items="${orderHistory.productList}">
-	            <div class="center-div-items">
-	                <span class="prodNm">${product.prodNm}</span> <!-- 제품 이름 -->
-	            </div>
-	            <div class="center-div-items">
-	                <span class="prodPrice">${product.prodPrice}</span> <!-- 제품 가격 -->
-	            </div>
-	        </c:forEach>
-	    </div>
-	</c:forEach>
+    <br>
+    <hr>
+    <br>
+    
+    <!-- 구매내역이 없을 때 메시지 표시 -->
+    <c:if test="${empty orderHistory}">
+        <h2>구매내역이 없습니다</h2>
+    </c:if>
+
+    <!-- 구매 내역이 있을 때만 순회 -->
+    <c:if test="${not empty orderHistory}">
+        <!-- 이전 날짜와 시간을 저장 -->
+        <c:set var="previousDateTime" value="" scope="page"/>
+        <c:forEach var="orderHistory" items="${orderHistory}">
+            <!-- 현재 주문의 날짜 및 시간 추출 (yyyy-MM-dd HH:mm:ss 형식으로) -->
+            <c:set var="currentDateTime" value="${orderHistory.orderDate}"/>
+        
+            <!-- 새로운 날짜 및 시간이 시작될 때만 출력 -->
+            <div class="div-wrap">
+                <c:if test="${empty previousDateTime or previousDateTime != currentDateTime}">
+                    <span id="payDay" style="font-size: 15px;">결제일 : ${currentDateTime}</span><br>
+                    <!-- 이전 날짜 및 시간을 현재 값으로 업데이트 -->
+                    <c:set var="previousDateTime" value="${currentDateTime}" scope="page"/>
+                </c:if>
+        
+                <!-- 해당 결제 그룹의 제품 출력 -->
+                <c:forEach var="product" items="${orderHistory.productList}">
+                    <div class="center-div-items">
+                        <span class="prodNm">${product.prodNm}</span> <!-- 제품 이름 -->
+                    </div>
+                    <div class="center-div-items">
+                        <span class="prodPrice">${product.prodPrice}</span> <!-- 제품 가격 -->
+                    </div>
+                </c:forEach>
+            </div>
+        </c:forEach>
+    </c:if>
 </main>
 </body>
 </html>

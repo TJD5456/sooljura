@@ -224,7 +224,6 @@ public class ProductController {
 		int result = service.delBasket(basket);
 		return String.valueOf(result);
 	}
-
 	
 	// 구매내역 페이지로 이동
 	@GetMapping("buyList.do")

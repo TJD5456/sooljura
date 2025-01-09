@@ -49,7 +49,7 @@ public class AdminController {
     }
 
     @GetMapping("adminPage.do")
-    public String adminPage(HttpSession session, Model model, String uploadYoutubeResult) {
+    public String adminPage(HttpSession session, Model model, String ytRes) {
         int newPost = serv.selNewPost();
         model.addAttribute("newPost", newPost);
 
@@ -64,8 +64,8 @@ public class AdminController {
         int newChat = unRead + noAdmin;
         model.addAttribute("newChat", newChat);
 
-        if (uploadYoutubeResult != null) {
-            model.addAttribute("uploadYoutubeResult", uploadYoutubeResult);
+        if (ytRes != null) {
+            model.addAttribute("ytRes", ytRes);
         }
         return "/admin/adminPage";
     }
@@ -88,10 +88,10 @@ public class AdminController {
     }
 
     @GetMapping("manageYoutube.do")
-    public String manageYoutube(String uploadYoutubeResult, Model model) {
+    public String manageYoutube(String ytRes, Model model) {
 
-        if (uploadYoutubeResult != null) {
-            model.addAttribute("uploadYoutubeResult", uploadYoutubeResult);
+        if (ytRes != null) {
+            model.addAttribute("ytRes", ytRes);
         }
 
         Youtube youtube = serv.selectYoutubeUrl();
@@ -118,7 +118,7 @@ public class AdminController {
     @GetMapping("uploadYoutube")
     public String uploadYoutube(Youtube youtube) {
         int result = serv.uploadYoutube(youtube);
-        return "forward:/admin/adminPage.do?uploadYoutubeResult=" + result;
+        return "forward:/admin/adminPage.do?ytRes=" + result;
     }
 
     @GetMapping("managePosts.do")

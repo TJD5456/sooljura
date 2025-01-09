@@ -56,11 +56,11 @@
 
 <script>
     $(function () {
-        let uploadYoutubeResult = "${uploadYoutubeResult}";
+        let ytRes = "${ytRes}";
 
-        if (uploadYoutubeResult === "1") {
+        if (ytRes === "1") {
             window.alert("유튜브 등록 성공");
-        } else if (uploadYoutubeResult === "0") {
+        } else if (ytRes === "0") {
             window.alert("유튜브 등록 중 오류가 발생하였습니다");
         }
     });

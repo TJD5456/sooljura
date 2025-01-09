@@ -86,7 +86,6 @@ button {
 .hrLine {
 	margin-bottom: 50px;
 	margin-top: 50px;
-	margin-bottom: 50px;
 	border-bottom: 1px solid grey;
 	border-top: 1px solid grey;
 }
@@ -96,7 +95,6 @@ button {
 	justify-content: center;
 	margin-top: 50px;
 	margin-bottom: 50px;
-	margin-top: 50px;
 }
 
 .comment-form {
@@ -105,9 +103,9 @@ button {
 
 .cntBtn {
 	margin: 0;
+	margin-bottom: 2px;
 	height: 20px;
 	width: 20px;
-	margin-bottom: 2px;
 	box-shadow: 1px 1px 1px 1px #d2210d !important;
 }
 
@@ -146,6 +144,11 @@ button {
 	<main>
 		<jsp:include page="/WEB-INF/views/common/header.jsp" />
 		<div class="wrapper">
+			<c:if test="${userCd == 0}">
+				<div class="edit-btn">
+					<button onclick="editProd();">제품 수정</button>
+				</div>
+			</c:if>
 			<div class="content">
 				<div class="goodsBox">
 					<!-- 상품이미지 미리보기 시작 { -->
@@ -282,7 +285,8 @@ button {
 		<jsp:include page="/WEB-INF/views/common/remote.jsp" />
 		<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 	</main>
-	<script>	
+
+	<script>
 		$('#cntBtnUp').on('click', function(){
 			var currentValue = parseInt($('#prodCnt').val()) || 0;
 			$('#prodCnt').val(currentValue + 1).trigger('change');
@@ -379,6 +383,10 @@ button {
 				}
 			});
 		});
+
+		function editProd() {
+			window.location = "/product/editProd.do?prodKey=" + "${prod.prodKey}";
+		}
 	</script>
 </body>
 </html>

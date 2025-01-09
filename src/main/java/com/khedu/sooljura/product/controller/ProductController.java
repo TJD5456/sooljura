@@ -30,7 +30,7 @@ public class ProductController {
 
 	// 상세페이지
 	@GetMapping("prodDetail.do")
-	public String prodDetail(String prodKey, Model model, HttpServletRequest request, HttpServletResponse response)
+	public String prodDetail(String prodKey, Model model, HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws ServletException, IOException {
 		Product prod = service.selOneProduct(prodKey);
 		if (prod.getTradingYn() < 1) {
@@ -75,13 +75,17 @@ public class ProductController {
 			String priceWithComma = String.format("%,d", price);
 			model.addAttribute("payPrice", priceWithComma);
 		}
-		
+
 		model.addAttribute("retailPrice", price);
 		model.addAttribute("prodImg", prodImg);
 		model.addAttribute("prod", prod);
+
+		User admin = (User)session.getAttribute("loginUser");
+		model.addAttribute("userCd", admin.getUserCd());
+
 		return "product/prodDetail";
 	}
-	
+
 	// 장바구니 페이지로 이동
 	@GetMapping("expPurchaseFrm.do")
 	public String expPurchase(HttpSession session, Model model) {
@@ -341,4 +345,11 @@ public class ProductController {
 		model.addAttribute("addrInfo", addrInfo);
 		return "product/updBuyPageAddr";
 	}
+
+	@GetMapping("editProd.do")
+	public String editProd(String prodKey, Model model) {
+        System.out.println("prodKey: " + prodKey );
+        return "";
+	}
+
 }

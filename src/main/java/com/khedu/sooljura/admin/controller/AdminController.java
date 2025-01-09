@@ -38,28 +38,28 @@ import java.util.Random;
 @RequestMapping("/admin/")
 public class AdminController {
 
-    private final AdminService adminService;
-    private final ChatService chatService;
-    private final PostService postService;
+    private final AdminService serv;
+    private final ChatService cServ;
+    private final PostService pServ;
 
     public AdminController(@Qualifier("adminService") AdminService adminService, @Qualifier("chatService") ChatService chatService, @Qualifier("postService") PostService postService) {
-        this.adminService = adminService;
-        this.chatService = chatService;
-        this.postService = postService;
+        this.serv = adminService;
+        this.cServ = chatService;
+        this.pServ = postService;
     }
 
     @GetMapping("adminPage.do")
     public String adminPage(HttpSession session, Model model, String uploadYoutubeResult) {
-        int newPost = adminService.selNewPost();
+        int newPost = serv.selNewPost();
         model.addAttribute("newPost", newPost);
 
-        int newUser = adminService.newUser();
+        int newUser = serv.newUser();
         model.addAttribute("newUser", newUser);
 
-        User loginAdmin = (User) session.getAttribute("loginUser");
-        String adminKey = loginAdmin.getUserKey();
-        int unRead = chatService.selUnread(adminKey);
-        int noAdmin = chatService.selNoAdmin();
+        User admin = (User) session.getAttribute("loginUser");
+        String adminKey = admin.getUserKey();
+        int unRead = cServ.selUnread(adminKey);
+        int noAdmin = cServ.selNoAdmin();
 
         int newChat = unRead + noAdmin;
         model.addAttribute("newChat", newChat);
@@ -78,10 +78,10 @@ public class AdminController {
             model.addAttribute("manageCategoryResult", manageCategoryResult);
         }
 
-        ArrayList<Product> products = adminService.getAllProductsInfo();
+        ArrayList<Product> products = serv.getAllProductsInfo();
         model.addAttribute("products", products);
 
-        ArrayList<ProductCategory> categoryList = adminService.getAllCategoryInfos();
+        ArrayList<ProductCategory> categoryList = serv.getAllCategoryInfos();
         model.addAttribute("categoryList", categoryList);
 
         return "/admin/manageProducts";
@@ -94,20 +94,20 @@ public class AdminController {
             model.addAttribute("uploadYoutubeResult", uploadYoutubeResult);
         }
 
-        Youtube youtube = adminService.selectYoutubeUrl();
+        Youtube youtube = serv.selectYoutubeUrl();
         if (youtube != null) {
             model.addAttribute("youtube", youtube);
 
-            ProductImage prod1 = adminService.selectProductImageInfo(youtube.getProdKey1());
+            ProductImage prod1 = serv.selectProductImageInfo(youtube.getProdKey1());
             model.addAttribute("prod1", prod1);
 
             if (youtube.getProdKey2() != null) {
-                ProductImage prod2 = adminService.selectProductImageInfo(youtube.getProdKey2());
+                ProductImage prod2 = serv.selectProductImageInfo(youtube.getProdKey2());
                 model.addAttribute("prod2", prod2);
             }
 
             if (youtube.getProdKey3() != null) {
-                ProductImage prod3 = adminService.selectProductImageInfo(youtube.getProdKey3());
+                ProductImage prod3 = serv.selectProductImageInfo(youtube.getProdKey3());
                 model.addAttribute("prod3", prod3);
             }
         }
@@ -117,14 +117,14 @@ public class AdminController {
 
     @GetMapping("uploadYoutube")
     public String uploadYoutube(Youtube youtube) {
-        int result = adminService.uploadYoutube(youtube);
+        int result = serv.uploadYoutube(youtube);
         return "forward:/admin/adminPage.do?uploadYoutubeResult=" + result;
     }
 
     @GetMapping("managePosts.do")
     public String managePosts(Model model) {
         int requestPostCd = 2;
-        PostPageData postPageDataList = postService.selectPostList(1, requestPostCd);
+        PostPageData postPageDataList = pServ.selectPostList(1, requestPostCd);
         model.addAttribute("postList", postPageDataList.getList());
         model.addAttribute("pageNavi", postPageDataList.getPageNavi());
         return "/admin/managePosts";
@@ -133,17 +133,17 @@ public class AdminController {
     @GetMapping("manageChats.do")
     public String manageChats(HttpSession session, Model model) {
         User loginAdmin = (User) session.getAttribute("loginUser");
-        ArrayList<Room> roomList = chatService.getRoomList(loginAdmin);
+        ArrayList<Room> roomList = cServ.getRoomList(loginAdmin);
         model.addAttribute("roomList", roomList);
         return "/admin/manageChats";
     }
 
     @GetMapping("manageLevel.do")
     public String manageLevel(Model model) {
-        ArrayList<User> userList = adminService.selectAllUserForLevelChange();
+        ArrayList<User> userList = serv.selectAllUserForLevelChange();
 
         for (int i = 0; userList != null && i < userList.size(); i++) {
-            userList.get(i).setPostCnt(adminService.selectUserPostCnt(userList.get(i).getUserKey()));
+            userList.get(i).setPostCnt(serv.selectUserPostCnt(userList.get(i).getUserKey()));
         }
 
         model.addAttribute("userList", userList);
@@ -216,7 +216,7 @@ public class AdminController {
                 }
             }
         }
-        int uploadProductResult = adminService.uploadProduct(product, imageList);
+        int uploadProductResult = serv.uploadProduct(product, imageList);
 
         if (uploadProductResult > 0) {
             return "redirect:/admin/manageProducts.do";
@@ -232,14 +232,14 @@ public class AdminController {
 
     @GetMapping("manageCategory")
     public String manageCategory(ProductCategory category) {
-        int manageCategoryResult = adminService.createCategory(category);
+        int manageCategoryResult = serv.createCategory(category);
         return "redirect:/admin/manageProducts.do?manageCategoryResult=" + manageCategoryResult;
     }
 
     @GetMapping(value = "selectLowerCategoryLevel", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public String selectLowerCategoryLevel(String higherCategoryKey) {
-        ArrayList<ProductCategory> lowerCategories = adminService.selectLowerCategoryLevel(higherCategoryKey);
+        ArrayList<ProductCategory> lowerCategories = serv.selectLowerCategoryLevel(higherCategoryKey);
         Gson gson = new Gson();
         return gson.toJson(lowerCategories);
     }
@@ -247,7 +247,7 @@ public class AdminController {
     @GetMapping(value = "searchProductName", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public String searchProductName(String currentInputValue) {
-        ArrayList<Product> productList = adminService.searchProductName(currentInputValue);
+        ArrayList<Product> productList = serv.searchProductName(currentInputValue);
         Gson gson = new Gson();
         return gson.toJson(productList);
     }
@@ -258,7 +258,7 @@ public class AdminController {
         String[] userKeyArr = userKeyString.split(",");
         String[] userCdArr = userCdString.split(",");
 
-        return adminService.changeUserLevel(userKeyArr, userCdArr);
+        return serv.changeUserLevel(userKeyArr, userCdArr);
     }
 
 }

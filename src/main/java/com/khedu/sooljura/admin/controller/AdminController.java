@@ -50,19 +50,19 @@ public class AdminController {
 
     @GetMapping("adminPage.do")
     public String adminPage(HttpSession session, Model model, String uploadYoutubeResult) {
-        int numberOfUnCheckedPost = adminService.numberOfUnCheckedPost();
-        model.addAttribute("numberOfUnCheckedPost", numberOfUnCheckedPost);
+        int newPost = adminService.selNewPost();
+        model.addAttribute("newPost", newPost);
 
-        int numberOfUnCheckedNewUser = adminService.numberOfUnCheckedNewUser();
-        model.addAttribute("numberOfUnCheckedNewUser", numberOfUnCheckedNewUser);
+        int newUser = adminService.newUser();
+        model.addAttribute("newUser", newUser);
 
         User loginAdmin = (User) session.getAttribute("loginUser");
         String adminKey = loginAdmin.getUserKey();
-        int selectUnreadChats = chatService.selectUnreadChats(adminKey);
-        int selectChatsWithNoAdmin = chatService.selectChatsWithNoAdmin();
+        int unRead = chatService.selUnread(adminKey);
+        int noAdmin = chatService.selNoAdmin();
 
-        int numberOfUnCheckedChats = selectUnreadChats + selectChatsWithNoAdmin;
-        model.addAttribute("numberOfUnCheckedChats", numberOfUnCheckedChats);
+        int newChat = unRead + noAdmin;
+        model.addAttribute("newChat", newChat);
 
         if (uploadYoutubeResult != null) {
             model.addAttribute("uploadYoutubeResult", uploadYoutubeResult);

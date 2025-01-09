@@ -2,17 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="chat">
 
-    <select id="selectChatsWithNoAdmin" resultType="int">
-        select count(*)
-        from tbl_room
-        where admin_key is null
-    </select>
-
-    <select id="selectUnreadChats" parameterType="string" resultType="int">
+    <select id="selUnread" parameterType="string" resultType="int">
         select count(*)
         from tbl_room
         where admin_key = #{_adminKey}
-        and read_yn = 0
+          and read_yn = 0
+    </select>
+
+    <select id="selNoAdmin" resultType="int">
+        select count(*)
+        from tbl_room
+        where admin_key is null
     </select>
 
     <select id="getRoomList" parameterType="user" resultType="room">

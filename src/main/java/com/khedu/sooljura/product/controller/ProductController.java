@@ -90,8 +90,10 @@ public class ProductController {
 		model.addAttribute("prodImg", prodImg);
 		model.addAttribute("prod", prod);
 
-		User admin = (User)session.getAttribute("loginUser");
-		model.addAttribute("userCd", admin.getUserCd());
+		if (session.getAttribute("loginUser") != null) {
+			User admin = (User) session.getAttribute("loginUser");
+			model.addAttribute("userCd", admin.getUserCd());
+		}
 
 		return "product/prodDetail";
 	}

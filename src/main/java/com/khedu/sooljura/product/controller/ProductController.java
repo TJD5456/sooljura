@@ -1,6 +1,9 @@
 package com.khedu.sooljura.product.controller;
 
+import com.khedu.sooljura.admin.model.dao.AdminDao;
+import com.khedu.sooljura.admin.model.service.AdminService;
 import com.khedu.sooljura.admin.model.vo.Product;
+import com.khedu.sooljura.admin.model.vo.ProductCategory;
 import com.khedu.sooljura.admin.model.vo.ProductImage;
 import com.khedu.sooljura.product.model.service.ProductService;
 import com.khedu.sooljura.product.model.vo.*;
@@ -24,13 +27,19 @@ import java.util.*;
 @Controller
 @RequestMapping("/product/")
 public class ProductController {
-	@Autowired
-	@Qualifier("productService")
-	private ProductService service;
+
+	private final ProductService service;
+	private final AdminService adminService;
+
+	public ProductController(@Qualifier("productService") ProductService service,
+							 @Qualifier("adminService") AdminService adminService) {
+		this.adminService = adminService;
+		this.service = service;
+	}
 
 	// 상세페이지
 	@GetMapping("prodDetail.do")
-	public String prodDetail(String prodKey, Model model, HttpServletRequest request, HttpServletResponse response)
+	public String prodDetail(String prodKey, Model model, HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws ServletException, IOException {
 		Product prod = service.selOneProduct(prodKey);
 		if (prod.getTradingYn() < 1) {
@@ -75,13 +84,19 @@ public class ProductController {
 			String priceWithComma = String.format("%,d", price);
 			model.addAttribute("payPrice", priceWithComma);
 		}
-		
+
 		model.addAttribute("retailPrice", price);
 		model.addAttribute("prodImg", prodImg);
 		model.addAttribute("prod", prod);
+
+		if (session.getAttribute("loginUser") != null) {
+			User admin = (User) session.getAttribute("loginUser");
+			model.addAttribute("userCd", admin.getUserCd());
+		}
+
 		return "product/prodDetail";
 	}
-	
+
 	// 장바구니 페이지로 이동
 	@GetMapping("expPurchaseFrm.do")
 	public String expPurchase(HttpSession session, Model model) {
@@ -232,7 +247,7 @@ public class ProductController {
 		int result = service.delBasket(basket);
 		return String.valueOf(result);
 	}
-	
+
 	// 구매내역 페이지로 이동
 	@GetMapping("buyList.do")
 	public String buyList(int reqPage, Model model, String userKey) {
@@ -355,4 +370,15 @@ public class ProductController {
 		model.addAttribute("addrInfo", addrInfo);
 		return "product/updBuyPageAddr";
 	}
+
+	@GetMapping("editProdFrm.do")
+	public String editProd(String prodKey, Model model) {
+		model.addAttribute("prodKey", prodKey);
+        model.addAttribute("prod", service.selOneProduct(prodKey));
+        model.addAttribute("img", service.selImg(prodKey));
+		model.addAttribute("catNm", service.selCatNm(prodKey));
+		model.addAttribute("catList", adminService.getAllCategoryInfos());
+        return "product/editProd";
+	}
+
 }

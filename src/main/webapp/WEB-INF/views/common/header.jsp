@@ -20,7 +20,7 @@
             <a href="/user/logout.do">
                 <img src="/resources/icons/logout_fix_45px.png" alt="로그아웃"><!-- 로그아웃 조건 추가 -->
             </a>
-            <a href="/userMyPage/userMyPage.do">
+            <a href="/userMyPage/userMyPageFrm.do">
                 <img src="/resources/icons/user_사용자_309492_45px.png" alt="마이페이지">
                 <!-- mypage -test 지우고 여기에 로그인 되있으면 마이페이지로 넘어가는 조건 추가 -->
             </a>

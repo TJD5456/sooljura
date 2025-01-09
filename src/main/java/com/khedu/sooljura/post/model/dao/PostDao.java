@@ -21,7 +21,13 @@ public class PostDao {
 	public List<Post> selectPostList(HashMap<String, Integer> params) {
 		return sqlSession.selectList("post.selectPostList", params);
 	}
-
+	
+	public List<Post> selectPostListWuserKey(HashMap<String, Object> params, String userKey) {
+		Map<String, Object> param = params;
+		param.put("userKey", userKey);
+		return sqlSession.selectList("post.selectPostListWuserKey", param);
+	}
+	
 	public int selectPostCount(int postCd) {
 		return sqlSession.selectOne("post.selectPostCount", postCd);
 	}

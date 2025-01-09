@@ -38,7 +38,7 @@
             <div class="title">
                 <h1>상품 관리</h1>
             </div>
-            <form action="${pageContext.request.contextPath}/admin/uploadProduct.do" method="post"
+            <form action="/admin/uploadProduct.do" method="post"
                   enctype="multipart/form-data" id="uploadForm">
                 <table>
                     <tr>
@@ -78,7 +78,7 @@
                     </tr>
                     <tr>
                         <th><label for="tradeYnInput">거래여부</label></th>
-                        <td><input type="text" id="tradeYnInput" name="isTrading"></td>
+                        <td><input type="text" id="tradeYnInput" name="tradingYn"></td>
                     </tr>
                     <tr class="categoryRow">
                         <th>카테고리</th>

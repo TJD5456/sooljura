@@ -14,6 +14,7 @@ import java.util.List;
 
 @Service("productService")
 public class ProductService {
+
     @Autowired
     @Qualifier("productDao")
     private ProductDao dao;
@@ -38,7 +39,7 @@ public class ProductService {
         return (ArrayList<Basket>) dao.findProdKey(userKey); // List<Basket> 반환
     }
 
-    // 단일 prodKey로 제품 정보 조회
+    // 단일 prodKey 로 제품 정보 조회
     public ProductListData prodInfo(String prodKey) {
         List<Product> prodInfoList = dao.selProdInfo(prodKey);
 
@@ -143,6 +144,7 @@ public class ProductService {
     public int isPdhNull(String prodKey) {
         return dao.isPdhNull(prodKey);
     }
+
     public ArrayList<Product> getProdList(String categoryKey) {
 		return (ArrayList<Product>)dao.getProdList(categoryKey);
 	}
@@ -159,4 +161,12 @@ public class ProductService {
 	public int chkBasket(Basket basket) {
 		return dao.chkBasket(basket);
 	}
+
+    public ArrayList<ProductImage> selImg(String prodKey) {
+        return (ArrayList<ProductImage>) dao.selImg(prodKey);
+    }
+
+    public String selCatNm(String prodKey) {
+        return dao.selCatNm(prodKey);
+    }
 }

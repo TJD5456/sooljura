@@ -57,7 +57,46 @@ public class PostService {
 		pd.setPageNavi(pageNavi.toString());
 		return pd;
 	}
+	
+	// 자유게시판, 공지사항 등 공통 메서드
+		public PostPageData selectPostList(int reqPage, int postCd, String userKey) {
+			int postsPerPage = 5;
+			int end = reqPage * postsPerPage;
+			int start = end - postsPerPage + 1;
 
+			HashMap<String, Object> params = new HashMap<>();
+			params.put("start", start);
+			params.put("end", end);
+			params.put("postCd", postCd);
+			
+			List<Post> list = dao.selectPostListWuserKey(params, userKey);
+			int totalPostCount = dao.selectPostCount(postCd);
+			int totalPages = (int) Math.ceil((double) totalPostCount / postsPerPage);
+
+			StringBuilder pageNavi = new StringBuilder();
+			int naviSize = 3;
+			int naviStart = ((reqPage - 1) / naviSize) * naviSize + 1;
+
+			if (naviStart > 1) {
+				pageNavi.append("<a href='?reqPage=").append(naviStart - 1).append("'> 이전 </a>");
+			}
+			for (int i = 0; i < naviSize && naviStart <= totalPages; i++, naviStart++) {
+				if (naviStart == reqPage) {
+					pageNavi.append("<span>").append(naviStart).append("</span>");
+				} else {
+					pageNavi.append("<a href='?reqPage=").append(naviStart).append("'>").append(naviStart).append("</a>");
+				}
+			}
+			if (naviStart <= totalPages) {
+				pageNavi.append("<a href='?reqPage=").append(naviStart).append("'> 다음 </a>");
+			}
+
+			PostPageData pd = new PostPageData();
+			pd.setList((ArrayList<Post>) list);
+			pd.setPageNavi(pageNavi.toString());
+			return pd;
+		}
+	
 	public int insertFreePost(Post post) {
 		return dao.insertFreePost(post);
 	}

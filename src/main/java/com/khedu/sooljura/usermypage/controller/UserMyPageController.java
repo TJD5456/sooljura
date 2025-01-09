@@ -7,6 +7,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ public class UserMyPageController {
     @Qualifier("userMyPageService")
     private UserMyPageService userMyPageService;
 
-    @GetMapping("userMyPage.do")
+    @GetMapping("userMyPageFrm.do")
     public String userPage() {
         return "userMyPage/userMyPage";
     }
@@ -56,7 +57,12 @@ public class UserMyPageController {
         //int i = userMyPageService.userUpdInfo();
         return null;
     }
-
+    
+    @GetMapping("userInfo1.do")
+    public String userInfoPage() {
+        return "userMyPage/userInfo1";
+    }
+    
     //비밀번호 변경
     @PostMapping("pwChg.do")
     @ResponseBody

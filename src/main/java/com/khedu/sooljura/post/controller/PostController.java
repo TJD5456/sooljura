@@ -458,4 +458,12 @@ public class PostController {
 		}
 	}
 
+	@PostMapping("readMyPost1.do")
+	public String readMyPostPage(String userKey, Model model) {
+	    PostPageData pd = service.selectPostList(1, 2, userKey);
+	    
+	    model.addAttribute("list", pd.getList());
+		model.addAttribute("pageNavi", pd.getPageNavi());
+		return "userMyPage/readMyPost1";
+	    }
 }

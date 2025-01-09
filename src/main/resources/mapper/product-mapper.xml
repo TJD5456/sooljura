@@ -101,8 +101,10 @@
     <!-- 구매목록 가져오기 -->
     <select id="orderList" parameterType="hashmap" resultType="history">
         select 
+        	imp_uid		as impUid,
         	order_no    as orderNo,
             prod_key    as prodKey,
+            user_key 	as userKey,
             addr_key    as addrKey,
             order_price as orderPrice,
             order_cnt   as orderCnt,
@@ -114,8 +116,8 @@
             	select a.*
                 from tbl_order_history a
                 order by order_date desc
-                )a
-            )a
+                ) a
+            ) a
         where
         	user_key = #{userKey}
         and 

@@ -227,37 +227,13 @@ public class ProductController {
 	
 	// 구매내역 페이지로 이동
 	@GetMapping("buyList.do")
-	public String buyList(HttpSession session, int reqPage, Model model) {
-		String userKey = (String) session.getAttribute("userKey");
+	public String buyList(HttpSession session, int reqPage, Model model, String userKey) {
 		// userKey로 구매내역 가져오기
+		System.out.println("userKey : " + userKey);
 		ProductListData orderHistory = service.orderList(userKey, reqPage);
-
-		// 구매 내역에서 prodKey 리스트 추출
-		// OrderHistory 객체의 prodKey 추출
-/*		List<String> prodKey = orderHistory.getOrderHistory().stream().map(OrderHistory::getProdKey)
-				.collect(Collectors.toList());
-
-		// prodKey를 사용해 추가 데이터 가져오기
-		if (!prodKey.isEmpty()) {
-			List<Product> product = service.getProdInfo(prodKey);
-			model.addAttribute("product", product);
-		} else {
-			model.addAttribute("product", Collections.emptyList());// 구매내역 없을 때 c:if로 보여주기 위한 용도
-		}
-
+		System.out.println("orderHistory : " + orderHistory);
 		model.addAttribute("orderHistory", orderHistory.getOrderHistory());
 		model.addAttribute("pageNavi", orderHistory.getPageNavi());
-
-		// prodKey를 사용해 추가 데이터 가져오기
-		if (!prodKey.isEmpty()) {
-			List<Product> product = service.getProdInfo(prodKey);
-			model.addAttribute("product", product);
-		} else {
-			model.addAttribute("product", Collections.emptyList());// 구매내역 없을 때 c:if로 보여주기 위한 용도
-		}
-
-		model.addAttribute("orderHistory", orderHistory.getOrderHistory());
-		model.addAttribute("pageNavi", orderHistory.getPageNavi());*/
 
 		return "product/buyList";
 	}

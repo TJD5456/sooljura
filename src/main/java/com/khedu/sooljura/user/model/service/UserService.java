@@ -194,6 +194,11 @@ public class UserService {
         AddrListData listData = new AddrListData(addrList);
         return listData;
     }
+    
+    //결제페이지에서 주소지 선택
+  	public UserAddr selectAddr(String addrKey) {
+  		return dao.selectAddr(addrKey);
+  	}
 
     // 주소지 삭제
     public int delAddr(String addrKey) {

@@ -106,21 +106,20 @@
                 <input type="hidden" id="userKey" value="${loginUser.userKey}">
                 <input type="hidden" id="userEmail" value="${loginUser.userEmail}">
                 <input type="hidden" id="userPhone" value="${loginUser.userPhone}">
-                <input type="hidden" id="addrKey" value="${addr.addrKey}">
 
                 <div class="div-wrap">
                     <h2>배송지</h2>
                     <div class="addrWrap">
-                        <input type="hidden" class="addrKey" name="addrKey" value="${addr.addrKey}">
-                        <span style="display: flex; font-size: 20px;">
-                         ${addr.rcptNm}
-                         <c:if test="${not empty addr.addrNm}">
-                             (${addr.addrNm})
-                         </c:if>
-                         <c:if test="${addr.defaultYn == 1}">
-                             <span style="font-weight: lighter; color: #fc8173; border: 1px solid #fc8173; font-size: 15px; margin-left: 10px;">기본배송지</span>
-                         </c:if>
-                     </span>
+                        <input type="hidden" id="addrKey" name="addrKey" value="${addr.addrKey}">
+                        
+                        <span style="display: flex; font-size: 20px;" id="rcptNm">
+	                         ${addr.rcptNm}
+	                    </span>
+	                    <span id="addrNm">
+	                         <c:if test="${not empty addr.addrNm}">
+	                             (${addr.addrNm})
+	                         </c:if>
+                     	</span>
                     </div>
 
                     <div class="btnWrap">
@@ -132,8 +131,10 @@
                     </div>
 
                     <div class="addrWrap">
-                        <span id="addr">${addr.addr}</span> <span id="addrDetail">${addr.addrDetail}</span> <span
-                            id="addrCd">(${addr.addrCd})</span>
+                        <span id="addrCd">(${addr.addrCd})</span>
+                    </div>
+                    <div class="addrWrap">
+                        <span id="addr">${addr.addr}</span> <span id="addrDetail">${addr.addrDetail}</span> <br>
                     </div>
 
                     <h2 class="order-product-title">주문상품</h2>
@@ -150,7 +151,7 @@
                     </c:forEach>
                 </div>
                 <div class="fixed-div">
-                    <span id="orderSummary" style="font-size: 30px; margin-top: 10px;">총 0건의 주문금액 0원</span>
+                    <span id="orderSummary" style="font-size: 30px; margin-top: 10px;">총 <span id="totalCnt">0</span>건의 주문금액 <span id="totalPrice">0</span>원</span>
                     <input type="submit" id="buyBtn" onclick="reqPayment()"
                            style="border-radius: 10px; height: 50px; margin-top: 10px;" value="선택한 제품 구매하기">
                 </div>
@@ -237,7 +238,6 @@
                    let buyTel = $('#userPhone').val(); // 서버에서 받은 사용자 전화번호
                    let buyAddr = $('#addr').val() + $('#addrDetail').val(); // 서버에서 받은 사용자 주소
                    let buyPostCode = $('#addrCd').val(); // 우편번호는 임의 값 또는 추가 구현
-                   console.log(buyProdName);
 
                    // 아임포트 결제 요청
                    IMP.request_pay({
@@ -279,7 +279,9 @@
                                data: JSON.stringify(orderPayload), // 주문 정보와 결제 정보를 JSON 으로 변환
                                success: function (res) {
                                    if (res === '1') {
-                                       msg('알림', '결제가 완료되었습니다', 'success', "location.href = '/product/buyList.do?reqPage=1';");
+                                	   let userKey = $('#userKey').val();
+                                	   
+                                       msg('알림', '결제가 완료되었습니다', 'success', "location.href = '/product/buyList.do?reqPage=1&userKey=" + userKey + "';");
                                    } else {
                                        msg('알림', '주문 저장 실패', 'error');
                                    }
@@ -302,23 +304,34 @@
 
     //주소지 변경 버튼 클릭 시
     function chgAddr() {
-        $.ajax({
-            url: "/product/chgAddr.do",
-            type: "POST",
-            data: {
-                userKey: $('#userKey').val()
-            },
-            success: function (res) {
-                if (res === "1") {
+    	let userKey = $('#userKey').val();
+    	
+    	let popupWidth = 600;
+		let popupHeight = 750;
+		let top = (window.innerHeight - popupHeight) / 2 + window.screenY;
+		let left = (window.innerWidth - popupWidth) / 2 + window.screenX;
+		
+		window.open("/product/chgAddr.do?userKey="+userKey, "chgAddr", "width="+popupWidth+", top="+top+", height="+popupHeight+", left="+left);
+    }
+    //주소지 변경 팝업에서 호출하는 함수
+    function chgAddrChild(res){
+    	console.log(res);
+    	
+    	// addrKey 값 업데이트
+        document.getElementById("addrKey").value = res.addrKey || "";
 
-                } else {
-                    msg('알림', '주소지 변경 중 오류가 발생했습니다', 'error');
-                }
-            },
-            error: function () {
-                console.log('주소지변경 ajax 오류');
-            }
-        });
+    	
+        // rcptNm 값 업데이트
+        document.getElementById("rcptNm").textContent = res.rcptNm || "";
+        document.getElementById("addrNm").textContent = res.addrNm || "";
+		
+        // rcptPhone 값 업데이트
+        document.getElementById("rcptPhone").textContent = res.rcptPhone || "";
+
+        // addr, addrDetail, addrCd 값 업데이트
+        document.getElementById("addr").textContent = res.addr || "";
+        document.getElementById("addrDetail").textContent = res.addrDetail || "";
+        document.getElementById("addrCd").textContent = (res.addrCd) || "";
     }
 </script>
 </body>

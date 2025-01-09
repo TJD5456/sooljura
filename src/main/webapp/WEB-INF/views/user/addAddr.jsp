@@ -5,127 +5,133 @@
 <head>
     <meta charset="UTF-8">
     <title>sooljura</title>
-    <style>
-        /* 기본 스타일 초기화 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box; /* 전체 요소에 패딩 포함한 너비 계산 */
-        }
+<style>
+/* 기본 스타일 초기화 */
+* {
+    margin: 0;
+    padding: 0;
+}
 
-        main {
-            padding: 0;
-        }
+main {
+    padding: 0;
+}
 
-        /* 전체 배경색 설정 */
-        body {
-            background-color: #EFECE5; /* 연한 배경색 */
-            align-items: center; /* 수직 가운데 정렬 */
-            height: 100vh; /* 화면 높이를 100%로 설정 */
-            margin: 0;
-        }
+/* 전체 배경색 설정 */
+body {
+    background-color: #EFECE5; /* 연한 배경색 */
+    align-items: center; /* 수직 가운데 정렬 */
+    height: 100%; /* 화면 높이를 100%로 설정 */
+    margin: 0;
+}
 
-        /* 폼 컨테이너 스타일 */
-        .insert {
-            border: 1px solid black; /* 검은 테두리 */
-            width: 600px; /* 폼의 너비 */
-            height: auto; /* 높이를 콘텐츠에 맞게 조정 */
-            display: flex; /* 플렉스 박스 사용 */
-            flex-direction: column; /* 자식 요소를 세로로 배치 */
-            align-items: center; /* 수평 가운데 정렬 */
-            padding: 20px; /* 내부 여백 */
-            background-color: #fff; /* 배경 흰색 */
-            border-radius: 10px; /* 모서리를 둥글게 */
-        }
+/* 폼 컨테이너 스타일 */
+.insert {
+    border: 1px solid black; /* 검은 테두리 */
+    width: 600px; /* 폼의 너비 */
+    height: 100%; /* 높이를 콘텐츠에 맞게 조정 */
+    display: flex; /* 플렉스 박스 사용 */
+    flex-direction: column; /* 자식 요소를 세로로 배치 */
+    align-items: center; /* 수평 가운데 정렬 */
+    padding: 20px; /* 내부 여백 */
+    background-color: #fff; /* 배경 흰색 */
+    border-radius: 10px; /* 모서리를 둥글게 */
+}
 
-        /* 폼 스타일 */
-        form {
-            width: 80%; /* 폼 너비 설정 */
-            display: flex; /* 플렉스 박스 사용 */
-            flex-direction: column; /* 요소를 세로로 배치 */
-            align-items: center; /* 자식 요소를 수평 중앙 정렬 */
-        }
+/* 폼 스타일 */
+form {
+    width: 60%; /* 폼 너비 설정 */
+    display: flex; /* 플렉스 박스 사용 */
+    justify-content: center;
+    flex-direction: column; /* 요소를 세로로 배치 */
+    align-items: center; /* 자식 요소를 수평 중앙 정렬 */
+    margin: 0 auto;
+}
 
-        /* 입력 필드 공통 스타일 */
-        .insertInfo {
-            width: 100%; /* 입력 필드 너비를 100%로 설정 */
-            margin-bottom: 10px; /* 아래쪽 여백 */
-            padding: 10px; /* 내부 여백 */
-            border: 1px solid black; /* 검은 테두리 */
-            border-radius: 5px; /* 모서리를 둥글게 */
-        }
+/* 입력 필드 공통 스타일 */
+.insertInfo {
+    width: 100%; /* 입력 필드 너비를 100%로 설정 */
+    margin-bottom: 10px; /* 아래쪽 여백 */
+    padding: 10px; /* 내부 여백 */
+    border: 1px solid black; /* 검은 테두리 */
+    border-radius: 5px; /* 모서리를 둥글게 */
+}
 
-        /* 버튼 스타일 */
-        button {
-            height: 40px; /* 버튼 높이 */
-            width: 200px; /* 버튼 너비 */
-            background-color: #FC8173; /* 버튼 배경색 */
-            color: #EFECE5; /* 버튼 글자색 */
-            border-radius: 20px; /* 버튼 모서리를 둥글게 */
-            border: none; /* 테두리 제거 */
-            cursor: pointer; /* 커서 스타일 변경 */
-        }
+/* 버튼 스타일 */
+button {
+    height: 40px; /* 버튼 높이 */
+    width: 200px; /* 버튼 너비 */
+    background-color: #FC8173; /* 버튼 배경색 */
+    color: #EFECE5; /* 버튼 글자색 */
+    border-radius: 20px; /* 버튼 모서리를 둥글게 */
+    border: none; /* 테두리 제거 */
+    cursor: pointer; /* 커서 스타일 변경 */
+}
 
-        /* 회원가입 버튼 중앙 배치 */
-        button > .submit {
-            height: 40px; /* 버튼 높이 */
-            width: 200px; /* 버튼 너비 */
-            background-color: #FC8173; /* 버튼 배경색 */
-            color: #EFECE5; /* 버튼 글자색 */
-            border-radius: 20px; /* 버튼 모서리를 둥글게 */
-            border: none; /* 테두리 제거 */
-            cursor: pointer; /* 커서 스타일 변경 */
-            margin-top: 20px; /* 위 요소와 간격 */
-            align-self: center; /* 부모 컨테이너에서 중앙 정렬 */
-        }
+/* 회원가입 버튼 중앙 배치 */
+button > .submit {
+    height: 40px; /* 버튼 높이 */
+    width: 200px; /* 버튼 너비 */
+    background-color: #FC8173; /* 버튼 배경색 */
+    color: #EFECE5; /* 버튼 글자색 */
+    border-radius: 20px; /* 버튼 모서리를 둥글게 */
+    border: none; /* 테두리 제거 */
+    cursor: pointer; /* 커서 스타일 변경 */
+    margin-top: 20px; /* 위 요소와 간격 */
+    align-self: center; /* 부모 컨테이너에서 중앙 정렬 */
+}
 
-        /* 개별 입력 그룹 간 간격 */
-        .form-group {
-            width: 100%; /* 각 그룹의 너비를 부모 기준 100%로 설정 */
-            display: flex; /* 플렉스 박스 사용 */
-            justify-content: space-between; /* 자식 요소 간 간격 배분 */
-            margin-bottom: 10px; /* 아래쪽 간격 추가 */
-        }
+/* 개별 입력 그룹 간 간격 */
+.form-group {
+    width: 100%; /* 각 그룹의 너비를 부모 기준 100%로 설정 */
+    display: flex; /* 플렉스 박스 사용 */
+    justify-content: space-between; /* 자식 요소 간 간격 배분 */
+    margin-bottom: 10px; /* 아래쪽 간격 추가 */
+}
 
-        /* 중복 체크 버튼 스타일 */
-        input[type="button"] {
-            width: auto; /* 너비를 내용에 맞게 조정 */
-            margin-left: 10px; /* 입력 필드와 버튼 간의 간격 */
-            padding: 10px; /* 내부 여백 */
-            background-color: #FC8173; /* 버튼 배경색 */
-            color: #EFECE5; /* 버튼 글자색 */
-            border: none; /* 테두리 제거 */
-            border-radius: 5px; /* 모서리를 둥글게 */
-            cursor: pointer; /* 커서 스타일 변경 */
-            height: 37px; /*중복 체크 버튼 높이 조정*/
-        }
+/* 중복 체크 버튼 스타일 */
+input[type="button"] {
+    width: auto; /* 너비를 내용에 맞게 조정 */
+    margin-left: 10px; /* 입력 필드와 버튼 간의 간격 */
+    padding: 10px; /* 내부 여백 */
+    background-color: #FC8173; /* 버튼 배경색 */
+    color: #EFECE5; /* 버튼 글자색 */
+    border: none; /* 테두리 제거 */
+    border-radius: 5px; /* 모서리를 둥글게 */
+    cursor: pointer; /* 커서 스타일 변경 */
+    height: 37px; /*중복 체크 버튼 높이 조정*/
+}
 
-        .insert-wrap {
-            display: flex;
-            justify-content: center;
-            padding: 100px;
-            margin-right: 130px;
-        }
-
-        form {
-            margin-top: 50px;
-        }
-
-    </style>
+.insert-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 100px;
+    margin-right: 130px;
+}
+.btn-group > input[type="button"]{
+	width : 200px;
+	height: 40px;
+	box-shadow: 1px 1px 1px 1px #d2210d;
+}
+.btn-group > input[type="button"]:hover{
+	background-color: #f5afa5;
+    box-shadow: 1px 1px 1px 1px #fc8173;
+}
+</style>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/common/textHeader.jsp"/>
 <main>
+	<jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
+	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
     <form action="/user/addAddr.do" id="addAddr" method="POST">
         <input type="hidden" id="userKey" name="userKey" value="${loginUser.userKey}">
         <div class="form-group">
-            <input type="text" id="rcptNm" name="rcptNm" placeholder="수취인 이름">
+            <input type="text" class="insertInfo" id="rcptNm" name="rcptNm" placeholder="수취인 이름">
         </div>
         <div class="form-group">
-            <input type="text" id="rcptPhone" name="rcptPhone" placeholder="수취인 전화번호">
+            <input type="text" class="insertInfo" id="rcptPhone" name="rcptPhone" placeholder="수취인 전화번호">
         </div>
         <div class="form-group">
-            <input type="text" id="addrNm" name="addrNm" placeholder="주소지 이름">
+            <input type="text" class="insertInfo" id="addrNm" name="addrNm" placeholder="주소지 이름">
         </div>
         <div class="form-group">
             <input type="text" class="insertInfo" id="addrCd" name="addrCd" placeholder="우편번호" readonly>
@@ -138,9 +144,9 @@
             <input type="text" class="insertInfo" id="addrDetail" name="addrDetail" placeholder="상세주소">
             <input type="text" class="insertInfo" id="addrRef" name="addrRef" placeholder="참고주소" readonly>
         </div>
-        <div id="mainBtn">
-            <input type="button" id="undo" onclick="undo()" value="돌아가기">
-            <input type="button" id="addAddr" onclick="submitBtn()" value="추가하기">
+        <div class="btn-group">
+            <input type="button" onclick="undo(this)" value="돌아가기">
+            <input type="button" onclick="submitBtn(this)" value="추가하기">
         </div>
     </form>
 </main>
@@ -195,7 +201,7 @@
         }).open();
     }
 
-    function submitBtn() {
+    function submitBtn(button) {
         const rcptNm = $('#rcptNm').val();
         const rcptPhone = $('#rcptPhone').val();
         const addrCd = $('#addrCd').val();
@@ -241,8 +247,8 @@
         }
     }
 
-    function undo() {
-        location.href = "user/addrListFrm.do";
+    function undo(button) {
+        location.href = "addrListFrm.do";
     }
 </script>
 </body>

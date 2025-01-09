@@ -51,70 +51,76 @@ public class SocketHandler extends TextWebSocketHandler {
         JsonObject jsonObj = element.getAsJsonObject();
         String type = jsonObj.get("type").getAsString();
 
-        if (type.equals("connect")) {
-            // 최초 연결 시, 연결 정보 등록
-            String userKey = jsonObj.get("userKey").getAsString();
-            String roomKey = jsonObj.get("roomKey").getAsString();
+        switch (type) {
+            case "connect": {
+                // 최초 연결 시, 연결 정보 등록
+                String userKey = jsonObj.get("userKey").getAsString();
+                String roomKey = jsonObj.get("roomKey").getAsString();
+                /*
+                 * 메세지 전송 시, 연결되어 있는 모든 세션에 메시지를 전송함.
+                 * 현재 방에 접속한 세션들에게만 메시지를 전송해야 하므로,
+                 * 방별로 세션 정보들을 관리
+                 */
+                if (roomMap.containsKey(roomKey)) {
+                    map = roomMap.get(roomKey);
 
-            /*
-             * 메세지 전송 시, 연결되어 있는 모든 세션에 메시지를 전송함.
-             * 현재 방에 접속한 세션들에게만 메시지를 전송해야 하므로,
-             * 방별로 세션 정보들을 관리
-             */
-            if (roomMap.containsKey(roomKey)) {
-                map = roomMap.get(roomKey);
-
-                map.put(userKey, session);
-            } else {
-                map = new HashMap<>();
-                map.put(userKey, session);
-                roomMap.put(roomKey, map);
-            }
-
-        } else if (type.equals("chat")) {
-            // 메시지 송신
-            String roomKey = jsonObj.get("roomKey").getAsString();
-            String userKey = jsonObj.get("userKey").getAsString();
-            String userCd = jsonObj.get("userCd").getAsString();
-            String msg = jsonObj.get("msg").getAsString();
-
-            Chat chat = new Chat();
-            chat.setRoomKey(roomKey);
-            chat.setSenderKey(userKey);
-            chat.setMsg(msg);
-
-            // DB 등록
-            int result = service.insertChat(chat);
-
-            if (result > 0) {
-                User adminPresence = service.checkAdminPresence(roomKey);
-                if(adminPresence == null && userCd.equals("0")){
-                    int insertAdmin = service.insertAdmin(roomKey, userKey);
-                    if(insertAdmin == 0){
-                        System.out.println("=== from SocketHandler ===");
-                        System.out.println("Failed to add admin");
-                    }
+                    map.put(userKey, session);
+                } else {
+                    map = new HashMap<>();
+                    map.put(userKey, session);
+                    roomMap.put(roomKey, map);
                 }
+                break;
             }
-        } else if (type.equals("delete")) {
-            String roomKey = jsonObj.get("roomKey").getAsString();
-            String userKey = jsonObj.get("userKey").getAsString();
-
-            map = roomMap.get(roomKey);
-
-            if (map.containsKey(userKey)) {
-                // 현재 방에서 나가기
-                map.remove(userKey);
+            case "chat": {
+                // 메시지 송신
+                String roomKey = jsonObj.get("roomKey").getAsString();
+                String userKey = jsonObj.get("userKey").getAsString();
+                String userCd = jsonObj.get("userCd").getAsString();
+                String msg = jsonObj.get("msg").getAsString();
 
                 Chat chat = new Chat();
                 chat.setRoomKey(roomKey);
                 chat.setSenderKey(userKey);
-                service.deleteRoom(chat);
+                chat.setMsg(msg);
 
-                // 방에서 나간 뒤, 아무도 없으면 방 관리 Map 에서도 삭제.
-                if (map.isEmpty()) {
-                    roomMap.remove(roomKey);
+                // DB 등록
+                int result = service.insertChat(chat);
+
+                if (result > 0) {
+                    User adminPresence = service.checkAdminPresence(roomKey);
+                    if (adminPresence == null && userCd.equals("0")) {
+                        int insertAdmin = service.insertAdmin(roomKey, userKey);
+                        if (insertAdmin == 0) {
+                            System.out.println("=== from SocketHandler ===");
+                            System.out.println("Failed to add admin");
+                        }
+                    }
+                    this.sendMsg(roomKey, msg);
                 }
+                break;
+            }
+            case "delete": {
+                String roomKey = jsonObj.get("roomKey").getAsString();
+                String userKey = jsonObj.get("userKey").getAsString();
+
+                map = roomMap.get(roomKey);
+
+                if (map.containsKey(userKey)) {
+                    // 현재 방에서 나가기
+                    map.remove(userKey);
+
+                    Chat chat = new Chat();
+                    chat.setRoomKey(roomKey);
+                    chat.setSenderKey(userKey);
+                    service.deleteRoom(chat);
+
+                    // 방에서 나간 뒤, 아무도 없으면 방 관리 Map 에서도 삭제.
+                    if (map.isEmpty()) {
+                        roomMap.remove(roomKey);
+                    }
+                }
+                break;
             }
         }
     }

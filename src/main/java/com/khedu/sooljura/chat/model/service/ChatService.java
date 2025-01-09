@@ -19,12 +19,12 @@ public class ChatService {
         this.dao = dao;
     }
 
-    public int selectChatsWithNoAdmin() {
-        return dao.selectChatsWithNoAdmin();
+    public int selUnread(String adminKey) {
+        return dao.selUnread(adminKey);
     }
 
-    public int selectUnreadChats(String adminKey) {
-        return dao.selectUnreadChats(adminKey);
+    public int selNoAdmin() {
+        return dao.selNoAdmin();
     }
 
     public ArrayList<Room> getRoomList(User user) {
@@ -65,6 +65,10 @@ public class ChatService {
 
     public void deleteRoom(Chat chat) {
         dao.deleteRoom(chat);
+    }
+
+    public String selectUserNickNm(String roomKey) {
+        return dao.selectUserNickNm(roomKey);
     }
 
 }

@@ -4,66 +4,66 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>sooljura</title>
-    <style>
-        main {
-            background-color: #EFECE5;
-        }
+<meta charset="UTF-8">
+<title>sooljura</title>
+<style>
+main {
+    background-color: #EFECE5;
+}
 
-        .div-wrap {
-            margin: 0 auto;
-            width: 60%;
-            display: flex;
-            border: 1px solid gray;
-            height: 100px;
-            margin-top: 10px;
-            background-color: #EFECE5;
-        }
+.div-wrap {
+    margin: 0 auto;
+    width: 60%;
+    display: flex;
+    border: 1px solid gray;
+    height: 100px;
+    margin-top: 10px;
+    background-color: #EFECE5;
+}
 
-        .center-div-items {
-            padding: 25px;
-        }
+.center-div-items {
+    padding: 25px;
+}
 
-        .center-div-items > button {
-            width: 30px;
-            height: 15px;
-        }
+.center-div-items > button {
+    width: 30px;
+    height: 15px;
+}
 
-        .fixed-div {
-            position: fixed;
-            display: flex;
-            width: 100%;
-            height: 70px;
-            justify-content: center;
-            border-top: 1px solid gray;
-            bottom: 0;
-            background-color: #EFECE5;
-        }
+.fixed-div {
+    position: fixed;
+    display: flex;
+    width: 100%;
+    height: 70px;
+    justify-content: center;
+    border-top: 1px solid gray;
+    bottom: 0;
+    background-color: #EFECE5;
+}
 
-        .prodNm, .prodPrice {
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 10px;
-            border: none;
-            background-color: #EFECE5;
-        }
+.prodNm, .prodPrice {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+    border: none;
+    background-color: #EFECE5;
+}
 
-        .center-div-items > input[type="button"] {
-            border: none;
-            border-radius: 15px;
-            color: #efece5;
-            background-color: #fc8173;
-            box-shadow: 1px 1px 1px 1px var(--button-shadow);
-            height: 25px;
-            width: 60px;
-        }
+.center-div-items > input[type="button"] {
+    border: none;
+    border-radius: 15px;
+    color: #efece5;
+    background-color: #fc8173;
+    box-shadow: 1px 1px 1px 1px var(--button-shadow);
+    height: 25px;
+    width: 60px;
+}
 
-        .center-div-items > input[type="button"]:hover {
-            background-color: #f5afa5;
-            box-shadow: 1px 1px 1px 1px var(--button-background);
-        }
-    </style>
+.center-div-items > input[type="button"]:hover {
+    background-color: #f5afa5;
+    box-shadow: 1px 1px 1px 1px var(--button-background);
+}
+</style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
@@ -86,37 +86,45 @@
             <input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)"><label for="selectAll">전체 선택</label>
             <input type="hidden" id="userKey" name="userKey" value="${loginUser.userKey}">
 
-            <c:forEach var="productData" items="${basketList}">
-                <c:forEach var="product" items="${productData.productList}">
-
-                    <input type="hidden" class="prodKey" name="prodKeys" value="${product.prodKey}">
-                    <input type="hidden" class="prodCnt" value="${product.prodCnt}">
-
-                    <div class="div-wrap">
-                        <div class="center-div-items" style="width: 10px; padding:35px;">
-                            <input type="checkbox" class="selProduct" value="${product.prodKey}">
-                        </div>
-
-                        <div class="div-items" style="width: 50%;">
-                            <a href="#" style="cursor: pointer;"><input type="text" class="prodNm" value="${product.prodNm}" readonly></a><br>
-                            <input type="text" class="prodPrice" value="${product.prodPrice}" readonly>
-                        </div>
-
-                        <div class="center-div-items" style="width: 10%;">
-                            <span class="basketCnt">1</span><br>
-                            <button type="button" onclick="fn.buyCntCalc('-', this)">-</button>
-                            <button type="button" onclick="fn.buyCntCalc('+', this)">+</button>
-                        </div>
-
-                        <div class="center-div-items" style="width: 10%; justify-items: center;">
-                            <input type="button" onclick="delBasket(this)" value="삭제하기"><br>
-                            <input type="button" onclick="buyBasket(this)" value="구매하기" style="margin-top: 5px;">
-                        </div>
-                    </div>
-                </c:forEach>
-            </c:forEach>
+            <c:forEach var="basketProductInfo" items="${basketList}">
+		    <!-- Basket 정보 -->
+		    <c:set var="basket" value="${basketProductInfo.basket}" />
+		
+		    <!-- Product 정보 -->
+		    <c:forEach var="product" items="${basketProductInfo.productList}">
+		        <div class="div-wrap">
+		            <input type="hidden" class="prodKey" name="prodKey" value="${product.prodKey}">
+		            <input type="hidden" class="prodCnt" value="${product.prodCnt}"> <!-- 제품 재고 -->
+		            <input type="hidden" class="basketCnt" value="${basket.basketCnt}"> <!-- 장바구니 수량 -->
+		
+		            <div class="center-div-items" style="width: 10px; padding:35px;">
+		                <input type="checkbox" class="selProduct" value="${product.prodKey}">
+		            </div>
+		
+		            <div class="div-items" style="width: 50%;">
+		                <a href="#" style="cursor: pointer;">
+		                    <input type="text" class="prodNm" value="${product.prodNm}" readonly>
+		                </a><br>
+		                <input type="text" class="prodPrice" value="${product.prodPrice}" readonly>
+		            </div>
+		
+		            <div class="center-div-items" style="width: 10%;">
+		                <!-- 장바구니 수량 -->
+		                <span class="basketCnt">${basket.basketCnt}</span><br>
+		                <button type="button" onclick="fn.buyCntCalc('-', this)">-</button>
+		                <button type="button" onclick="fn.buyCntCalc('+', this)">+</button>
+		            </div>
+		
+		            <div class="center-div-items" style="width: 10%; justify-items: center;">
+		                <input type="button" onclick="delBasket(this)" value="삭제하기"><br>
+		                <input type="button" onclick="buyBasket(this)" value="구매하기" style="margin-top: 5px;">
+		            </div>
+		        </div>
+		    </c:forEach>
+		</c:forEach>
             <div class="fixed-div">
-                <span id="orderSummary" style="font-size: 30px; margin-top: 10px;">총 0건의 주문금액 0원</span>
+            	<!-- 제품 총 금액 name 선언해서 넘겨주기 -->
+                <span id="orderSummary" style="font-size: 30px; margin-top: 10px;">총 <span id="totalCnt">0</span>건의 주문금액 <span id="totalPrice">0</span>원</span>
                 <input type="submit" style="border-radius: 10px; height: 50px; margin-top: 10px;" value="선택한 제품 구매하기">
             </div>
         </form>
@@ -139,9 +147,11 @@
                 return;
             }
 
+            // 수량 증가/감소
             basketCnt += (oper === '+') ? 1 : -1;
             $basketCnt.text(basketCnt);
 
+            // 총합 갱신
             updateOrderSummary();
         }
     };
@@ -152,32 +162,37 @@
 
         $('#basketForm .selProduct:checked').each(function () {
             const $parentDiv = $(this).closest('.div-wrap');
-            const prodCnt = Number($parentDiv.find('.basketCnt').text());
+            const basketCnt = Number($parentDiv.find('.basketCnt').text());
             const prodPrice = Number($parentDiv.find('.prodPrice').val());
 
-            totalCnt += prodCnt;
-            totalPrice += prodCnt * prodPrice;
+            totalCnt += basketCnt; // 수량 합산
+            totalPrice += basketCnt * prodPrice; // 가격 합산
         });
 
-        $('#orderSummary').text(`총 ${totalCnt}건의 주문금액 ${totalPrice.toLocaleString()}원`);
-        console.log("totalCnt : " + totalCnt + ", totalPrice : " + totalPrice);
+        // 값 갱신
+        $('#totalCnt').text(totalCnt);
+        $('#totalPrice').text(totalPrice.toLocaleString());
+        console.log("totalCnt:", totalCnt, "totalPrice:", totalPrice);
     }
 
+    function toggleSelectAll(checkbox) {
+        const isChecked = checkbox.checked;
+        $('#basketForm .selProduct').prop('checked', isChecked);
+        updateOrderSummary(); // 전체 선택/해제 시 총합 갱신
+    }
 
+    // 장바구니 제품 삭제
     function delBasket(button) {
-        const prodKey = $('.prodKey').val();
+        const prodKey = $(button).closest('.div-wrap').find('.prodKey').val();
         const userKey = $('#userKey').val();
 
         $.ajax({
             url: "/product/delBasket.do",
             type: "GET",
-            data: {
-                prodKey: prodKey,
-                userKey: userKey
-            },
+            data: { prodKey, userKey },
             success: function (res) {
                 if (res === "1") {
-                    msg('알림', '제품 삭제 완료', 'success', "window.location.reload()");
+                    msg('알림', '제품 삭제 완료', 'success', "location.href = '/product/expPurchaseFrm.do';");
                 } else {
                     msg('알림', '오류가 발생했습니다', 'error');
                 }
@@ -188,12 +203,7 @@
         });
     }
 
-    function toggleSelectAll(checkbox) {
-        const isChecked = checkbox.checked;
-        $('#basketForm .selProduct').prop('checked', isChecked);
-        updateOrderSummary();
-    }
-
+    // 폼 제출 시 체크된 제품만 처리
     document.querySelector('#basketForm').addEventListener('submit', function (event) {
         event.preventDefault(); // 기본 폼 제출 방지
 
@@ -205,15 +215,12 @@
             return;
         }
 
-        // 체크된 prodKey 값을 수집
         const prodKeys = Array.from(checkedProducts).map(input => input.value);
 
-        // 동적으로 GET URL 생성
         const url = new URL(this.action, window.location.origin);
         url.searchParams.append('userKey', userKey);
         prodKeys.forEach(key => url.searchParams.append('prodKeys', key));
 
-        // 페이지 이동
         window.location.href = url.toString();
     });
 </script>

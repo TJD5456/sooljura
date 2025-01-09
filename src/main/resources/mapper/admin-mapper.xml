@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="admin">
 
-    <select id="numberOfUnCheckedPost" resultType="int">
+    <select id="selNewPost" resultType="int">
         select count(*)
         from tbl_post
         where confirm_yn = 0
     </select>
 
-    <select id="numberOfUncheckedNewUser" resultType="int">
+    <select id="newUser" resultType="int">
         select count(*)
         from tbl_user
         where user_cd = 1
@@ -193,5 +193,26 @@
         set user_cd = #{userCd}
         where user_key = #{userKey}
     </update>
+
+    <update id="editProd" parameterType="product">
+        update tbl_product
+        set prod_nm      = #{prodNm},
+            prod_price   = #{prodPrice},
+            prod_maker   = #{prodMaker},
+            prod_origin  = #{prodOrigin},
+            prod_intro   = #{prodIntro},
+            prod_cnt     = #{prodCnt},
+            prod_vol     = #{prodVol},
+            prod_proof   = #{prodProof},
+            trading_yn   = #{tradingYn},
+            category_key = #{categoryKey}
+        where prod_key = #{prodKey}
+    </update>
+
+    <delete id="delProd" parameterType="string">
+        delete
+        from tbl_product
+        where prod_key = #{_prodKey}
+    </delete>
 
 </mapper>

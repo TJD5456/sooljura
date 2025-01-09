@@ -6,38 +6,76 @@
 <head>
     <meta charset="UTF-8">
     <title>sooljura</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+}
 
-        h2 {
-            color: gray;
-        }
+h2 {
+    color: gray;
+}
 
-        .addrWrap {
-            width: 100%;
+.addrWrap {
+    width: 100%;
 
-        }
+}
 
-        li {
-            font-weight: none;
-        }
+li {
+    font-weight: none;
+}
 
-        .btnWrap > button {
-            width: 70px;
-            height: 30px;
-            border-radius: 10px;
-            border: 1px solid #fc8173;
-            background-color: #fc8173;
-            color: #efece5;
-            box-shadow: 1px 1px 1px 1px #d2210d;
-        }
-    </style>
+.btnWrap > button {
+    width: 70px;
+    height: 30px;
+    border-radius: 10px;
+    border: 1px solid #fc8173;
+    background-color: #fc8173;
+    color: #efece5;
+    box-shadow: 1px 1px 1px 1px #d2210d;
+}
+input[type=button] {
+/* Disable text selection inside the button */
+/* Standard, FireFox, Safari & Chrome */
+user-select: none;
+-moz-user-select: none;
+-webkit-user-select: none;
+
+border: none;
+border-radius: 15px;
+color: #efece5;
+background-color: #fc8173;
+box-shadow: 1px 1px 1px 1px #d2210d;
+width: 30%;
+height: 50px;
+display: block;
+position: fixed;
+bottom: 20px;
+left: 35%;
+}
+
+input[type=button]:hover {
+    background-color: #f5afa5;
+    box-shadow: 1px 1px 1px 1px #fc8173;
+}
+
+button:hover {
+    background-color: #f5afa5;
+    box-shadow: 1px 1px 1px 1px #fc8173;
+}   
+main {
+   width: 50%;
+   display: block;
+   justify-content: center;
+   align-items: center;
+   height: 100%;
+   margin: 0 auto;
+}
+</style>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/common/textHeader.jsp"/>
+<jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <main>
     <br><br>
     <h2>주소지 관리</h2>

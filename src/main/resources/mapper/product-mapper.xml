@@ -101,8 +101,10 @@
     <!-- 구매목록 가져오기 -->
     <select id="orderList" parameterType="hashmap" resultType="history">
         select 
+        	imp_uid		as impUid,
         	order_no    as orderNo,
             prod_key    as prodKey,
+            user_key 	as userKey,
             addr_key    as addrKey,
             order_price as orderPrice,
             order_cnt   as orderCnt,
@@ -114,8 +116,8 @@
             	select a.*
                 from tbl_order_history a
                 order by order_date desc
-                )a
-            )a
+                ) a
+            ) a
         where
         	user_key = #{userKey}
         and 
@@ -176,7 +178,8 @@
         from tbl_discount_history
         where prod_key = #{prodKey}
   </select>
-   <select id="getProdList" parameterType="String" resultType="product">
+
+    <select id="getProdList" parameterType="String" resultType="product">
       select 	a.PROD_KEY 		as prodKey,
        			i.img_path 		as imgPath,
        			PROD_NM 		as prodNm,
@@ -198,6 +201,7 @@
        where 	b.higher_category = #{categoryKey}
        order 	by a.prod_key
     </select>
+
     <select id="getProdListByName" parameterType="String" resultType="product">
       select 	a.PROD_KEY 		as prodKey,
        			i.img_path 		as imgPath,
@@ -220,7 +224,8 @@
        where 	b.higher_category = #{categoryKey}
        order 	by a.prod_nm
     </select>
- <select id="getProdListByPrice" parameterType="String" resultType="product">
+
+    <select id="getProdListByPrice" parameterType="String" resultType="product">
       select 	a.PROD_KEY 		as prodKey,
        			i.img_path 		as imgPath,
        			PROD_NM 		as prodNm,
@@ -242,7 +247,8 @@
        where 	b.higher_category = #{categoryKey}
        order 	by a.prod_price
     </select>
-     <select id="getAllItems" parameterType="String" resultType="product">
+
+    <select id="getAllItems" parameterType="String" resultType="product">
       select 	a.PROD_KEY 		as prodKey,
        			i.img_path 		as imgPath,
        			PROD_NM 		as prodNm,
@@ -275,4 +281,20 @@
     	and 
     		basket_cd = #{basketCd}	
     </select>
+
+    <select id="selImg" parameterType="string" resultType="productImage">
+        select img_key  as imgKey,
+               img_nm   as imgNm,
+               img_path as imgPath,
+               prod_key as prodKey
+        from tbl_product_image
+        where prod_key = #{_prodKey}
+    </select>
+
+    <select id="selCatNm" parameterType="string" resultType="string">
+        select category_nm
+        from tbl_product_category
+        where category_key = (select category_key from tbl_product where prod_key = #{_prodKey})
+    </select>
+
 </mapper>

@@ -1,10 +1,14 @@
 package com.khedu.sooljura.product.controller;
 
+import com.khedu.sooljura.admin.model.dao.AdminDao;
+import com.khedu.sooljura.admin.model.service.AdminService;
 import com.khedu.sooljura.admin.model.vo.Product;
+import com.khedu.sooljura.admin.model.vo.ProductCategory;
 import com.khedu.sooljura.admin.model.vo.ProductImage;
 import com.khedu.sooljura.product.model.service.ProductService;
 import com.khedu.sooljura.product.model.vo.*;
 import com.khedu.sooljura.user.controller.UserController;
+import com.khedu.sooljura.user.model.vo.AddrListData;
 import com.khedu.sooljura.user.model.vo.User;
 import com.khedu.sooljura.user.model.vo.UserAddr;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +27,19 @@ import java.util.*;
 @Controller
 @RequestMapping("/product/")
 public class ProductController {
-	@Autowired
-	@Qualifier("productService")
-	private ProductService service;
+
+	private final ProductService service;
+	private final AdminService adminService;
+
+	public ProductController(@Qualifier("productService") ProductService service,
+							 @Qualifier("adminService") AdminService adminService) {
+		this.adminService = adminService;
+		this.service = service;
+	}
 
 	// 상세페이지
 	@GetMapping("prodDetail.do")
-	public String prodDetail(String prodKey, Model model, HttpServletRequest request, HttpServletResponse response)
+	public String prodDetail(String prodKey, Model model, HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws ServletException, IOException {
 		Product prod = service.selOneProduct(prodKey);
 		if (prod.getTradingYn() < 1) {
@@ -74,35 +84,50 @@ public class ProductController {
 			String priceWithComma = String.format("%,d", price);
 			model.addAttribute("payPrice", priceWithComma);
 		}
-		
+
 		model.addAttribute("retailPrice", price);
 		model.addAttribute("prodImg", prodImg);
 		model.addAttribute("prod", prod);
+
+		if (session.getAttribute("loginUser") != null) {
+			User admin = (User) session.getAttribute("loginUser");
+			model.addAttribute("userCd", admin.getUserCd());
+		}
+
 		return "product/prodDetail";
 	}
-	
+
 	// 장바구니 페이지로 이동
 	@GetMapping("expPurchaseFrm.do")
 	public String expPurchase(HttpSession session, Model model) {
-		// 세션에서 userKey 가져오기(정상작동중)
-		User loginUser = (User) session.getAttribute("loginUser");
-		String userKey = ((User) loginUser).getUserKey();
-		// userKey 로 Basket 리스트 조회해서 prodKey 가져오기 (정상작동중)
-		ArrayList<Basket> findProdKey = service.findProdKey(userKey);
+	    // 세션에서 userKey 가져오기
+	    User loginUser = (User) session.getAttribute("loginUser");
+	    String userKey = loginUser.getUserKey();
 
-		if (findProdKey == null || findProdKey.isEmpty()) {
-			// Basket 리스트에서 prodKey 가 없는경우
-			model.addAttribute("basketList", Collections.emptyList());
-		} else {
-			// Basket 리스트에서 가져온 prodKey로 제품 정보 조회
-			List<ProductListData> prodInfoList = new ArrayList<>();
-			findProdKey.forEach(basket -> {
-				ProductListData prodInfo = service.prodInfo(basket.getProdKey());
-				prodInfoList.add(prodInfo);
-			});
-			model.addAttribute("basketList", prodInfoList);
-		}
-		return "product/expPurchase";
+	    // userKey로 Basket 리스트 조회
+	    ArrayList<Basket> findProdKey = service.findProdKey(userKey);
+
+	    if (findProdKey == null || findProdKey.isEmpty()) {
+	        // 장바구니가 비어 있는 경우
+	        model.addAttribute("basketList", Collections.emptyList());
+	    } else {
+	        // Basket 리스트와 관련된 제품 정보 가져오기
+	        List<Map<String, Object>> basketProductInfoList = new ArrayList<>();
+
+	        findProdKey.forEach(basket -> {
+	            // 제품 정보 조회
+	            ProductListData prodInfo = service.prodInfo(basket.getProdKey());
+	            Map<String, Object> basketProductInfo = new HashMap<>();
+
+	            // 장바구니 정보와 제품 정보를 함께 담음
+	            basketProductInfo.put("basket", basket);
+	            basketProductInfo.put("productList", prodInfo.getProductList());
+	            basketProductInfoList.add(basketProductInfo);
+	        });
+
+	        model.addAttribute("basketList", basketProductInfoList);
+	    }
+	    return "product/expPurchase";
 	}
 
 	@Autowired
@@ -161,12 +186,6 @@ public class ProductController {
 	@PostMapping("productBuy.do")
 	@ResponseBody
 	public String productBuy(@RequestBody OrderHistory orderHistory) {
-		System.out.println(orderHistory.getImpUid());
-		System.out.println(orderHistory.getProdKeys());
-		System.out.println(orderHistory.getUserKey());
-		System.out.println(orderHistory.getAddrKey());
-		System.out.println(orderHistory.getOrderPrice());
-		System.out.println(orderHistory.getOrderCnt());
 		
 		// 제품 구매내역 DB에 넣기
 		int insertHistory = service.insertHistory(orderHistory);
@@ -182,20 +201,15 @@ public class ProductController {
 
 	// 제품 장바구니에 넣기
 	@GetMapping("insertBasket.do")
-	public String insertBasket(Basket basket) {
-		System.out.println("prodKey : " + basket.getProdKey());
-		System.out.println("userKey : " + basket.getUserKey());
-		System.out.println("basketCnt : " + basket.getBasketCnt());
-		
+	@ResponseBody
+	public String insertBasket(Basket basket) {		
 		basket.setBasketCd(1);
 		
 		//장바구니에 넣기 전 장바구니 테이블에 있는지 체크
 		int chkBasket = service.chkBasket(basket);
-		
 		if(chkBasket < 1) {	
 			//장바구니 테이블 삽입
 			int insertBasket = service.insertBasket(basket);
-			
 			if(insertBasket == 1) {			
 				return String.valueOf(insertBasket);
 			}
@@ -205,16 +219,13 @@ public class ProductController {
 
 	// 제품 찜하기
 	@GetMapping("insertLike.do")
+	@ResponseBody
 	public String insertLike(Basket basket) {
-		System.out.println("prodKey : " + basket.getProdKey());
-		System.out.println("userKey : " + basket.getUserKey());
-
 		basket.setBasketCd(2);
 		basket.setBasketCnt(0);
 		
 		//장바구니에 넣기 전 장바구니 테이블에 있는지 체크
 		int chkBasket = service.chkBasket(basket);
-		
 		if(chkBasket < 1) {
 			//좋아요 테이블 삽입
 			int insertLike = service.insertBasket(basket);
@@ -228,7 +239,7 @@ public class ProductController {
 	// 장바구니에서 제품 삭제
 	@GetMapping("delBasket.do")
 	@ResponseBody
-	public String delBasket(String userKey, String prodKey) {
+	public String delBasket(String userKey, String prodKey) {		
 		Basket basket = new Basket();
 		basket.setUserKey(userKey);
 		basket.setProdKey(prodKey);
@@ -237,44 +248,25 @@ public class ProductController {
 		return String.valueOf(result);
 	}
 
-/*		
 	// 구매내역 페이지로 이동
 	@GetMapping("buyList.do")
-	public String buyList(HttpSession session, int reqPage, Model model) {
-		String userKey = (String) session.getAttribute("userKey");
-		// userKey로 구매내역 가져오기
-		ProductListData orderHistory = service.orderList(userKey, reqPage);
+	public String buyList(int reqPage, Model model, String userKey) {
+	    // 1. 사용자 구매 내역 가져오기
+	    ProductListData ohList = service.orderList(userKey, reqPage);
 
-		// 구매 내역에서 prodKey 리스트 추출
-		// OrderHistory 객체의 prodKey 추출
-		List<String> prodKey = orderHistory.getOrderHistory().stream().map(OrderHistory::getProdKey)
-				.collect(Collectors.toList());
+	    // 2. orderHistory와 productList 매핑
+	    ohList.getOrderHistory().forEach(order -> {
+	        // prodKey를 String 타입으로 받아 ProductListData 객체 반환
+	        ProductListData productData = service.prodInfo(order.getProdKey());
+	        order.setProductList(productData.getProductList()); // ProductListData에서 productList 설정
+	    });
 
-		// prodKey를 사용해 추가 데이터 가져오기
-		if (!prodKey.isEmpty()) {
-			List<Product> product = service.getProdInfo(prodKey);
-			model.addAttribute("product", product);
-		} else {
-			model.addAttribute("product", Collections.emptyList());// 구매내역 없을 때 c:if로 보여주기 위한 용도
-		}
-
-		model.addAttribute("orderHistory", orderHistory.getOrderHistory());
-		model.addAttribute("pageNavi", orderHistory.getPageNavi());
-
-		// prodKey를 사용해 추가 데이터 가져오기
-		if (!prodKey.isEmpty()) {
-			List<Product> product = service.getProdInfo(prodKey);
-			model.addAttribute("product", product);
-		} else {
-			model.addAttribute("product", Collections.emptyList());// 구매내역 없을 때 c:if로 보여주기 위한 용도
-		}
-
-		model.addAttribute("orderHistory", orderHistory.getOrderHistory());
-		model.addAttribute("pageNavi", orderHistory.getPageNavi());
-
-		return "product/buyList";
+	    // 3. Model에 데이터 추가
+	    model.addAttribute("orderHistory", ohList.getOrderHistory());
+	    model.addAttribute("pageNavi", ohList.getPageNavi());
+	    return "product/buyList";
 	}
-*/
+
 	@PostMapping("productDcCnt")
 	@ResponseBody
 	public String productDcCnt(String prodKey, int prodCntVal, Model model) {
@@ -349,4 +341,44 @@ public class ProductController {
 		return "product/prodList";
 	}
 	
+	//결제페이지 주소지 팝업띄우기
+	@GetMapping("chgAddr.do")
+	public String chgAddr(String userKey, Model model) {
+		AddrListData addrList = userController.buyPageAddr(userKey);
+		
+		model.addAttribute("addrList", addrList.getAddrList());
+		return "product/selectAddr";
+	}
+	
+	//결제페이지 주소지 선택
+	@PostMapping("selAddr.do")
+	@ResponseBody
+	public UserAddr selAddr(String addrKey, Model model) {
+		return userController.selectAddr(addrKey);		
+	}
+	
+	//결제페이지 주소 팝업에서 주소지 추가 페이지 이동
+	@GetMapping("addBuyPageAddrFrm.do")
+	public String addBuyPageAddrFrm() {		
+		return "product/addBuyPageAddr";
+	}
+	
+	//결제페이지 주소지 팝업에서 주소지 수정
+	@GetMapping("updBuyPageAddrFrm.do")
+	public String updBuyPageAddrFrm(String addrKey, Model model) {
+		UserAddr addrInfo = userController.updBuyPageAddrFrm(addrKey);
+		model.addAttribute("addrInfo", addrInfo);
+		return "product/updBuyPageAddr";
+	}
+
+	@GetMapping("editProdFrm.do")
+	public String editProd(String prodKey, Model model) {
+		model.addAttribute("prodKey", prodKey);
+        model.addAttribute("prod", service.selOneProduct(prodKey));
+        model.addAttribute("img", service.selImg(prodKey));
+		model.addAttribute("catNm", service.selCatNm(prodKey));
+		model.addAttribute("catList", adminService.getAllCategoryInfos());
+        return "product/editProd";
+	}
+
 }

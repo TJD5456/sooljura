@@ -19,12 +19,12 @@ public class ChatDao {
         this.template = template;
     }
 
-    public int selectChatsWithNoAdmin() {
-        return template.selectOne("chat.selectChatsWithNoAdmin");
+    public int selUnread(String adminKey) {
+        return template.selectOne("chat.selUnread", adminKey);
     }
 
-    public int selectUnreadChats(String adminKey) {
-        return template.selectOne("chat.selectUnreadChats", adminKey);
+    public int selNoAdmin() {
+        return template.selectOne("chat.selNoAdmin");
     }
 
     public List<Room> getRoomList(User user) {
@@ -57,6 +57,10 @@ public class ChatDao {
 
     public void deleteRoom(Chat chat) {
         template.delete("chat.deleteRoom", chat);
+    }
+
+    public String selectUserNickNm(String roomKey) {
+        return template.selectOne("chat.selectUserNickNm", roomKey);
     }
 
 }

@@ -16,10 +16,11 @@
                     <img src="/resources/icons/icon_duck_gear.png" alt="관리자페이지" style="width: 45px;">
                 </a>
             </c:if>
+            <a href="/product/buyList.do?reqPage=1&userKey=${loginUser.userKey}">구매내역 테스트 페이지</a>         
             <a href="/user/logout.do">
                 <img src="/resources/icons/logout_fix_45px.png" alt="로그아웃"><!-- 로그아웃 조건 추가 -->
             </a>
-            <a href="/userMyPage/userMyPage.do">
+            <a href="/userMyPage/userMyPageFrm.do">
                 <img src="/resources/icons/user_사용자_309492_45px.png" alt="마이페이지">
                 <!-- mypage -test 지우고 여기에 로그인 되있으면 마이페이지로 넘어가는 조건 추가 -->
             </a>
@@ -47,11 +48,16 @@
 </header>
 
 <script>
-    function msg(title, text, icon) {
-        swal({
+    function msg(title, text, icon, callback) {
+    	swal({
             title: title,
             text: text,
             icon: icon
+        }).then(function () {
+            if (callback != '' && callback != null) {
+                //전달된 callback 내부 문자열을, Javascript 코드로 해석하고 실행할 수 있게 해주는 함수 : eval
+                eval(callback);
+            }
         });
     }
 </script>

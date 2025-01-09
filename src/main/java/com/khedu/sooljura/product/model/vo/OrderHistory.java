@@ -2,6 +2,8 @@ package com.khedu.sooljura.product.model.vo;
 
 import java.util.List;
 
+import com.khedu.sooljura.admin.model.vo.Product;
+
 public class OrderHistory {
     private String impUid;
     private String orderNo;
@@ -12,13 +14,14 @@ public class OrderHistory {
     private int orderCnt;
     private String orderDate;
     private List<String> prodKeys;
+    private List<Product> productList;
 	
     public OrderHistory() {
 		super();
 	}
 
 	public OrderHistory(String impUid, String orderNo, String prodKey, String userKey, String addrKey, int orderPrice,
-			int orderCnt, String orderDate, List<String> prodKeys) {
+			int orderCnt, String orderDate, List<String> prodKeys, List<Product> productList) {
 		super();
 		this.impUid = impUid;
 		this.orderNo = orderNo;
@@ -29,6 +32,7 @@ public class OrderHistory {
 		this.orderCnt = orderCnt;
 		this.orderDate = orderDate;
 		this.prodKeys = prodKeys;
+		this.productList = productList;
 	}
 
 	public String getImpUid() {
@@ -103,6 +107,14 @@ public class OrderHistory {
 		this.prodKeys = prodKeys;
 	}
 
+	public List<Product> getProductList() {
+		return productList;
+	}
+
+	public void setProductList(List<Product> productList) {
+		this.productList = productList;
+	}
+
 	@Override
 	public String toString() {
 		return "OrderHistory [impUid=" + impUid + ", orderNo=" + orderNo + ", prodKey=" + prodKey + ", userKey="
@@ -110,6 +122,5 @@ public class OrderHistory {
 				+ ", orderDate=" + orderDate + ", prodKeys=" + prodKeys + "]";
 	}
 	
-    
     
 }

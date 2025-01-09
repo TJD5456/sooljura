@@ -1,12 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>sooljura</title>
+    <meta charset="UTF-8">
+    <title>sooljura</title>
 <style>
+/* 기본 스타일 초기화 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* 전체 요소에 패딩 포함한 너비 계산 */
+}
+
 main {
     padding: 0;
 }
@@ -15,7 +21,7 @@ main {
 body {
     background-color: #EFECE5; /* 연한 배경색 */
     align-items: center; /* 수직 가운데 정렬 */
-    height: 100vh; /* 화면 높이를 100%로 설정 */
+    height: 100%; /* 화면 높이를 100%로 설정 */
     margin: 0;
 }
 
@@ -23,7 +29,7 @@ body {
 .insert {
     border: 1px solid black; /* 검은 테두리 */
     width: 600px; /* 폼의 너비 */
-    height: auto; /* 높이를 콘텐츠에 맞게 조정 */
+    height: 100%; /* 높이를 콘텐츠에 맞게 조정 */
     display: flex; /* 플렉스 박스 사용 */
     flex-direction: column; /* 자식 요소를 세로로 배치 */
     align-items: center; /* 수평 가운데 정렬 */
@@ -34,7 +40,7 @@ body {
 
 /* 폼 스타일 */
 form {
-    width: 80%; /* 폼 너비 설정 */
+    width: 100%; /* 폼 너비 설정 */
     display: flex; /* 플렉스 박스 사용 */
     flex-direction: column; /* 요소를 세로로 배치 */
     align-items: center; /* 자식 요소를 수평 중앙 정렬 */
@@ -105,54 +111,39 @@ form {
     margin-top: 50px;
 }
 
-.btnWrap > button {
-    width: 110px;
-    height: 40px;
-}
 </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/textHeader.jsp"/>
 <main>
-    <h1>주소지 수정</h1>
-    <hr>
-    <form action="/user/updAddr.do" id="updAddr" method="POST">
-        <input type="hidden" name="addrKey" id="addrKey" value="${addrInfo.addrKey}">
-        <input type="hidden" name="userKey" id="userKey" value="${addrInfo.userKey}">
+    <form action="/user/addAddr.do" id="addAddr" method="POST">
+        <input type="hidden" class="insertInfo" id="userKey" name="userKey" value="${loginUser.userKey}">
         <div class="form-group">
-            <input type="text" class="insertInfo" id="rcptNm" name="rcptNm" value="${addrInfo.rcptNm}">
+            <input type="text" class="insertInfo" id="rcptNm" name="rcptNm" placeholder="수취인 이름">
         </div>
         <div class="form-group">
-            <input type="text" class="insertInfo" id="rcptPhone" name="rcptPhone" value="${addrInfo.rcptPhone}">
+            <input type="text" class="insertInfo" id="rcptPhone" name="rcptPhone" placeholder="수취인 전화번호">
         </div>
         <div class="form-group">
-            <input type="text" class="insertInfo" id="addrNm" name="addrNm" value="${addrInfo.addrNm}">
+            <input type="text" class="insertInfo" id="addrNm" name="addrNm" placeholder="주소지 이름">
         </div>
         <div class="form-group">
-            <input type="text" class="insertInfo" id="addrCd" name="addrCd" value="${addrInfo.addrCd}" readonly>
+            <input type="text" class="insertInfo" id="addrCd" name="addrCd" placeholder="우편번호" readonly>
             <button type="button" onclick="srchAddr()">주소지 검색</button>
         </div>
         <div class="form-group">
-            <input type="text" class="insertInfo" id="addr" name="addr" value="${addrInfo.addr}" readonly>
+            <input type="text" class="insertInfo" id="addr" name="addr" placeholder="주소" readonly>
         </div>
         <div class="form-group">
-            <input type="text" class="insertInfo" id="addrDetail" name="addrDetail" value="${addrInfo.addrDetail}">
-            <input type="text" class="insertInfo" id="addrRef" name="addrRef" value="${addrInfo.addrRef}" readonly>
+            <input type="text" class="insertInfo" id="addrDetail" name="addrDetail" placeholder="상세주소">
+            <input type="text" class="insertInfo" id="addrRef" name="addrRef" placeholder="참고주소" readonly>
         </div>
-        <c:if test="${addrInfo.defaultYn == 0}">
-            <div class="form-group">
-                <input type="checkbox" name="defaultYnCheckbox" id="defaultYnCheckbox" onchange="setDefaultYn(this)">
-                <span>기본 배송지로 설정</span>
-            </div>
-            <input type="hidden" name="defaultYn" id="defaultYn" value="0">
-        </c:if>
-        <div class="btnWrap">
-            <button type="button" id="cancelButton" onclick="cancelBtn()">취소</button>
-            <button type="button" id="saveButton" onclick="saveBtn()">저장</button>
+        <div id="mainBtn">
+            <input type="button" onclick="undo()" value="돌아가기">
+            <input type="button" onclick="submitBtn()" value="추가하기">
         </div>
     </form>
 </main>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     //주소찾기 버튼
@@ -204,66 +195,56 @@ form {
         }).open();
     }
 
-    //수정 취소
-    function cancelBtn() {
-        location.href = "/user/addrListFrm.do";
-    }
+    function submitBtn() {
+    	const userKey = $('#userKey').val();
+        const rcptNm = $('#rcptNm').val();
+        const rcptPhone = $('#rcptPhone').val();
+        const addrCd = $('#addrCd').val();
+        const addrDetail = $('#addrDetail').val();
 
-    //체크박스 체크 시 defaultYn값 1로 변경
-    function setDefaultYn(checkbox) {
-        document.getElementById('defaultYn').value = checkbox.checked ? 1 : 0;
-    }
-
-    //수정내용 저장
-    function saveBtn() {
-        swal({
-            title: "알림",
-            text: "주소를 수정하시겠습니까?",
-            icon: "success",
-            buttons: {
-                cancel: {
-                    text: "취소",
-                    value: false,
-                    visible: true,
-                    closeModal: true
+        if (rcptNm.length < 1) {
+            msg('알림', '주소를 입력해주세요', 'warning');
+            return;
+        } else if (rcptPhone.length < 1) {
+            msg('알림', '수취인 전화번호를 입력해주세요', 'warning');
+            return;
+        } else if (addrCd.length < 1) {
+            msg('알림', '수취인 이름을 입력해주세요', 'warning');
+            return;
+        } else if (addrDetail.length < 1) {
+            msg('알림', '상세 주소를 입력해주세요', 'warning');
+            return;
+        } else {
+            $.ajax({
+                url: "/user/addAddr.do",
+                data: {
+                    userKey: userKey,
+                    addrNm: $('#addrNm').val(),
+                    addrCd: addrCd,
+                    addr: $('#addr').val(),
+                    addrDetail: addrDetail,
+                    addrRef: $('#addrRef').val(),
+                    rcptNm: rcptNm,
+                    rcptPhone: rcptPhone
                 },
-                confirm: {
-                    text: "수정",
-                    value: true,
-                    visible: true,
-                    closeModal: true
-                }
-            }
-        }).then(function (isConfirm) {
-            if (isConfirm) {
-                $.ajax({
-                    url: "/user/updAddr.do",
-                    type: "POST",
-                    data: {
-                        addrKey: $('#addrKey').val(),
-                        userKey: $('#userKey').val(),
-                        addrNm: $('#addrNm').val(),
-                        addrCd: $('#addrCd').val(),
-                        addr: $('#addr').val(),
-                        addrDetail: $('#addrDetail').val(),
-                        addrRef: $('#addrRef').val(),
-                        rcptNm: $('#rcptNm').val(),
-                        rcptPhone: $('#rcptPhone').val(),
-                        defaultYn: $('#defaultYn').val()
-                    },
-                    success: function (res) {
-                        if (res == "1" || res == "2") {
-                            msg('알림', '수정이 완료되었습니다', 'success', "location.href = '/user/addrListFrm.do';");
-                        } else {
-                            msg('알림', '수정 중 오류가 발생했습니다', 'error');
-                        }
-                    },
-                    error: function () {
-                        console.log('ajax 오류');
+                type: "POST",
+                success: function (res) {
+                    if (res === "1") {
+                        msg('알림', '주소 등록이 완료되었습니다', 'success', "location.href = '/product/chgAddr.do?userKey="+userKey+"';");
+                    } else {
+                        msg('알림', '주소 등록 중 오류가 발생했습니다', 'error');
                     }
-                })
-            }
-        })
+                },
+                error: function () {
+                    console.log()
+                }
+            })
+        }
+    }
+
+    function undo() {
+    	let userKey = $('#userKey').val();
+        location.href = "chgAddr.do?userKey="+userKey;
     }
 </script>
 </body>

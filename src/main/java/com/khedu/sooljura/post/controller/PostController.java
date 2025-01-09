@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/post/")
@@ -413,45 +416,54 @@ public class PostController {
 		}
 	}
 
-	@GetMapping("readMyPost.do")
-	public String readMyPost(HttpSession session, Model model) {
+	@GetMapping("getUserPosts.do")
+	@ResponseBody
+	public Map<String, List<Post>> getUserPosts(HttpSession session) {
 		User loginUser = (User) session.getAttribute("loginUser");
+		Map<String, List<Post>> resultMap = new HashMap<>();
 
 		if (loginUser == null) {
-			return "redirect:/user/loginFrm.do"; // 로그인하지 않은 경우 로그인 페이지로 이동
+			resultMap.put("error", null);
+			return resultMap;
 		}
 
 		String userKey = loginUser.getUserKey();
-
-		// 카테고리별 게시글 가져오기
 		List<Post> freePosts = service.getMyPostsByCategory(userKey, 2); // 자유게시판
 		List<Post> noticePosts = service.getMyPostsByCategory(userKey, 1); // 공지사항
 		List<Post> reviewPosts = service.getMyPostsByCategory(userKey, 3); // 후기 게시판
 
-		model.addAttribute("freePosts", freePosts);
-		model.addAttribute("noticePosts", noticePosts);
-		model.addAttribute("reviewPosts", reviewPosts);
+		resultMap.put("freePosts", freePosts);
+		resultMap.put("noticePosts", noticePosts);
+		resultMap.put("reviewPosts", reviewPosts);
 
-		return "userMyPage/readMyPost"; // JSP 경로
+		return resultMap; // JSON 형식으로 반환
 	}
 
-    @GetMapping("adminDeletePost.do")
-    public String adminDeletePost(String postKey) {
-        if (service.adminDeletePost(postKey) > 0) {
-            return "redirect:/admin/managePosts.do";
-        } else {
-            return "redirect:/post/freePostDetail.do?postKey=" + postKey;
-        }
-    }
+	@GetMapping("adminDeletePost.do")
+	public String adminDeletePost(String postKey) {
+		if (service.adminDeletePost(postKey) > 0) {
+			return "redirect:/admin/managePosts.do";
+		} else {
+			return "redirect:/post/freePostDetail.do?postKey=" + postKey;
+		}
+	}
 
-    @GetMapping("confirmYn.do")
-    @ResponseBody
-    public String confirmYn(String postKey) {
-        if(service.confirmYn(postKey) > 0) {
-            return "confirm check";
-        } else {
-            return "foobar";
-        }
-    }
+	@GetMapping("confirmYn.do")
+	@ResponseBody
+	public String confirmYn(String postKey) {
+		if (service.confirmYn(postKey) > 0) {
+			return "confirm check";
+		} else {
+			return "foobar";
+		}
+	}
 
+	@PostMapping("readMyPost1.do")
+	public String readMyPostPage(String userKey, Model model) {
+	    PostPageData pd = service.selectPostList(1, 2, userKey);
+	    
+	    model.addAttribute("list", pd.getList());
+		model.addAttribute("pageNavi", pd.getPageNavi());
+		return "userMyPage/readMyPost1";
+	    }
 }

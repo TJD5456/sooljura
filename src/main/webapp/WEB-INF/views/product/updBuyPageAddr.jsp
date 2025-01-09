@@ -216,6 +216,8 @@ form {
 
     //수정내용 저장
     function saveBtn() {
+    	const userKey = $('#userKey').val();
+    	
         swal({
             title: "알림",
             text: "주소를 수정하시겠습니까?",
@@ -253,7 +255,7 @@ form {
                     },
                     success: function (res) {
                         if (res == "1" || res == "2") {
-                            msg('알림', '수정이 완료되었습니다', 'success', "location.href = '/user/addrListFrm.do';");
+                            msg('알림', '수정이 완료되었습니다', 'success', "location.href = '/product/chgAddr.do?userKey="+userKey+"';");
                         } else {
                             msg('알림', '수정 중 오류가 발생했습니다', 'error');
                         }

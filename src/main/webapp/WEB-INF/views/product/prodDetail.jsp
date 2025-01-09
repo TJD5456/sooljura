@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -86,7 +86,6 @@ button {
 .hrLine {
 	margin-bottom: 50px;
 	margin-top: 50px;
-	margin-bottom: 50px;
 	border-bottom: 1px solid grey;
 	border-top: 1px solid grey;
 }
@@ -96,7 +95,6 @@ button {
 	justify-content: center;
 	margin-top: 50px;
 	margin-bottom: 50px;
-	margin-top: 50px;
 }
 
 .comment-form {
@@ -105,9 +103,9 @@ button {
 
 .cntBtn {
 	margin: 0;
+	margin-bottom: 2px;
 	height: 20px;
 	width: 20px;
-	margin-bottom: 2px;
 	box-shadow: 1px 1px 1px 1px #d2210d !important;
 }
 
@@ -139,6 +137,11 @@ button {
 	font-size: 24px;
 	color: red;
 }
+
+.admin-btn button {
+	padding: 10px;
+	margin-bottom: 30px;
+}
 </style>
 </head>
 <body>
@@ -147,6 +150,12 @@ button {
 		<jsp:include page="/WEB-INF/views/common/header.jsp" />
 		<div class="wrapper">
 			<div class="content">
+				<c:if test="${userCd == 0}">
+					<div class="admin-btn">
+						<button onclick="editProd();">제품 수정</button>
+						<button onclick="delProd();">제품 삭제</button>
+					</div>
+				</c:if>
 				<div class="goodsBox">
 					<!-- 상품이미지 미리보기 시작 { -->
 					<div class="goodsLeft">
@@ -205,9 +214,9 @@ button {
 										<th>할인가/율</th>
 										<td colspan="3"><c:if test="${pOrA eq 2}">
 												<span>0&#37;</span>
-											</c:if> <c:if test="${pOrA eq 1}">
-												<span>${dcPrice}&#37;</span>
 											</c:if> <c:if test="${pOrA eq 0}">
+												<span>${dcPrice}&#37;</span>
+											</c:if> <c:if test="${pOrA eq 1}">
 												<span>${dcPrice}원</span>
 											</c:if></td>
 									</tr>
@@ -237,12 +246,22 @@ button {
 								</tbody>
 							</table>
 							<div class="btns">
-								<div>
-									<button class="basketBtns" id="likedProd">찜하기</button>
-								</div>
-								<div>
-									<button class="basketBtns" id="prodBasket">장바구니</button>
-								</div>
+								<c:if test="${not empty loginUser}">
+									<div>
+										<button class="basketBtns" id="likedProd">찜하기</button>
+									</div>
+									<div>
+										<button class="basketBtns" id="prodBasket">장바구니</button>
+									</div>
+								</c:if>
+								<c:if test="${empty loginUser}">
+									<div>
+										<a href="/user/loginFrm.do"><button class="basketBtns">찜하기</button></a>
+									</div>
+									<div>
+										<a href="/user/loginFrm.do"><button class="basketBtns">장바구니</button></a>
+									</div>
+								</c:if>
 							</div>
 						</div>
 					</section>
@@ -272,7 +291,8 @@ button {
 		<jsp:include page="/WEB-INF/views/common/remote.jsp" />
 		<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 	</main>
-	<script>	
+
+	<script>
 		$('#cntBtnUp').on('click', function(){
 			var currentValue = parseInt($('#prodCnt').val()) || 0;
 			$('#prodCnt').val(currentValue + 1).trigger('change');
@@ -358,7 +378,7 @@ button {
 					userKey : $('#userKey').val()
 				},
 				success : function(res){
-					if(res == "1"){
+					if(res === "1"){
 						msg('알림', '장바구니 완료', 'success');
 					}else{
 						msg('알림', '장바구니 오류발생', 'error');
@@ -369,6 +389,19 @@ button {
 				}
 			});
 		});
+
+		function editProd() {
+			window.location = "/product/editProdFrm.do?prodKey=" + "${prod.prodKey}";
+		}
+
+		function delProd() {
+			const delConfirm = confirm("제품을 삭제 하시겠습니까?");
+
+			if(delConfirm) {
+				window.location = "/admin/delProd.do?prodKey=" + "${prod.prodKey}";
+			}
+
+		}
 	</script>
 </body>
 </html>

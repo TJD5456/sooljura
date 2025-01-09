@@ -21,12 +21,12 @@ public class AdminDao {
         this.template = template;
     }
 
-    public int numberOfUnCheckedPost() {
-        return template.selectOne("admin.numberOfUnCheckedPost");
+    public int selNewPost() {
+        return template.selectOne("admin.selNewPost");
     }
 
-    public int numberOfUncheckedNewUser() {
-        return template.selectOne("admin.numberOfUncheckedNewUser");
+    public int newUser() {
+        return template.selectOne("admin.newUser");
     }
 
     public String selectProdKey() {
@@ -91,6 +91,14 @@ public class AdminDao {
 
     public int changeUserLevel(HashMap<String, String> keyAndCd) {
         return template.update("admin.changeUserLevel", keyAndCd);
+    }
+
+    public int editProd(Product product) {
+        return template.update("admin.editProd", product);
+    }
+
+    public int delProd(String prodKey) {
+        return template.delete("admin.delProd", prodKey);
     }
 
 }

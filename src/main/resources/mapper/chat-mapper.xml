@@ -2,17 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="chat">
 
-    <select id="selectChatsWithNoAdmin" resultType="int">
-        select count(*)
-        from tbl_room
-        where admin_key is null
-    </select>
-
-    <select id="selectUnreadChats" parameterType="string" resultType="int">
+    <select id="selUnread" parameterType="string" resultType="int">
         select count(*)
         from tbl_room
         where admin_key = #{_adminKey}
-        and read_yn = 0
+          and read_yn = 0
+    </select>
+
+    <select id="selNoAdmin" resultType="int">
+        select count(*)
+        from tbl_room
+        where admin_key is null
     </select>
 
     <select id="getRoomList" parameterType="user" resultType="room">
@@ -56,15 +56,16 @@
                 sysdate)
     </insert>
 
-    <select id="checkAdminPresence" parameterType="string" resultType="room">
-        select admin_key as adminKey
+    <select id="checkAdminPresence" parameterType="string" resultType="user">
+        select admin_key as user_key
         from tbl_room
         where room_key = #{_roomKey}
     </select>
 
     <insert id="insertAdmin" parameterType="hashmap">
         update tbl_room
-        set admin_key = #{userKey}
+        set admin_key = #{userKey},
+            read_yn   = 1
         where room_key = #{roomKey}
     </insert>
 
@@ -76,6 +77,7 @@
                sent_date  as sentDate
         from tbl_chat
         where room_key = #{_roomKey}
+        order by sent_date
     </select>
 
     <delete id="deleteRoom" parameterType="chat">
@@ -83,5 +85,13 @@
         from tbl_room
         where room_key = #{roomKey}
     </delete>
+
+    <select id="selectUserNickNm" parameterType="string" resultType="string">
+        select user_nicknm
+        from tbl_user
+        where user_key = (select user_key
+                          from tbl_room
+                          where room_key = #{_roomKey})
+    </select>
 
 </mapper>

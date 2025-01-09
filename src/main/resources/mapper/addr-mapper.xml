@@ -25,6 +25,25 @@
                 0)
     </insert>
 
+	<!-- 결제페이지에서 선택한 주소지 가져오기 -->
+	<select id="selectAddr" parameterType="string" resultType="addr">
+		select
+			addr_key 	as addrKey,
+			user_key    as userKey,
+            addr_nm     as addrNm,
+            addr_cd     as addrCd,
+            addr        as addr,
+            addr_detail as addrDetail,
+            addr_ref    as addrRef,
+            rcpt_nm     as rcptNm,
+            rcpt_phone  as rcptPhone,
+            default_yn  as defaultYn
+    	from 
+    		tbl_user_addr
+    	where
+    		addr_key = #{addrKey}
+	</select>
+
     <!-- 주소지 목록 조회 -->
     <select id="userAddrList" parameterType="string" resultType="addr">
         select addr_key    as addrKey,

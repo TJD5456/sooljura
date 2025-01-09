@@ -4,8 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <title>술주라</title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <style>
+	.userInfo{
+		display: none;
+	}
     .myPageChoices {
         width: 700px;
         margin: 0 auto;
@@ -79,13 +83,17 @@
             </div>
 
             <div class="myPageChoices">
-                <button class="myPageChoiceBtn" id="userInfo" onclick="toggleView(this)">회원 정보</button>
+                <button class="myPageChoiceBtn" id="userInfo">회원 정보</button><%-- onclick="toggleView(this)" --%>
                 <button class="myPageChoiceBtn" id="shoppingInfo" onclick="toggleView(this)">쇼핑 정보</button>
-                <button class="myPageChoiceBtn" id="readMyPost" onclick="toggleView(this)">내글 보기</button>
+                <button class="myPageChoiceBtn" id="readMyPost">내글 보기</button>
                 <button class="myPageChoiceBtn" id="likedMerc" onclick="toggleView(this)">찜한상품</button>
                 <button class="myPageChoiceBtn" id="addrInfo" onclick="addrInfo()">주소 관리</button>
             </div>
-            <div class="myPageInfoView"></div>
+            <div class="myPageInfoView">
+            </div>
+            <div class="userInfo">
+            	<jsp:include page="/userMyPage/userInfo.do"></jsp:include>
+            </div>
         </div>
         <jsp:include page="/WEB-INF/views/common/remote.jsp"/>
     </div>
@@ -93,10 +101,20 @@
 </main>
 
 <script>
+	let val = 0;
+	$('#userInfo').on('click', function(){
+		location.href="userInfo1.do?pg=1"
+	})
+	
+	$('#readMyPost').on('click', function(){
+		location.href="readMyPost1.do?pg=3"
+	})
+
+/*
     function toggleView(button) {
-        /* 값 불러올 수 있도록 펑션 설계 */
-        /* 해당 값에 맞는 페이지로 location.href 써서 보내줄것임 */
-        /* 불필요하다 생각되면 말해주세요 */
+        // 값 불러올 수 있도록 펑션 설계
+        // 해당 값에 맞는 페이지로 location.href 써서 보내줄것임
+        // 불필요하다 생각되면 말해주세요
         const endPoints = {
             userInfo: "/userMyPage/userInfo.do",
             shoppingInfo: "/userMyPage/shoppingInfo.do",
@@ -127,7 +145,7 @@
             }
         });
     }
-
+    */
     // ========== userInfo.jsp 의 function ==========
     function pwChk() {
         $('#myPageInfoView').on('input', '#userPw', function () {
@@ -155,6 +173,7 @@
     }
 
     $(function () {
+    	
         $('.myPageInfoView').on('click', '#pwChgBtn', function () {
             console.log("button clicked");
             $('#userPwChg').toggle();

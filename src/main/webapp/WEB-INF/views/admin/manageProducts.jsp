@@ -22,6 +22,11 @@
         .category-span > input {
             margin-right: 5px;
         }
+
+        .second-table tr:hover {
+            background-color: var(--table-th-background);
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -33,7 +38,7 @@
             <div class="title">
                 <h1>상품 관리</h1>
             </div>
-            <form action="${pageContext.request.contextPath}/admin/uploadProduct.do" method="post"
+            <form action="/admin/uploadProduct.do" method="post"
                   enctype="multipart/form-data" id="uploadForm">
                 <table>
                     <tr>
@@ -73,7 +78,7 @@
                     </tr>
                     <tr>
                         <th><label for="tradeYnInput">거래여부</label></th>
-                        <td><input type="text" id="tradeYnInput" name="isTrading"></td>
+                        <td><input type="text" id="tradeYnInput" name="tradingYn"></td>
                     </tr>
                     <tr class="categoryRow">
                         <th>카테고리</th>
@@ -116,8 +121,7 @@
                 </thead>
                 <tbody>
                 <c:forEach var="product" items="${products}">
-                    <tr class="product-each">
-                        <%-- TODO: 제품을 클릭하면 제품 상세 페이지로 이동하도록 할것 --%>
+                    <tr class="product-each" onclick="goToProductDetail('${product.prodKey}')">
                         <td>${product.prodKey}</td>
                         <td>${product.productCategory.categoryNm}</td>
                         <td>${product.prodNm}</td>
@@ -136,6 +140,10 @@
 </main>
 
 <script>
+    function goToProductDetail(prodKey) {
+        window.location.href = '/product/prodDetail.do?prodKey=' + prodKey;
+    }
+
     function manageCategoryFrm() {
         window.location.href = '/admin/manageCategoryFrm.do';
     }

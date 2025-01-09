@@ -41,7 +41,7 @@ aside {
     height: 100%;
     padding: 10px;
     background-color: var(--sidebar-background);
-    color: #ff2911;
+    color: var(--sidebar-list);
     list-style: none;
 }
 
@@ -51,12 +51,12 @@ aside li {
 }
 
 aside li > a {
-    color: #ff6851;
+    color: var(--sidebar-text);
     text-decoration: none;
 }
 
 aside a:hover {
-    color: #ff3819;
+    color: var(--sidebar-text-hover);
     text-decoration: underline;
 }
 
@@ -80,7 +80,7 @@ header > a {
 }
 
 header > a:hover {
-    color: #ff5353;
+    color: var(--header-text-hover);
     text-decoration: underline;
 }
 
@@ -181,4 +181,3 @@ th {
 tr:hover {
     background-color: var(--table-tr-background-hover);
 }
-

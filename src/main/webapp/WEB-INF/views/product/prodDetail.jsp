@@ -137,6 +137,11 @@ button {
 	font-size: 24px;
 	color: red;
 }
+
+.admin-btn button {
+	padding: 10px;
+	margin-bottom: 30px;
+}
 </style>
 </head>
 <body>
@@ -144,13 +149,13 @@ button {
 	<main>
 		<jsp:include page="/WEB-INF/views/common/header.jsp" />
 		<div class="wrapper">
-			<c:if test="${userCd == 0}">
-				<div class="admin-btn">
-					<button onclick="editProd();">제품 수정</button>
-					<button onclick="delProd();">제품 삭제</button>
-				</div>
-			</c:if>
 			<div class="content">
+				<c:if test="${userCd == 0}">
+					<div class="admin-btn">
+						<button onclick="editProd();">제품 수정</button>
+						<button onclick="delProd();">제품 삭제</button>
+					</div>
+				</c:if>
 				<div class="goodsBox">
 					<!-- 상품이미지 미리보기 시작 { -->
 					<div class="goodsLeft">

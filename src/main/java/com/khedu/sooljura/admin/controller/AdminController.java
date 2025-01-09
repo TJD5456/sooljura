@@ -272,4 +272,15 @@ public class AdminController {
         }
     }
 
+    @GetMapping("delProd")
+    public String delProd(String prodKey) {
+        int delRes = serv.delProd(prodKey);
+
+        if (delRes > 0) {
+            return "redirect:/admin/manageProducts.do";
+        } else {
+            return "redirect:/product/prodDetail.do?=" + prodKey;
+        }
+    }
+
 }

@@ -97,4 +97,8 @@ public class AdminDao {
         return template.update("admin.editProd", product);
     }
 
+    public int delProd(String prodKey) {
+        return template.delete("admin.delProd", prodKey);
+    }
+
 }

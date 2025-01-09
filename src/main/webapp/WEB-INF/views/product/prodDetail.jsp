@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -145,8 +145,9 @@ button {
 		<jsp:include page="/WEB-INF/views/common/header.jsp" />
 		<div class="wrapper">
 			<c:if test="${userCd == 0}">
-				<div class="edit-btn">
+				<div class="admin-btn">
 					<button onclick="editProd();">제품 수정</button>
+					<button onclick="delProd();">제품 삭제</button>
 				</div>
 			</c:if>
 			<div class="content">
@@ -378,7 +379,7 @@ button {
 						msg('알림', '장바구니 오류발생', 'error');
 					}
 				},
-				error : function(res){
+				error : function(){
 					console.log('장바구니 ajax 오류');
 				}
 			});
@@ -386,6 +387,15 @@ button {
 
 		function editProd() {
 			window.location = "/product/editProdFrm.do?prodKey=" + "${prod.prodKey}";
+		}
+
+		function delProd() {
+			const delConfirm = confirm("제품을 삭제 하시겠습니까?");
+
+			if(delConfirm) {
+				window.location = "/admin/delProd.do?prodKey=" + "${prod.prodKey}";
+			}
+
 		}
 	</script>
 </body>

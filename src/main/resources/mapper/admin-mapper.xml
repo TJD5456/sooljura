@@ -209,4 +209,10 @@
         where prod_key = #{prodKey}
     </update>
 
+    <delete id="delProd" parameterType="string">
+        delete
+        from tbl_product
+        where prod_key = #{_prodKey}
+    </delete>
+
 </mapper>

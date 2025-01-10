@@ -6,6 +6,22 @@
     <meta charset="UTF-8">
     <title>술주라</title>
     <link rel="icon" href="/resources/icons/logo-circle-woText-16px-favicon.png">
+    <style>
+        .content {
+            display: inline-block;
+            justify-items: center;
+        }
+
+        .bannerDiv1 {
+            width: 1400px;
+        }
+
+        .bannerDiv1 img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
@@ -13,9 +29,7 @@
     <jsp:include page="/WEB-INF/views/common/header.jsp"/>
     <div class="wrapper">
         <div class="content">
-            <div class="title">
-                <h1>메인페이지</h1>
-            </div>
+            <jsp:include page="/WEB-INF/views/common/productList.jsp"/>
         </div>
         <jsp:include page="/WEB-INF/views/common/remote.jsp"/>
     </div>

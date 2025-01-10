@@ -86,10 +86,10 @@ public class ChatController {
         User loginUser = (User) session.getAttribute("loginUser");
         int userCd = loginUser.getUserCd();
 
-        if (userCd != 0) {
+        if (userCd == 0) {
             return "redirect:/admin/manageChats.do";
         } else {
-            return "redirect:/chat/chatRoom.do";
+            return "redirect:/chat/chatFrm.do";
         }
     }
 

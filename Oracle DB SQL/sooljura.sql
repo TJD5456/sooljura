@@ -293,3 +293,5 @@ commit;
 insert into tbl_basket values ( 'bk' || to_char( sysdate, 'yymmdd') || lpad( seq_basket.nextval, 4, '0'), 1, ( select prod_key from tbl_product where prod_key like '%0001'), 'us0000000001', 1 );
 insert into tbl_basket values ( 'bk' || to_char( sysdate, 'yymmdd') || lpad( seq_basket.nextval, 4, '0'), 1, ( select prod_key from tbl_product where prod_key like '%0002'), 'us0000000001', 1 );
 
+select * from tbl_product where prod_nm = 'jim';
+select * from tbl_product;

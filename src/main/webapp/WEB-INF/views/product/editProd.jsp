@@ -3,6 +3,11 @@
 <html>
 <head>
     <title>editProd.jsp</title>
+    <style>
+        .categoryKey {
+            border-top: var(--table-border) 1px solid;
+        }
+    </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
@@ -79,7 +84,7 @@
                             <th>카테고리</th>
                             <td>
                                 <input value="${catNm}" name="oriCat" disabled>
-                                <input type="hidden" value="${prod.categoryKey}" name="categoryKey">
+                                <input type="hidden" value="${prod.categoryKey}">
                                 <div class="categoryLevel1">
                                     <c:forEach var="category" items="${catList}">
                                         <c:if test="${category.categoryLevel == 1}">
@@ -145,7 +150,7 @@
                         inputEl.setAttribute("type", "radio");
                         inputEl.setAttribute("value", categoryKey);
                         inputEl.setAttribute("id", categoryNm);
-                        inputEl.setAttribute("name", "categoryLevel2");
+                        // inputEl.setAttribute("name", "categoryKey");
                         inputEl.setAttribute("required", "");
 
                         const labelEl = document.createElement("label");
@@ -167,8 +172,13 @@
         }
     });
 
+    $(document).on("click", ".category-span input[type='radio']", function () {
+        $(this).attr("name", "categoryKey");
+    });
+
+    // Level 3 까지 가지 않기 위해서 foobar 으로 수정
     // Use "document" or another static parent for event delegation
-    $(document).on('change', '.categoryLevel2 input[type="radio"]', function () {
+    $(document).on('change', '.foobar input[type="radio"]', function () {
         if ($(this).is(':checked')) {
             let higherCategoryKey = $(this).val();
 

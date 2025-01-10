@@ -196,7 +196,7 @@ create table tbl_youtube (
    prod_key3   char(12) references tbl_product ( prod_key ) on delete set null
 );
 
-insert into tbl_youtube  values ( 'null', 'null', ( select prod_key from tbl_product where prod_key like '%0001'), null, null);
+insert into tbl_youtube  values ( 'empty', 'empty', ( select prod_key from tbl_product where prod_key like '%0001'), null, null);
 
 create table tbl_discount_info (
    event_cd         char(12) primary key,

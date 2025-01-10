@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -86,6 +87,7 @@
                     type: 'get',
                     success() {
                         window.alert("유튜브가 삭제 되었습니다");
+                        location.reload();
                     },
                     error(res) {
                         window.alert("error: " + res);

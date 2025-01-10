@@ -124,10 +124,9 @@ public class AdminController {
     @GetMapping("delYt")
     @ResponseBody
     public String delYt() {
-
         Youtube yt = new Youtube();
-        yt.setYoutubeUrl("none");
-        yt.setContent("none");
+        yt.setYoutubeUrl("empty");
+        yt.setContent("empty");
 
         int result = serv.updateYoutube(yt);
 

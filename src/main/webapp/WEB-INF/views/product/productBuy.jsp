@@ -103,62 +103,60 @@
     <jsp:include page="/WEB-INF/views/common/header.jsp"/>
     <div class="wrapper">
         <div class="content">
-                <input type="hidden" id="userKey" value="${loginUser.userKey}">
-                <input type="hidden" id="userEmail" value="${loginUser.userEmail}">
-                <input type="hidden" id="userPhone" value="${loginUser.userPhone}">
-
-                <div class="div-wrap">
-                    <h2>배송지</h2>
-                    <div class="addrWrap">
-                        <input type="hidden" id="addrKey" name="addrKey" value="${addr.addrKey}">
-                        
-                        <span style="display: flex; font-size: 20px;" id="rcptNm">
-	                         ${addr.rcptNm}
-	                    </span>
-	                    <span id="addrNm">
-	                         <c:if test="${not empty addr.addrNm}">
-	                             (${addr.addrNm})
-	                         </c:if>
-                     	</span>
-                    </div>
-
-                    <div class="btnWrap">
-                        <input type="button" onclick="chgAddr()" value="변경">
-                    </div>
-
-                    <div class="addrWrap">
-                        <span id="rcptPhone">${addr.rcptPhone}</span>
-                    </div>
-
-                    <div class="addrWrap">
-                        <span id="addrCd">(${addr.addrCd})</span>
-                    </div>
-                    <div class="addrWrap">
-                        <span id="addr">${addr.addr}</span> <span id="addrDetail">${addr.addrDetail}</span> <br>
-                    </div>
-
-                    <h2 class="order-product-title">주문상품</h2>
-                    <c:forEach var="productData" items="${productList}">
-                        <c:forEach var="product" items="${productData.productList}">
-                            <input type="hidden" class="prodKeys" value="${product.prodKey}"><%-- 값 있음 --%>
-                            <div class="center-div-items" style="border-bottom: none;">
-                                <input type="text" class="prodNm" value="${product.prodNm}" readonly>
-                            </div>
-                            <div class="center-div-items" style="border: none;">
-                            	<input type="text" class="selProdCnt" value="" readonly>
-                            </div>
-                            <div class="center-div-items" style="border-top: none;">
-                                <input type="text" class="prodPrice" value="${product.prodPrice}" readonly>
-                            </div>
-                        </c:forEach>
-                    </c:forEach>
-                </div>
-                <div class="fixed-div">
-                    <span id="orderSummary" style="font-size: 30px; margin-top: 10px;">총 <span id="totalCnt">0</span>건의 주문금액 <span id="totalPrice">0</span>원</span>
-                    <input type="submit" id="buyBtn" onclick="reqPayment()"
-                           style="border-radius: 10px; height: 50px; margin-top: 10px;" value="선택한 제품 구매하기">
-                </div>
-        </div>
+	        <input type="hidden" id="userKey" value="${loginUser.userKey}">
+	        <input type="hidden" id="userEmail" value="${loginUser.userEmail}">
+	        <input type="hidden" id="userPhone" value="${loginUser.userPhone}">
+	
+	        <div class="div-wrap">
+	            <h2>배송지</h2>
+	            <div class="addrWrap">
+	                <input type="hidden" id="addrKey" name="addrKey" value="${addr.addrKey}">
+	                
+	                <span style="display: flex; font-size: 20px;" id="rcptNm">
+	                  ${addr.rcptNm}
+	             </span>
+	             <span id="addrNm">
+	                  <c:if test="${not empty addr.addrNm}">
+	                      (${addr.addrNm})
+	                  </c:if>
+	             	</span>
+	            </div>
+	
+	            <div class="btnWrap">
+	                <input type="button" onclick="chgAddr()" value="변경">
+	            </div>
+	
+	            <div class="addrWrap">
+	                <span id="rcptPhone">${addr.rcptPhone}</span>
+	            </div>
+	
+	            <div class="addrWrap">
+	                <span id="addrCd">(${addr.addrCd})</span>
+	            </div>
+	            <div class="addrWrap">
+	                <span id="addr">${addr.addr}</span> <span id="addrDetail">${addr.addrDetail}</span> <br>
+	            </div>
+	
+	            <h2>주문상품</h2>
+	            <c:forEach var="product" items="${productList}">
+					<input type="hidden" class="prodKeys" value="${product.prodKey}">
+					<div class="center-div-items" style="border-bottom: none;">
+					    <input type="text" class="prodNm" value="${product.prodNm}" readonly>
+					</div>
+					<div class="center-div-items" style="border: none;">
+					    <input type="text" class="selProdCnt" value="${product.basketCnt}개" readonly>
+					</div>
+					<div class="center-div-items" style="border-top: none;">
+					    <input type="text" class="prodPrice" value="${product.prodPrice}원" readonly>
+					</div>
+				</c:forEach>
+			</div>
+			<div class="fixed-div">
+	            <span id="orderSummary" style="font-size: 30px; margin-top: 10px;">총 <span id="totalCnt">0</span>건의 주문금액 <span id="totalPrice">0</span>원</span>
+	            <input type="submit" id="buyBtn" onclick="reqPayment()"
+	                   style="border-radius: 10px; height: 50px; margin-top: 10px;" value="선택한 제품 구매하기">
+	        </div>
+       	</div>
         <jsp:include page="/WEB-INF/views/common/remote.jsp"/>
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
@@ -190,29 +188,44 @@
 --%>
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <script>
-    function updateOrderSummary() {
-        let totalCnt = 0; // 총 prodCnt
-        let totalPrice = 0; // 총 prodPrice
-    }
+function updateOrderSummary() {
+    // totalCnt와 totalPrice 초기화
+    let totalCnt = 0;
+    let totalPrice = 0;
 
-    // 모든 제품 순회
-    $('div input.prodCnt').each(function () {
-        const prodCnt = Number($(this).val()); // 제품 수량
-        const prodPrice = Number($(this).closest('div').find('.prodPrice').val()); // 제품 가격
+    // 각 제품의 정보를 정확히 순회
+    $('.div-wrap .prodKeys').each(function (idx) {
+    	console.log(idx);
+        // 현재 반복 중인 prodKeys의 부모 요소 탐색
+        const productWrapper = $(this).closest('.div-wrap');
 
-        totalCnt += prodCnt;
-        totalPrice += prodCnt * prodPrice; // 수량과 가격의 곱
+        // 제품 수량 (예: "3개")
+        const basketCntText = productWrapper.find('.selProdCnt').eq(idx).val() || ""; // 값이 없으면 빈 문자열 반환
+        const basketCnt = Number(basketCntText.replace('개', '').trim()) || 0; // 변환 실패 시 0
+
+        // 제품 가격 (예: "5000원")
+        const prodPriceText = productWrapper.find('.prodPrice').eq(idx).val() || ""; // 값이 없으면 빈 문자열 반환
+        const prodPrice = Number(prodPriceText.replace('원', '').trim()) || 0; // 변환 실패 시 0
+
+        // 수량과 가격 합산
+        totalCnt += basketCnt;
+        totalPrice += basketCnt * prodPrice;
+        
+        console.log("totalPrice : " + totalPrice);
     });
 
-    // span 태그에 결과 업데이트
-    $('#orderSummary').text(`총 ${totalCnt}건의 주문금액 ${totalPrice}원`);
+    // 합산 결과를 화면에 갱신
+    $('#totalCnt').text(totalCnt);
+    $('#totalPrice').text(totalPrice.toLocaleString()); // 1000단위 구분 추가
 
+    // totalPrice 반환
+    return totalPrice;
+}
 
-    // 페이지 로드 시 초기 계산
-    $(document).ready(function () {
-        updateOrderSummary();
-    });
-
+	// 페이지 로드 시 초기 계산
+	$(document).ready(function () {
+	    updateOrderSummary();
+	});
     function reqPayment() {
         // 결제 요청(주문내역에 넣을 prodKey 배열 따로 생성)
         let prodKeys = []; // prodKey 배열 - 일단은 string으로 하나만
@@ -234,7 +247,7 @@
             success: function (orderNo) {
             	
                    let buyProdName = $('.prodNm').val();
-                   let buyAmount = $('.prodPrice').val();
+                   let buyAmount = updateOrderSummary();
                    let buyCnt = $('.prodCnt').val();
                    let buyName = $('#userNm').val(); // 서버에서 받은 사용자 이름
                    let buyEmail = $('#userEmail').val(); // 서버에서 받은 사용자 이메일
@@ -263,7 +276,7 @@
                                prodKeys 	: prodKeys,
                                addrKey 		: $('#addrKey').val(),
                                userKey 		: $('#userKey').val(),
-                               orderPrice	: buyAmount * buyCnt, // 총 금액
+                               orderPrice	: buyAmount, // 총 금액
                                orderCnt		: buyCnt, // 수량
                                orderDate	: resInfo.paid_at // 결제 승인 시간
                                //tid			: resInfo.pg_tid, // PG사 결제 고유번호

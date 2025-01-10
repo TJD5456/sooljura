@@ -230,9 +230,7 @@
     });
 
     $(document).on("click", ".category-span input[type='radio']", function () {
-        $(".categoryLevel1 .category-span input[type='radio']", function () {
-            $(this).removeAttr("name");
-        })
+        $(".categoryLevel1 .category-span input[type='radio']").removeAttr("required");
         $(this).attr("name", "categoryKey");
     });
 

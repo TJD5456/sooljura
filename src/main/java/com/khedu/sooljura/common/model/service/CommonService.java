@@ -1,12 +1,11 @@
 package com.khedu.sooljura.common.model.service;
 
-import java.util.ArrayList;
-
+import com.khedu.sooljura.admin.model.vo.Product;
+import com.khedu.sooljura.common.model.dao.CommonDao;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.khedu.sooljura.admin.model.vo.Product;
-import com.khedu.sooljura.common.model.dao.CommonDao;
+import java.util.ArrayList;
 
 @Service("commonService")
 public class CommonService {
@@ -17,17 +16,19 @@ public class CommonService {
         this.dao = dao;
     }
 
-	public ArrayList<Product> getProdList(String categoryKey) {
-		ArrayList<Product> list = new ArrayList<>();
-		ArrayList<Product> prodList = (ArrayList<Product>) dao.getProdList(categoryKey);
+    public int chkProd() {
+        return dao.chkProd();
+    }
 
-		if (prodList != null) {
-			for (int i = 0; i < 5; i++) {
-				list.add(prodList.get(i));
-			}
+    public ArrayList<Product> getProdList(String categoryKey) {
+        ArrayList<Product> list = new ArrayList<>();
+        ArrayList<Product> prodList = (ArrayList<Product>) dao.getProdList(categoryKey);
 
-		}
-		return list;
-	}
+        for (int i = 0; i < 5; i++) {
+            list.add(prodList.get(i));
+        }
+
+        return list;
+    }
 
 }

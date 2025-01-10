@@ -297,4 +297,10 @@
         where category_key = (select category_key from tbl_product where prod_key = #{_prodKey})
     </select>
 
+    <select id="chkProd" resultType="int">
+        select count(*)
+        from tbl_product
+        where prod_key like '%0010'
+    </select>
+
 </mapper>

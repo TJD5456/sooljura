@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <style>
 .list-wrap {
 	margin-left: 150px;
@@ -41,7 +41,10 @@ table {
 </style>
 <div class="bannerDiv1">
 	<img alt="" src="/resources/sooljura-banner/mainPageBanner_01.webp">
-</div>
+</div>		
+<c:if test="${chkYt != 'empty'}">
+    <jsp:include page="/WEB-INF/views/common/youtube.jsp" />
+</c:if>
 <div class="list-wrap">
 	<div class="prodList wineList">
 	<span>추천 와인</span>
@@ -91,11 +94,11 @@ table {
 			</c:forEach>
 		</ul>
 	</div>
-	<div class="prodList wiskeyList">
+	<div class="prodList whiskeyList">
 	<span>추천 위스키</span>
 	<a href="/product/productList.do?categoryKey=c0002&sort=0"><img alt="" src="/resources/icons/plus_더보기_169.png" width="15px"></a>
 		<ul class="prodUlList">
-			<c:forEach var="prod" items="${wiskeyProdList}">
+			<c:forEach var="prod" items="${whiskeyProdList}">
 				<li class="prodLi">
 					<table>
 						<tr>

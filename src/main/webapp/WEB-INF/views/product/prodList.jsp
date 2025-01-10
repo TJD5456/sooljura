@@ -44,7 +44,8 @@ td {
 }
 
 .select-order {
-    /*제일 오른쪽 아이템의 오른쪽 모서리에 select 태그의 오른쪽 모서리가 정렬되도록*/
+	width: 83%;
+	text-align: right;
 }
 </style>
 </head>
@@ -57,14 +58,14 @@ td {
                 <div class="title">
                     <h1>${listTitle}</h1>
                 </div>
+				<div class="select-order">
+					<select name="sorting" class="sorting">
+						<option value="0">선택</option>
+						<option value="1">가나다순</option>
+						<option value="2">가격순</option>
+					</select>
+				</div>
                 <div class="prodList">
-					<div class="select-order">
-						<select name="sorting" class="sorting">
-							<option value="0">선택</option>
-							<option value="1">가나다순</option>
-							<option value="2">가격순</option>
-						</select>
-					</div>
 					<ul class="prodUlList">
 						<c:forEach var="prod" items="${prodlist}">
 							<li class="prodLi">

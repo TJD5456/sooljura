@@ -70,7 +70,7 @@
                             <th>카테고리</th>
                             <td>
                                 <input value="${catNm}" name="oriCat" disabled>
-                                <input value="${prod.categoryKey}" name="categoryKey" hidden>
+                                <input type="hidden" value="${prod.categoryKey}" name="categoryKey">
                                 <div class="categoryLevel1">
                                     <c:forEach var="category" items="${catList}">
                                         <c:if test="${category.categoryLevel == 1}">

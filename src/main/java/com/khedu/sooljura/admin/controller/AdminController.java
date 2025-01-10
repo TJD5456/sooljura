@@ -115,10 +115,27 @@ public class AdminController {
         return "/admin/manageYoutube";
     }
 
-    @GetMapping("uploadYoutube")
-    public String uploadYoutube(Youtube youtube) {
-        int result = serv.uploadYoutube(youtube);
+    @GetMapping("updateYoutube")
+    public String updateYoutube(Youtube youtube) {
+        int result = serv.updateYoutube(youtube);
         return "forward:/admin/adminPage.do?ytRes=" + result;
+    }
+
+    @GetMapping("delYt")
+    @ResponseBody
+    public String delYt() {
+
+        Youtube yt = new Youtube();
+        yt.setYoutubeUrl("none");
+        yt.setContent("none");
+
+        int result = serv.updateYoutube(yt);
+
+        if(result == 0){
+            return "failed to delete Youtube";
+        } else {
+            return "success to delete Youtube";
+        }
     }
 
     @GetMapping("managePosts.do")

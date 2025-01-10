@@ -45,8 +45,8 @@ public class AdminDao {
         return template.insert("admin.createCategory", category);
     }
 
-    public int uploadYoutube(Youtube youtube) {
-        return template.insert("admin.uploadYoutube", youtube);
+    public int updateYoutube(Youtube youtube) {
+        return template.update("admin.updateYoutube", youtube);
     }
 
     public List<Product> getAllProductsInfo() {

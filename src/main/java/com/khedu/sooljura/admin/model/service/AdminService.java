@@ -70,8 +70,8 @@ public class AdminService {
         return dao.newUser();
     }
 
-    public int uploadYoutube(Youtube youtube) {
-        return dao.uploadYoutube(youtube);
+    public int updateYoutube(Youtube youtube) {
+        return dao.updateYoutube(youtube);
     }
 
     public ArrayList<ProductCategory> selectLowerCategoryLevel(String higherCategoryKey) {

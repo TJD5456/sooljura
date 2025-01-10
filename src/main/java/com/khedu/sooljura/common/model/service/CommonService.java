@@ -1,15 +1,34 @@
 package com.khedu.sooljura.common.model.service;
 
+import com.khedu.sooljura.admin.model.vo.Product;
 import com.khedu.sooljura.common.model.dao.CommonDao;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service("commonService")
 public class CommonService {
 
-    @Autowired
-    @Qualifier("commonDao")
-    private CommonDao dao;
+    private final CommonDao dao;
+
+    public CommonService(@Qualifier("commonDao") CommonDao dao) {
+        this.dao = dao;
+    }
+
+    public int chkProd() {
+        return dao.chkProd();
+    }
+
+    public ArrayList<Product> getProdList(String categoryKey) {
+        ArrayList<Product> list = new ArrayList<>();
+        ArrayList<Product> prodList = (ArrayList<Product>) dao.getProdList(categoryKey);
+
+        for (int i = 0; i < 5; i++) {
+            list.add(prodList.get(i));
+        }
+
+        return list;
+    }
 
 }

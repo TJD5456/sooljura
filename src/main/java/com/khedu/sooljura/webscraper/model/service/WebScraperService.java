@@ -40,8 +40,8 @@ public class WebScraperService {
      */
 
     public void doScraper() {
-        ArrayList<Product> prodList = new ArrayList<Product>();
-        ArrayList<ProductImage> prodImgList = new ArrayList<ProductImage>();
+        ArrayList<Product> prodList;
+        ArrayList<ProductImage> prodImgList;
 
         String[][] bevArrColl = {
             {
@@ -82,6 +82,7 @@ public class WebScraperService {
 
         int sortCodeIndex = 0;
 
+        int cnt = 1;
         for (String[] bevArr : bevArrColl) {
             for (String url : bevArr) {
                 // 분류 코드 범위지정
@@ -113,6 +114,7 @@ public class WebScraperService {
                                     System.out.println("이미지 경로 : " + imgPath);
                                     System.out.println("이미지 이름 : " + imgNm);
                                     System.out.println("제품 키 : " + prodKey);
+                                    System.out.println((cnt++) + "번째\n");
 
                                     setImgFileDb(imgPath, imgNm, prodKey);
                                 }
@@ -145,7 +147,7 @@ public class WebScraperService {
                 Elements parentsEls = document.getElementsByClass("item_thumb"); // li 태그
 
                 for (Element parentsEl : parentsEls) {
-                    Product prod = new Product();
+                    Product prod;
 
                     // 4) 원하는 정보 추출
                     // 상세페이지 링크
@@ -211,7 +213,7 @@ public class WebScraperService {
     // 가자 주류 웹 스크래퍼 -상세 페이지
     public Product scraperDetail(String url, String sortCode) throws IOException {
         Document document = Jsoup.connect(url).ignoreContentType(true).get();
-        ArrayList<ProductImage> prodImgList = new ArrayList<ProductImage>();
+        ArrayList<ProductImage> prodImgList = new ArrayList<>();
         ProductImage prodImg = new ProductImage();
 
         Product prod = new Product();
@@ -220,20 +222,20 @@ public class WebScraperService {
         Element goodsInfo = document.selectFirst("#goods_extit_cont01"); // 그외 정보 얻기 위한 접근
 
         String productOrigin = ""; // 제품 원산지
-        String productMaker = ""; // 제품 제조사
-        String productIntro = ""; // 제품 소개
-        int productCnt = 10; // 제품 개수 -- 기본값 = 10
-        String productVol = ""; // 제품 용량
-        String productProof = ""; // 제품 도수
-        String productImgLink = ""; // 제품 상세 이미지
-        String productName = ""; // 제품 명
+        String productMaker = "";  // 제품 제조사
+        String productIntro;       // 제품 소개
+        int productCnt = 10;       // 제품 개수 -- 기본값 = 10
+        String productVol = "";    // 제품 용량
+        String productProof = "";  // 제품 도수
+        String productImgLink;     // 제품 상세 이미지
+        String productName;        // 제품 명
 
         // 스크래핑용 인스턴스 변수
-        String productInfo1 = null;
-        String productInfo2 = null;
+        String productInfo1;
+        String productInfo2;
 
-        Elements rows = null;
-        Elements tds = null;
+        Elements rows;
+        Elements tds;
 
         // 가자주류 주류 전체보기 페이지에서 이미지와 링크는 있지만 상세보기가 막혀있는 "거래중지" 페이지 대비책
         // 받아올 수 있는 값 중 유일하게 해당 페이지가 "거래중지" 라는 것을 알려줄 수 있는것이 <title>오류안내 ...</title>
@@ -253,9 +255,9 @@ public class WebScraperService {
             // 원산지 및 제조사 가 적혀있는 테이블 아래 tbody 아래 tr태그 접근
             rows = goodsInfo.select("table").select("tbody").select("tr");
 
-            if (rows.size() > 0) { // tr 태그가 존재하는지 확인
+            if (!rows.isEmpty()) { // tr 태그가 존재하는지 확인
                 tds = rows.get(0).select("td"); // 첫 번째 tr의 td 요소들 선택
-                if (tds.size() > 0) { // 첫 번째 td가 존재하는지 확인
+                if (!tds.isEmpty()) { // 첫 번째 td가 존재하는지 확인
 
                     // 첫 tr의 첫 td의 text 요소
                     productInfo1 = tds.get(0).text();
@@ -392,7 +394,7 @@ public class WebScraperService {
 
     // 이미지 다운로드 받는 메소드
     private String getImgFile(String imageUrl, String sortCode, String productName, String fileFor) throws IOException {
-        URL url = null;
+        URL url;
         InputStream in = null;
         OutputStream out = null;
 

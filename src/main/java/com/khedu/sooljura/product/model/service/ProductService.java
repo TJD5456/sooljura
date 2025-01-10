@@ -28,12 +28,12 @@ public class ProductService {
     public int insertHistory(OrderHistory orderHistory) {
         return dao.insertHistory(orderHistory);
     }
-
+/*
     //주문번호 제작용도 제거
     public int delOrderNo(OrderHistory orderHistory) {
         return dao.delOrderNo(orderHistory);
     }
-
+*/
     // 장바구니 제품 정보를 조회하기 위한 제품 키 조회
     public ArrayList<Basket> findProdKey(String userKey) {
         return (ArrayList<Basket>) dao.findProdKey(userKey); // List<Basket> 반환

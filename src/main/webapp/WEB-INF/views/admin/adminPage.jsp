@@ -53,17 +53,5 @@
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </main>
-
-<script>
-    $(function () {
-        let ytRes = "${ytRes}";
-
-        if (ytRes === "1") {
-            window.alert("유튜브 등록 성공");
-        } else if (ytRes === "0") {
-            window.alert("유튜브 등록 중 오류가 발생하였습니다");
-        }
-    });
-</script>
 </body>
 </html>

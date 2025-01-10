@@ -176,7 +176,7 @@ input[type="button"]:hover {
 													style="width: 10%; justify-items: center;">
 													<button type="button" class="delLikedProd">제거</button>
 													<input type="text" class="prodKey" name="prodKey" value="${product.prodKey}">
-													<button type="button" class="buyBasket" style="margin-top: 5px;">장바구니</button>
+													<button type="button" class="toBasket" style="margin-top: 5px;">장바구니</button>
 												</div>
 											</td>
 										</tr>
@@ -272,6 +272,7 @@ input[type="button"]:hover {
         $('#orderSummary').text(`총 ${totalCnt}건의 주문금액 ${totalPrice.toLocaleString()}원`);
         console.log("totalCnt : " + totalCnt + ", totalPrice : " + totalPrice);
     }
+    //선택삭제
 	$('.delSelectedLikedList').on('click', function(){
 		 const prodKeyArr = []; // prodKey 배열 선언
 		    $('.selProduct:checked').each(function () { // 체크된 prodKey들을 배열에 추가
@@ -304,7 +305,7 @@ input[type="button"]:hover {
 		        }
 		    });
 	});
-	<%-- 장바구니 제품정보 삭제 --%>
+    //개별삭제
 	$('.delLikedProd').on('click', function(){
     	const prodKey = $('.prodKey').closest('input').val();
         const userKey = $('#userKey').val();
@@ -333,7 +334,9 @@ input[type="button"]:hover {
             }
         });
 	});
-
+	$('.toBasket').on('click', function(){
+		
+	});
     function toggleSelectAll(checkbox) {
         const isChecked = checkbox.checked;
         $('#basketForm .selProduct').prop('checked', isChecked);

@@ -339,7 +339,7 @@
         	user_key = #{userKey}
         and 
           	prod_key = #{prodKey}
-        where basket_cd=2
+        and basket_cd=2
     </delete>
 
     <select id="chkProd" resultType="int">

@@ -1,12 +1,11 @@
 package com.khedu.sooljura.common.model.dao;
 
-import java.util.List;
-
+import com.khedu.sooljura.admin.model.vo.Product;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import com.khedu.sooljura.admin.model.vo.Product;
+import java.util.List;
 
 @Repository("commonDao")
 public class CommonDao {
@@ -15,6 +14,10 @@ public class CommonDao {
 
     public CommonDao(@Qualifier("sqlSessionTemplate") SqlSessionTemplate sqlSession) {
         this.sqlSession = sqlSession;
+    }
+
+    public int chkProd() {
+        return sqlSession.selectOne("product.chkProd");
     }
 
     public List<Product> getProdList(String categoryKey) {

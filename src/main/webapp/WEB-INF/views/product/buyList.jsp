@@ -60,15 +60,11 @@ main {
 				</div>
 
 				<div class="myPageChoices">
-					<button class="myPageChoiceBtn" value="1" id="userInfo">회원
-						정보</button>
-					<button class="myPageChoiceBtn" value="2" id="shoppingInfo">쇼핑
-						정보</button>
-					<button class="myPageChoiceBtn" value="3" id="readMyPost">내글
-						보기</button>
+					<button class="myPageChoiceBtn" value="1" id="userInfo">회원 정보</button>
+					<button class="myPageChoiceBtn" value="2" id="shoppingInfo">구매 내역</button>
+					<button class="myPageChoiceBtn" value="3" id="readMyPost">내글 보기</button>
 					<button class="myPageChoiceBtn" value="4" id="likedItems">찜한상품</button>
-					<button class="myPageChoiceBtn" value="5" id="addrMng">주소
-						관리</button>
+					<button class="myPageChoiceBtn" value="5" id="addrMng">주소 관리</button>
 				</div>
 				<div class="myPageInfoView"></div>
 				<h2>구매내역</h2>
@@ -77,6 +73,7 @@ main {
 				<br>
 				<!-- 구매 내역 순회 -->
 				<c:set var="previousDateTime" value="" scope="page" />
+				<c:if test="${not empty orderHistory}">
 				<c:forEach var="orderHistory" items="${orderHistory}">
 					<!-- 현재 주문의 날짜 및 시간 추출 (yyyy-MM-dd HH:mm:ss 형식으로) -->
 					<c:set var="currentDateTime" value="${orderHistory.orderDate}" />
@@ -106,10 +103,60 @@ main {
 						</c:forEach>
 					</div>
 				</c:forEach>
+				</c:if>
+				<c:if test="${empty orderHistory}">
+					<div>
+						구매 내역 없음
+					</div>
+				</c:if>
 			</div>
 			<jsp:include page="/WEB-INF/views/common/remote.jsp" />
 		</div>
 		<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 	</main>
+	<script>
+	$('.myPageChoiceBtn').on('click', function() {
+		let i = parseInt($(this).val(), 10);
+
+		// 현재 페이지 URL 가져오기
+		const url = window.location.href;// URL 객체 생성
+		const urlParams = new URLSearchParams(
+				new URL(url).search);// 특정 파라미터 값 가져오기 (예: 'id' 파라미터)
+		const paramValue = urlParams.get('pg');
+
+		switch (i) {
+		case 1:
+			location.href = "/userMyPage/userInfo.do"
+			break;
+		case 2:
+			location.href = "/userMyPage/userMyPageFrm.do";
+			break;
+		case 3:
+		    const form = document.createElement('form');
+		    form.method = 'POST';
+		    form.action = '/post/readMyPost.do';
+
+		    const input = document.createElement('input');
+		    input.type = 'hidden';
+		    input.name = 'userKey';
+		    input.value = '${loginUser.userKey}';
+		    form.appendChild(input);
+
+		    document.body.appendChild(form);
+		    form.submit(); // 서버로 POST 요청 전송 및 페이지 이동
+		
+		break;
+		case 4:
+			location.href = "/userMyPage/likedProdList.do";//?
+			break;
+		case 5:
+			location.href = "/user/addrListFrm.do";
+			break;
+		default:
+			break;
+		}
+
+	})
+	</script>
 </body>
 </html>

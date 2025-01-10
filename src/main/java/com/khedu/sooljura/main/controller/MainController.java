@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.khedu.sooljura.admin.model.vo.Product;
+import com.khedu.sooljura.admin.model.vo.Youtube;
 import com.khedu.sooljura.main.model.service.MainService;
 
 @Controller
@@ -21,11 +22,15 @@ public class MainController {
     public String main(Model model) {
         
         ArrayList<Product> wineProdList = service.getWine();
-        ArrayList<Product> wiskeyProdList = service.getWiskey();
+        ArrayList<Product> whiskeyProdList = service.getWhiskey();
         ArrayList<Product> brandyProdList = service.getBrandy();
         ArrayList<Product> liqueurProdList = service.getLiqueur();
         ArrayList<Product> sojuProdList = service.getSoju();
         ArrayList<Product> etcProdList = service.getEtc();
+        
+        Youtube youtube = service.chkYt();
+        String url = youtube.getYoutubeUrl();
+        model.addAttribute("youtube", url);
         
         
         model.addAttribute("brandyProdList", brandyProdList);
@@ -33,7 +38,7 @@ public class MainController {
         model.addAttribute("etcProdList", etcProdList);
         model.addAttribute("sojuProdList", sojuProdList);
         model.addAttribute("wineProdList", wineProdList);
-        model.addAttribute("wiskeyProdList", wiskeyProdList);
+        model.addAttribute("whiskeyProdList", whiskeyProdList);
         return "main/mainPage";
     }
 }

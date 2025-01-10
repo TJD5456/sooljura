@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.khedu.sooljura.admin.model.vo.Product;
+import com.khedu.sooljura.admin.model.vo.Youtube;
 import com.khedu.sooljura.main.model.dao.MainDao;
 
 @Service("mainService")
@@ -26,13 +27,13 @@ public class MainService {
 		}
 		 return wineList;
 	}
-	public ArrayList<Product> getWiskey() {
-		ArrayList<Product> wiskeyList = new ArrayList<Product>();
-		ArrayList<Product> getWiskeyList = (ArrayList<Product>)dao.getProdList("c0002");
+	public ArrayList<Product> getWhiskey() {
+		ArrayList<Product> whiskeyList = new ArrayList<Product>();
+		ArrayList<Product> getWhiskeyList = (ArrayList<Product>)dao.getProdList("c0002");
 		for(int i =0; i<5; i++) {
-			wiskeyList.add(getWiskeyList.get(i));
+			whiskeyList.add(getWhiskeyList.get(i));
 		}
-		 return wiskeyList;
+		 return whiskeyList;
 	}
 	public ArrayList<Product> getBrandy() {
 		ArrayList<Product> brandyList = new ArrayList<Product>();
@@ -65,6 +66,9 @@ public class MainService {
 			etcList.add(getEtcList.get(i));
 		}
 		 return etcList;
+	}
+	public Youtube chkYt() {
+		return dao.chkYt();
 	}
 
 }

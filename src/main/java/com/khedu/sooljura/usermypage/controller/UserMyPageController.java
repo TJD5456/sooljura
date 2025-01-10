@@ -1,20 +1,20 @@
 package com.khedu.sooljura.usermypage.controller;
 
 
-import com.khedu.sooljura.user.model.vo.User;
-import com.khedu.sooljura.usermypage.model.service.UserMyPageService;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import com.khedu.sooljura.user.model.vo.User;
+import com.khedu.sooljura.usermypage.model.service.UserMyPageService;
 
 @Controller
 @RequestMapping("/userMyPage/")

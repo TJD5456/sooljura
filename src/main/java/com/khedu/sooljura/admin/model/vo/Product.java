@@ -188,4 +188,16 @@ public class Product {
 		this.imgPath = imgPath;
 	}
 
+	@Override
+	public String toString() {
+		return "Product [prodKey=" + prodKey + ", prodNm=" + prodNm + ", prodPrice=" + prodPrice + ", prodMaker="
+				+ prodMaker + ", prodOrigin=" + prodOrigin + ", prodIntro=" + prodIntro + ", prodCnt=" + prodCnt
+				+ ", prodVol=" + prodVol + ", prodProof=" + prodProof + ", uploadDate=" + uploadDate + ", tradingYn="
+				+ tradingYn + ", categoryKey=" + categoryKey + ", productCategory=" + productCategory
+				+ ", productImages=" + productImages + ", imgKey=" + imgKey + ", imgNm=" + imgNm + ", imgPath="
+				+ imgPath + "]";
+	}
+	
+	
+
 }

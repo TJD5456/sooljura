@@ -99,12 +99,9 @@ main {
 		                <div class="center-div-items" style="width: 10px; padding:35px;">
 		                    <input type="checkbox" class="selProduct" value="${product.prodKey}">
 		                </div>
-		
 		                <!-- Product Name -->
 		                <div class="div-items" style="width: 50%;">
-		                    <a href="#" style="cursor: pointer;">
-		                        <input type="text" class="prodNm" value="${product.prodNm}" readonly>
-		                    </a><br>
+		                    <input type="text" class="prodNm" value="${product.prodNm}" readonly><br>
 		                    <input type="text" class="prodPrice" value="${product.prodPrice}" readonly>
 		                </div>
 		
@@ -142,11 +139,7 @@ main {
 	        const $basketCnt = $(this).find('.basketCnt');
 	        const basketCnt = Number($basketCnt.text()); // 수량 가져오기
 	        const $prodPriceInput = $(this).find('.prodPrice');
-	        const unitPrice = Number($prodPriceInput.data('unit-price')); // 단가 가져오기
-
-	        
-	        
-	        
+	        const unitPrice = Number($prodPriceInput.data('unit-price')); // 단가 가져오기       
 	    });
 	}
 	
@@ -171,7 +164,11 @@ main {
 	
 	// 페이지 로드 시 계산 실행
 	$(document).ready(function () {
-		$(".prodPrice").val(Number($(".prodPrice").val()).toLocaleString());	//각 상품별 단가 콤마(,) 처리
+		//$(".prodPrice").val(Number($(".prodPrice").val()).toLocaleString());	//각 상품별 단가 콤마(,) 처리
+		
+		$.each($(".prodPrice"), function(idx, item){
+			$(this).val(Number($(this).val()).toLocaleString());
+		});
 	    updateOrderSummary();
 	});
 	

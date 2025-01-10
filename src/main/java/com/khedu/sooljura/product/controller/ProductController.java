@@ -135,6 +135,7 @@ public class ProductController {
 	            // 장바구니 정보와 제품 정보를 함께 담음
 	            basketProductInfo.put("basket", basket);
 	            basketProductInfo.put("productList", prodInfo.getProductList());
+	            
 	            basketProductInfoList.add(basketProductInfo);
 	        });
 

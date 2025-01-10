@@ -51,7 +51,6 @@ public class UserController {
     //아이디 찾기
     @PostMapping("idFind.do")
     public String idFind(String name, String phone, Model model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("name : " + name + " | phone : " + phone);
         int isIdNull = service.intIdFind(name, phone);
 
         if (isIdNull > 0) {

@@ -62,11 +62,6 @@ public class PostController {
 		}
 	}
 
-	@GetMapping("webPageInfo.do")
-	public String webPageInfo() {
-		return "post/webPageInfo";
-	}
-
 	@GetMapping("freePostList.do") // 자유게시판
 	public String freePostList(@RequestParam(defaultValue = "1") int reqPage, Model model) {
 		return getPostList(reqPage, model, 2, "post/freePost"); // post_cd 2: 자유게시판
@@ -463,15 +458,16 @@ public class PostController {
 		PostPageData pd1 = service.selectPostList(1, 2, userKey);
 	    PostPageData pd2 = service.selectPostList(1, 2, userKey);
 	    PostPageData pd3 = service.selectPostList(1, 3, userKey);
-	    
+
 	    model.addAttribute("noticeList", pd1.getList());
 		model.addAttribute("noticePageNavi", pd1.getPageNavi());
-	    
+
 	    model.addAttribute("freePostList", pd2.getList());
 		model.addAttribute("freePageNavi", pd2.getPageNavi());
-		
+
 		model.addAttribute("reviewPostList", pd3.getList());
 		model.addAttribute("reviewPageNavi", pd3.getPageNavi());
 		return "userMyPage/readMyPost";
 	    }
+
 }

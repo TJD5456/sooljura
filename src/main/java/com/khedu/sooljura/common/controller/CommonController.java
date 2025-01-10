@@ -28,12 +28,12 @@ public class CommonController {
     public String startup(Model model) {
 
         if (service.chkProd() > 0) {
-            ArrayList<Product> wineProdList    = service.getProdList("c0001");
+            ArrayList<Product> wineProdList = service.getProdList("c0001");
             ArrayList<Product> whiskeyProdList = service.getProdList("c0002");
-            ArrayList<Product> brandyProdList  = service.getProdList("c0003");
+            ArrayList<Product> brandyProdList = service.getProdList("c0003");
             ArrayList<Product> liqueurProdList = service.getProdList("c0004");
-            ArrayList<Product> sojuProdList    = service.getProdList("c0005");
-            ArrayList<Product> etcProdList     = service.getProdList("c0006");
+            ArrayList<Product> sojuProdList = service.getProdList("c0005");
+            ArrayList<Product> etcProdList = service.getProdList("c0006");
 
             Youtube youtube = adminService.selectYoutubeUrl();
             model.addAttribute("chkYt", youtube.getYoutubeUrl());
@@ -63,6 +63,12 @@ public class CommonController {
         }
 
         return "index";
+    }
+
+
+    @GetMapping("/common/webPageInfo.do")
+    public String webPageInfo() {
+        return "post/webPageInfo";
     }
 
     @GetMapping("/common/commonGuide.do")

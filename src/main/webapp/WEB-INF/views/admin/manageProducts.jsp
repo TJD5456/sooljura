@@ -77,8 +77,15 @@
                         <td><input type="text" id="proofInput" name="prodProof" required></td>
                     </tr>
                     <tr>
-                        <th><label for="tradeYnInput">거래여부</label></th>
-                        <td><input type="text" id="tradeYnInput" name="tradingYn"></td>
+                        <th>거래여부</th>
+                        <td>
+                            <label for="tradingNo">
+                                <input type="radio" id="tradingNo" name="tradingYn" value="0">
+                                거래 X</label><br>
+                            <label for="tradingYes">
+                                <input type="radio" id="tradingYes" name="tradingYn" value="1">
+                                거래 O</label>
+                        </td>
                     </tr>
                     <tr class="categoryRow">
                         <th>카테고리</th>

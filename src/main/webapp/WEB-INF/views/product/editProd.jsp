@@ -64,7 +64,16 @@
                         </tr>
                         <tr>
                             <th><label for="tradeYnInput">거래여부</label></th>
-                            <td><input type="text" id="tradeYnInput" name="tradingYn" value="${prod.tradingYn}"></td>
+                            <td>
+                                <label>
+                                    <input type="radio" name="tradingYn" value="0"
+                                           <c:if test="${prod.tradingYn == 0}">checked</c:if>>
+                                    거래 X</label><br>
+                                <label>
+                                    <input type="radio" name="tradingYn" value="1"
+                                           <c:if test="${prod.tradingYn == 1}">checked</c:if>>
+                                    거래 O</label>
+                            </td>
                         </tr>
                         <tr class="categoryRow">
                             <th>카테고리</th>

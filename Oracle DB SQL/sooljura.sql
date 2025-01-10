@@ -192,9 +192,11 @@ create table tbl_youtube (
    youtube_url varchar2(100) primary key,
    content     varchar2(1000) not null,
    prod_key1   char(12) not null references tbl_product ( prod_key ) on delete cascade,
-   prod_key2   char(12) references tbl_product ( prod_key ) on delete cascade,
-   prod_key3   char(12) references tbl_product ( prod_key ) on delete cascade
+   prod_key2   char(12) references tbl_product ( prod_key ) on delete set null,
+   prod_key3   char(12) references tbl_product ( prod_key ) on delete set null
 );
+
+insert into tbl_youtube  values ( 'null', 'null', ( select prod_key from tbl_product where prod_key like '%0001'), null, null);
 
 create table tbl_discount_info (
    event_cd         char(12) primary key,
@@ -288,3 +290,6 @@ insert into tbl_basket values ( 'bk' || to_char( sysdate, 'yymmdd') || lpad( seq
                                 ( select prod_key from tbl_product where '%0001'), ( select user_key from tbl_user where '%0001'), 1 );
 insert into tbl_basket values ( 'bk' || to_char( sysdate, 'yymmdd') || lpad( seq_basket.nextval, 4, '0'), 1, 
                                 ( select prod_key from tbl_product where '%0002'), ( select user_key from tbl_user where '%0001'), 1 );
+
+
+select * from TBL_YOUTUBE;

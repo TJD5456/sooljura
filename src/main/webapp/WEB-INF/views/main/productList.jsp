@@ -42,7 +42,7 @@ table {
 <div class="bannerDiv1">
 	<img alt="" src="/resources/sooljura-banner/mainPageBanner_01.webp">
 </div>		
-<c:if test="${youtube != 'empty'}">
+<c:if test="${chkYt != 'empty'}">
     <jsp:include page="/WEB-INF/views/common/youtube.jsp" />
 </c:if>
 <div class="list-wrap">

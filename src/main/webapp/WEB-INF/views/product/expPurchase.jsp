@@ -81,7 +81,7 @@ main {
     <!-- 장바구니에 제품이 있는 경우 -->
     <c:if test="${not empty basketList}">
 
-        <form action="/product/productBuyFrm.do" id="basketForm" method="get">
+        <form action="/product/productBuyFrm.do" id="basketForm" method="get" onsubmit="return submitCalc()">
 		    <input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)">
 		    <label for="selectAll">전체 선택</label>
 		    <input type="hidden" id="userKey" name="userKey" value="${loginUser.userKey}">
@@ -136,6 +136,50 @@ main {
 </main>
 
 <script>
+	//장바구니 항목별 가격 계산
+	function calculateBasketPrice() {
+	    $('.div-wrap').each(function () {
+	        const $basketCnt = $(this).find('.basketCnt');
+	        const basketCnt = Number($basketCnt.text()); // 수량 가져오기
+	        const $prodPriceInput = $(this).find('.prodPrice');
+	        const unitPrice = Number($prodPriceInput.data('unit-price')); // 단가 가져오기
+
+	        
+	        
+	        
+	    });
+	}
+	
+    function updateOrderSummary() {
+        let totalCnt = 0;
+        let totalPrice = 0;
+
+        $('#basketForm .selProduct:checked').each(function () {
+            const $parentDiv = $(this).closest('.div-wrap');
+            const basketCnt = Number($parentDiv.find('.basketCnt').text());
+            const prodPrice = Number($parentDiv.find('.prodPrice').val().split(",").join(""));
+			
+            totalCnt += basketCnt; // 수량 합산
+            totalPrice += basketCnt * prodPrice; // 가격 합산
+        });
+        
+        
+        // 값 갱신
+        $('#totalCnt').text(totalCnt);
+        $('#totalPrice').text(totalPrice.toLocaleString());
+    }
+	
+	// 페이지 로드 시 계산 실행
+	$(document).ready(function () {
+		$(".prodPrice").val(Number($(".prodPrice").val()).toLocaleString());	//각 상품별 단가 콤마(,) 처리
+	    updateOrderSummary();
+	});
+	
+	// 수량 변경 시 총 가격 업데이트
+	$('.center-div-items button, .center-div-items input[type=checkbox]').on('input', function () {
+	    updateOrderSummary();
+	});
+    
     let fn = {
         buyCntCalc: function (oper, btn) {
             let $parent = $(btn).closest('.center-div-items');
@@ -154,30 +198,12 @@ main {
             // 수량 증가/감소
             basketCnt += (oper === '+') ? 1 : -1;
             $basketCnt.text(basketCnt);
-			console.log(basketCnt);
             
             // 총합 갱신
             updateOrderSummary();
         }
     };
 
-    function updateOrderSummary() {
-        let totalCnt = 0;
-        let totalPrice = 0;
-
-        $('#basketForm .selProduct:checked').each(function () {
-            const $parentDiv = $(this).closest('.div-wrap');
-            const basketCnt = Number($parentDiv.find('.basketCnt').text());
-            const prodPrice = Number($parentDiv.find('.prodPrice').val());
-
-            totalCnt += basketCnt; // 수량 합산
-            totalPrice += basketCnt * prodPrice; // 가격 합산
-        });
-        
-        // 값 갱신
-        $('#totalCnt').text(totalCnt);
-        $('#totalPrice').text(totalPrice.toLocaleString());
-    }
 
     function toggleSelectAll(checkbox) {
         const isChecked = checkbox.checked;
@@ -211,27 +237,45 @@ main {
             }
         });
     }
-
+	
+    function submitCalc(){
+    	
+    }
     // 폼 제출 시 체크된 제품만 처리
     document.querySelector('#basketForm').addEventListener('submit', function (event) {
-        event.preventDefault(); // 기본 폼 제출 방지
+    event.preventDefault(); // 기본 폼 제출 방지
 
-        const checkedProducts = document.querySelectorAll('.selProduct:checked');
-        const userKey = document.querySelector('#userKey').value;
+    const checkedProducts = document.querySelectorAll('.selProduct:checked');
+    const userKey = document.querySelector('#userKey').value;
 
-        if (checkedProducts.length === 0) {
-            alert("선택된 제품이 없습니다.");
-            return;
-        }
+    if (checkedProducts.length === 0) {
+        alert("선택된 제품이 없습니다.");
+        return;
+    }
 
-        const prodKeys = Array.from(checkedProducts).map(input => input.value);
-
-        const url = new URL(this.action, window.location.origin);
-        url.searchParams.append('userKey', userKey);
-        prodKeys.forEach(key => url.searchParams.append('prodKeys', key));
-
-        window.location.href = url.toString();
+    const prodKeys = Array.from(checkedProducts).map(input => input.value);
+    const basketCnts = Array.from(checkedProducts).map(input => {
+        const parentDiv = input.closest('.div-wrap');
+        return parentDiv.querySelector('.basketCnt').textContent.trim(); // 수량 값 가져오기
     });
+    const prodPrices = Array.from(checkedProducts).map(input => {
+        const parentDiv = input.closest('.div-wrap');
+        return parentDiv.querySelector('.prodPrice').value.split(",").join("").trim(); // 가격 값 가져오기
+    });
+    const prodNms = Array.from(checkedProducts).map(input => {
+        const parentDiv = input.closest('.div-wrap');
+        return parentDiv.querySelector('.prodNm').value.trim(); // 제품 이름 가져오기
+    });
+
+    const url = new URL(this.action, window.location.origin);
+    url.searchParams.append('userKey', userKey);
+    prodKeys.forEach(key => url.searchParams.append('prodKeys', key));
+    basketCnts.forEach(cnt => url.searchParams.append('basketCnts', cnt));
+    prodPrices.forEach(price => url.searchParams.append('prodPrices', price));
+    prodNms.forEach(name => url.searchParams.append('prodNms', name));
+
+    window.location.href = url.toString();
+});
 </script>
 </body>
 </html>

@@ -1,11 +1,12 @@
 package com.khedu.sooljura.common.model.dao;
 
-import com.khedu.sooljura.admin.model.vo.Product;
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.khedu.sooljura.admin.model.vo.Product;
 
 @Repository("commonDao")
 public class CommonDao {

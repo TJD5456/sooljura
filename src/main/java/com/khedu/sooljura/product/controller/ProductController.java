@@ -157,17 +157,20 @@ public class ProductController {
 	public String productBuyFrm(Model model, 
 	                             @RequestParam List<String> prodKeys, 
 	                             @RequestParam List<String> basketCnts, 
+	                             @RequestParam List<String> prodPrices, 
+	                             @RequestParam List<String> prodNms, 
 	                             @RequestParam String userKey) {
 	    // 기본 배송지 가져오기
 	    UserAddr defaultAddr = userController.findDefaultAddr(userKey);
-	    System.out.println("ControllerBasketCnts : " + basketCnts);
 	    
 	    // 선택된 제품 정보 처리
 	    List<Map<String, Object>> productList = new ArrayList<>();
 	    for (int i = 0; i < prodKeys.size(); i++) {
 	        Map<String, Object> productData = new HashMap<>();
 	        productData.put("prodKey", prodKeys.get(i));
-	        productData.put("basketCnt", basketCnts.get(i)); // 장바구니 수량
+	        productData.put("basketCnt", basketCnts.get(i));
+	        productData.put("prodPrice", prodPrices.get(i));
+	        productData.put("prodNm", prodNms.get(i));
 	        productList.add(productData);
 	    }
 
@@ -188,7 +191,6 @@ public class ProductController {
 
 		if (makeOrderNo != null) {
 			orderHistory.setOrderNo(makeOrderNo);
-			System.out.println("orderNo: " + makeOrderNo);
 			// 정상적으로 넣으면 orderNo 반환
 			return makeOrderNo;
 		} else {
@@ -201,7 +203,7 @@ public class ProductController {
 	@PostMapping("productBuy.do")
 	@ResponseBody
 	public String productBuy(@RequestBody OrderHistory orderHistory) {
-		
+		System.out.println("orderHistoryTotalPrice : " + orderHistory.getOrderPrice());
 		// 제품 구매내역 DB에 넣기
 		int insertHistory = service.insertHistory(orderHistory);
 		

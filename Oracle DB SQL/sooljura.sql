@@ -178,6 +178,9 @@ create table tbl_product (
 -- 'pr' || to_char(sysdate, 'yymmdd') || lpad(seq_product.nextval, 4, '0')
 create sequence seq_product maxvalue 9999 cycle;
 
+-- Fake product for fake youtube
+insert into TBL_PRODUCT values ( 'pr000000000', 'empty', 0, 'empty', 'empty', 'empty', 0, 'empty', 'empty', 0, 'c0001', sysdate );
+
 create table tbl_product_image (
    img_key  char(12) primary key,
    img_nm   varchar2(400),
@@ -196,7 +199,8 @@ create table tbl_youtube (
    prod_key3   char(12) references tbl_product ( prod_key ) on delete set null
 );
 
-insert into tbl_youtube  values ( 'empty', 'empty', ( select prod_key from tbl_product where prod_key like '%0001'), null, null);
+-- Fake youtube to use update as query
+insert into tbl_youtube  values ( 'empty', 'empty', 'pr000000000', null, null);
 
 create table tbl_discount_info (
    event_cd         char(12) primary key,

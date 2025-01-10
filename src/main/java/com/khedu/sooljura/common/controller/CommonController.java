@@ -1,16 +1,17 @@
 package com.khedu.sooljura.common.controller;
 
-import com.khedu.sooljura.admin.model.service.AdminService;
-import com.khedu.sooljura.admin.model.vo.Product;
-import com.khedu.sooljura.admin.model.vo.ProductImage;
-import com.khedu.sooljura.admin.model.vo.Youtube;
-import com.khedu.sooljura.common.model.service.CommonService;
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.ArrayList;
+import com.khedu.sooljura.admin.model.service.AdminService;
+import com.khedu.sooljura.admin.model.vo.Product;
+import com.khedu.sooljura.admin.model.vo.ProductImage;
+import com.khedu.sooljura.admin.model.vo.Youtube;
+import com.khedu.sooljura.common.model.service.CommonService;
 
 @Controller
 public class CommonController {
@@ -23,7 +24,7 @@ public class CommonController {
         this.service = service;
         this.adminService = adminService;
     }
-
+/*
     @GetMapping("/")
     public String startup(Model model) {
 
@@ -53,14 +54,23 @@ public class CommonController {
             }
         }
 
+        if(wineProdList != null) {
         model.addAttribute("brandyProdList", brandyProdList);
         model.addAttribute("liqueurProdList", liqueurProdList);
         model.addAttribute("etcProdList", etcProdList);
         model.addAttribute("sojuProdList", sojuProdList);
         model.addAttribute("wineProdList", wineProdList);
         model.addAttribute("whiskeyProdList", whiskeyProdList);
+        }
+
 
         return "index";
+    }
+    */
+    
+    @GetMapping("/")
+    public String startup() {
+    	return "index";
     }
 
     @GetMapping("/common/commonGuide.do")

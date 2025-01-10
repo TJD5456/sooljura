@@ -247,11 +247,11 @@ public class PostController {
 				redirectAttributes.addFlashAttribute("errorMessage", "게시글 삭제 권한이 없습니다.");
 			}
 
-			return "redirect:/post/freePostList.do"; // 성공 시 자유게시판 목록으로 리다이렉트
+			return "redirect:/post/noticeList.do";
 		} catch (Exception e) {
 			e.printStackTrace();
 			redirectAttributes.addFlashAttribute("errorMessage", "게시글 삭제 중 오류가 발생했습니다.");
-			return "redirect:/post/freePostDetail.do?postKey=" + postKey;
+			return "redirect:/post/noticeList.do?postKey=" + postKey;
 		}
 	}
 

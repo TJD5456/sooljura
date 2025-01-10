@@ -30,7 +30,6 @@
 		<jsp:include page="/WEB-INF/views/common/header.jsp" />
 		<div class="wrapper">
 			<div class="content">
-				<div class="title"></div>
 				<jsp:include page="/WEB-INF/views/main/productList.jsp" />
 			</div>
 			<jsp:include page="/WEB-INF/views/common/remote.jsp" />

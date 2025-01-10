@@ -22,7 +22,6 @@
             </a>
             <a href="/userMyPage/userMyPageFrm.do">
                 <img src="/resources/icons/user_사용자_309492_45px.png" alt="마이페이지">
-                <!-- mypage -test 지우고 여기에 로그인 되있으면 마이페이지로 넘어가는 조건 추가 -->
             </a>
             <a href="/product/expPurchaseFrm.do">
                 <img src="/resources/icons/champagne_샴페인_3170079_45px.png" alt="장바구니">
@@ -30,8 +29,7 @@
             </a>
         </c:when>
         <c:otherwise>
-            <a href="/userMyPage/userMyPage.do">my page -test</a>
-            <a href="/webScraping/webScraper.do">web scraping -test</a>
+            <a href="/webScraping/webScraper.do">Scrap</a>
             <a href="/user/provisionFrm.do">
                 <img src="/resources/icons/join_회원가입_5705819_45px.png" alt="회원가입"><!-- 로그아웃 조건 추가 -->
             </a>

@@ -82,52 +82,56 @@ main {
     <c:if test="${not empty basketList}">
 
         <form action="/product/productBuyFrm.do" id="basketForm" method="get">
-
-            <input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)"><label for="selectAll">전체 선택</label>
-            <input type="hidden" id="userKey" name="userKey" value="${loginUser.userKey}">
-
-            <c:forEach var="basketProductInfo" items="${basketList}">
-		    <!-- Basket 정보 -->
-		    <c:set var="basket" value="${basketProductInfo.basket}" />
+		    <input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)">
+		    <label for="selectAll">전체 선택</label>
+		    <input type="hidden" id="userKey" name="userKey" value="${loginUser.userKey}">
 		
-		    <!-- Product 정보 -->
-		    <c:forEach var="product" items="${basketProductInfo.productList}">
-		        <div class="div-wrap">
-		            <input type="hidden" class="prodKey" name="prodKey" value="${product.prodKey}">
-		            <input type="hidden" class="prodCnt" value="${product.prodCnt}"> <!-- 제품 재고 -->
-		            <input type="hidden" class="basketCnt" value="${basket.basketCnt}"> <!-- 장바구니 수량 -->
+		    <c:forEach var="basketProductInfo" items="${basketList}">
+		        <c:set var="basket" value="${basketProductInfo.basket}" />
 		
-		            <div class="center-div-items" style="width: 10px; padding:35px;">
-		                <input type="checkbox" class="selProduct" value="${product.prodKey}">
+		        <c:forEach var="product" items="${basketProductInfo.productList}">
+		            <div class="div-wrap">
+		                <!-- Hidden Inputs -->
+		                <input type="hidden" class="prodKey" name="prodKeys" value="${product.prodKey}">
+		                <input type="hidden" class="basketCntInput" name="basketCnts" value="${basket.basketCnt}">
+		
+		                <!-- Product Checkbox -->
+		                <div class="center-div-items" style="width: 10px; padding:35px;">
+		                    <input type="checkbox" class="selProduct" value="${product.prodKey}">
+		                </div>
+		
+		                <!-- Product Name -->
+		                <div class="div-items" style="width: 50%;">
+		                    <a href="#" style="cursor: pointer;">
+		                        <input type="text" class="prodNm" value="${product.prodNm}" readonly>
+		                    </a><br>
+		                    <input type="text" class="prodPrice" value="${product.prodPrice}" readonly>
+		                </div>
+		
+		                <!-- Product Quantity -->
+		                <div class="center-div-items" style="width: 10%;">
+		                    <span class="basketCnt">${basket.basketCnt}</span><br>
+		                    <button type="button" onclick="fn.buyCntCalc('-', this)">-</button>
+		                    <button type="button" onclick="fn.buyCntCalc('+', this)">+</button>
+		                </div>
+		                
+		                <div class="center-div-items" style="width: 10%; justify-items: center;">
+			                <input type="button" onclick="delBasket(this)" value="삭제하기"><br>
+			                <input type="button" onclick="buyBasket(this)" value="구매하기" style="margin-top: 5px;">
+			            </div>
 		            </div>
-		
-		            <div class="div-items" style="width: 50%;">
-		                <a href="#" style="cursor: pointer;">
-		                    <input type="text" class="prodNm" value="${product.prodNm}" readonly>
-		                </a><br>
-		                <input type="text" class="prodPrice" value="${product.prodPrice}" readonly>
-		            </div>
-		
-		            <div class="center-div-items" style="width: 10%;">
-		                <!-- 장바구니 수량 -->
-		                <span class="basketCnt">${basket.basketCnt}</span><br>
-		                <button type="button" onclick="fn.buyCntCalc('-', this)">-</button>
-		                <button type="button" onclick="fn.buyCntCalc('+', this)">+</button>
-		            </div>
-		
-		            <div class="center-div-items" style="width: 10%; justify-items: center;">
-		                <input type="button" onclick="delBasket(this)" value="삭제하기"><br>
-		                <input type="button" onclick="buyBasket(this)" value="구매하기" style="margin-top: 5px;">
-		            </div>
-		        </div>
+		        </c:forEach>
 		    </c:forEach>
-		</c:forEach>
-            <div class="fixed-div">
-            	<!-- 제품 총 금액 name 선언해서 넘겨주기 -->
-                <span id="orderSummary" style="font-size: 30px; margin-top: 10px;">총 <span id="totalCnt">0</span>건의 주문금액 <span id="totalPrice">0</span>원</span>
-                <input type="submit" style="border-radius: 10px; height: 50px; margin-top: 10px;" value="선택한 제품 구매하기">
-            </div>
-        </form>
+		
+		    <div class="fixed-div">
+		        <span id="orderSummary" style="font-size: 30px; margin-top: 10px;">
+		            총 <span id="totalCnt">0</span>건의 주문금액 
+		            <span id="totalPrice">0</span>원
+		        </span>
+		        <input type="submit" style="border-radius: 10px; height: 50px; margin-top: 10px;" 
+		               value="선택한 제품 구매하기">
+		    </div>
+		</form>
     </c:if>
 </main>
 
@@ -150,7 +154,8 @@ main {
             // 수량 증가/감소
             basketCnt += (oper === '+') ? 1 : -1;
             $basketCnt.text(basketCnt);
-
+			console.log(basketCnt);
+            
             // 총합 갱신
             updateOrderSummary();
         }
@@ -168,11 +173,10 @@ main {
             totalCnt += basketCnt; // 수량 합산
             totalPrice += basketCnt * prodPrice; // 가격 합산
         });
-
+        
         // 값 갱신
         $('#totalCnt').text(totalCnt);
         $('#totalPrice').text(totalPrice.toLocaleString());
-        console.log("totalCnt:", totalCnt, "totalPrice:", totalPrice);
     }
 
     function toggleSelectAll(checkbox) {
@@ -181,6 +185,11 @@ main {
         updateOrderSummary(); // 전체 선택/해제 시 총합 갱신
     }
 
+ 	// 페이지 로드 시 초기 계산
+    $(document).ready(function () {
+        updateOrderSummary();
+    });
+ 
     // 장바구니 제품 삭제
     function delBasket(button) {
         const prodKey = $(button).closest('.div-wrap').find('.prodKey').val();

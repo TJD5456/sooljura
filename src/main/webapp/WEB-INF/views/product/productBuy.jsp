@@ -31,7 +31,7 @@
         border-bottom: none;
     }
 
-    .prodNm, .prodPrice {
+    .prodNm, .prodPrice, .selProdCnt {
         font-size: 18px;
         font-weight: 500;
         margin: 0;
@@ -143,6 +143,9 @@
                             <input type="hidden" class="prodKeys" value="${product.prodKey}"><%-- 값 있음 --%>
                             <div class="center-div-items" style="border-bottom: none;">
                                 <input type="text" class="prodNm" value="${product.prodNm}" readonly>
+                            </div>
+                            <div class="center-div-items" style="border: none;">
+                            	<input type="text" class="selProdCnt" value="" readonly>
                             </div>
                             <div class="center-div-items" style="border-top: none;">
                                 <input type="text" class="prodPrice" value="${product.prodPrice}" readonly>

@@ -49,7 +49,7 @@ public class AdminController {
     }
 
     @GetMapping("adminPage.do")
-    public String adminPage(HttpSession session, Model model, String ytRes) {
+    public String adminPage(HttpSession session, Model model) {
         int newPost = serv.selNewPost();
         model.addAttribute("newPost", newPost);
 
@@ -63,10 +63,6 @@ public class AdminController {
 
         int newChat = unRead + noAdmin;
         model.addAttribute("newChat", newChat);
-
-        if (ytRes != null) {
-            model.addAttribute("ytRes", ytRes);
-        }
         return "/admin/adminPage";
     }
 
@@ -88,11 +84,7 @@ public class AdminController {
     }
 
     @GetMapping("manageYoutube.do")
-    public String manageYoutube(String ytRes, Model model) {
-
-        if (ytRes != null) {
-            model.addAttribute("ytRes", ytRes);
-        }
+    public String manageYoutube(Model model) {
 
         Youtube youtube = serv.selectYoutubeUrl();
         if (youtube != null) {
@@ -118,7 +110,13 @@ public class AdminController {
     @GetMapping("updateYoutube")
     public String updateYoutube(Youtube youtube) {
         int result = serv.updateYoutube(youtube);
-        return "forward:/admin/adminPage.do?ytRes=" + result;
+
+        if (result > 0) {
+            return "redirect:/admin/manageYoutube.do";
+        } else {
+            return "foobar";
+        }
+
     }
 
     @GetMapping("delYt")
@@ -130,7 +128,7 @@ public class AdminController {
 
         int result = serv.updateYoutube(yt);
 
-        if(result == 0){
+        if (result == 0) {
             return "failed to delete Youtube";
         } else {
             return "success to delete Youtube";

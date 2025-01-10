@@ -292,4 +292,3 @@ commit;
 -- 자동 생성된 레벨1 회원 장바구니
 insert into tbl_basket values ( 'bk' || to_char( sysdate, 'yymmdd') || lpad( seq_basket.nextval, 4, '0'), 1, ( select prod_key from tbl_product where prod_key like '%0001'), 'us0000000001', 1 );
 insert into tbl_basket values ( 'bk' || to_char( sysdate, 'yymmdd') || lpad( seq_basket.nextval, 4, '0'), 1, ( select prod_key from tbl_product where prod_key like '%0002'), 'us0000000001', 1 );
-

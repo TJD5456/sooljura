@@ -83,12 +83,12 @@
             </div>
 
             <div class="myPageChoices">
-                <button class="myPageChoiceBtn" id="userInfo">회원 정보</button><%-- onclick="toggleView(this)" --%>
-                <button class="myPageChoiceBtn" id="shoppingInfo" onclick="toggleView(this)">쇼핑 정보</button>
-                <button class="myPageChoiceBtn" id="readMyPost">내글 보기</button>
-                <button class="myPageChoiceBtn" id="likedMerc" onclick="toggleView(this)">찜한상품</button>
-                <button class="myPageChoiceBtn" id="addrInfo" onclick="addrInfo()">주소 관리</button>
-            </div>
+					<button class="myPageChoiceBtn" value="1" id="userInfo">회원 정보</button>
+					<button class="myPageChoiceBtn" value="2" id="shoppingInfo">구매 내역</button>
+					<button class="myPageChoiceBtn" value="3" id="readMyPost">내글 보기</button>
+					<button class="myPageChoiceBtn" value="4" id="likedItems">찜한상품</button>
+					<button class="myPageChoiceBtn" value="5" id="addrMng">주소 관리</button>
+				</div>
             <div class="myPageInfoView">
             </div>
             <div class="userInfo">
@@ -101,15 +101,47 @@
 </main>
 
 <script>
-	let val = 0;
-	$('#userInfo').on('click', function(){
-		location.href="userInfo1.do?pg=1"
-	})
+$('.myPageChoiceBtn').on('click', function(){
+	let i = parseInt($(this).val(), 10);
 	
-	$('#readMyPost').on('click', function(){
-		location.href="readMyPost1.do?pg=3"
-	})
+	// 현재 페이지 URL 가져오기
+	const url = window.location.href;// URL 객체 생성
+	const urlParams = new URLSearchParams(new URL(url).search);// 특정 파라미터 값 가져오기 (예: 'id' 파라미터)
+	const paramValue = urlParams.get('pg');
+	
+	switch (i) {
+	case 1:
+		location.href="userInfo.do";
+		break;
+	case 2:
+		location.href="/product/buyList.do?reqPage=1&userKey=${loginUser.userKey}";
+		break;
+	case 3:
+		    const form = document.createElement('form');
+		    form.method = 'POST';
+		    form.action = '/post/readMyPost.do';
 
+		    const input = document.createElement('input');
+		    input.type = 'hidden';
+		    input.name = 'userKey';
+		    input.value = '${loginUser.userKey}';
+		    form.appendChild(input);
+
+		    document.body.appendChild(form);
+		    form.submit(); // 서버로 POST 요청 전송 및 페이지 이동
+		
+		break;
+	case 4:
+		location.href="/userMyPage/likedProdList.do";//?
+		break;
+	case 5:
+		location.href="/user/addrListFrm.do";
+		break;
+	default:
+		break;
+	}
+	
+})
 /*
     function toggleView(button) {
         // 값 불러올 수 있도록 펑션 설계

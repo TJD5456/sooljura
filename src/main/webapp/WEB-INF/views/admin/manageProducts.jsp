@@ -5,6 +5,10 @@
 <head>
     <title>manageProducts.jsp</title>
     <style>
+        .categoryKey {
+            border-top: var(--table-border) 1px solid;
+        }
+
         .categoryLevel2, .categoryLevel3 {
             border-top: var(--table-border) 1px solid;
         }
@@ -77,8 +81,15 @@
                         <td><input type="text" id="proofInput" name="prodProof" required></td>
                     </tr>
                     <tr>
-                        <th><label for="tradeYnInput">거래여부</label></th>
-                        <td><input type="text" id="tradeYnInput" name="tradingYn"></td>
+                        <th>거래여부</th>
+                        <td>
+                            <label for="tradingNo">
+                                <input type="radio" id="tradingNo" name="tradingYn" value="0">
+                                거래 X</label><br>
+                            <label for="tradingYes">
+                                <input type="radio" id="tradingYes" name="tradingYn" value="1">
+                                거래 O</label>
+                        </td>
                     </tr>
                     <tr class="categoryRow">
                         <th>카테고리</th>
@@ -196,7 +207,7 @@
                         inputEl.setAttribute("type", "radio");
                         inputEl.setAttribute("value", categoryKey);
                         inputEl.setAttribute("id", categoryNm);
-                        inputEl.setAttribute("name", "categoryLevel2");
+                        // inputEl.setAttribute("name", "categoryKey");
                         inputEl.setAttribute("required", "");
 
                         const labelEl = document.createElement("label");
@@ -218,8 +229,14 @@
         }
     });
 
+    $(document).on("click", ".category-span input[type='radio']", function () {
+        $(".categoryLevel1 .category-span input[type='radio']").removeAttr("required");
+        $(this).attr("name", "categoryKey");
+    });
+
+    // Level 3 까지 가지 않기 위해서 foobar 으로 수정
     // Use "document" or another static parent for event delegation
-    $(document).on('change', '.categoryLevel2 input[type="radio"]', function () {
+    $(document).on('change', '.foobar input[type="radio"]', function () {
         if ($(this).is(':checked')) {
             let higherCategoryKey = $(this).val();
 
@@ -249,7 +266,7 @@
                         inputEl.setAttribute("type", "radio");
                         inputEl.setAttribute("value", categoryKey);
                         inputEl.setAttribute("id", categoryNm);
-                        inputEl.setAttribute("name", "categoryKey");
+                        // inputEl.setAttribute("name", "categoryKey");
                         inputEl.setAttribute("required", "");
 
                         const labelEl = document.createElement("label");

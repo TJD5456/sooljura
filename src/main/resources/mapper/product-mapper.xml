@@ -59,7 +59,20 @@
         and 
         	basket_cd = 1
     </select>
-
+	<select id="findProdKeyLikedList" parameterType="string" resultType="basket">
+        select 
+            basket_key as basketKey,
+            basket_cd  as basketCd,
+            prod_key   as prodKey,
+            user_key   as userKey,
+            basket_cnt as basketCnt
+        from 
+        	tbl_basket
+        where 
+        	user_key = #{userKey}
+        and 
+        	basket_cd = 2
+    </select>
     <!-- productKey로 제품 정보 조회 -->
     <select id="selProdInfo" parameterType="string" resultType="product">
         select 
@@ -72,7 +85,22 @@
         where 
         	prod_key = #{prodKey}
     </select>
-
+	 <select id="selProdInfoLikedList" parameterType="string" resultType="product">
+        select 
+        	b.img_path 	 as imgPath,
+        	a.prod_key   as prodKey,
+            a.prod_nm    as prodNm,
+            a.prod_price as prodPrice,
+            a.prod_cnt   as prodCnt
+        from 
+        	tbl_product a
+        left join
+            tbl_product_image b
+        on
+            a.prod_key = b.prod_key
+        where 
+        	a.prod_key = #{prodKey}
+    </select>
     <!-- 장바구니에 제품 넣기 -->
     <insert id="insertBasket" parameterType="basket">
         insert into tbl_basket (
@@ -97,7 +125,6 @@
         and 
           	prod_key = #{prodKey}
     </delete>
-
     <!-- 구매목록 가져오기 -->
     <select id="orderList" parameterType="hashmap" resultType="history">
         select 
@@ -180,26 +207,26 @@
   </select>
 
     <select id="getProdList" parameterType="String" resultType="product">
-      select 	a.PROD_KEY 		as prodKey,
-       			i.img_path 		as imgPath,
-       			PROD_NM 		as prodNm,
-       			PROD_PRICE   	as prodPrice,
-       			PROD_MAKER  	as prodMaker,
-       			PROD_ORIGIN  	as prodOrigin,
-       			PROD_INTRO   	as prodIntro,
-       			PROD_CNT     	as prodCnt,
-       			PROD_VOL     	as prodVol,
-       			PROD_PROOF   	as prodProof,
-       			TRADING_YN   	as tradingYn,
-       			a.CATEGORY_KEY 	as categoryKey,
-       			UPLOAD_DATE  	as uploadDate
-  		from 	tbl_product a
-   left join 	tbl_product_category b
-    	  on 	a.category_key = b.category_key 
-   left join 	tbl_product_image i
-          on 	a.prod_key = i.prod_key
-       where 	b.higher_category = #{categoryKey}
-       order 	by a.prod_key
+        select a.prod_key     as prodKey,
+               i.img_path     as imgPath,
+               prod_nm        as prodNm,
+               prod_price     as prodPrice,
+               prod_maker     as prodMaker,
+               prod_origin    as prodOrigin,
+               prod_intro     as prodIntro,
+               prod_cnt       as prodCnt,
+               prod_vol       as prodVol,
+               prod_proof     as prodProof,
+               trading_yn     as tradingYn,
+               a.category_key as categoryKey,
+               upload_date    as uploadDate
+        from tbl_product a
+                 left join tbl_product_category b
+                           on a.category_key = b.category_key
+                 left join tbl_product_image i
+                           on a.prod_key = i.prod_key
+        where b.higher_category = #{categoryKey}
+        order by a.prod_key
     </select>
 
     <select id="getProdListByName" parameterType="String" resultType="product">
@@ -296,6 +323,24 @@
         from tbl_product_category
         where category_key = (select category_key from tbl_product where prod_key = #{_prodKey})
     </select>
+
+	<delete id="delLikedList" parameterType="Basket">
+    DELETE FROM tbl_basket
+    WHERE user_key = #{userKey}
+      AND prod_key IN
+      <foreach collection="prodKeyArr" item="prodKey" open="(" separator="," close=")">
+          #{prodKey}
+      </foreach>
+       <!-- 장바구니에서 제품 삭제 -->
+	</delete>
+    <delete id="delLikedProd" parameterType="basket">
+        delete tbl_basket
+        where 
+        	user_key = #{userKey}
+        and 
+          	prod_key = #{prodKey}
+        and basket_cd=2
+    </delete>
 
     <select id="chkProd" resultType="int">
         select count(*)

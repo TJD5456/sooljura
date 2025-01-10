@@ -131,7 +131,7 @@
 <div class="chat-wrapper">
     <div class="chat-title">실시간 채팅</div>
 
-    <c:set var="senderLabel" value="${userCd == 0 ? userNickNm : '관리자'}" />
+    <c:set var="senderLabel" value="${userCd == 0 ? userNickNm : '관리자'}"/>
     <div id="msgArea">
         <c:forEach var="chat" items="${chatList}">
             <c:choose>

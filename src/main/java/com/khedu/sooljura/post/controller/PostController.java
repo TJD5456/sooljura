@@ -458,12 +458,20 @@ public class PostController {
 		}
 	}
 
-	@PostMapping("readMyPost1.do")
+	@PostMapping("readMyPost.do")
 	public String readMyPostPage(String userKey, Model model) {
-	    PostPageData pd = service.selectPostList(1, 2, userKey);
+		PostPageData pd1 = service.selectPostList(1, 2, userKey);
+	    PostPageData pd2 = service.selectPostList(1, 2, userKey);
+	    PostPageData pd3 = service.selectPostList(1, 3, userKey);
 	    
-	    model.addAttribute("list", pd.getList());
-		model.addAttribute("pageNavi", pd.getPageNavi());
-		return "userMyPage/readMyPost1";
+	    model.addAttribute("noticeList", pd1.getList());
+		model.addAttribute("noticePageNavi", pd1.getPageNavi());
+	    
+	    model.addAttribute("freePostList", pd2.getList());
+		model.addAttribute("freePageNavi", pd2.getPageNavi());
+		
+		model.addAttribute("reviewPostList", pd3.getList());
+		model.addAttribute("reviewPageNavi", pd3.getPageNavi());
+		return "userMyPage/readMyPost";
 	    }
 }

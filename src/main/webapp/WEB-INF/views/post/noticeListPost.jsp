@@ -13,6 +13,7 @@
 	align-items: center;
 	margin: 0 auto 30px;
 	width: 80%;
+	max-width: 1000px;
 }
 
 .btn-write {
@@ -96,10 +97,8 @@ tr.empty-row td {
 				<div class="button-div">
 					<h2 style="margin: 0;">목록</h2>
 					<!-- 관리자 권한일 때만 작성하기 버튼 표시 -->
-					<c:if
-						test="${not empty sessionScope.loginUser && sessionScope.loginUser.userCd == 0}">
-						<a href="/post/noticePostWriter.do" class="btn-write">공지사항
-							작성하기</a>
+					<c:if test="${not empty sessionScope.loginUser && sessionScope.loginUser.userCd == 0}">
+						<a href="/post/noticePostWriter.do" class="btn-write">공지사항 작성하기</a>
 					</c:if>
 				</div>
 

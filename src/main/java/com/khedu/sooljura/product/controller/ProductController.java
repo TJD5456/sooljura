@@ -141,26 +141,28 @@ public class ProductController {
 	// 결제 페이지로 이동
 	// 제품 여러개일 수도 있으니까 반복문 걸기
 	@GetMapping("productBuyFrm.do")
-	public String productBuyFrm(Model model,  @RequestParam(required = false) List<String> prodKeys, 
-            									@RequestParam(required = false) String userKey) {
-		// userKey로 기본배송지 가져오기
-		UserAddr defaultAddr = userController.findDefaultAddr(userKey);
+	public String productBuyFrm(Model model, 
+	                             @RequestParam List<String> prodKeys, 
+	                             @RequestParam List<String> basketCnts, 
+	                             @RequestParam String userKey) {
+	    // 기본 배송지 가져오기
+	    UserAddr defaultAddr = userController.findDefaultAddr(userKey);
+	    System.out.println("ControllerBasketCnts : " + basketCnts);
+	    
+	    // 선택된 제품 정보 처리
+	    List<Map<String, Object>> productList = new ArrayList<>();
+	    for (int i = 0; i < prodKeys.size(); i++) {
+	        Map<String, Object> productData = new HashMap<>();
+	        productData.put("prodKey", prodKeys.get(i));
+	        productData.put("basketCnt", basketCnts.get(i)); // 장바구니 수량
+	        productList.add(productData);
+	    }
 
-		// product 가져오기
-		List<ProductListData> productList = new ArrayList<>();
-		ProductListData prodInfo = null;
-		for (String prodKey : prodKeys) {
-			
-			prodInfo = service.prodInfo(prodKey);
-			productList.add(prodInfo);
-		}
-		// 기본 주소지
-		model.addAttribute("addr", defaultAddr);
-		// 제품 정보 리스트
-		model.addAttribute("productList", productList);
-		// 장바구니 정보(결제완료 후 장바구니에서 제품 삭제용) - 보류
+	    // 모델에 데이터 추가
+	    model.addAttribute("addr", defaultAddr);
+	    model.addAttribute("productList", productList);
 
-		return "product/productBuy";
+	    return "product/productBuy";
 	}
 
 	// 결제 API 에 주문번호 보내는 용도

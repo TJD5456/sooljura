@@ -45,6 +45,9 @@
             text-decoration: none;
             font-size: 12px;
         }
+		a:hover{
+			cursor: pointer;
+		}
 
         #userId, #userPw {
             width: 350px;
@@ -122,7 +125,7 @@
             <br>
             <div id="specialWrap">
                 <%--<a href="/user/pwFindFrm.do">비밀번호 찾기</a> | --%>
-                <a href="/user/idFindFrm.do">아이디 찾기</a> |
+                <a onclick="idFindFrmBtn()">아이디 찾기</a> |
                 <a href="/user/provisionFrm.do">회원 가입</a>
             </div>
             <hr>
@@ -179,6 +182,15 @@
             $('#userPw').val('user555@');
             loginBtn(event);
         }
+    }
+    
+    function idFindFrmBtn() {   	
+    	let popupWidth = 550;
+		let popupHeight = 400;
+		let top = (window.innerHeight - popupHeight) / 2 + window.screenY;
+		let left = (window.innerWidth - popupWidth) / 2 + window.screenX;
+		
+		window.open("/user/idFindFrm.do", "idFindFrm", "width="+popupWidth+", top="+top+", height="+popupHeight+", left="+left);
     }
 </script>
 </body>

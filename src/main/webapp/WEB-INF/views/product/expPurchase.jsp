@@ -82,10 +82,11 @@ main {
     <c:if test="${not empty basketList}">
 
         <form action="/product/productBuyFrm.do" id="basketForm" method="get" onsubmit="return submitCalc()">
-		    <input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)">
-		    <label for="selectAll">전체 선택</label>
-		    <input type="hidden" id="userKey" name="userKey" value="${loginUser.userKey}">
-		
+		    <div class="center-div-items" style="display: flex; width:42%; justify-content: center;">
+			    <input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)">
+			    <label for="selectAll">전체 선택</label>
+			    <input type="hidden" id="userKey" name="userKey" value="${loginUser.userKey}">
+			</div>
 		    <c:forEach var="basketProductInfo" items="${basketList}">
 		        <c:set var="basket" value="${basketProductInfo.basket}" />
 		
@@ -106,15 +107,14 @@ main {
 		                </div>
 		
 		                <!-- Product Quantity -->
-		                <div class="center-div-items" style="width: 10%;">
+		                <div class="center-div-items" style="width:10%;">
 		                    <span class="basketCnt">${basket.basketCnt}</span><br>
 		                    <button type="button" onclick="fn.buyCntCalc('-', this)">-</button>
 		                    <button type="button" onclick="fn.buyCntCalc('+', this)">+</button>
 		                </div>
 		                
-		                <div class="center-div-items" style="width: 10%; justify-items: center;">
-			                <input type="button" onclick="delBasket(this)" value="삭제하기"><br>
-			                <input type="button" onclick="buyBasket(this)" value="구매하기" style="margin-top: 5px;">
+		                <div class="center-div-items" style="width:10%; justify-items:center;">
+			                <input type="button" style="display: flex; justify-content: center; margin:0 auto; paddin:0;" onclick="delBasket(this)" value="삭제하기"><br>
 			            </div>
 		            </div>
 		        </c:forEach>

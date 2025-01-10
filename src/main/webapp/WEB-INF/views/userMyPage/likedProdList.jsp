@@ -131,12 +131,11 @@ input[type="button"]:hover {
 
 						<form action="/product/productBuyFrm.do" id="basketForm"
 							method="get">
-							<label for="selectAll"> 전체 선택
+							<label for="selectAll"> 전체선택
 								<input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)">
 							</label> 
 							<input type="hidden" id="userKey" name="userKey" value="${loginUser.userKey}">
 							<input type="button" class="delSelectedLikedList" onclick="delBasket(this)" value="선택 제거">
-							<input type="button" class="buyBasket" value="선택 장바구니" style="margin-top: 5px;">
 								
 							<table>
 								<colgroup>
@@ -172,11 +171,9 @@ input[type="button"]:hover {
 											</td>
 
 											<td>
-												<div class="center-div-items"
-													style="width: 10%; justify-items: center;">
-													<button type="button" class="delLikedProd">제거</button>
-													<input type="text" class="prodKey" name="prodKey" value="${product.prodKey}">
-													<button type="button" class="toBasket" style="margin-top: 5px;">장바구니</button>
+												<div class="center-div-items" style="width: 10%; justify-items: center;">
+													<input type="button" class="delSelectedLikedList" value="제거">
+													<input type="hidden" class="prodKey" name="prodKey" value="${product.prodKey}">
 												</div>
 											</td>
 										</tr>
@@ -305,38 +302,11 @@ input[type="button"]:hover {
 		        }
 		    });
 	});
-    //개별삭제
-	$('.delLikedProd').on('click', function(){
-    	const prodKey = $('.prodKey').closest('input').val();
-        const userKey = $('#userKey').val();
-
-        console.log("prodKey : ", prodKey);
-        console.log("userKey : ", userKey);
-
-        $.ajax({
-            url: "/userMyPage/delLikedProd.do",
-            type: "GET",
-            data: {
-                prodKey: prodKey,
-                userKey: userKey
-            },
-            success: function (res) {
-            	console.log(res);
-                if (res === "1") {
-                    msg('알림', '제품 삭제 완료', 'success', "location.href = '/userMyPage/likedProdList.do';");
-                } else {
-                	console.log(res)
-                    msg('알림', '오류가 발생했습니다', 'error', "location.href = '/userMyPage/likedProdList.do';");
-                }
-            },
-            error: function () {
-                console.log('장바구니 삭제 ajax 오류');
-            }
-        });
-	});
+    /*
 	$('.toBasket').on('click', function(){
 		
 	});
+    */
     function toggleSelectAll(checkbox) {
         const isChecked = checkbox.checked;
         $('#basketForm .selProduct').prop('checked', isChecked);

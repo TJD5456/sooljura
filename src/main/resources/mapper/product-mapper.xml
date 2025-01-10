@@ -9,6 +9,7 @@
 
     <!-- 받아온 결제 API 정보를 주문번호에 넣기 -->
     <insert id="insertHistory" parameterType="history">
+    
     insert into tbl_order_history (
         imp_uid,
         order_no,
@@ -20,7 +21,7 @@
         order_date
     )
     values
-	    <foreach collection="prodKeys" item="prodKey" separator=",">
+    <foreach collection="prodKeys" item="prodKey" separator=",">
 	    (
 	        #{impUid},
 	        'oh' || to_char(sysdate, 'YYMMDD') || lpad(seq_order_history.nextval, 4, '0'),

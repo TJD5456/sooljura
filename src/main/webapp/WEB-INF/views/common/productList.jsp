@@ -33,14 +33,19 @@ table {
 
 .prodName {
 	width: 200px;
-	white-space: nowrap; /* 텍스트를 한 줄로 표시 */
-	overflow: hidden; /* 넘치는 텍스트를 숨김 */
+	white-space: nowrap;     /* 텍스트를 한 줄로 표시 */
+	overflow: hidden;        /* 넘치는 텍스트를 숨김 */
 	text-overflow: ellipsis; /* 숨겨진 부분에 "..." 표시 */
-	display: inline-block; /* 텍스트가 차지할 수 있는 공간 유지 */
+	display: inline-block;   /* 텍스트가 차지할 수 있는 공간 유지 */
+}
+
+.bannerDiv1 img {
+	max-width: 1200px;
+	margin: 0 auto;
 }
 </style>
 <div class="bannerDiv1">
-	<img alt="" src="/resources/sooljura-banner/mainPageBanner_01.webp">
+	<img alt="배너 이미지" src="/resources/sooljura-banner/mainPageBanner_01.webp">
 </div>		
 <c:if test="${chkYt != 'empty'}">
     <jsp:include page="/WEB-INF/views/common/youtube.jsp" />

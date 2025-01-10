@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -27,7 +28,7 @@
             <div class="title">
                 <h1>유튜브 관리 페이지</h1>
             </div>
-            <form action="${pageContext.request.contextPath}/admin/uploadYoutube.do" method="get">
+            <form action="/admin/updateYoutube.do" method="get">
                 <table>
                     <tr>
                         <th><label for="iframeInput">유튜브 URL</label></th>
@@ -68,6 +69,7 @@
                     <tr>
                         <th colspan="2">
                             <input type="submit" onclick="extractIframeSrc()" value="YouTube 등록">
+                            <input type="button" class="youtubeDelBtn" value="YouTube 삭제">
                         </th>
                     </tr>
                 </table>
@@ -79,6 +81,21 @@
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 
     <script>
+        $('.youtubeDelBtn').on('click', function () {
+            $.ajax({
+                    url: '/admin/delYt.do',
+                    type: 'get',
+                    success() {
+                        window.alert("유튜브가 삭제 되었습니다");
+                        location.reload();
+                    },
+                    error(res) {
+                        window.alert("error: " + res);
+                    }
+                }
+            )
+        })
+
         $(".searchProductName").on("keyup", function () {
             const $thisInput = $(this);
             const $thisInputId = $thisInput.attr("id");

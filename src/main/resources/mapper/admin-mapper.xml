@@ -111,22 +111,29 @@
         where prod_key = #{prodKey}
     </select>
 
-    <insert id="uploadYoutube" parameterType="youtube">
-        insert into tbl_youtube (
-        youtube_url,
-        content,
-        prod_key1
-        <if test="prodKey2 != null">, prod_key2</if>
-        <if test="prodKey3 != null">, prod_key3</if>
-        )
-        values (
-        #{youtubeUrl},
-        #{content},
-        #{prodKey1}
-        <if test="prodKey2 != null">, #{prodKey2}</if>
-        <if test="prodKey3 != null">, #{prodKey3}</if>
-        )
-    </insert>
+    <update id="updateYoutube" parameterType="youtube">
+        update tbl_youtube
+        set youtube_url = #{youtubeUrl},
+        content = #{content},
+        <if test="prodKey1 != null">
+        prod_key1 = #{prodKey1}
+        </if>
+        <if test="prodKey1 == null">
+            prod_key1 = ( select prod_key from tbl_product where prod_key like '%0001')
+        </if>
+        <if test="prodKey2 != null">
+            , prod_key2 = #{prodKey2}
+        </if>
+        <if test="prodKey2 == null">
+            , prod_key2 = null
+        </if>
+        <if test="prodKey3 != null">
+            , prod_key3 = #{prodKey3}
+        </if>
+        <if test="prodKey3 == null">
+            , prod_key3 = null
+        </if>
+    </update>
 
     <select id="selectLowerCategoryLevel" resultType="productCategory">
         select category_key    as categoryKey,

@@ -48,9 +48,13 @@
     .related-products div:hover {
         border: solid 2px var(--table-border)
     }
+
+    .hide-youtube {
+        display: none;
+    }
 </style>
 
-<div class="youtube">
+<div class="youtube<c:if test="${youtube.youtubeUrl == 'empty'}"> hide-youtube</c:if>">
     <iframe width="560" height="315" src="${youtube.youtubeUrl}"
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

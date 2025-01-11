@@ -319,20 +319,22 @@
     <select id="sel5EachCat" resultType="product">
         select sub.prod_key    as prodkey,
                prod_nm         as prodnm,
+               prod_price      as prodPrice,
                higher_category as highercategory,
                img.img_path    as imgpath
         from (select p.prod_key,
                      p.prod_nm,
+                     p.prod_price,
                      p.trading_yn,
                      c.higher_category,
                      row_number() over (partition by c.higher_category order by p.prod_key) as rnk
-              from tbl_product p
-                       join tbl_product_category c
-                            on p.category_key = c.category_key
+                  from tbl_product p
+                  join tbl_product_category c
+                    on p.category_key = c.category_key
               where p.prod_nm != 'empty'
                 and trading_yn = 1) sub
-                 join tbl_product_image img
-                      on sub.prod_key = img.prod_key
+               join tbl_product_image img
+                 on sub.prod_key = img.prod_key
         where sub.rnk = 0
            or sub.rnk = 1
            or sub.rnk = 2

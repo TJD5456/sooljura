@@ -208,20 +208,18 @@ input[type="button"] {
         const addrDetail = $('#addrDetail').val();
 
         if (rcptNm.length < 1) {
-            msg('알림', '주소를 입력해주세요', 'warning');
+            msg('알림', '수취인 이름을 입력해주세요', 'warning');
             return;
         } else if (rcptPhone.length < 1) {
             msg('알림', '수취인 전화번호를 입력해주세요', 'warning');
             return;
         } else if (addrCd.length < 1) {
-            msg('알림', '수취인 이름을 입력해주세요', 'warning');
-            return;
-        } else if (addrDetail.length < 1) {
-            msg('알림', '상세 주소를 입력해주세요', 'warning');
+            msg('알림', '주소 입력해주세요', 'warning');
             return;
         } else {
             $.ajax({
                 url: "/user/addAddr.do",
+                type: "POST",
                 data: {
                     userKey: $('#userKey').val(),
                     addrNm: $('#addrNm').val(),
@@ -232,7 +230,6 @@ input[type="button"] {
                     rcptNm: rcptNm,
                     rcptPhone: rcptPhone
                 },
-                type: "POST",
                 success: function (res) {
                     if (res === "1") {
                         msg('알림', '주소 등록이 완료되었습니다', 'success', "location.href = '/user/addrListFrm.do';");

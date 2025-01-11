@@ -203,18 +203,15 @@ form {
         const addrDetail = $('#addrDetail').val();
 
         if (rcptNm.length < 1) {
-            msg('알림', '주소를 입력해주세요', 'warning');
+            msg('알림', '수취인 이름을 입력해주세요', 'warning');
             return;
         } else if (rcptPhone.length < 1) {
             msg('알림', '수취인 전화번호를 입력해주세요', 'warning');
             return;
         } else if (addrCd.length < 1) {
-            msg('알림', '수취인 이름을 입력해주세요', 'warning');
+            msg('알림', '주소를 입력해주세요', 'warning');
             return;
-        } else if (addrDetail.length < 1) {
-            msg('알림', '상세 주소를 입력해주세요', 'warning');
-            return;
-        } else {
+        }else {
             $.ajax({
                 url: "/user/addAddr.do",
                 data: {

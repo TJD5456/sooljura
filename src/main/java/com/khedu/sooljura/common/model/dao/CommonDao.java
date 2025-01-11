@@ -16,12 +16,8 @@ public class CommonDao {
         this.sqlSession = sqlSession;
     }
 
-    public int chkProd() {
-        return sqlSession.selectOne("product.chkProd");
-    }
-
-    public List<Product> getProdList(String categoryKey) {
-        return sqlSession.selectList("product.getProdList", categoryKey);
+    public List<Product> sel5EachCat() {
+        return sqlSession.selectList("product.sel5EachCat");
     }
 
 }

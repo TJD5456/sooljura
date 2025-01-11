@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class CommonController {
@@ -26,14 +29,25 @@ public class CommonController {
 
     @GetMapping("/")
     public String startup(Model model) {
+        ArrayList<Product> prodList = service.sel5EachCat();
+        if (prodList != null && !prodList.isEmpty()) {
+            // Map to group products by higher category
+            Map<String, List<Product>> categoryMap = new HashMap<>();
 
-        if (service.chkProd() > 0) {
-            ArrayList<Product> wineProdList = service.getProdList("c0001");
-            ArrayList<Product> whiskeyProdList = service.getProdList("c0002");
-            ArrayList<Product> brandyProdList = service.getProdList("c0003");
-            ArrayList<Product> liqueurProdList = service.getProdList("c0004");
-            ArrayList<Product> sojuProdList = service.getProdList("c0005");
-            ArrayList<Product> etcProdList = service.getProdList("c0006");
+            // Group products by category
+            for (Product p : prodList) {
+                String higherCatKey = p.getHigherCategory();
+                categoryMap.computeIfAbsent(higherCatKey, k -> new ArrayList<>()).add(p);
+            }
+
+            // Add categorized lists to the model
+            model.addAttribute("wineProdList", categoryMap.getOrDefault("c0001", new ArrayList<>()));
+            model.addAttribute("whiskeyProdList", categoryMap.getOrDefault("c0002", new ArrayList<>()));
+            model.addAttribute("brandyProdList", categoryMap.getOrDefault("c0003", new ArrayList<>()));
+            model.addAttribute("liqueurProdList", categoryMap.getOrDefault("c0004", new ArrayList<>()));
+            model.addAttribute("sojuProdList", categoryMap.getOrDefault("c0005", new ArrayList<>()));
+            model.addAttribute("etcProdList", categoryMap.getOrDefault("c0006", new ArrayList<>()));
+        }
 
             Youtube youtube = adminService.selectYoutubeUrl();
             model.addAttribute("chkYt", youtube.getYoutubeUrl());
@@ -53,18 +67,8 @@ public class CommonController {
                     model.addAttribute("prod3", prod3);
                 }
             }
-
-            model.addAttribute("brandyProdList", brandyProdList);
-            model.addAttribute("liqueurProdList", liqueurProdList);
-            model.addAttribute("etcProdList", etcProdList);
-            model.addAttribute("sojuProdList", sojuProdList);
-            model.addAttribute("wineProdList", wineProdList);
-            model.addAttribute("whiskeyProdList", whiskeyProdList);
-        }
-
         return "index";
     }
-
 
     @GetMapping("/common/webPageInfo.do")
     public String webPageInfo() {

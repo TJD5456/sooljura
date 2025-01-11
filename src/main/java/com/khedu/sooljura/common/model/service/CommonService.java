@@ -16,19 +16,8 @@ public class CommonService {
         this.dao = dao;
     }
 
-    public int chkProd() {
-        return dao.chkProd();
-    }
-
-    public ArrayList<Product> getProdList(String categoryKey) {
-        ArrayList<Product> list = new ArrayList<>();
-        ArrayList<Product> prodList = (ArrayList<Product>) dao.getProdList(categoryKey);
-
-        for (int i = 0; i < 5; i++) {
-            list.add(prodList.get(i));
-        }
-
-        return list;
+    public ArrayList<Product> sel5EachCat() {
+        return (ArrayList<Product>) dao.sel5EachCat();
     }
 
 }

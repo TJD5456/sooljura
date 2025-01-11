@@ -1,6 +1,5 @@
 package com.khedu.sooljura.product.model.vo;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Basket {
@@ -14,7 +13,6 @@ public class Basket {
     
 	public Basket() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Basket(String basketKey, int basketCd, String prodKey, String userKey, int basketCnt,

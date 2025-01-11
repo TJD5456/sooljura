@@ -11,16 +11,6 @@
             display: inline-block;
             justify-items: center;
         }
-
-        .bannerDiv1 {
-            width: 1400px;
-        }
-
-        .bannerDiv1 img {
-            display: block;
-            width: 100%;
-            height: auto;
-        }
     </style>
 </head>
 <body>

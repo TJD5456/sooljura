@@ -49,24 +49,22 @@ public class CommonController {
             model.addAttribute("etcProdList", categoryMap.getOrDefault("c0006", new ArrayList<>()));
         }
 
-            Youtube youtube = adminService.selectYoutubeUrl();
-            model.addAttribute("chkYt", youtube.getYoutubeUrl());
-            if (youtube != null) {
-                model.addAttribute("youtube", youtube);
+        Youtube youtube = adminService.selectYoutubeUrl();
+        model.addAttribute("youtube", youtube);
+        model.addAttribute("chkYt", youtube.getYoutubeUrl());
 
-                ProductImage prod1 = adminService.selectProductImageInfo(youtube.getProdKey1());
-                model.addAttribute("prod1", prod1);
+        ProductImage prod1 = adminService.selectProductImageInfo(youtube.getProdKey1());
+        model.addAttribute("prod1", prod1);
 
-                if (youtube.getProdKey2() != null) {
-                    ProductImage prod2 = adminService.selectProductImageInfo(youtube.getProdKey2());
-                    model.addAttribute("prod2", prod2);
-                }
+        if (youtube.getProdKey2() != null) {
+            ProductImage prod2 = adminService.selectProductImageInfo(youtube.getProdKey2());
+            model.addAttribute("prod2", prod2);
+        }
 
-                if (youtube.getProdKey3() != null) {
-                    ProductImage prod3 = adminService.selectProductImageInfo(youtube.getProdKey3());
-                    model.addAttribute("prod3", prod3);
-                }
-            }
+        if (youtube.getProdKey3() != null) {
+            ProductImage prod3 = adminService.selectProductImageInfo(youtube.getProdKey3());
+            model.addAttribute("prod3", prod3);
+        }
         return "index";
     }
 

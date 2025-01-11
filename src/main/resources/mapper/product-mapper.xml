@@ -4,13 +4,13 @@
 
     <!-- 결제 API 에 주문번호를 보내기 위한 주문번호 제작 -->
     <select id="makeOrderNo" resultType="string">
-    	select 'oh' || to_char(sysdate, 'YYMMDD') || lpad(seq_order_history.nextval, 4, '0') from dual
+        select 'oh' || to_char(sysdate, 'YYMMDD') || lpad(seq_order_history.nextval, 4, '0')
+        from dual
     </select>
 
     <!-- 받아온 결제 API 정보를 주문번호에 넣기 -->
     <insert id="insertHistory" parameterType="history">
-    
-    insert into tbl_order_history (
+        insert into tbl_order_history (
         imp_uid,
         order_no,
         prod_key,
@@ -19,137 +19,115 @@
         order_price,
         order_cnt,
         order_date
-    )
-    values
-    <foreach collection="prodKeys" item="prodKey" separator=",">
-	    (
-	        #{impUid},
-	        'oh' || to_char(sysdate, 'YYMMDD') || lpad(seq_order_history.nextval, 4, '0'),
-	        #{prodKey},
-	        #{userKey},
-	        #{addrKey},
-	        #{orderPrice},
-	        #{orderCnt},
-	        sysdate
-	    )
-	    </foreach>
-	</insert>
+        )
+        values
+        <foreach collection="prodKeys" item="prodKey" separator=",">
+            (
+            #{impUid},
+            'oh' || to_char(sysdate, 'YYMMDD') || lpad(seq_order_history.nextval, 4, '0'),
+            #{prodKey},
+            #{userKey},
+            #{addrKey},
+            #{orderPrice},
+            #{orderCnt},
+            sysdate
+            )
+        </foreach>
+    </insert>
 
     <!-- 주문번호 제작용도의 컬럼 제거 -->
     <delete id="delOrderNo" parameterType="history">
-        delete 
-        	tbl_order_history
-        where 
-        	order_no = #{orderNo}
-        and 
-        	imp_uid is null
+        delete
+            tbl_order_history
+        where order_no = #{orderNo}
+          and imp_uid is null
     </delete>
 
     <!-- 장바구니에 넣은 productKey 조회 -->
     <select id="findProdKey" parameterType="string" resultType="basket">
-        select 
-        	basket_key as basketKey,
-            basket_cd  as basketCd,
-            prod_key   as prodKey,
-            user_key   as userKey,
-            basket_cnt as basketCnt
-        from 
-        	tbl_basket
-        where 
-        	user_key = #{userKey}
-        and 
-        	basket_cd = 1
+        select basket_key as basketKey,
+               basket_cd  as basketCd,
+               prod_key   as prodKey,
+               user_key   as userKey,
+               basket_cnt as basketCnt
+        from tbl_basket
+        where user_key = #{userKey}
+          and basket_cd = 1
     </select>
-	<select id="findProdKeyLikedList" parameterType="string" resultType="basket">
-        select 
-            basket_key as basketKey,
-            basket_cd  as basketCd,
-            prod_key   as prodKey,
-            user_key   as userKey,
-            basket_cnt as basketCnt
-        from 
-        	tbl_basket
-        where 
-        	user_key = #{userKey}
-        and 
-        	basket_cd = 2
+
+    <select id="findProdKeyLikedList" parameterType="string" resultType="basket">
+        select basket_key as basketKey,
+               basket_cd  as basketCd,
+               prod_key   as prodKey,
+               user_key   as userKey,
+               basket_cnt as basketCnt
+        from tbl_basket
+        where user_key = #{userKey}
+          and basket_cd = 2
     </select>
-    <!-- productKey로 제품 정보 조회 -->
+
+    <!-- productKey 로 제품 정보 조회 -->
     <select id="selProdInfo" parameterType="string" resultType="product">
-        select 
-        	prod_key   as prodKey,
-            prod_nm    as prodNm,
-            prod_price as prodPrice,
-            prod_cnt   as prodCnt
-        from 
-        	tbl_product
-        where 
-        	prod_key = #{prodKey}
+        select prod_key   as prodKey,
+               prod_nm    as prodNm,
+               prod_price as prodPrice,
+               prod_cnt   as prodCnt
+        from tbl_product
+        where prod_key = #{prodKey}
     </select>
-	 <select id="selProdInfoLikedList" parameterType="string" resultType="product">
-        select 
-        	b.img_path 	 as imgPath,
-        	a.prod_key   as prodKey,
-            a.prod_nm    as prodNm,
-            a.prod_price as prodPrice,
-            a.prod_cnt   as prodCnt
-        from 
-        	tbl_product a
-        left join
-            tbl_product_image b
-        on
-            a.prod_key = b.prod_key
-        where 
-        	a.prod_key = #{prodKey}
+
+    <select id="selProdInfoLikedList" parameterType="string" resultType="product">
+        select b.img_path   as imgPath,
+               a.prod_key   as prodKey,
+               a.prod_nm    as prodNm,
+               a.prod_price as prodPrice,
+               a.prod_cnt   as prodCnt
+        from tbl_product a
+                 left join
+             tbl_product_image b
+             on
+                 a.prod_key = b.prod_key
+        where a.prod_key = #{prodKey}
     </select>
+
     <!-- 장바구니에 제품 넣기 -->
     <insert id="insertBasket" parameterType="basket">
-        insert into tbl_basket (
-        	basket_key,
-            basket_cd,
-            prod_key,
-            user_key,
-            basket_cnt
-        )values (
-            'bk' || to_char(sysdate, 'yymmdd') || lpad(seq_basket.nextval, 4, '0'),
-            #{basketCd},
-            #{prodKey},
-            #{userKey},
-            #{basketCnt})
+        insert into tbl_basket (basket_key,
+                                basket_cd,
+                                prod_key,
+                                user_key,
+                                basket_cnt)
+        values ('bk' || to_char(sysdate, 'yymmdd') || lpad(seq_basket.nextval, 4, '0'),
+                #{basketCd},
+                #{prodKey},
+                #{userKey},
+                #{basketCnt})
     </insert>
 
     <!-- 장바구니에서 제품 삭제 -->
     <delete id="delBasketProduct" parameterType="basket">
         delete tbl_basket
-        where 
-        	user_key = #{userKey}
-        and 
-          	prod_key = #{prodKey}
+        where user_key = #{userKey}
+          and prod_key = #{prodKey}
     </delete>
+
     <!-- 구매목록 가져오기 -->
     <select id="orderList" parameterType="hashmap" resultType="history">
-        select 
-        	imp_uid		as impUid,
-        	order_no    as orderNo,
-            prod_key    as prodKey,
-            user_key 	as userKey,
-            addr_key    as addrKey,
-            order_price as orderPrice,
-            order_cnt   as orderCnt,
-            order_date  as orderDate
-        from (
-        	select 
-        		rownum rnum, a.*
-            from (
-            	select a.*
-                from tbl_order_history a
-                order by order_date desc
-                ) a
-            ) a
-        where
-        	user_key = #{userKey}
-        and 
-        	rnum between #{start} and #{end}
+        select imp_uid     as impUid,
+               order_no    as orderNo,
+               prod_key    as prodKey,
+               user_key    as userKey,
+               addr_key    as addrKey,
+               order_price as orderPrice,
+               order_cnt   as orderCnt,
+               order_date  as orderDate
+        from (select rownum rnum,
+                     a.*
+              from (select a.*
+                    from tbl_order_history a
+                    order by order_date desc) a) a
+        where user_key = #{userKey}
+          and rnum between #{start} and #{end}
     </select>
 
     <!-- 구매목록 pageNavi(갯수 count) -->
@@ -160,43 +138,43 @@
     </select>
 
     <select id="selOneProduct" parameterType="String" resultType="product">
-        select PROD_KEY     as prodKey,
-               PROD_NM      as prodNm,
-               PROD_PRICE   as prodPrice,
-               PROD_MAKER   as prodMaker,
-               PROD_ORIGIN  as prodOrigin,
-               PROD_INTRO   as prodIntro,
-               PROD_CNT     as prodCnt,
-               PROD_VOL     as prodVol,
-               PROD_PROOF   as prodProof,
-               TRADING_YN   as tradingYn,
-               CATEGORY_KEY as categoryKey,
-               UPLOAD_DATE  as uploadDate
+        select prod_key     as prodKey,
+               prod_nm      as prodNm,
+               prod_price   as prodPrice,
+               prod_maker   as prodMaker,
+               prod_origin  as prodOrigin,
+               prod_intro   as prodIntro,
+               prod_cnt     as prodCnt,
+               prod_vol     as prodVol,
+               prod_proof   as prodProof,
+               trading_yn   as tradingYn,
+               category_key as categoryKey,
+               upload_date  as uploadDate
         from tbl_product
         where prod_key = #{prodKey}
     </select>
 
     <select id="selOneProdImg" resultType="productImage">
-        select IMG_KEY  as imgKey,
-               IMG_NM   as imgNm,
-               IMG_PATH as imgPath,
-               PROD_KEY as prodKey
+        select img_key  as imgKey,
+               img_nm   as imgNm,
+               img_path as imgPath,
+               prod_key as prodKey
         from tbl_product_image
         where prod_key = #{prodKey}
     </select>
 
     <select id="selOnePDH" parameterType="String" resultType="discountHistory">
-        select HIST_CD  as histCd,
-               PROD_KEY as prodKey,
-               EVENT_CD as eventCd
+        select hist_cd  as histCd,
+               prod_key as prodKey,
+               event_cd as eventCd
         from tbl_discount_history
         where prod_key = #{prodKey}
     </select>
 
     <select id="selOnePDI" parameterType="hashmap" resultType="discountInfo">
-        select EVENT_CD         as eventCd,
-               DISCOUNT_PERCENT as discountPercent,
-               DISCOUNT_AMOUNT  as discountAmount
+        select event_cd         as eventCd,
+               discount_percent as discountPercent,
+               discount_amount  as discountAmount
         from tbl_discount_info
         where event_cd = #{eventCd}
     </select>
@@ -205,7 +183,7 @@
         select count(*)
         from tbl_discount_history
         where prod_key = #{prodKey}
-  </select>
+    </select>
 
     <select id="getProdList" parameterType="String" resultType="product">
         select a.prod_key     as prodKey,
@@ -231,83 +209,78 @@
     </select>
 
     <select id="getProdListByName" parameterType="String" resultType="product">
-      select 	a.PROD_KEY 		as prodKey,
-       			i.img_path 		as imgPath,
-       			PROD_NM 		as prodNm,
-       			PROD_PRICE   	as prodPrice,
-       			PROD_MAKER  	as prodMaker,
-       			PROD_ORIGIN  	as prodOrigin,
-       			PROD_INTRO   	as prodIntro,
-       			PROD_CNT     	as prodCnt,
-       			PROD_VOL     	as prodVol,
-       			PROD_PROOF   	as prodProof,
-       			TRADING_YN   	as tradingYn,
-       			a.CATEGORY_KEY 	as categoryKey,
-       			UPLOAD_DATE  	as uploadDate
-  		from 	tbl_product a
-   left join 	tbl_product_category b
-    	  on 	a.category_key = b.category_key 
-   left join 	tbl_product_image i
-          on 	a.prod_key = i.prod_key
-       where 	b.higher_category = #{categoryKey}
-       order 	by a.prod_nm
+        select a.prod_key     as prodKey,
+               i.img_path     as imgPath,
+               PRod_nm        as prodNm,
+               PRod_price     as prodPrice,
+               PRod_maker     as prodMaker,
+               prod_origin    as prodOrigin,
+               prod_intro     as prodIntro,
+               prod_cnt       as prodCnt,
+               prod_vol       as prodVol,
+               prod_proof     as prodProof,
+               trading_yn     as tradingYn,
+               a.category_keY as categoryKey,
+               UPload_date    as uploadDate
+        from tbl_product a
+                 left join tbl_product_category b
+                           on a.category_key = b.category_key
+                 left join tbl_product_image i
+                           on a.prod_key = i.prod_key
+        where b.higher_category = #{categoryKey}
+        order by a.prod_nm
     </select>
 
     <select id="getProdListByPrice" parameterType="String" resultType="product">
-      select 	a.PROD_KEY 		as prodKey,
-       			i.img_path 		as imgPath,
-       			PROD_NM 		as prodNm,
-       			PROD_PRICE   	as prodPrice,
-       			PROD_MAKER  	as prodMaker,
-       			PROD_ORIGIN  	as prodOrigin,
-       			PROD_INTRO   	as prodIntro,
-       			PROD_CNT     	as prodCnt,
-       			PROD_VOL     	as prodVol,
-       			PROD_PROOF   	as prodProof,
-       			TRADING_YN   	as tradingYn,
-       			a.CATEGORY_KEY 	as categoryKey,
-       			UPLOAD_DATE  	as uploadDate
-  		from 	tbl_product a
-   left join 	tbl_product_category b
-    	  on 	a.category_key = b.category_key 
-   left join 	tbl_product_image i
-          on 	a.prod_key = i.prod_key
-       where 	b.higher_category = #{categoryKey}
-       order 	by a.prod_price
+        select a.prod_key     as prodKey,
+               i.img_path     as imgPath,
+               prod_nm        as prodNm,
+               prod_price     as prodPrice,
+               prod_maker     as prodMaker,
+               prod_origin    as prodOrigin,
+               prod_intro     as prodIntro,
+               prod_cnt       as prodCnt,
+               prod_vol       as prodVol,
+               prod_proof     as prodProof,
+               trading_yn     as tradingYn,
+               a.category_key as categoryKey,
+               upload_date    as uploadDate
+        from tbl_product a
+                 left join tbl_product_category b
+                           on a.category_key = b.category_key
+                 left join tbl_product_image i
+                           on a.prod_key = i.prod_key
+        where b.higher_category = #{categoryKey}
+        order by a.prod_price
     </select>
 
     <select id="getAllItems" parameterType="String" resultType="product">
-      select 	a.PROD_KEY 		as prodKey,
-       			i.img_path 		as imgPath,
-       			PROD_NM 		as prodNm,
-       			PROD_PRICE   	as prodPrice,
-       			PROD_MAKER  	as prodMaker,
-       			PROD_ORIGIN  	as prodOrigin,
-       			PROD_INTRO   	as prodIntro,
-       			PROD_CNT     	as prodCnt,
-       			PROD_VOL     	as prodVol,
-       			PROD_PROOF   	as prodProof,
-       			TRADING_YN   	as tradingYn,
-       			a.CATEGORY_KEY 	as categoryKey,
-       			UPLOAD_DATE  	as uploadDate
-  		from 	tbl_product a
-   left join 	tbl_product_image i
-          on 	a.prod_key = i.prod_key
-    order by 	a.prod_key
+        select a.prod_key     as prodKey,
+               i.img_path     as imgPath,
+               prod_nm        as prodNm,
+               prod_price     as prodPrice,
+               prod_maker     as prodMaker,
+               prod_origin    as prodOrigin,
+               prod_intro     as prodIntro,
+               prod_cnt       as prodCnt,
+               prod_vol       as prodVol,
+               prod_proof     as prodProof,
+               trading_yn     as tradingYn,
+               a.category_key as categoryKey,
+               upload_date    as uploadDate
+        from tbl_product a
+                 left join tbl_product_image i
+                           on a.prod_key = i.prod_key
+        order by a.prod_key
     </select>
-    
+
     <!-- 찜하기, 장바구니 전 이미 테이블에 있는지 확인 -->
     <select id="chkBasket" parameterType="basket" resultType="_int">
-    	select 
-    		count(*)
-    	from
-    		tbl_basket
-    	where 
-    		prod_key = #{prodKey} 
-    	and 
-    		user_key = #{userKey} 
-    	and 
-    		basket_cd = #{basketCd}	
+        select count(*)
+        from tbl_basket
+        where prod_key = #{prodKey}
+          and user_key = #{userKey}
+          and basket_cd = #{basketCd}
     </select>
 
     <select id="selImg" parameterType="string" resultType="productImage">
@@ -322,25 +295,25 @@
     <select id="selCatNm" parameterType="string" resultType="string">
         select category_nm
         from tbl_product_category
-        where category_key = (select category_key from tbl_product where prod_key = #{_prodKey})
+        where category_key = (select category_key
+                              from tbl_product
+                              where prod_key = #{_prodKey})
     </select>
 
-	<delete id="delLikedList" parameterType="Basket">
-    DELETE FROM tbl_basket
-    WHERE user_key = #{userKey}
-      AND prod_key IN
-      <foreach collection="prodKeyArr" item="prodKey" open="(" separator="," close=")">
-          #{prodKey}
-      </foreach>
-       <!-- 장바구니에서 제품 삭제 -->
-	</delete>
+    <delete id="delLikedList" parameterType="Basket">
+        delete from tbl_basket
+        where user_key = #{userKey}
+        and prod_key in
+        <foreach collection="prodKeyArr" item="prodKey" open="(" separator="," close=")">
+            #{prodKey}
+        </foreach>
+    </delete>
+
     <delete id="delLikedProd" parameterType="basket">
         delete tbl_basket
-        where 
-        	user_key = #{userKey}
-        and 
-          	prod_key = #{prodKey}
-        and basket_cd=2
+        where user_key = #{userKey}
+          and prod_key = #{prodKey}
+          and basket_cd = 2
     </delete>
 
     <select id="chkProd" resultType="int">

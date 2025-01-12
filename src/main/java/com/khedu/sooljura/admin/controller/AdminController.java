@@ -258,6 +258,14 @@ public class AdminController {
         return gson.toJson(lowerCategories);
     }
 
+    @GetMapping(value = "selHigherCat", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public String selHigherCat(String catNm) {
+        ArrayList<ProductCategory> higherCat = serv.selHigherCat(catNm);
+        Gson gson = new Gson();
+        return gson.toJson(higherCat);
+    }
+
     @GetMapping(value = "searchProductName", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public String searchProductName(String currentInputValue) {

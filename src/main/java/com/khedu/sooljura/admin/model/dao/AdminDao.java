@@ -69,6 +69,10 @@ public class AdminDao {
         return template.selectList("admin.selectLowerCategoryLevel", higherCategoryKey);
     }
 
+    public List<ProductCategory> selHigherCat(String catNm) {
+        return template.selectList("admin.selHigherCat", catNm);
+    }
+
     public List<Product> searchProductName(String currentInputValue) {
         return template.selectList("admin.searchProductName", currentInputValue);
     }

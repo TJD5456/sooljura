@@ -144,6 +144,15 @@
         where higher_category = #{_hihgercategorykey}
     </select>
 
+    <select id="selHigherCat" parameterType="string" resultType="productCategory">
+        select category_key    as categoryKey,
+               category_level  as categoryLevel,
+               category_nm     as categoryNm,
+               higher_category as higherCategory
+        from tbl_product_category
+        where category_nm like '%' || #{_catNm} || '%'
+    </select>
+
     <select id="searchProductName" resultType="product">
         select prod_key as prodKey,
                prod_nm  as prodNm

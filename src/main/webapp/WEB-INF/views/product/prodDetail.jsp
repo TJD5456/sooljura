@@ -339,32 +339,54 @@ button {
 		});
 		
 		<%-- 좋아요 버튼 클릭 시 --%>
-		$('#likedProd').on('click', function(){
-			const prodCntVal = $('#prodCnt').val();
-			const price = $('.payPrice').find('span').html();	
-			
-			$.ajax({
-				url : "/product/insertLike.do",
-				type : "GET",
-				data : {
-					prodKey : $('#prodKey').val(),
-					userKey : $('#userKey').val()
-				},
-				success : function(res){
-					if(res == "1"){
-						msg('알림', '찜하기 완료', 'success');
-					}else{
-						msg('알림', '찜하기 오류발생', 'error');
-					}
-				},
-				error : function(){
-					console.log('찜하기 ajax 오류');
-				}
-			});
+		$(document).on('click', '#likedProd', function() {
+		    const prodCntVal = $('#prodCnt').val();
+		    const price = $('.payPrice').find('span').html();
+
+		    $.ajax({
+		        url: "/product/insertLike.do",
+		        type: "GET",
+		        data: {
+		            prodKey: $('#prodKey').val(),
+		            userKey: $('#userKey').val()
+		        },
+		        success: function(res) {
+		            if (res == "1") {
+		                swal({
+		                    title: "알림",
+		                    text: "찜하기 완료. 찜하기 페이지로 이동하시겠습니까?",
+		                    icon: "success",
+		                    buttons: {
+		                        cancel: {
+		                            text: "취소",
+		                            value: false,
+		                            visible: true,
+		                            closeModal: true
+		                        },
+		                        confirm: {
+		                            text: "이동",
+		                            value: true,
+		                            visible: true,
+		                            closeModal: true
+		                        }
+		                    }
+		                }).then(function(isConfirm) {
+		                    if (isConfirm) {
+		                        location.href = "/userMyPage/likedProdList.do";
+		                    }
+		                });
+		            } else {
+		                msg('알림', '찜하기 오류발생', 'error');
+		            }
+		        },
+		        error: function() {
+		            console.log('찜하기 ajax 오류');
+		        }
+		    });
 		});
 		
 		<%-- 장바구니 버튼 클릭 --%>
-		$('#prodBasket').on('click', function(){
+		$(document).on('click', '#prodBasket', function(){
 			const prodCntVal = $('#prodCnt').val();
 			const price = $('.payPrice').find('span').html();	
 			const totalPrice = price.replace(/,/g, '').replace(/원/g, '');
@@ -378,8 +400,30 @@ button {
 					userKey : $('#userKey').val()
 				},
 				success : function(res){
-					if(res === "1"){
-						msg('알림', '장바구니 완료', 'success');
+						if (res == "1") {
+			                swal({
+			                    title: "알림",
+			                    text: "장바구니 완료. 장바구니 페이지로 이동하시겠습니까?",
+			                    icon: "success",
+			                    buttons: {
+			                        cancel: {
+			                            text: "취소",
+			                            value: false,
+			                            visible: true,
+			                            closeModal: true
+			                        },
+			                        confirm: {
+			                            text: "이동",
+			                            value: true,
+			                            visible: true,
+			                            closeModal: true
+			                        }
+			                    }
+			                }).then(function(isConfirm) {
+			                    if (isConfirm) {
+			                        location.href = "/product/expPurchaseFrm.do";
+			                    }
+			            });
 					}else{
 						msg('알림', '장바구니 오류발생', 'error');
 					}

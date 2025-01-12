@@ -6,21 +6,14 @@
     <meta charset="UTF-8">
     <title>sooljura</title>
 <style>
-/* 기본 스타일 초기화 */
-* {
-    margin: 0;
-    padding: 0;
-}
-
 main {
     padding: 0;
 }
 
 /* 전체 배경색 설정 */
 body {
-    background-color: #EFECE5; /* 연한 배경색 */
     align-items: center; /* 수직 가운데 정렬 */
-    height: 100%; /* 화면 높이를 100%로 설정 */
+    height: 100vh; /* 화면 높이를 100%로 설정 */
     margin: 0;
 }
 
@@ -28,7 +21,7 @@ body {
 .insert {
     border: 1px solid black; /* 검은 테두리 */
     width: 600px; /* 폼의 너비 */
-    height: 100%; /* 높이를 콘텐츠에 맞게 조정 */
+    height: auto; /* 높이를 콘텐츠에 맞게 조정 */
     display: flex; /* 플렉스 박스 사용 */
     flex-direction: column; /* 자식 요소를 세로로 배치 */
     align-items: center; /* 수평 가운데 정렬 */
@@ -39,9 +32,8 @@ body {
 
 /* 폼 스타일 */
 form {
-    width: 60%; /* 폼 너비 설정 */
+    width: 80%; /* 폼 너비 설정 */
     display: flex; /* 플렉스 박스 사용 */
-    justify-content: center;
     flex-direction: column; /* 요소를 세로로 배치 */
     align-items: center; /* 자식 요소를 수평 중앙 정렬 */
     margin: 0 auto;
@@ -107,21 +99,23 @@ input[type="button"] {
     padding: 100px;
     margin-right: 130px;
 }
-.btn-group > input[type="button"]{
-	width : 200px;
-	height: 40px;
-	box-shadow: 1px 1px 1px 1px #d2210d;
+
+form {
+    margin-top: 50px;
 }
-.btn-group > input[type="button"]:hover{
-	background-color: #f5afa5;
-    box-shadow: 1px 1px 1px 1px #fc8173;
+
+.btnWrap > button {
+    width: 110px;
+    height: 40px;
 }
 </style>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <main>
-	<jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
-	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+	<h1>주소지 추가</h1>
+    <hr>
     <form action="/user/addAddr.do" id="addAddr" method="POST">
         <input type="hidden" id="userKey" name="userKey" value="${loginUser.userKey}">
         <div class="form-group">

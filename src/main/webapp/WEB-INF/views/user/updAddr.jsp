@@ -13,7 +13,6 @@ main {
 
 /* 전체 배경색 설정 */
 body {
-    background-color: #EFECE5; /* 연한 배경색 */
     align-items: center; /* 수직 가운데 정렬 */
     height: 100vh; /* 화면 높이를 100%로 설정 */
     margin: 0;
@@ -38,6 +37,7 @@ form {
     display: flex; /* 플렉스 박스 사용 */
     flex-direction: column; /* 요소를 세로로 배치 */
     align-items: center; /* 자식 요소를 수평 중앙 정렬 */
+    margin: 0 auto;
 }
 
 /* 입력 필드 공통 스타일 */
@@ -112,7 +112,8 @@ form {
 </style>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/common/textHeader.jsp"/>
+<jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <main>
     <h1>주소지 수정</h1>
     <hr>

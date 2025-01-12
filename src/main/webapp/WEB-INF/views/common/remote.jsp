@@ -4,8 +4,14 @@
     <ul>
         <li><a href="#top"><img src="/resources/icons/arrow_화살표상_7411287_45px.png" alt="화살표상"></a></li>
         <li><a href="/"><img src="/resources/icons/home_홈_1946488_45px.png" alt="홈"></a></li>
-        <li><a href="/"><img src="/resources/icons/bags_쇼핑백_1413928_45px.png" alt="쇼핑백"></a></li>
-        <li><a href="/"><img src="/resources/icons/heart_찜하기_5303390_45px.png" alt="찜하기"></a></li>
+        <c:if test="${not empty loginUser}">
+        	<li><a href="/product/expPurchaseFrm.do"><img src="/resources/icons/bags_쇼핑백_1413928_45px.png" alt="장바구니"></a></li>
+        	<li><a href="/userMyPage/likedProdList.do"><img src="/resources/icons/heart_찜하기_5303390_45px.png" alt="찜하기"></a></li>
+        </c:if>
+        <c:if test="${empty loginUser}">
+        	<li><a href="/user/loginFrm.do"><img src="/resources/icons/bags_쇼핑백_1413928_45px.png" alt="장바구니"></a></li>
+        	<li><a href="/user/loginFrm.do"><img src="/resources/icons/heart_찜하기_5303390_45px.png" alt="찜하기"></a></li>
+        </c:if>
         <c:if test="${not empty loginUser && loginUser.userCd != 0}">
             <li>
                 <a href="javascript:void(0);">

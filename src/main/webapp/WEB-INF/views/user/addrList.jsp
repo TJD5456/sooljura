@@ -77,11 +77,10 @@ main {
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <main>
-    <br><br>
-    <h2>주소지 관리</h2>
+    <br>
+	<h2>주소지 관리</h2>
     <br>
     <hr>
-    <br>
     <ul>
         <c:choose>
             <c:when test="${not empty addrList}">

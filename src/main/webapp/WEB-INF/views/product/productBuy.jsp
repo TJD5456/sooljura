@@ -238,7 +238,7 @@ function updateOrderSummary() {
         console.log(prodKeys);
         $(function () {
 	        // 아임포트 가맹점 식별 코드 설정
-	        IMP.init("imp56726440");
+	        IMP.init("imp33782182");
 	    });
 
         $.ajax({
@@ -287,14 +287,13 @@ function updateOrderSummary() {
                                //userAddr		: buyAddr, // 사용자 주소
                                //userPostCode	: buyPostCode, // 사용자 우편번호
                            };
-
                            $.ajax({
                                url: '/product/productBuy.do',
                                type: 'post',
                                contentType: 'application/json', // JSON 데이터 전송
                                data: JSON.stringify(orderPayload), // 주문 정보와 결제 정보를 JSON 으로 변환
                                success: function (res) {
-                                   if (res === '1') {
+                                   if (res > 0) {
                                 	   let userKey = $('#userKey').val();
                                 	   
                                        msg('알림', '결제가 완료되었습니다', 'success', "location.href = '/product/buyList.do?reqPage=1&userKey=" + userKey + "';");

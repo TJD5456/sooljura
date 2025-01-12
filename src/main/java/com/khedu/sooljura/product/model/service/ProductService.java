@@ -169,4 +169,8 @@ public class ProductService {
     public String selCatNm(String prodKey) {
         return dao.selCatNm(prodKey);
     }
+
+	public int delBoughtProd(OrderHistory orderHistory) {
+		return dao.delBoughtProd(orderHistory);
+	}
 }

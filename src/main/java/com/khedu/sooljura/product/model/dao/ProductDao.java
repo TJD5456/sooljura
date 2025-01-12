@@ -116,4 +116,8 @@ public class ProductDao {
         return sessionTemplate.selectOne("product.selCatNm", prodKey);
     }
 
+	public int delBoughtProd(OrderHistory orderHistory) {
+		return sessionTemplate.delete("product.delBoughtProd", orderHistory);
+	}
+
 }

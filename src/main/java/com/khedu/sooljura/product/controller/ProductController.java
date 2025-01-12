@@ -188,18 +188,20 @@ public class ProductController {
 	// 결제 API 로 값 받아오고 삽입
 	@PostMapping("productBuy.do")
 	@ResponseBody
-	public String productBuy(@RequestBody OrderHistory orderHistory) {
+	public int productBuy(@RequestBody OrderHistory orderHistory) {
 		System.out.println("orderHistoryTotalPrice : " + orderHistory.getOrderPrice());
 		// 제품 구매내역 DB에 넣기
 		int insertHistory = service.insertHistory(orderHistory);
-		
-		if (insertHistory > 0) {
-			// 정상적으로 넣으면 1 반환 오류 발생시 다른 숫자 반환
-			// int result -> 정상적으로 결제 완료 시 위에서 만든 주문번호 제작용 컬럼 삭제 - 보류
-			return String.valueOf(insertHistory);
-		}
+		// 정상적으로 넣으면 1 반환 오류 발생시 다른 숫자 반환 -- 주문이 단일개일때 1 나옴. 다만 복수개일때 (2이상), 2 이상으로 반환됨. 
+		// int result -> 정상적으로 결제 완료 시 위에서 만든 주문번호 제작용 컬럼 삭제 - 보류
 		// 오류 발생 시 0 반환
-		return "0";
+		if(insertHistory > 0) {
+			// 결제 완료 후 
+			// 결제 한 제품 장바구니 삭제
+			service.delBoughtProd(orderHistory);
+			
+		}
+		return insertHistory;
 	}
 
 	// 제품 장바구니에 넣기

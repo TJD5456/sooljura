@@ -243,12 +243,11 @@ create table tbl_basket (
 create sequence seq_basket maxvalue 9999 cycle;
 
 create table tbl_order_history (
-   imp_uid       varchar2(255) primary key,
-   order_no      char(12) unique not null,
+   imp_uid       varchar2(255),
+   order_no      char(12) not null,
    prod_key      char(12) not null references tbl_product ( prod_key ) on delete set null,
    user_key      char(12) not null references tbl_user ( user_key ) on delete cascade,
    addr_key      char(12) not null references tbl_user_addr ( addr_key ) on delete set null,
-   card_company  varchar2(50) not null,
    order_price   number,
    order_cnt     number,
    order_date    date default sysdate,

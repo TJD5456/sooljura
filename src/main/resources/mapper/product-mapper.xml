@@ -9,31 +9,32 @@
     </select>
 
     <!-- 받아온 결제 API 정보를 주문번호에 넣기 -->
-    <insert id="insertHistory" parameterType="history">
-        insert into tbl_order_history (
-        imp_uid,
-        order_no,
-        prod_key,
-        user_key,
-        addr_key,
-        order_price,
-        order_cnt,
-        order_date
+  	<insert id="insertHistory" parameterType="history">
+    INSERT ALL
+    <foreach collection="prodKeys" item="prodKey">
+        INTO tbl_order_history (
+            imp_uid,
+            order_no,
+            prod_key,
+            user_key,
+            addr_key,
+            order_price,
+            order_cnt,
+            order_date
         )
-        values
-        <foreach collection="prodKeys" item="prodKey" separator=",">
-            (
+        VALUES (
             #{impUid},
-            'oh' || to_char(sysdate, 'YYMMDD') || lpad(seq_order_history.nextval, 4, '0'),
+            'oh' || TO_CHAR(SYSDATE, 'YYMMDD') || LPAD(seq_order_history.NEXTVAL, 4, '0'),
             #{prodKey},
             #{userKey},
             #{addrKey},
             #{orderPrice},
             #{orderCnt},
-            sysdate
-            )
-        </foreach>
-    </insert>
+            SYSDATE
+        )
+    </foreach>
+    SELECT 1 FROM DUAL
+	</insert>
 
     <!-- 주문번호 제작용도의 컬럼 제거 -->
     <delete id="delOrderNo" parameterType="history">
@@ -342,6 +343,13 @@
            or sub.rnk = 4
            or sub.rnk = 5
     </select>
-
+	<delete id="delBoughtProd" parameterType="map">
+    DELETE FROM tbl_basket
+    WHERE prod_key IN
+    <foreach collection="prodKeys" item="prodKey" open="(" separator="," close=")">
+        #{prodKey}
+    </foreach>
+    AND user_key = #{userKey}
+	</delete>
 
 </mapper>

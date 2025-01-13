@@ -17,7 +17,6 @@
                          style="width: 45px; filter: grayscale(100%);">
                 </a>
             </c:if>
-            <a href="/product/buyList.do?reqPage=1&userKey=${loginUser.userKey}">구매내역 테스트 페이지</a>
             <a href="/user/logout.do">
                 <img src="/resources/icons/logout_fix_45px.png" alt="로그아웃"><!-- 로그아웃 조건 추가 -->
             </a>

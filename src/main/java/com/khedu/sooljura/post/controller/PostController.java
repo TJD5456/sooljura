@@ -362,6 +362,53 @@ public class PostController {
 			return "redirect:/post/noticePostEdit.do?postKey=" + post.getPostKey();
 		}
 	}
+	
+	
+	@GetMapping("reviewPostEdit.do")
+	public String reviewPostEdit(@RequestParam("postKey") String postKey, HttpSession session, Model model) {
+		User loginUser = (User) session.getAttribute("loginUser");
+
+		if (loginUser == null) {
+			model.addAttribute("errorMessage", "로그인이 필요합니다.");
+			return "redirect:/user/login.do"; // 로그인 페이지로 리다이렉트
+		}
+
+		Post post = service.selectOnePost(postKey);
+		if (!post.getUserKey().equals(loginUser.getUserKey())) {
+			model.addAttribute("errorMessage", "게시글 수정 권한이 없습니다.");
+			return "redirect:/post/reviewPostDetail.do?postKey=" + postKey; // 게시글 상세보기로 이동
+		}
+		model.addAttribute("post", post); // 기존 게시글 데이터를 모델에 추가
+		return "post/reviewPostEdit"; // 수정 페이지
+	}
+
+	// 게시글 수정 처리
+	@PostMapping("reviewPostUpdate.do")
+	public String reviewPostUpdate(HttpSession session, Post post, RedirectAttributes redirectAttributes) {
+		User loginUser = (User) session.getAttribute("loginUser");
+
+		if (loginUser == null) {
+			redirectAttributes.addFlashAttribute("errorMessage", "로그인이 필요합니다.");
+			return "redirect:/user/login.do";
+		}
+
+		try {
+			post.setUserKey(loginUser.getUserKey());
+			int result = service.updatePost(post);
+
+			if (result > 0) {
+				redirectAttributes.addFlashAttribute("successMessage", "게시글이 성공적으로 수정되었습니다.");
+				return "redirect:/post/reviewPostDetail.do?postKey=" + post.getPostKey();
+			} else {
+				redirectAttributes.addFlashAttribute("errorMessage", "게시글 수정 중 오류가 발생했습니다.");
+				return "redirect:/post/reviewPostEdit.do?postKey=" + post.getPostKey();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			redirectAttributes.addFlashAttribute("errorMessage", "게시글 수정 중 예외가 발생했습니다.");
+			return "redirect:/post/reviewPostEdit.do?postKey=" + post.getPostKey();
+		}
+	}
 
 	@GetMapping("reviewListPost.do")
 	public String reviewListPost(@RequestParam(defaultValue = "1") int reqPage, Model model) {

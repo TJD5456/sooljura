@@ -234,7 +234,7 @@ main {
     }
 
     function updAddr(button) {
-        const addrKey = $(button).closest('li').find('.addrKey').val();
+        const addrKey = $('.addrKey').val();
         console.log(addrKey);
 
         location.href = "/user/updAddrFrm.do?addrKey=" + addrKey;

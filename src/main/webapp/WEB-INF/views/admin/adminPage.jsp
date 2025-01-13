@@ -14,6 +14,9 @@
         tr td {
             width: 7%;
         }
+        th > a {
+        	text-decoration: none;
+        }
     </style>
 </head>
 

@@ -90,7 +90,7 @@
                 <tbody>
                 <c:forEach var="post" items="${list}">
                     <tr>
-                        <td><a href="/post/freePostDetail.do?postKey=${post.postKey}">${post.postTitle}</a></td>
+                        <td><a href="/post/freePostDetail.do?postKey=${post.postKey}" style="text-decoration: none; color: black;">${post.postTitle}</a></td>
                         <td>${post.userNickNm}</td>
                         <td>${post.postDate}</td>
                         <td>${post.postViews}</td>  <!-- 조회수 표시 -->

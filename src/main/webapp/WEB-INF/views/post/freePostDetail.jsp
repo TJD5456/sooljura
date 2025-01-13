@@ -104,7 +104,7 @@
                             <button type="submit" form="commentForm">댓글 등록</button>
                         </c:otherwise>
                     </c:choose>
-                    <c:if test="${userCd == 0}">
+                    <c:if test="${loginUser.userCd == 0}">
                         <button class="adminDeletePost" type="button">삭제</button>
                     </c:if>
                 </div>

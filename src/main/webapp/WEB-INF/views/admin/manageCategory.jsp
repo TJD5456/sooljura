@@ -9,12 +9,15 @@
         }
 
         .catSelRes {
-            display: inline-block;
             margin-top: 4px;
             padding: 4px;
             border: 1px solid var(--table-border);
             border-radius: 4px;
             background-color: var(--table-th-background);
+        }
+
+        #higherCategoryInput {
+            display: inline-block;
         }
     </style>
 </head>
@@ -71,26 +74,27 @@
 
     function addQueryResultEl(res) {
         const prevRes = $('.catSelRes');
-        if (prevRes) {
+        if (prevRes.length) {
             prevRes.remove();
         }
 
         const higherCat = $('.higherCat');
-        const catDiv = $("<div>")
 
         for (let i = 0; i < res.length; i++) {
             let catKey = res[i].categoryKey;
             let catNm = res[i].categoryNm;
             let catLevel = res[i].categoryLevel;
 
-            catDiv.addClass("catSelRes")
+            let catDiv = $("<div>")
+                .addClass("catSelRes")
                 .attr("id", catKey)
                 .attr("onclick", "handleClick(this)")
                 .attr("data-catNm", catNm)
                 .attr("data-catLevel", catLevel)
                 .text(catNm);
+
+            higherCat.append(catDiv);
         }
-        higherCat.append(catDiv);
     }
 
     function handleClick(obj) {

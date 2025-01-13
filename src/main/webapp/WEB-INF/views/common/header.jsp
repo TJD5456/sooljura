@@ -29,7 +29,9 @@
             </a>
         </c:when>
         <c:otherwise>
-            <a href="/webScraping/webScraper.do">Scrap</a>
+            <a href="/webScraping/webScraper.do">
+                <img src="/resources/icons/rake.png" alt="scrap" style="width: 45px;">
+            </a>
             <a href="/user/provisionFrm.do">
                 <img src="/resources/icons/join_회원가입_5705819_45px.png" alt="회원가입"><!-- 로그아웃 조건 추가 -->
             </a>

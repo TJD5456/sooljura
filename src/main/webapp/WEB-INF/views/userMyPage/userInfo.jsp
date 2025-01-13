@@ -9,6 +9,21 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <style>
+	.content{
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.innerContext{
+		width: 1200px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.userQuitBtn{
+		width:150px;
+		height:75px;
+	}
     .myPageChoices {
         width: 700px;
         margin: 0 auto;
@@ -90,9 +105,8 @@
 				</div>
             <div class="myPageInfoView">
             </div>
-    <div>
+    <div class="innerContext">
         <h1>회원 정보</h1>
-        <%--<form id="form" method="post" onSubmit="return false;"> --%>
         <input type="hidden" id="userKey" value="${loginUser.userKey}">
         <input type="hidden" id="userPw" value="${loginUser.userPw}">
         <table class="tbl tblUserInfo">
@@ -107,30 +121,9 @@
             <tr>
                 <th>비밀번호</th>
                 <td>
-                    <div class="pwChgBtns">
-                        <div>
-                            <button type="button" class="userInfoBtn" id="pwChgBtn">비밀번호 변경</button>
-                        </div>
-                        <div>
-                            <button type="button" class="userInfoBtn" id="pwChgMod">비밀번호 양식</button>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th></th>
-                <td style="display: flex; flex-direction: row-reverse;">
                     <div id="userPwMod">
-                        <ul>
-                            <li>영어,숫자,특수기호(!@#$%^&#38;*)를 포함한</li>
-                            <li>8~16글자의 비밀번호를 작성하여 주세요</li>
-                        </ul>
+						<span>영어,숫자,특수기호(!@#$%^&#38;*)를 포함한 8~16글자의 비밀번호를 작성하여 주세요</span>
                     </div>
-                </td>
-            </tr>
-            <tr>
-                <th></th>
-                <td>
                     <div id="userPwChg">
                         <table>
                             <colgroup>
@@ -179,11 +172,9 @@
                 <td><input type="text" value="${loginUser.enrollDate}" readonly></td>
             </tr>
         </table>
-        <%-- onclick="userInfoUpdBtn(this)"--%>
         <div class="userInfoInptBtn">
-            <button class="userInfoBtn" type="button" id="delUserBtn" onclick="delUser()">회원탈퇴</button>
+            <button class="userQuitBtn" type="button" id="delUserBtn" onclick="delUser()">회원탈퇴</button>
         </div>
-        <%-- </form> --%>
             </div>
         </div>
         <jsp:include page="/WEB-INF/views/common/remote.jsp"/>

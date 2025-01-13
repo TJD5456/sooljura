@@ -48,7 +48,19 @@ position: fixed;
 bottom: 20px;
 left: 35%;
 }
-
+	.myPageChoices {
+        width: 700px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+    }
+	.myPageChoiceBtn {
+	        width: 500px;
+	        height: 50px;
+	        margin: 15px;
+	        font-size: 20px;
+	        font-weight: bold;
+	    }
 input[type=button]:hover {
     background-color: #f5afa5;
     box-shadow: 1px 1px 1px 1px #fc8173;
@@ -67,21 +79,35 @@ main {
    margin: 0 auto;
    background-color: #F9F9F9;
 }
+.addrMngList{
+	
+	
+}
 </style>
 </head>
 <body style="background-color: #F9F9F9;">
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <main>
+	<div class="title">
+		<h1>마이 페이지</h1>
+	</div>
+
+	<div class="myPageChoices">
+		<button class="myPageChoiceBtn" value="1" id="myPageBtns">회원 정보</button>
+		<button class="myPageChoiceBtn" value="2" id="myPageBtns">구매 내역</button>
+		<button class="myPageChoiceBtn" value="3" id="myPageBtns">내글 보기</button>
+		<button class="myPageChoiceBtn" value="4" id="myPageBtns">찜한상품</button>
+		<button class="myPageChoiceBtn" value="5" id="myPageBtns">주소 관리</button>
+	</div>
     <br>
 	<h2>주소지 관리</h2>
     <br>
     <hr>
-    <ul>
+	<div class="addrMngList">
         <c:choose>
             <c:when test="${not empty addrList}">
                 <c:forEach var="addr" items="${addrList}">
-                    <li style="list-style-type: none;">
                         <div class="addrWrap">
                             <input type="hidden" class="addrKey" name="addrKey" value="${addr.addrKey}">
                             <span style="display: flex; font-size: 20px;">
@@ -106,7 +132,6 @@ main {
                         <div class="addrWrap">
                             <span>${addr.addr} (${addr.addrCd})</span>
                         </div>
-                    </li>
                     <br>
                     <hr>
                     <br>
@@ -116,10 +141,51 @@ main {
                 <p>등록된 주소지가 없습니다.</p>
             </c:otherwise>
         </c:choose>
-    </ul>
+		</div>
     <input type="button" onclick="addAddr()" value="주소지 추가">
 </main>
 <script>
+	$('.myPageChoiceBtn').on('click', function(){
+			let i = parseInt($(this).val(), 10);
+			
+			// 현재 페이지 URL 가져오기
+			const url = window.location.href;// URL 객체 생성
+			const urlParams = new URLSearchParams(new URL(url).search);// 특정 파라미터 값 가져오기 (예: 'id' 파라미터)
+			const paramValue = urlParams.get('pg');
+			
+			switch (i) {
+			case 1:
+				location.href="/userMyPage/userInfo.do";
+				break;
+			case 2:
+				location.href="/product/buyList.do?reqPage=1&userKey=${loginUser.userKey}";
+				break;
+			case 3:
+				    const form = document.createElement('form');
+				    form.method = 'POST';
+				    form.action = '/post/readMyPost.do';
+
+				    const input = document.createElement('input');
+				    input.type = 'hidden';
+				    input.name = 'userKey';
+				    input.value = '${loginUser.userKey}';
+				    form.appendChild(input);
+
+				    document.body.appendChild(form);
+				    form.submit(); // 서버로 POST 요청 전송 및 페이지 이동
+				
+				break;
+			case 4:
+				location.href="/userMyPage/likedProdList.do";
+				break;
+			case 5:
+				location.href="/userMyPage/userMyPageFrm.do";
+				break;
+			default:
+				break;
+			}
+			
+		})
     function addAddr() {
         location.href = "/user/addAddrFrm.do";
     }

@@ -37,11 +37,14 @@ main {
 .semi-title {
 	text-align: inherit !important;
 }
-
+.likedList{
+	width: 1000px;
+}
 table {
 	margin: 0 !important;
 	width: 100% !important;
 	background-color: white;
+	max-width: inherit !important;
 }
 
 .div-wrap {
@@ -95,6 +98,10 @@ input[type="button"] {
 input[type="button"]:hover {
 	background-color: #f5afa5;
 	box-shadow: 1px 1px 1px 1px var(- -button-background);
+}
+.semi-title{
+	width: 1000px;
+	border-bottom: 1px solid black;
 }
 </style>
 </head>

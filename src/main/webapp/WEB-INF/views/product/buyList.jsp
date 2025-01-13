@@ -11,7 +11,20 @@
 main {
 	background-color: #EFECE5;
 }
-
+.content{
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.innerContext{
+		width: 1200px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+.myPageInfoView{
+	width: 700px;
+}
 .div-wrap {
 	margin: 0 auto;
 	width: 60%;
@@ -66,7 +79,7 @@ main {
 					<button class="myPageChoiceBtn" value="4" id="likedItems">찜한상품</button>
 					<button class="myPageChoiceBtn" value="5" id="addrMng">주소 관리</button>
 				</div>
-				<div class="myPageInfoView"></div>
+				<div class="myPageInfoView">
 				<h2>구매내역</h2>
 				<br>
 				<hr>
@@ -109,6 +122,7 @@ main {
 						구매 내역 없음
 					</div>
 				</c:if>
+				</div>
 			</div>
 			<jsp:include page="/WEB-INF/views/common/remote.jsp" />
 		</div>

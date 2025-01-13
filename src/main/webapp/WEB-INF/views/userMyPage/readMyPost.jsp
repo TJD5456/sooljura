@@ -14,7 +14,20 @@
 	display: flex;
 	justify-content: center;
 }
-
+.content{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	}
+.post-section{
+	width: 1000px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.post-section h1, post-section h2{
+	align-self: flex-start;
+}
 .myPageInfoView {
 	height: 800px;
 }
@@ -69,6 +82,12 @@
 #userPwMod>ul>li {
 	list-style-type: none;
 }
+table{
+	width: 100% !important;
+	margin: inherit !important;
+	max-width: inherit !important;
+	box-sizing: content-box;
+}
 </style>
 <body>
 	<jsp:include page="/WEB-INF/views/common/sidebar.jsp" />
@@ -87,7 +106,6 @@
 					<button class="myPageChoiceBtn" value="4" id="myPageBtns">찜한상품</button>
 					<button class="myPageChoiceBtn" value="5" id="myPageBtns">주소 관리</button>
 				</div>
-				<div>
 					<div class="post-section">
 						<h1>내 작성 글 보기</h1>
 
@@ -202,7 +220,6 @@
 						</table>
 					</div>
 				</div>
-			</div>
 			<jsp:include page="/WEB-INF/views/common/remote.jsp" />
 		</div>
 		<jsp:include page="/WEB-INF/views/common/footer.jsp" />

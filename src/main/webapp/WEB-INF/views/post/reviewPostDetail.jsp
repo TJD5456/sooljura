@@ -73,11 +73,11 @@
                     <c:if test="${not empty loginUser && post.userKey == loginUser.userKey}">
                         <div class="edit-buttons">
                             <!-- 게시글 수정 버튼 -->
-                            <a class="edit-button" href="/post/reviewPostEdit.do?postKey=${post.postKey}">수정</a>
+                            <a class="edit-button" href="/post/reviewPostEdit.do?postKey=${post.postKey}"  style="background-color: #FC8173; text-decoration: none;">수정</a>
                             <!-- 게시글 삭제 버튼 -->
                             <form action="/post/deletePost.do" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?')">
                                 <input type="hidden" name="postKey" value="${post.postKey}">
-                                <button type="submit" class="delete-button">삭제</button>
+                                <button type="submit" style="background-color: #FC8173; width:30px;" class="delete-button">삭제</button>
                             </form>
                         </div>
                     </c:if>
@@ -101,9 +101,21 @@
                                         <button type="submit"
                                                 style="border: none; background: none; color: red; cursor: pointer;">
                                             삭제
-                                        </button>
+                                        </button>                                      	
                                     </form>
                                 </c:if>
+								<%--<c:if test="${userCd == 0}">
+                                	<form action="/post/deleteComment.do" method="post"
+                                          onsubmit="return confirm('정말 삭제하시겠습니까?');"
+                                          style="display: inline;">
+                                        <input type="hidden" name="commentKey"
+                                               value="${comment.commentKey}"/>
+                                        <button type="submit"
+                                                style="border: none; background: none; color: red; cursor: pointer;">
+                                            삭제
+                                        </button>
+                                    </form>
+                               </c:if>	--%>
                             </div>
                             <div class="date">${comment.commentDate}</div>
                             <div class="content" id="comment-content-${comment.commentKey}">
@@ -122,13 +134,13 @@
                         <textarea name="commentContent" placeholder="댓글 내용을 입력하세요" required></textarea>
                         <input type="hidden" name="postKey" value="${post.postKey}"/>
                     </form>
-                    <button class="back-button" onclick="history.back();">뒤로가기</button>
+                    <button class="back-button" style="background-color: #FC8173;" onclick="history.back();">뒤로가기</button>
                     <c:choose>
                         <c:when test="${empty loginUser}">
                             <button onclick="toLogin()" class="to-login-btn">로그인</button>
                         </c:when>
                         <c:otherwise>
-                            <button type="submit" form="commentForm">댓글 등록</button>
+                            <button type="submit" style="background-color: #FC8173;" form="commentForm">댓글 등록</button>
                         </c:otherwise>
                     </c:choose>
                 </div>

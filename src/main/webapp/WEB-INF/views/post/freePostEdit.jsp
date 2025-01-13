@@ -79,9 +79,9 @@
 					</div>
 
 					<div class="button-group">
-						<button type="button" onclick="history.back();">취소</button>
+						<button type="button" style="background-color: #FF4D4D;" onclick="history.back();">취소</button>
 						<button type="button" onclick="confirmUpdate();"
-							style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+							style="padding: 10px 20px; background-color: #FF4D4D; color: white; border: none; border-radius: 5px; cursor: pointer;">
 							수정하기</button>
 					</div>
 				</form>

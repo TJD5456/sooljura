@@ -71,7 +71,7 @@
                 <h2 style="margin: 0;">목록</h2>
                 <!-- 작성 버튼 -->
                 <c:if test="${not empty sessionScope.loginUser}">
-                    <a href="/post/reviewPostWriter.do" class="btn-write">제품 후기 작성하기</a>
+                    <a href="/post/reviewPostWriter.do" style="background-color: #FC8173;" class="btn-write">제품 후기 작성하기</a>
                 </c:if>
             </div>
 

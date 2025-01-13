@@ -41,7 +41,7 @@
 	        <li><a href="/common/webPageInfo.do">사이트 소개</a></li>
 	    </ul>
 	</div>
-	<div style="margin-top:20px; border-top:1px solid #FF6851;">
+	<div style="margin-top:20px; padding-top:20px; border-top:1px solid #FF6851;">
 	    <form action="/user/createTestAccount.do" method="post">
 	        <input type="radio" name="testAccount" value="0" id="0"><label for="0">관리자 계정 생성</label> <br>
 	        <input type="radio" name="testAccount" value="1" id="1"><label for="1">레벨 1</label> <br>

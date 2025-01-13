@@ -13,7 +13,7 @@
         <c:when test="${not empty loginUser}">
             <c:if test="${loginUser.userCd == 0}">
                 <a href="/admin/adminPage.do">
-                    <img src="/resources/icons/icon_duck_gear.png" alt="관리자페이지" style="width: 45px;">
+                    <img src="/resources/icons/icon_duck_gear.png" alt="관리자페이지" style="width: 45px; filter: grayscale(100%);">
                 </a>
             </c:if>
             <a href="/product/buyList.do?reqPage=1&userKey=${loginUser.userKey}">구매내역 테스트 페이지</a>         

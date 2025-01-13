@@ -79,14 +79,14 @@ body {
 					<div style="margin-bottom: 20px; text-align: right;">
 						<a href="/post/noticePostEdit.do?postKey=${post.postKey}"
 							onclick="return confirm('수정 페이지로 이동하시겠습니까?');"
-							style="padding: 8px 16px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">
+							style="padding: 8px 16px; background-color: #FC8173; color: white; text-decoration: none; border-radius: 5px; margin: 5px;">
 							수정 </a>
 						<form action="/post/deletePost.do" method="post"
 							style="display: inline;"
 							onsubmit="return confirm('게시글을 삭제하시겠습니까?');">
 							<input type="hidden" name="postKey" value="${post.postKey}">
 							<button type="submit"
-								style="padding: 8px 16px; background-color: red; color: white; border: none; border-radius: 5px; cursor: pointer;">
+								style="padding: 8px 16px; background-color: FC8173; color: white; border: none; border-radius: 5px; cursor: pointer;">
 								삭제</button>
 						</form>
 					</div>
@@ -99,7 +99,7 @@ body {
 
 				<div class="back-button">
 					<!-- 뒤로가기 버튼 -->
-					<button onclick="history.back();">뒤로가기</button>
+					<button onclick="history.back();" style="background-color: #FC8173;">뒤로가기</button>
 				</div>
 			</div>
 			<jsp:include page="/WEB-INF/views/common/remote.jsp" />

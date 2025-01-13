@@ -61,8 +61,8 @@
 
                 <!-- 버튼 -->
                 <div class="button-group">
-                    <button type="button" onclick="history.back();">취소</button>
-                    <button type="submit">수정하기</button>
+                    <button type="button" onclick="history.back();" style="background-color: #FC8173;">취소</button>
+                    <button type="submit" style="background-color: #FC8173;">수정하기</button>
                 </div>
             </form>
         </div>

@@ -87,8 +87,8 @@
 					<input type="hidden" name="postCd" value="3">
 
 					<div class="button-group">
-						<button type="button" onclick="history.back();">취소</button>
-						<button type="submit">작성하기</button>
+						<button type="button" onclick="history.back();" style="background-color: #FC8173;">취소</button>
+						<button type="submit" style="background-color: #FC8173;">작성하기</button>
 					</div>
 				</form>
 			</div>

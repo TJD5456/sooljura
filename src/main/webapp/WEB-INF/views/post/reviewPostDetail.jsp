@@ -77,7 +77,7 @@
                             <!-- 게시글 삭제 버튼 -->
                             <form action="/post/deletePost.do" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?')">
                                 <input type="hidden" name="postKey" value="${post.postKey}">
-                                <button type="submit" style="background-color: #FC8173; width:30px;" class="delete-button">삭제</button>
+                                <button type="submit" style="background-color: #FC8173;" class="delete-button">삭제</button>
                             </form>
                         </div>
                     </c:if>
@@ -143,6 +143,9 @@
                             <button type="submit" style="background-color: #FC8173;" form="commentForm">댓글 등록</button>
                         </c:otherwise>
                     </c:choose>
+                    <c:if test="${loginUser.userCd == 0}">
+                        <button class="adminDeletePost" style="background-color: #FC8173;" type="button">삭제</button>
+                    </c:if>
                 </div>
 
             </div>
@@ -155,6 +158,10 @@
     function toLogin() {
         window.location.href = '/user/loginFrm.do';
     }
+    
+    $(".adminDeletePost").click(function () {
+        window.location.href = "/post/adminDeletePost.do?postKey=${post.postKey}";
+    })
 </script>
 </body>
 </html>

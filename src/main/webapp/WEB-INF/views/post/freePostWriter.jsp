@@ -108,8 +108,8 @@
                     </div>
 
                     <div class="button-group">
-                        <button type="button" onclick="history.back();">이전</button>
-                        <button type="submit">등록</button>
+                        <button type="button" onclick="history.back();" style="background-color: #FC8173;">이전</button>
+                        <button type="submit" style="background-color: #FC8173;">등록</button>
                     </div>
                 </form>
             </div>

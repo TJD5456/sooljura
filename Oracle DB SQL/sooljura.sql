@@ -66,7 +66,7 @@ create sequence seq_user maxvalue 9999 cycle;
 create table tbl_user_addr (
    addr_key    char(12) primary key,
    user_key    char(12) not null references tbl_user ( user_key ) on delete cascade,
-   addr_nm     char(30) not null,
+   addr_nm     char(30),
    addr_cd     char(5) not null,
    addr        varchar2(300) not null,
    addr_detail varchar2(100),

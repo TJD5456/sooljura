@@ -5,7 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>sooljura</title>
+<title>장바구니</title>
+<link rel="icon" href="/resources/icons/logo-circle-woText-16px-favicon.png">
 <style>
 main {
     background-color: #EFECE5;

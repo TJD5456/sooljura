@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>술주라</title>
+    <link rel="icon" href="/resources/icons/logo-circle-woText-16px-favicon.png">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <style>

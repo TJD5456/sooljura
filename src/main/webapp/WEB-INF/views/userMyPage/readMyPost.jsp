@@ -4,7 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>술주라</title>
+<title>내글보기</title>
+<link rel="icon" href="/resources/icons/logo-circle-woText-16px-favicon.png">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <style>
@@ -25,8 +26,12 @@
 	flex-direction: column;
 	align-items: center;
 }
-.post-section h1, post-section h2{
+.post-section h1, 
+.post-section h2{
 	align-self: flex-start;
+}
+.post-section h2{
+	margin-top: 15px;
 }
 .myPageInfoView {
 	height: 800px;

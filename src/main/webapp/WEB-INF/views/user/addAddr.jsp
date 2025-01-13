@@ -74,7 +74,7 @@ button > .submit {
 
 /* 개별 입력 그룹 간 간격 */
 .form-group {
-    width: 100%; /* 각 그룹의 너비를 부모 기준 100%로 설정 */
+    width: 60%; /* 각 그룹의 너비를 부모 기준 100%로 설정 */
     display: flex; /* 플렉스 박스 사용 */
     justify-content: space-between; /* 자식 요소 간 간격 배분 */
     margin-bottom: 10px; /* 아래쪽 간격 추가 */
@@ -110,11 +110,11 @@ form {
 }
 </style>
 </head>
-<body>
+<body style="background-color: #F9F9F9;">
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <main>
-	<h1>주소지 추가</h1>
+	<h1 style="margin: 0 auto;">주소지 추가</h1>
     <hr>
     <form action="/user/addAddr.do" id="addAddr" method="POST">
         <input type="hidden" id="userKey" name="userKey" value="${loginUser.userKey}">

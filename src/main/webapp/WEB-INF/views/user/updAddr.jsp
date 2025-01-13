@@ -33,7 +33,7 @@ body {
 
 /* 폼 스타일 */
 form {
-    width: 80%; /* 폼 너비 설정 */
+    width: 50%; /* 폼 너비 설정 */
     display: flex; /* 플렉스 박스 사용 */
     flex-direction: column; /* 요소를 세로로 배치 */
     align-items: center; /* 자식 요소를 수평 중앙 정렬 */
@@ -77,7 +77,7 @@ button > .submit {
 .form-group {
     width: 100%; /* 각 그룹의 너비를 부모 기준 100%로 설정 */
     display: flex; /* 플렉스 박스 사용 */
-    justify-content: space-between; /* 자식 요소 간 간격 배분 */
+    /*justify-content: space-between; /* 자식 요소 간 간격 배분 */
     margin-bottom: 10px; /* 아래쪽 간격 추가 */
 }
 
@@ -111,7 +111,7 @@ form {
 }
 </style>
 </head>
-<body>
+<body style="background-color: #F9F9F9;">
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <main>
@@ -143,7 +143,7 @@ form {
         <c:if test="${addrInfo.defaultYn == 0}">
             <div class="form-group">
                 <input type="checkbox" name="defaultYnCheckbox" id="defaultYnCheckbox" onchange="setDefaultYn(this)">
-                <span>기본 배송지로 설정</span>
+                <span style="left: 0px;">기본 배송지로 설정</span>
             </div>
             <input type="hidden" name="defaultYn" id="defaultYn" value="0">
         </c:if>

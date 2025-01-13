@@ -7,11 +7,6 @@
     <meta charset="UTF-8">
     <title>sooljura</title>
 <style>
-* {
-    margin: 0;
-    padding: 0;
-}
-
 h2 {
     color: gray;
 }
@@ -70,10 +65,11 @@ main {
    align-items: center;
    height: 100%;
    margin: 0 auto;
+   background-color: #F9F9F9;
 }
 </style>
 </head>
-<body>
+<body style="background-color: #F9F9F9;">
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <main>
@@ -94,7 +90,9 @@ main {
                                         (${addr.addrNm})
                                     </c:if>
 	                                <c:if test="${addr.defaultYn == 1}">
-                                        <span style="font-weight: lighter; color: #fc8173; border: 1px solid #fc8173; font-size: 15px; margin-left: 10px;">기본배송지</span>
+                                        <span style="font-weight: lighter; color: #fc8173; border: 1px solid #fc8173; font-size: 15px; margin-left: 10px; border-radius: 5px;">
+                                        	기본배송지
+                                        </span>
                                     </c:if>
 	                            </span>
                         </div>

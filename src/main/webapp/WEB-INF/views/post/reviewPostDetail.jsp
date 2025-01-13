@@ -86,8 +86,7 @@
 
                 <!-- 댓글 섹션 -->
                 <div class="comments">
-                    <h4>댓글</h4>
-                    <br><br>
+                    <h4>댓글</h4><br>
                     <c:forEach var="comment" items="${comments}">
                         <div class="comment" id="comment-${comment.commentKey}">
                             <div>

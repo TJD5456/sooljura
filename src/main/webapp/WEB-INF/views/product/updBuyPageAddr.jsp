@@ -77,7 +77,7 @@ button > .submit {
 .form-group {
     width: 100%; /* 각 그룹의 너비를 부모 기준 100%로 설정 */
     display: flex; /* 플렉스 박스 사용 */
-    justify-content: space-between; /* 자식 요소 간 간격 배분 */
+    /*justify-content: space-between; /* 자식 요소 간 간격 배분 */
     margin-bottom: 10px; /* 아래쪽 간격 추가 */
 }
 
@@ -206,7 +206,8 @@ form {
 
     //수정 취소
     function cancelBtn() {
-        location.href = "/user/addrListFrm.do";
+    	let userKey = $('#userKey').val();
+        location.href = "chgAddr.do?userKey="+userKey;
     }
 
     //체크박스 체크 시 defaultYn값 1로 변경

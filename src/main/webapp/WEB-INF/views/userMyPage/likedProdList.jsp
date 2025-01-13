@@ -6,7 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>sooljura</title>
+<title>찜리스트</title>
+<link rel="icon" href="/resources/icons/logo-circle-woText-16px-favicon.png">
 <style>
 main {
 	background-color: #EFECE5;

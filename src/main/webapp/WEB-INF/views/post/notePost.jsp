@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항</title>
+    <link rel="icon" href="/resources/icons/logo-circle-woText-16px-favicon.png">
     <style>
         body {
             font-family: Arial, sans-serif;

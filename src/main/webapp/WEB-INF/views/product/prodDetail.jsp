@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>${prod.prodNm}</title>
+<link rel="icon" href="/resources/icons/logo-circle-woText-16px-favicon.png">
 <style>
 .wrapper {
 	align-items: center !important;

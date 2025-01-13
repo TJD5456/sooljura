@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>제품 후기 - 게시글 상세보기</title>
+    <link rel="icon" href="/resources/icons/logo-circle-woText-16px-favicon.png">
     <link rel="stylesheet" href="/resources/css/freePost.css"/>
     <style>
         .comment-form button {

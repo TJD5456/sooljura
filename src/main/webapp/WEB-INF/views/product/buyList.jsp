@@ -2,11 +2,13 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>sooljura</title>
+<title>구매 내역</title>
+<link rel="icon" href="/resources/icons/logo-circle-woText-16px-favicon.png">
 <style>
 main {
 	background-color: #EFECE5;
@@ -22,18 +24,32 @@ main {
 		flex-direction: column;
 		align-items: center;
 	}
+.semiTitle{
+	border-bottom: 1px solid grey;
+	margin-bottom: 30px;
+}
+.semiTitle>div{
+	margin-bottom: 30px;
+}
 .myPageInfoView{
 	width: 700px;
 }
 .div-wrap {
 	margin: 0 auto;
-	width: 60%;
 	border: 1px solid gray;
 	height: auto;
 	margin-top: 10px;
 	background-color: #EFECE5;
+	display: flex;
+	flex-direction: column;
 }
-
+.forEachDiv{
+	display: flex;
+	justify-content: space-between;
+	margin-left: 15px;
+	margin-right: 15px;
+	margin-bottom: 5px;
+}
 .center-div-items {
 	padding: 5px;
 }
@@ -80,11 +96,12 @@ main {
 					<button class="myPageChoiceBtn" value="5" id="addrMng">주소 관리</button>
 				</div>
 				<div class="myPageInfoView">
-				<h2>구매내역</h2>
-				<br>
-				<hr>
-				<br>
+				<div class="semiTitle">
+					<h2>구매내역</h2>
+					<div></div>
+				</div>
 				<!-- 구매 내역 순회 -->
+				<div class="div-wrap">
 				<c:set var="previousDateTime" value="" scope="page" />
 				<c:if test="${not empty orderHistory}">
 				<c:forEach var="orderHistory" items="${orderHistory}">
@@ -92,17 +109,16 @@ main {
 					<c:set var="currentDateTime" value="${orderHistory.orderDate}" />
 
 					<!-- 새로운 날짜 및 시간이 시작될 때만 출력 -->
-					<div class="div-wrap">
-						<c:if
-							test="${empty previousDateTime or previousDateTime != currentDateTime}">
+						<c:if test="${empty previousDateTime or previousDateTime != currentDateTime}">
+							<div class="forEachDiv">
 							<span id="payDay" style="font-size: 15px;">결제일 :
 								${currentDateTime}</span>
-							<br>
 							<!-- 이전 날짜 및 시간을 현재 값으로 업데이트 -->
-							<c:set var="previousDateTime" value="${currentDateTime}"
-								scope="page" />
+							<c:set var="previousDateTime" value="${currentDateTime}" scope="page" />
+							</div>
 						</c:if>
 
+						<div class="forEachDiv forEachProd">
 						<!-- 해당 결제 그룹의 제품 출력 -->
 						<c:forEach var="product" items="${orderHistory.productList}">
 							<div class="center-div-items">
@@ -110,13 +126,14 @@ main {
 								<!-- 제품 이름 -->
 							</div>
 							<div class="center-div-items">
-								<span class="prodPrice">${product.prodPrice}</span>
+								<span class="prodPrice"><fmt:formatNumber value="${product.prodPrice}" type="number" pattern="#,###" />원</span>
 								<!-- 제품 가격 -->
 							</div>
 						</c:forEach>
-					</div>
+						</div>
 				</c:forEach>
 				</c:if>
+				</div>
 				<c:if test="${empty orderHistory}">
 					<div>
 						구매 내역 없음

@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>제품 후기 게시판</title>
+    <link rel="icon" href="/resources/icons/logo-circle-woText-16px-favicon.png">
     <style>
         .button-div {
             display: flex;

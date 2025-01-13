@@ -3,7 +3,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>webPageInfo</title>
+    <title>술주라</title>
+    <link rel="icon" href="/resources/icons/logo-circle-woText-16px-favicon.png">
     <style>
         .close-content {
             display: flex;

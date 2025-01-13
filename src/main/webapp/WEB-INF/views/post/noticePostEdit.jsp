@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>공지사항 수정</title>
+    <link rel="icon" href="/resources/icons/logo-circle-woText-16px-favicon.png">
     <style>
         .form-group {
             margin-bottom: 20px;

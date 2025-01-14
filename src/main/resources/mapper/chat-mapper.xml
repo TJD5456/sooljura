@@ -57,7 +57,7 @@
     </insert>
 
     <select id="checkAdminPresence" parameterType="string" resultType="user">
-        select admin_key as user_key
+        select admin_key as userKey
         from tbl_room
         where room_key = #{_roomKey}
     </select>

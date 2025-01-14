@@ -89,7 +89,7 @@ public class SocketHandler extends TextWebSocketHandler {
 
                 if (result > 0) {
                     User adminPresence = service.checkAdminPresence(roomKey);
-                    if (adminPresence == null || userCd.equals("0")) {
+                    if (adminPresence == null && userCd.equals("0")) {
                         int insertAdmin = service.insertAdmin(roomKey, userKey);
                         if (insertAdmin == 0) {
                             System.out.println("=== from SocketHandler ===");

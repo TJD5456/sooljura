@@ -1,12 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>sooljura</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="/resources/jquery/jquery-3.7.1.min.js"></script>
     <style>
         * {
             padding: 0;
@@ -45,9 +44,10 @@
             text-decoration: none;
             font-size: 12px;
         }
-		a:hover{
-			cursor: pointer;
-		}
+
+        a:hover {
+            cursor: pointer;
+        }
 
         #userId, #userPw {
             width: 350px;
@@ -139,8 +139,7 @@
     <input type="button" onclick="autoLogin(-1)" value="레벨 -1 로그인" style="width: 100px">
 </div>
 <script>
-    <%-- res = 0이면 로그인 성공 1이면 로그인 실패 --%>
-
+    <%-- res == 0 이면 로그인 성공 1 이면 로그인 실패 --%>
     function loginBtn(event) {
         event.preventDefault();
         const saveIdChecked = $('#saveId').is(':checked') ? 'chk' : null;
@@ -183,14 +182,14 @@
             loginBtn(event);
         }
     }
-    
-    function idFindFrmBtn() {   	
-    	let popupWidth = 550;
-		let popupHeight = 400;
-		let top = (window.innerHeight - popupHeight) / 2 + window.screenY;
-		let left = (window.innerWidth - popupWidth) / 2 + window.screenX;
-		
-		window.open("/user/idFindFrm.do", "idFindFrm", "width="+popupWidth+", top="+top+", height="+popupHeight+", left="+left);
+
+    function idFindFrmBtn() {
+        let popupWidth = 550;
+        let popupHeight = 400;
+        let top = (window.innerHeight - popupHeight) / 2 + window.screenY;
+        let left = (window.innerWidth - popupWidth) / 2 + window.screenX;
+
+        window.open("/user/idFindFrm.do", "idFindFrm", "width=" + popupWidth + ", top=" + top + ", height=" + popupHeight + ", left=" + left);
     }
 </script>
 </body>

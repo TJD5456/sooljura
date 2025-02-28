@@ -1,4 +1,11 @@
+### STS3 ###
 .classpath
 .project
 .settings/
 target/
+
+### IntelliJ ###
+.idea/
+
+### scrapped images ###
+src/main/webapp/resources/upload/productImages/

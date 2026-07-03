@@ -1,15 +1,7 @@
-.metadata/
+.idea/
+.settings/
 .classpath
 .project
-.settings/
-.springBeans
 target/
-bin/
-
-.idea/
-sooljura.iml
-qodana.yaml
-
-.vscode/settings.json
 
 src/main/webapp/resources/upload/productImages/

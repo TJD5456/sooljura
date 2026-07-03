@@ -8,6 +8,7 @@
     <name>sooljura</name>
     <packaging>war</packaging>
     <version>1.0.0-BUILD-SNAPSHOT</version>
+
     <properties>
         <java-version>11</java-version>
         <org.springframework-version>5.0.6.RELEASE</org.springframework-version>
@@ -254,6 +255,13 @@
                 <configuration>
                     <mainClass>org.test.int1.Main</mainClass>
                 </configuration>
+            </plugin>
+
+            <!-- Fix: Exception java.lang.ExceptionInInitializerError -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.5.1</version>
             </plugin>
         </plugins>
     </build>

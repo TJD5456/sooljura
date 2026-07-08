@@ -1,7 +1,14 @@
 .idea/
+*.iml
+
+.vscode/
+
 .settings/
 .classpath
 .project
 target/
+
+.DS_Store
+.localized
 
 src/main/webapp/resources/upload/productImages/
